@@ -3,6 +3,9 @@ import { fetchPartners } from "../../store";
 import { useThunk } from "../../hooks/useThunk";
 import { useEffect } from "react";
 
+//components
+import PartnersTable from "../../components/partners/PartnersTable";
+
 function PartnersPage() {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
@@ -15,7 +18,11 @@ function PartnersPage() {
     dispatch(fetchPartners(token));
   }, [dispatch]);
 
-  return <div>PartnersPage</div>;
+  return (
+    <div>
+      <PartnersTable data={data} />
+    </div>
+  );
 }
 
 export default PartnersPage;

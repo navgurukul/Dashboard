@@ -11,4 +11,7 @@ const store = configureStore({
 
 export { store };
 
-export { fetchPartners } from "./thunks/fetchPartners";
+export * from "./thunks/fetchPartners";
+export * from "./thunks/addPartner";
+export * from "./thunks/deletePartner";
+export * from "./thunks/updatePartner";
