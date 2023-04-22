@@ -1,5 +1,99 @@
+import { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  IconButton,
+  Box,
+  Button,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import EmailIcon from "@mui/icons-material/Email";
+import { useDispatch, useSelector } from "react-redux";
+import { deletePartner } from "../../store";
+
 function PartnersTable({ data }) {
-  return <div>PartnersTable</div>;
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const partnersPerPage = 10;
+
+  const handleEditClick = (rowData) => {
+    //
+  };
+
+  const handleDeleteClick = (rowData) => {
+    dispatch(deletePartner({ token, object: rowData }));
+  };
+
+  const handleEmailClick = (rowData) => {
+    //
+  };
+
+  const Actions = ({ rowData }) => (
+    <TableCell>
+      <EditIcon onClick={() => handleEditClick(rowData)}>Edit</EditIcon>
+      <EmailIcon
+        onClick={() => {
+          handleEmailClick(rowData);
+        }}
+      >
+        Delete
+      </EmailIcon>
+      <DeleteIcon onClick={() => handleDeleteClick(rowData)}>Delete</DeleteIcon>
+    </TableCell>
+  );
+
+  const indexOfLastPartner = currentPage * partnersPerPage;
+  const indexOfFirstPartner = indexOfLastPartner - partnersPerPage;
+  const currentPartners = data.slice(indexOfFirstPartner, indexOfLastPartner);
+
+  const renderedData = currentPartners.map((row) => (
+    <TableRow key={row.id} sx={{ border: "none" }}>
+      <TableCell>{row.name}</TableCell>
+      <TableCell>{row.point_of_contact || "---"}</TableCell>
+      <TableCell>{row.user || "---"}</TableCell>
+      <TableCell>{row.status || "---"}</TableCell>
+      <Actions rowData={row} />
+    </TableRow>
+  ));
+
+  const pageNumbers = Math.ceil(data.length / partnersPerPage);
+  const prevPage = () => setCurrentPage(currentPage - 1);
+  const nextPage = () => setCurrentPage(currentPage + 1);
+
+  return (
+    <Box>
+      <Table>
+        <TableHead>
+          <TableRow sx={{ borderBottom: 2 }}>
+            <TableCell>Name</TableCell>
+            <TableCell>Point of Contact</TableCell>
+            <TableCell>Number of Students</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{renderedData}</TableBody>
+      </Table>
+      <Box mt={2} display="flex" justifyContent="flex-end">
+        <Button disabled={currentPage === 1} onClick={prevPage} sx={{ mr: 1 }}>
+          Previous
+        </Button>
+        <Button
+          disabled={currentPage === pageNumbers}
+          onClick={nextPage}
+          variant="contained"
+        >
+          Next
+        </Button>
+      </Box>
+    </Box>
+  );
 }
 
 export default PartnersTable;
