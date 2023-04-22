@@ -22,7 +22,6 @@ function PartnersPage() {
       );
 
       return {
-        // data,
         data: filteredData,
         isLoading,
         error,
