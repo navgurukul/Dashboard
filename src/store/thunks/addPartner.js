@@ -4,9 +4,15 @@ import axios from "axios";
 const addPartner = createAsyncThunk(
   "partner/add",
   async ({ token, object }) => {
+    const body = {
+      name: object.name,
+      point_of_contact_name: object.pocName,
+      email: object.pocEmail,
+      platform: "string",
+    };
     const response = await axios.post(
-      "https://https://dev-api.navgurukul.org/apiDocs/partners/create/newpartner",
-      object,
+      "https://dev-api.navgurukul.org/apiDocs/partners/create/newpartner",
+      body,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -14,7 +20,8 @@ const addPartner = createAsyncThunk(
         },
       }
     );
-    return response.data;
+    const data = response.data.data[0];
+    return data;
   }
 );
 
