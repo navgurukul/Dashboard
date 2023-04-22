@@ -9,6 +9,8 @@ import {
   Box,
   Button,
 } from "@mui/material";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import EmailIcon from "@mui/icons-material/Email";
@@ -21,6 +23,12 @@ function PartnersTable({ data }) {
 
   const [currentPage, setCurrentPage] = useState(1);
   const partnersPerPage = 10;
+  const indexOfLastPartner = currentPage * partnersPerPage;
+  const indexOfFirstPartner = indexOfLastPartner - partnersPerPage;
+  const currentPartners = data.slice(indexOfFirstPartner, indexOfLastPartner);
+  const pageNumbers = Math.ceil(data.length / partnersPerPage);
+  const prevPage = () => setCurrentPage(currentPage - 1);
+  const nextPage = () => setCurrentPage(currentPage + 1);
 
   const handleEditClick = (rowData) => {
     //
@@ -48,10 +56,6 @@ function PartnersTable({ data }) {
     </TableCell>
   );
 
-  const indexOfLastPartner = currentPage * partnersPerPage;
-  const indexOfFirstPartner = indexOfLastPartner - partnersPerPage;
-  const currentPartners = data.slice(indexOfFirstPartner, indexOfLastPartner);
-
   const renderedData = currentPartners.map((row) => (
     <TableRow key={row.id} sx={{ border: "none" }}>
       <TableCell>{row.name}</TableCell>
@@ -61,10 +65,6 @@ function PartnersTable({ data }) {
       <Actions rowData={row} />
     </TableRow>
   ));
-
-  const pageNumbers = Math.ceil(data.length / partnersPerPage);
-  const prevPage = () => setCurrentPage(currentPage - 1);
-  const nextPage = () => setCurrentPage(currentPage + 1);
 
   return (
     <Box>
@@ -82,14 +82,15 @@ function PartnersTable({ data }) {
       </Table>
       <Box mt={2} display="flex" justifyContent="flex-end">
         <Button disabled={currentPage === 1} onClick={prevPage} sx={{ mr: 1 }}>
-          Previous
+          <KeyboardArrowLeftIcon />
         </Button>
+        <Button>{currentPage}</Button>
         <Button
           disabled={currentPage === pageNumbers}
           onClick={nextPage}
           variant="contained"
         >
-          Next
+          <KeyboardArrowRightIcon />
         </Button>
       </Box>
     </Box>
