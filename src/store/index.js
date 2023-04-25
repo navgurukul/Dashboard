@@ -6,15 +6,16 @@ import { partnersReducer } from "./slices/partnersSlice";
 import {
   changeSearchTerm,
   clearSearchTerm,
-  partnerSearchReducer,
-} from "./slices/partnerSearchSlice";
-import { setupListeners } from "@reduxjs/toolkit/dist/query";
+  changeFilterBy,
+  partnerFilterReducer,
+} from "./slices/partnerFilterSlice";
+// import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     partners: partnersReducer,
-    partnerSearch: partnerSearchReducer,
+    partnerFilter: partnerFilterReducer,
     // [partnersApi.reducerPath]: partnersApi.reducer,
   },
   // middleware: (getDefaultMiddleware) => {
@@ -24,7 +25,7 @@ const store = configureStore({
 
 // setupListeners(store.dispatch);
 
-export { store, changeSearchTerm, clearSearchTerm };
+export { store, changeSearchTerm, clearSearchTerm, changeFilterBy };
 
 export * from "./thunks/fetchPartners";
 export * from "./thunks/addPartner";

@@ -59,7 +59,7 @@ function PartnersTable({ data }) {
   const renderedData = currentPartners.map((row) => (
     <TableRow key={row.id} sx={{ border: "none" }}>
       <TableCell>{row.name}</TableCell>
-      <TableCell>{row.point_of_contact || "---"}</TableCell>
+      <TableCell>{row.point_of_contact_name || "---"}</TableCell>
       <TableCell>{row.user || "---"}</TableCell>
       <TableCell>{row.status || "---"}</TableCell>
       <Actions rowData={row} />
