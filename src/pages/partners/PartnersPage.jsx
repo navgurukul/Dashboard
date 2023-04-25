@@ -6,20 +6,27 @@ import { Container } from "@mui/material";
 
 //components
 import PartnersTable from "../../components/partners/PartnersTable";
-import SearchBar from "../../components/partners/PartnerSearchBar";
+import PartnerFilter from "../../components/partners/PartnerFilter";
 
 function PartnersPage() {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
+
   const { isLoading, data, error } = useSelector(
     ({
       partners: { data, isLoading, error },
-      partnerSearch: { searchTerm },
+      partnerFilter: { searchTerm, filterBy },
     }) => {
       let lowerCased = searchTerm?.toLowerCase();
-      const filteredData = data.filter((partner) =>
-        partner.name.toLowerCase().includes(lowerCased)
-      );
+      const filteredData = data.filter((partner) => {
+        if (filterBy === "All Partners") {
+          return partner.name.toLowerCase().includes(lowerCased);
+        }
+        return (
+          partner.name.toLowerCase().includes(lowerCased) &&
+          partner.status === filterBy
+        );
+      });
 
       return {
         data: filteredData,
@@ -42,7 +49,7 @@ function PartnersPage() {
 
   return (
     <Container>
-      <SearchBar />
+      <PartnerFilter />
       {content}
     </Container>
   );
