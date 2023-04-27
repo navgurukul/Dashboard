@@ -16,10 +16,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import EmailIcon from "@mui/icons-material/Email";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePartner } from "../../store";
+import PartnerUpdateModal from "./PartnerUpdateModal";
 
 function PartnersTable({ data }) {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
+  const [open, setOpen] = useState(false);
+  const [updateData, setUpdateData] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const partnersPerPage = 10;
@@ -30,7 +33,13 @@ function PartnersTable({ data }) {
   const prevPage = () => setCurrentPage(currentPage - 1);
   const nextPage = () => setCurrentPage(currentPage + 1);
 
+  const handleModalToggle = () => {
+    setOpen(!open);
+  };
+
   const handleEditClick = (rowData) => {
+    setOpen(!open);
+    setUpdateData(rowData);
     //
   };
 
@@ -67,33 +76,46 @@ function PartnersTable({ data }) {
   ));
 
   return (
-    <Box>
-      <Table>
-        <TableHead>
-          <TableRow sx={{ borderBottom: 2 }}>
-            <TableCell>Name</TableCell>
-            <TableCell>Point of Contact</TableCell>
-            <TableCell>Number of Students</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>{renderedData}</TableBody>
-      </Table>
-      <Box mt={2} display="flex" justifyContent="flex-end">
-        <Button disabled={currentPage === 1} onClick={prevPage} sx={{ mr: 1 }}>
-          <KeyboardArrowLeftIcon />
-        </Button>
-        <Button>{currentPage}</Button>
-        <Button
-          disabled={currentPage === pageNumbers}
-          onClick={nextPage}
-          variant="contained"
-        >
-          <KeyboardArrowRightIcon />
-        </Button>
+    <>
+      {open && (
+        <PartnerUpdateModal
+          onOpen={handleEditClick}
+          partner={updateData}
+          boolean={open}
+        />
+      )}
+      <Box>
+        <Table>
+          <TableHead>
+            <TableRow sx={{ borderBottom: 2 }}>
+              <TableCell>Name</TableCell>
+              <TableCell>Point of Contact</TableCell>
+              <TableCell>Number of Students</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>{renderedData}</TableBody>
+        </Table>
+        <Box mt={2} display="flex" justifyContent="flex-end">
+          <Button
+            disabled={currentPage === 1}
+            onClick={prevPage}
+            sx={{ mr: 1 }}
+          >
+            <KeyboardArrowLeftIcon />
+          </Button>
+          <Button>{currentPage}</Button>
+          <Button
+            disabled={currentPage === pageNumbers}
+            onClick={nextPage}
+            variant="contained"
+          >
+            <KeyboardArrowRightIcon />
+          </Button>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 }
 
