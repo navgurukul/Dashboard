@@ -1,12 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPartners } from "../../store";
 import { useThunk } from "../../hooks/useThunk";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "@mui/material";
 
 //components
 import PartnersTable from "../../components/partners/PartnersTable";
 import PartnerFilter from "../../components/partners/PartnerFilter";
+import PartnerUpdateModal from "../../components/partners/PartnerUpdateModal";
 
 function PartnersPage() {
   const dispatch = useDispatch();
@@ -48,10 +49,12 @@ function PartnersPage() {
   }
 
   return (
-    <Container>
-      <PartnerFilter />
-      {content}
-    </Container>
+    <>
+      <Container>
+        <PartnerFilter />
+        {content}
+      </Container>
+    </>
   );
 }
 

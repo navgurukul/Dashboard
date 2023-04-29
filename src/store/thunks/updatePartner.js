@@ -4,9 +4,15 @@ import axios from "axios";
 const updatePartner = createAsyncThunk(
   "partner/update",
   async ({ token, object }) => {
-    const response = await axios.post(
-      `https://https://dev-api.navgurukul.org/apiDocs/partners/${object.id}`,
-      object,
+    const body = {
+      name: object.name,
+      point_of_contact_name: object.pocName,
+      email: object.pocEmail,
+      status: object.status,
+    };
+    const response = await axios.put(
+      `https://dev-api.navgurukul.org/apiDocs/partners/${object.id}`,
+      body,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -14,7 +20,8 @@ const updatePartner = createAsyncThunk(
         },
       }
     );
-    return response.data;
+    console.log(response.data["Update data"]);
+    return response.data["Update data"];
   }
 );
 

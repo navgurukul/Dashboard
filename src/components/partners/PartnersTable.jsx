@@ -20,6 +20,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import EmailIcon from "@mui/icons-material/Email";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePartner } from "../../store";
+
 import {styled} from "@mui/material";
 
 // const StyledTable = styled(Table)
@@ -38,9 +39,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }));
 
+
 function PartnersTable({ data }) {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
+  const [open, setOpen] = useState(false);
+  const [updateData, setUpdateData] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const partnersPerPage = 10;
@@ -51,7 +55,13 @@ function PartnersTable({ data }) {
   const prevPage = () => setCurrentPage(currentPage - 1);
   const nextPage = () => setCurrentPage(currentPage + 1);
 
+  const handleModalToggle = () => {
+    setOpen(!open);
+  };
+
   const handleEditClick = (rowData) => {
+    setOpen(!open);
+    setUpdateData(rowData);
     //
   };
 
@@ -120,7 +130,6 @@ function PartnersTable({ data }) {
         </Button> */}
         <Pagination count={3} color="primary" />
       </Box>
-    </Box>
   );
 }
 
