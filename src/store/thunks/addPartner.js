@@ -8,7 +8,6 @@ const addPartner = createAsyncThunk(
       name: object.name,
       point_of_contact_name: object.pocName,
       email: object.pocEmail,
-      platform: "string",
     };
     const response = await axios.post(
       "https://dev-api.navgurukul.org/apiDocs/partners/create/newpartner",
@@ -20,6 +19,7 @@ const addPartner = createAsyncThunk(
         },
       }
     );
+    console.log(response);
     const data = response.data.data[0];
     return data;
   }
