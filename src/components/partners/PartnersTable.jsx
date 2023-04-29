@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  TableContainer,
   Table,
   TableBody,
   TableCell,
@@ -8,6 +9,9 @@ import {
   IconButton,
   Box,
   Button,
+  Typography,
+  Paper,
+  Pagination
 } from "@mui/material";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -16,7 +20,25 @@ import EditIcon from "@mui/icons-material/Edit";
 import EmailIcon from "@mui/icons-material/Email";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePartner } from "../../store";
-import PartnerUpdateModal from "./PartnerUpdateModal";
+
+import {styled} from "@mui/material";
+
+// const StyledTable = styled(Table)
+
+const StyledTableCell = styled(TableCell)(({ theme }) => (
+   {
+    // fontSize: 14,
+    backgroundColor: "white"
+  }
+));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  backgroundColor: "white",
+  "& : hover": { 
+    backgroundColor: "white",
+  }
+}));
+
 
 function PartnersTable({ data }) {
   const dispatch = useDispatch();
@@ -53,69 +75,61 @@ function PartnersTable({ data }) {
 
   const Actions = ({ rowData }) => (
     <TableCell>
-      <EditIcon onClick={() => handleEditClick(rowData)}>Edit</EditIcon>
-      <EmailIcon
+      <Button  sx={{ color:"#BDBDBD", "&:hover": {color: "info.main" } }} ><EditIcon onClick={() => handleEditClick(rowData)}>Edit</EditIcon></Button>
+      <Button sx={{ color:"#BDBDBD", "&:hover": {color: "primary.main" } }}><EmailIcon
         onClick={() => {
           handleEmailClick(rowData);
         }}
       >
-        Delete
-      </EmailIcon>
-      <DeleteIcon onClick={() => handleDeleteClick(rowData)}>Delete</DeleteIcon>
+        Email
+      </EmailIcon></Button>
+      <Button sx={{color:"#BDBDBD", "&:hover": {color: "error.main" } }}><DeleteIcon onClick={() => handleDeleteClick(rowData)}>Delete</DeleteIcon></Button>
     </TableCell>
   );
 
   const renderedData = currentPartners.map((row) => (
-    <TableRow key={row.id} sx={{ border: "none" }}>
-      <TableCell>{row.name}</TableCell>
-      <TableCell>{row.point_of_contact_name || "---"}</TableCell>
-      <TableCell>{row.user || "---"}</TableCell>
-      <TableCell>{row.status || "---"}</TableCell>
-      <Actions rowData={row} />
-    </TableRow>
+    <StyledTableRow key={row.id} sx={{ border: "none" }}>
+      <StyledTableCell><Typography>{row.name}</Typography></StyledTableCell>
+      <StyledTableCell><Typography>{row.point_of_contact_name || "---"}</Typography></StyledTableCell>
+      <StyledTableCell><Typography>{row.user || "---"}</Typography></StyledTableCell>
+      <StyledTableCell><Typography>{row.status || "---"}</Typography></StyledTableCell>
+      <StyledTableCell><Actions rowData={row} /></StyledTableCell>
+      
+    </StyledTableRow>
   ));
 
   return (
-    <>
-      {open && (
-        <PartnerUpdateModal
-          onOpen={handleEditClick}
-          partner={updateData}
-          boolean={open}
-        />
-      )}
-      <Box>
+    <Box>
+      <TableContainer>
         <Table>
           <TableHead>
-            <TableRow sx={{ borderBottom: 2 }}>
-              <TableCell>Name</TableCell>
-              <TableCell>Point of Contact</TableCell>
-              <TableCell>Number of Students</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
+            <StyledTableRow 
+              sx={{ borderBottom: 2 ,borderColor :"#BDBDBD" }}
+            >
+              <StyledTableCell><Typography variant="subtitle2">Name</Typography></StyledTableCell>
+              <StyledTableCell><Typography variant="subtitle2">Point of Contact</Typography></StyledTableCell>
+              <StyledTableCell><Typography variant="subtitle2">Number of Students</Typography></StyledTableCell>
+              <StyledTableCell><Typography variant="subtitle2">Status</Typography></StyledTableCell>
+              {/* <StyledTableCell><Typography variant="subtitle2">Actions</Typography></StyledTableCell> */}
+            </StyledTableRow>
           </TableHead>
           <TableBody>{renderedData}</TableBody>
         </Table>
-        <Box mt={2} display="flex" justifyContent="flex-end">
-          <Button
-            disabled={currentPage === 1}
-            onClick={prevPage}
-            sx={{ mr: 1 }}
-          >
-            <KeyboardArrowLeftIcon />
-          </Button>
-          <Button>{currentPage}</Button>
-          <Button
-            disabled={currentPage === pageNumbers}
-            onClick={nextPage}
-            variant="contained"
-          >
-            <KeyboardArrowRightIcon />
-          </Button>
-        </Box>
+      </TableContainer>
+      <Box mt={2} display="flex" justifyContent="center">
+        {/* <Button disabled={currentPage === 1} onClick={prevPage} sx={{ mr: 1 }}>
+          <KeyboardArrowLeftIcon />
+        </Button>
+        <Button>{currentPage}</Button>
+        <Button
+          disabled={currentPage === pageNumbers}
+          onClick={nextPage}
+          variant="contained"
+        >
+          <KeyboardArrowRightIcon />
+        </Button> */}
+        <Pagination count={3} color="primary" />
       </Box>
-    </>
   );
 }
 
