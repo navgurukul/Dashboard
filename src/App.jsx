@@ -7,6 +7,8 @@ import RootLayout from "./layouts/RootLayout";
 // pages
 import LoginPage from "./pages/login/LoginPage";
 import PartnersPage from "./pages/partners/PartnersPage";
+import { ThemeProvider } from "@mui/material";
+import theme from "./theme/theme";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +22,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider theme = {theme}>
+      <RouterProvider router={router} />;
+  </ThemeProvider>
+  )
 }
 
 export default App;

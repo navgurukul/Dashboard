@@ -1,11 +1,15 @@
-import { TextField, Box, Button } from "@mui/material";
+import { TextField, Box, Button, Typography, InputAdornment, useMediaQuery,styled } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { changeFilterBy, changeSearchTerm } from "../../store";
 import { useState } from "react";
 import PartnerAddModal from "./PartnerAddModal";
+import { SearchOutlined } from "@mui/icons-material";
+import { breakpoints } from "../../theme/constant";
 
 function PartnerFilter() {
   const [openModal, setOpenModal] = useState(false);
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   const dispatch = useDispatch();
   const { searchTerm, filterBy } = useSelector((state) => {
     return state.partnerFilter;
@@ -31,30 +35,41 @@ function PartnerFilter() {
     <Button
       onClick={() => dispatch(changeFilterBy(term))}
       key={term}
-      color={term === filterBy ? "success" : "secondary"}
-      variant="contained"
+      variant={term === filterBy ? "contained" : "outlined"}
+      sx={{ mr: 1, borderRadius: "50px",borderColor:"text.primary" }}
     >
+      <Typography variant="body2" color= {term !== filterBy && "text.primary"}>
       {term}
+      </Typography>
     </Button>
   ));
-
   return (
-    <Box>
-      <Box display="flex">
+    <Box sx={{ mt: 8, mb: 2 }}>
+      <Box display="flex" mb={3}>
         <TextField
-          id="outlined-controlled"
-          label="Search partner"
-          placeholder="Search partner"
+          placeholder="Search Partner, Point of Contact..."
+          size="medium"
           value={searchTerm}
           onChange={handleChange}
-          sx={{ flex: 1, height: "48px" }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchOutlined sx={{ color: "#2E2E2E" }} />
+              </InputAdornment>
+            ),
+            style: ({
+              height: "48px",
+            })
+          }}
+          sx={{ flex: 1,}}
         />
         <Button
           onClick={handleModalToggle}
-          variant="text"
-          sx={{ marginLeft: "16px", height: "48px" }}
+          variant="contained"
+          
+          sx={{ marginLeft: "16px", }}
         >
-          Add Partner
+          <Typography variant="subtitle2">Add Partner</Typography>
         </Button>
         {openModal && (
           <PartnerAddModal onOpen={handleModalToggle} boolean={openModal} />
