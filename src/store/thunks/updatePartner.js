@@ -21,7 +21,9 @@ const updatePartner = createAsyncThunk(
       }
     );
     console.log(response.data["Update data"]);
-    return response.data["Update data"];
+    const data = { ...response.data["Update data"], id: object.id };
+    console.log(data);
+    return data;
   }
 );
 
