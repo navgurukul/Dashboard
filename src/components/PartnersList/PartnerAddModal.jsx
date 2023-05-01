@@ -86,7 +86,9 @@ function PartnerAddModal({ boolean, onOpen }) {
               name="pocEmail"
               label="Point of Contact Email"
             />
-            <Button variant="contained" onClick={handleSubmit}>Create a partner</Button>
+            <Button variant="contained" onClick={handleSubmit}>
+              Create a partner
+            </Button>
           </Box>
         </Box>
       </Modal>

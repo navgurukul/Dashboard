@@ -6,8 +6,8 @@ import RootLayout from "./layouts/RootLayout";
 
 // pages
 import LoginPage from "./pages/login/LoginPage";
-import PartnersPage from "./pages/partners/PartnersList";
-import PartnersCreationOfSpace from "./components/PartnerSpace/PartnersCreationOfSpace";
+import PartnersPage from "./pages/partners/PartnersList/PartnersList";
+import PartnersCreationOfSpace from "./pages/partners/PartnerSpace/PartnersCreationOfSpace";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme/theme";
 
@@ -18,17 +18,17 @@ const router = createBrowserRouter([
     children: [
       { path: "login", element: <LoginPage /> },
       { index: true, element: <PartnersPage /> },
-      { path: "partnerspace", element: <PartnersCreationOfSpace/> },
+      { path: "partnerspace/:id", element: <PartnersCreationOfSpace /> },
     ],
   },
 ]);
 
 function App() {
   return (
-    <ThemeProvider theme = {theme}>
+    <ThemeProvider theme={theme}>
       <RouterProvider router={router} />;
-  </ThemeProvider>
-  )
+    </ThemeProvider>
+  );
 }
 
 export default App;
