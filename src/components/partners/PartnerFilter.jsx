@@ -44,7 +44,7 @@ function PartnerFilter() {
     </Button>
   ));
   return (
-    <Box sx={{ mt: 8, mb: 2 }}>
+    <Box sx={{ mt: 8, mb: 2 }} >
       <Box display="flex" mb={3}>
         <TextField
           placeholder="Search Partner, Point of Contact..."

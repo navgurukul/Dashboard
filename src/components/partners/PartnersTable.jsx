@@ -21,7 +21,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePartner } from "../../store";
 import PartnerUpdateModal from "./PartnerUpdateModal";
-
+import { Link } from "react-router-dom";
 import { styled } from "@mui/material";
 
 // const StyledTable = styled(Table)
@@ -96,7 +96,7 @@ function PartnersTable({ data }) {
   const renderedData = currentPartners.map((row) => (
     <StyledTableRow key={row.id} sx={{ border: "none" }}>
       <StyledTableCell>
-        <Typography>{row.name}</Typography>
+        <Link to="partnerspace"><Typography>{row.name}</Typography></Link>
       </StyledTableCell>
       <StyledTableCell>
         <Typography>{row.point_of_contact_name || "---"}</Typography>
