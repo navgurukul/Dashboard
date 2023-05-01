@@ -1,13 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPartners } from "../../store";
-import { useThunk } from "../../hooks/useThunk";
+import { fetchPartners } from "../../../store";
+import { useThunk } from "../../../hooks/useThunk";
 import { useEffect, useState } from "react";
 import { Container } from "@mui/material";
 
 //components
-import PartnersTable from "../../components/partners/PartnersTable";
-import PartnerFilter from "../../components/partners/PartnerFilter";
-import PartnerUpdateModal from "../../components/partners/PartnerUpdateModal";
+import PartnersTable from "../../../components/PartnersList/PartnersTable";
+import PartnerFilter from "../../../components/PartnersList/PartnerFilter";
+import PartnerUpdateModal from "../../../components/PartnersList/PartnerUpdateModal";
 
 function PartnersPage() {
   const dispatch = useDispatch();
