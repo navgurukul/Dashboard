@@ -17,9 +17,9 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import { Button } from "@mui/material";
+import { Button,Modal, TextField, } from "@mui/material";
 import spaceShipImage from "./assets/student illustration.svg";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams  } from "react-router-dom";
 import { useState } from "react";
 
 const drawerWidth = 280;
@@ -42,6 +42,18 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     }),
   })
 );
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+}; 
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -85,6 +97,9 @@ export default function PartnersCreationOfSpace() {
     setOpen(false);
   };
 
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -128,30 +143,19 @@ export default function PartnersCreationOfSpace() {
                 <ListItemText primary={text} />
               </ListItemButton>
             </ListItem>
-          ))}
+          ))}      
         </List>
         <Button
           variant="contained"
           color="inherit"
           sx={{ m: 2 }}
+          onClick={handleDrawerOpen}
           // edge="start"
           // sx={{ mr: 2,marginLeft: "16px" , ...(open && { display: "none" }) }}
         >
           <Typography variant="subtitle2">New Spaces</Typography>
         </Button>
         <Divider />
-        {/* <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List> */}
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
@@ -168,10 +172,46 @@ export default function PartnersCreationOfSpace() {
             <Typography variant="subtitle2">New Spaces</Typography>
           </Button>
         </Box>
-        {/* <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-        </Typography> */}
       </Main>
+      <Button onClick={handleOpen}>Open modal</Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <Typography variant="h6">New Space</Typography>
+            <TextField
+              // onChange={handleChange}
+              // value={values.name}
+              name="name"
+              label="Space Name"
+            />
+            <Typography variant="body2" color="#6D6D6D">Please fill the below fields if individual POC is 
+            required for this space apart from the Partner’s main POC
+            </Typography>
+            <TextField
+              // onChange={handleChange}
+              // value={values.pocName}
+              name="pocName"
+              label="Point of Contact Name (Optional)"
+            />
+            <TextField
+              // onChange={handleChange}
+              // value={values.pocEmail}
+              name="pocEmail"
+              label="Point of Contact (Optional)"
+            />
+            <Button variant="contained" 
+            // onClick={handleSubmit}
+            >
+              Create a space
+            </Button>
+            </Box>
+        </Box>
+      </Modal>
     </Box>
   );
 }
