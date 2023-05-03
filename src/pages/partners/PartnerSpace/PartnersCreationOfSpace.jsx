@@ -131,14 +131,14 @@ export default function PartnersCreationOfSpace() {
           ))}
         </List>
         <Button
-                variant="contained"
-                color="inherit"
-                sx={{m:2}}
-                // edge="start"
-                // sx={{ mr: 2,marginLeft: "16px" , ...(open && { display: "none" }) }}
-              >
-                <Typography variant="subtitle2">New Spaces</Typography>
-              </Button>
+          variant="contained"
+          color="inherit"
+          sx={{ m: 2 }}
+          // edge="start"
+          // sx={{ mr: 2,marginLeft: "16px" , ...(open && { display: "none" }) }}
+        >
+          <Typography variant="subtitle2">New Spaces</Typography>
+        </Button>
         <Divider />
         {/* <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
@@ -160,7 +160,6 @@ export default function PartnersCreationOfSpace() {
           <Typography variant="subtitle2">Let create the first batch</Typography>
           <Button
             variant="contained"
-            
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
