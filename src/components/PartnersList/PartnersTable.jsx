@@ -96,8 +96,8 @@ function PartnersTable({ data }) {
   const renderedData = currentPartners.map((row) => (
     <StyledTableRow key={row.id} sx={{ border: "none" }}>
       <StyledTableCell>
-        <Link to={`partnerspace/${row.id}`}>
-          <Typography>{row.name}</Typography>
+        <Link to={`partnerspace/${row.id}`} sx={{textDecoration: "none"}} state={row.name}>
+        <Typography sx={{ color: "black",textDecoration: "none" }} >{row.name}</Typography>
         </Link>
       </StyledTableCell>
       <StyledTableCell>

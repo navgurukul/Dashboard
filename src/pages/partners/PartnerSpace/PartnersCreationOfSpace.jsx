@@ -19,10 +19,10 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { Button } from "@mui/material";
 import spaceShipImage from "./assets/student illustration.svg";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useState } from "react";
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
@@ -71,7 +71,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 export default function PartnersCreationOfSpace() {
   const { id } = useParams();
-
+  const location = useLocation();
+  const partnerName = location.state;
+  console.log(partnerName);
   const theme = useTheme();
   const [open, setOpen] = useState(false);
 
@@ -117,17 +119,26 @@ export default function PartnersCreationOfSpace() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+          {[partnerName].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
-                <ListItemIcon>
+                {/* <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
+                </ListItemIcon> */}
                 <ListItemText primary={text} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
+        <Button
+                variant="contained"
+                color="inherit"
+                sx={{m:2}}
+                // edge="start"
+                // sx={{ mr: 2,marginLeft: "16px" , ...(open && { display: "none" }) }}
+              >
+                <Typography variant="subtitle2">New Spaces</Typography>
+              </Button>
         <Divider />
         {/* <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
@@ -146,31 +157,19 @@ export default function PartnersCreationOfSpace() {
         <DrawerHeader />
         <Box sx={{ mt: 15, ml: 70 }}>
           <img src={spaceShipImage} alt="" />
-
-          <IconButton
-            color="inherit"
+          <Button
+            variant="contained"
+            
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={{ mr: 2, ...(open && { display: "none" }) }}
+            sx={{ mr: 2, marginLeft: "16px", ...(open && { display: "none" }) }}
           >
-            <Button variant="contained" sx={{ marginLeft: "16px" }}>
-              <Typography variant="subtitle2">New Spaces</Typography>
-            </Button>
-          </IconButton>
+            <Typography variant="subtitle2">New Spaces</Typography>
+          </Button>
         </Box>
         {/* <Typography paragraph>
           Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
         </Typography> */}
       </Main>
     </Box>
