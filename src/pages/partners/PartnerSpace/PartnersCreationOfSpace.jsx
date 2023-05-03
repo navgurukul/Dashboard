@@ -157,6 +157,7 @@ export default function PartnersCreationOfSpace() {
         <DrawerHeader />
         <Box sx={{ mt: 15, ml: 70 }}>
           <img src={spaceShipImage} alt="" />
+          <Typography variant="subtitle2">Let create the first batch</Typography>
           <Button
             variant="contained"
             
