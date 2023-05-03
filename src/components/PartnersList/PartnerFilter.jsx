@@ -66,7 +66,6 @@ function PartnerFilter() {
         <Button
           onClick={handleModalToggle}
           variant="contained"
-          
           sx={{ marginLeft: "16px", }}
         >
           <Typography variant="subtitle2">Add Partner</Typography>
