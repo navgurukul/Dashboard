@@ -1,11 +1,9 @@
 // rrd imports
-import { Outlet } from 'react-router-dom';
-// import CreateSpaceModal from '../components/PartnersList/PartnerSpace/CreateSpaceModal';
+import { Outlet } from "react-router-dom";
 
 function RootLayout() {
   return (
     <main>
-    {/* <CreateSpaceModal/> */}
       <Outlet />
     </main>
   );

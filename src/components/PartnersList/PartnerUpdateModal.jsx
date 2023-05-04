@@ -15,9 +15,10 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  borderRadius: "8px",
+  border: "none",
 };
 
 function PartnerUpdateModal({ boolean, onOpen, partner }) {
@@ -95,7 +96,9 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
               name="status"
               label="Status"
             />
-            <Button onClick={handleSubmit}>Update Partner</Button>
+            <Button variant="contained" onClick={handleSubmit}>
+              Update Partner
+            </Button>
           </Box>
         </Box>
       </Modal>
