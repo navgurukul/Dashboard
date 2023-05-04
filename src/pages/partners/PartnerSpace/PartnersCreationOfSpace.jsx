@@ -15,12 +15,15 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+// import InboxIcon from "@mui/icons-material/MoveToInbox";
+// import MailIcon from "@mui/icons-material/Mail";
 import { Button } from "@mui/material";
-import spaceShipImage from "./assets/student illustration.svg";
-import { useLocation, useParams } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import { useState } from "react";
+import LongMenu from "../../../components/PartnersList/LongMenu"
+import InputBar from "../Batch"
+import { Link } from "react-router-dom";
+import MainContent from "./MainContent";
 
 const drawerWidth = 280;
 
@@ -66,20 +69,21 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
+  justifyContent: "flex-start",
 }));
 
 export default function PartnersCreationOfSpace() {
   const { id } = useParams();
   const location = useLocation();
-  const partnerName = location.state;
-  console.log(partnerName);
+  const partnerName = location.state; 
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
+  //x
+  // const [open, setOpen] = useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+  //x
+  // const handleDrawerOpen = () => {
+  //   setOpen(true);
+  // };
 
   const handleDrawerClose = () => {
     setOpen(false);
@@ -90,9 +94,6 @@ export default function PartnersCreationOfSpace() {
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
-          {/* <Typography variant="h6" noWrap component="div">
-            Persistent drawer
-          </Typography> */}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -130,6 +131,8 @@ export default function PartnersCreationOfSpace() {
             </ListItem>
           ))}
         </List>
+        {/* <Typography variant="subtitle1" sx={{ml:6}}>{partnerName}</Typography> */}
+        <Typography variant="subtitle2" sx={{ml:6}}>Spaces</Typography>
         <Button
           variant="contained"
           color="inherit"
@@ -139,39 +142,22 @@ export default function PartnersCreationOfSpace() {
         >
           <Typography variant="subtitle2">New Spaces</Typography>
         </Button>
+        <Typography sx={{fontSize:"14px", ml:2}} >Start out by creating the first space</Typography>
+       <Link to={`batch`}>
+       <Button
+          variant="contained"
+          sx={{ m: 2  }}
+        >
+          <Typography variant="subtitle2">Batch 1</Typography>
+          <LongMenu  />
+        </Button>
+       </Link>
         <Divider />
-        {/* <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List> */}
       </Drawer>
       <Main open={open}>
-        <DrawerHeader />
-        <Box sx={{ mt: 15, ml: 70 }}>
-          <img src={spaceShipImage} alt="" />
-          <Typography variant="subtitle2">Let create the first batch</Typography>
-          <Button
-            variant="contained"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, marginLeft: "16px", ...(open && { display: "none" }) }}
-          >
-            <Typography variant="subtitle2">New Spaces</Typography>
-          </Button>
-        </Box>
-        {/* <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-        </Typography> */}
-      </Main>
+     <Outlet/>
+     </Main>
     </Box>
+    
   );
 }
