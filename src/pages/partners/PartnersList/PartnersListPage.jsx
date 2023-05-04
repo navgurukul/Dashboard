@@ -9,7 +9,7 @@ import PartnersTable from "../../../components/PartnersList/PartnersTable";
 import PartnerFilter from "../../../components/PartnersList/PartnerFilter";
 import PartnerUpdateModal from "../../../components/PartnersList/PartnerUpdateModal";
 
-function PartnersPage() {
+function PartnersListPage() {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
 
@@ -58,4 +58,4 @@ function PartnersPage() {
   );
 }
 
-export default PartnersPage;
+export default PartnersListPage;
