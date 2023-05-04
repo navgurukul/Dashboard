@@ -15,12 +15,19 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+// import InboxIcon from "@mui/icons-material/MoveToInbox";
+// import MailIcon from "@mui/icons-material/Mail";
+// import { Button } from "@mui/material";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { Button,Modal, TextField, } from "@mui/material";
 import spaceShipImage from "./assets/student illustration.svg";
-import { useLocation, useParams  } from "react-router-dom";
 import { useState } from "react";
+import LongMenu from "../../../components/PartnersList/LongMenu"
+import InputBar from "../Batch"
+import { Link } from "react-router-dom";
+import MainContent from "./MainContent";
 
 const drawerWidth = 280;
 
@@ -78,17 +85,18 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
+  justifyContent: "flex-start",
 }));
 
 export default function PartnersCreationOfSpace() {
   const { id } = useParams();
   const location = useLocation();
-  const partnerName = location.state;
-  console.log(partnerName);
+  const partnerName = location.state; 
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
+  //x
+  // const [open, setOpen] = useState(false);
 
+  //x
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -105,9 +113,6 @@ export default function PartnersCreationOfSpace() {
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
-          {/* <Typography variant="h6" noWrap component="div">
-            Persistent drawer
-          </Typography> */}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -145,73 +150,36 @@ export default function PartnersCreationOfSpace() {
             </ListItem>
           ))}      
         </List>
+        {/* <Typography variant="subtitle1" sx={{ml:6}}>{partnerName}</Typography> */}
+        <Typography variant="subtitle2" sx={{ml:6}}>Spaces</Typography>
         <Button
           variant="contained"
           color="inherit"
           sx={{ m: 2 }}
           onClick={handleDrawerOpen}
+          
           // edge="start"
           // sx={{ mr: 2,marginLeft: "16px" , ...(open && { display: "none" }) }}
         >
           <Typography variant="subtitle2">New Spaces</Typography>
         </Button>
+        <Typography sx={{fontSize:"14px", ml:2}} >Start out by creating the first space</Typography>
+       <Link to={`batch`}>
+       <Button
+          variant="contained"
+          sx={{ m: 2, }}
+           
+        >
+          <Typography sx={{fontSize:"14px"}}>Ahaan Primary</Typography>
+          <LongMenu  />
+        </Button>
+       </Link>
         <Divider />
       </Drawer>
       <Main open={open}>
-        <DrawerHeader />
-        <Box sx={{ mt: 15, ml: 70 }}>
-          <img src={spaceShipImage} alt="" />
-          <Typography variant="subtitle2">Let create the first batch</Typography>
-          <Button
-            variant="contained"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, marginLeft: "16px", ...(open && { display: "none" }) }}
-          >
-            <Typography variant="subtitle2">New Spaces</Typography>
-          </Button>
-        </Box>
-      </Main>
-      <Button onClick={handleOpen}>Open modal</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        <Typography variant="h6">New Space</Typography>
-            <TextField
-              // onChange={handleChange}
-              // value={values.name}
-              name="name"
-              label="Space Name"
-            />
-            <Typography variant="body2" color="#6D6D6D">Please fill the below fields if individual POC is 
-            required for this space apart from the Partner’s main POC
-            </Typography>
-            <TextField
-              // onChange={handleChange}
-              // value={values.pocName}
-              name="pocName"
-              label="Point of Contact Name (Optional)"
-            />
-            <TextField
-              // onChange={handleChange}
-              // value={values.pocEmail}
-              name="pocEmail"
-              label="Point of Contact (Optional)"
-            />
-            <Button variant="contained" 
-            // onClick={handleSubmit}
-            >
-              Create a space
-            </Button>
-            </Box>
-        </Box>
-      </Modal>
+     <Outlet/>
+     </Main>
     </Box>
+    
   );
 }
