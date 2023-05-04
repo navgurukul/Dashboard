@@ -34,8 +34,8 @@ export default function LongMenu() {
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <MoreHorizIcon sx={{ml:7, color:"white" }} />
-        <AddIcon sx={{ml:2, color:"white"}}/>
+        <MoreHorizIcon sx={{ml:7, color:"white",fontSize:"16px" }} />
+        <AddIcon sx={{ml:2, color:"white",fontSize:"16px"}}/>
       </IconButton>
       <Menu
         id="long-menu"

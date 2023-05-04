@@ -17,8 +17,12 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 // import InboxIcon from "@mui/icons-material/MoveToInbox";
 // import MailIcon from "@mui/icons-material/Mail";
-import { Button } from "@mui/material";
+// import { Button } from "@mui/material";
 import { Outlet, useLocation, useParams } from "react-router-dom";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import { Button,Modal, TextField, } from "@mui/material";
+import spaceShipImage from "./assets/student illustration.svg";
 import { useState } from "react";
 import LongMenu from "../../../components/PartnersList/LongMenu"
 import InputBar from "../Batch"
@@ -45,6 +49,18 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     }),
   })
 );
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+}; 
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -81,14 +97,17 @@ export default function PartnersCreationOfSpace() {
   // const [open, setOpen] = useState(false);
 
   //x
-  // const handleDrawerOpen = () => {
-  //   setOpen(true);
-  // };
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
 
   const handleDrawerClose = () => {
     setOpen(false);
   };
 
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -129,7 +148,7 @@ export default function PartnersCreationOfSpace() {
                 <ListItemText primary={text} />
               </ListItemButton>
             </ListItem>
-          ))}
+          ))}      
         </List>
         {/* <Typography variant="subtitle1" sx={{ml:6}}>{partnerName}</Typography> */}
         <Typography variant="subtitle2" sx={{ml:6}}>Spaces</Typography>
@@ -137,6 +156,8 @@ export default function PartnersCreationOfSpace() {
           variant="contained"
           color="inherit"
           sx={{ m: 2 }}
+          onClick={handleDrawerOpen}
+          
           // edge="start"
           // sx={{ mr: 2,marginLeft: "16px" , ...(open && { display: "none" }) }}
         >
@@ -146,9 +167,10 @@ export default function PartnersCreationOfSpace() {
        <Link to={`batch`}>
        <Button
           variant="contained"
-          sx={{ m: 2  }}
+          sx={{ m: 2, }}
+           
         >
-          <Typography variant="subtitle2">Batch 1</Typography>
+          <Typography sx={{fontSize:"14px"}}>Ahaan Primary</Typography>
           <LongMenu  />
         </Button>
        </Link>
