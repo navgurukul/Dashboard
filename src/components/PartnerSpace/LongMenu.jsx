@@ -1,21 +1,18 @@
-import * as React from 'react';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import AddIcon from '@mui/icons-material/Add';
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import AddIcon from "@mui/icons-material/Add";
+import { Box } from "@mui/material";
 
+import { useState } from "react";
 
-const options = [
-  'Edit Details',
-  'Copy Link',
-  'Delete',
-];
+const options = ["Edit Details", "Copy Link", "Delete"];
 
 const ITEM_HEIGHT = 48;
 
 export default function LongMenu() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -26,21 +23,23 @@ export default function LongMenu() {
 
   return (
     <div>
-      <IconButton
+      <Box
         aria-label="more"
         id="long-button"
-        aria-controls={open ? 'long-menu' : undefined}
-        aria-expanded={open ? 'true' : undefined}
+        aria-controls={open ? "long-menu" : undefined}
+        aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
         onClick={handleClick}
+        sx={{ display: "flex", gap: "14px" }}
       >
-        <MoreHorizIcon sx={{ml:7, color:"white",fontSize:"16px" }} />
-        <AddIcon sx={{ml:2, color:"white",fontSize:"16px"}}/>
-      </IconButton>
+        <MoreHorizIcon sx={{ color: "text.primary", fontSize: "16px" }} />
+        <AddIcon sx={{ color: "text.primary", fontSize: "16px" }} />
+      </Box>
+
       <Menu
         id="long-menu"
         MenuListProps={{
-          'aria-labelledby': 'long-button',
+          "aria-labelledby": "long-button",
         }}
         anchorEl={anchorEl}
         open={open}
@@ -48,12 +47,17 @@ export default function LongMenu() {
         PaperProps={{
           style: {
             maxHeight: ITEM_HEIGHT * 4.5,
-            width: '14ch',
+            width: "14ch",
           },
         }}
       >
         {options.map((option) => (
-          <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose} sx={{fontSize:"16px"}}>
+          <MenuItem
+            key={option}
+            selected={option === "Pyxis"}
+            onClick={handleClose}
+            sx={{ fontSize: "16px" }}
+          >
             {option}
           </MenuItem>
         ))}

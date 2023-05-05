@@ -8,7 +8,6 @@ const updatePartner = createAsyncThunk(
       name: object.name,
       point_of_contact_name: object.pocName,
       email: object.pocEmail,
-      status: object.status,
     };
     const response = await axios.put(
       `https://dev-api.navgurukul.org/apiDocs/partners/${object.id}`,
@@ -20,8 +19,8 @@ const updatePartner = createAsyncThunk(
         },
       }
     );
-    console.log(response.data["Update data"]);
-    const data = { ...response.data["Update data"], id: object.id };
+    console.log(response.data["Update data"][0]);
+    const data = { ...response.data["Update data"][0], id: object.id };
     console.log(data);
     return data;
   }

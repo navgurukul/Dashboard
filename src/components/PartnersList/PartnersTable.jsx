@@ -94,7 +94,7 @@ function PartnersTable({ data }) {
         <Link
           to={`partnerspace/${row.id}`}
           style={{ textDecoration: "none" }}
-          state={row.name}
+          state={row}
         >
           <Typography sx={{ color: "black", textDecoration: "none" }}>
             {row.name}
