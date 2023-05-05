@@ -13,12 +13,13 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import { Outlet, useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 import LongMenu from "./LongMenu";
 import { Link } from "react-router-dom";
+import PartnerSpaceList from "./PartnerSpaceList";
 import { useState } from "react";
-import CreateSpaceModal from "./CreateSpaceModal";
+
 const drawerWidth = 280;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -68,14 +69,15 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 function PartnerSpaceAside(value) {
   const { createSpaceOpen, handleCreateSpaceToggle } = value.value;
-
   const { id } = useParams();
   const location = useLocation();
-  const partnerName = location.state;
+  const partner = location.state;
+  const [partnerName, setPartnerName] = useState(partner.name);
+  console.log(partnerName);
   const theme = useTheme();
 
   //x
-  // const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   //x
   const handleDrawerOpen = () => {
@@ -104,7 +106,7 @@ function PartnerSpaceAside(value) {
           }}
           variant="persistent"
           anchor="left"
-          open={open}
+          open={true}
         >
           <DrawerHeader>
             <IconButton onClick={handleDrawerClose}>
@@ -116,16 +118,7 @@ function PartnerSpaceAside(value) {
             </IconButton>
           </DrawerHeader>
           <Divider />
-          <List>
-            {[partnerName].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-
+          <Typography sx={{ m: 3 }}>{partnerName}</Typography>
           <Typography variant="subtitle2" sx={{ ml: 6 }}>
             Spaces
           </Typography>
@@ -137,20 +130,10 @@ function PartnerSpaceAside(value) {
           >
             <Typography variant="subtitle2">New Spaces</Typography>
           </Button>
-          <Typography sx={{ fontSize: "14px", ml: 2 }}>
-            Start out by creating the first space
-          </Typography>
-          <Link to={`batch`}>
-            <Button variant="contained" sx={{ m: 2 }}>
-              <Typography sx={{ fontSize: "14px" }}>Ahaan Primary</Typography>
-              <LongMenu />
-            </Button>
-          </Link>
+          <PartnerSpaceList partner={partner} />
           <Divider />
         </Drawer>
-        <Main open={open}>
-          {/* <Outlet state={handleCreateSpaceToggle} /> */}
-        </Main>
+        <Main open={open}></Main>
       </Box>
     </>
   );

@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { authReducer } from "./slices/authSlice";
 import { partnersReducer } from "./slices/partnersSlice";
+import { spacesApi } from "./apis/spacesApi";
 // import { partnersApi } from "./apis/partnersApi";
 
 import {
@@ -9,21 +11,24 @@ import {
   changeFilterBy,
   partnerFilterReducer,
 } from "./slices/partnerFilterSlice";
-// import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     partners: partnersReducer,
     partnerFilter: partnerFilterReducer,
+    //API'S
+    [spacesApi.reducerPath]: spacesApi.reducer,
     // [partnersApi.reducerPath]: partnersApi.reducer,
   },
-  // middleware: (getDefaultMiddleware) => {
-  //   return getDefaultMiddleware().concat(partnersApi.middleware);
-  // },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(spacesApi.middleware);
+  },
 });
 
-// setupListeners(store.dispatch);
+setupListeners(store.dispatch);
+
+export { useFetchSpacesQuery } from "./apis/spacesApi";
 
 export { store, changeSearchTerm, clearSearchTerm, changeFilterBy };
 
