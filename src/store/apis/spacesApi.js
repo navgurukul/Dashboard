@@ -13,6 +13,7 @@ const spacesApi = createApi({
   endpoints(builder) {
     return {
       fetchSpaces: builder.query({
+        providesTags: ["Spaces"],
         query: (partner) => {
           return {
             url: "/space/{partner_id}",
@@ -23,9 +24,39 @@ const spacesApi = createApi({
           };
         },
       }),
+      addSpace: builder.mutation({
+        invalidatesTags: ["Spaces"],
+        query: (space) => {
+          const { partnerId, ...rest } = space;
+          return {
+            url: "/create/newspace",
+            params: {
+              ["partner_id"]: partnerId,
+            },
+            body: {
+              ...rest,
+            },
+            method: "POST",
+          };
+        },
+      }),
+      removeSpace: builder.mutation({
+        invalidatesTags: ["Spaces"],
+        query: (space) => {
+          return {
+            url: `/space/${space.id}`,
+            method: "DELETE",
+          };
+        },
+      }),
     };
   },
 });
 
-export const { useFetchSpacesQuery } = spacesApi;
+export const {
+  useFetchSpacesQuery,
+  useAddSpaceMutation,
+  useRemoveSpaceMutation,
+} = spacesApi;
+
 export { spacesApi };

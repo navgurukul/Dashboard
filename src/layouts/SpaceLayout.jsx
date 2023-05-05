@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import PartnerSpaceAside from "../components/PartnerSpace/PartnerSpaceAside";
+import SpaceAside from "../components/PartnerSpace/SpaceAside";
 import { useState } from "react";
 import CreateSpaceModal from "../components/PartnerSpace/CreateSpaceModal";
 
@@ -21,7 +21,7 @@ function SpaceLayout() {
         display: "flex",
       }}
     >
-      <PartnerSpaceAside value={valueToShare} />
+      <SpaceAside value={valueToShare} />
       <Outlet context={valueToShare} />
       {createSpaceOpen && (
         <CreateSpaceModal

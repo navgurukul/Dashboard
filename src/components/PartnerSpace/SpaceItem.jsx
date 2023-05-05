@@ -1,8 +1,8 @@
 import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import LongMenu from "./LongMenu";
+import SpaceMenu from "./SpaceMenu";
 
-function PartnerSpaceItem({ space }) {
+function SpaceItem({ space }) {
   return (
     <Box
       to={`batch`}
@@ -22,9 +22,9 @@ function PartnerSpaceItem({ space }) {
         }}
       >
         <Typography sx={{ fontSize: "14px" }}>{space.space_name}</Typography>
-        <LongMenu />
+        <SpaceMenu space={space} />
       </Button>
     </Box>
   );
 }
-export default PartnerSpaceItem;
+export default SpaceItem;
