@@ -67,11 +67,13 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 function PartnerSpaceAside(value) {
-  const { createSpaceOpen, handleCreateSpaceToggle } = value.value;
-
   const { id } = useParams();
   const location = useLocation();
   const partnerName = location.state;
+  const { createSpaceOpen, handleCreateSpaceToggle } = value.value;
+  const [partner_Name, setPartnerName] = useState(partnerName)
+
+  
   const theme = useTheme();
 
   //x
@@ -116,16 +118,11 @@ function PartnerSpaceAside(value) {
             </IconButton>
           </DrawerHeader>
           <Divider />
-          <List>
-            {[partnerName].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
+         
 
+          <Typography   sx={{m:3}} >
+            {partner_Name}
+          </Typography>
           <Typography variant="subtitle2" sx={{ ml: 6 }}>
             Spaces
           </Typography>
