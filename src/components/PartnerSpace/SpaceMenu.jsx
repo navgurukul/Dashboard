@@ -5,14 +5,19 @@ import AddIcon from "@mui/icons-material/Add";
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useRemoveSpaceMutation } from "../../store";
+import UpdateSpaceModal from "./UpdateSpaceModal";
 
 const ITEM_HEIGHT = 48;
 
 function SpaceMenu({ space }) {
   const [removeSpace, results] = useRemoveSpaceMutation();
-  console.log(results);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const [openUpdateSpace, setOpenUpdateSpace] = useState(false);
+  const handleOpenUpdateSpaceToggle = () => {
+    setOpenUpdateSpace(!openUpdateSpace);
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -26,6 +31,11 @@ function SpaceMenu({ space }) {
     setAnchorEl(null);
   };
 
+  const handleEditClick = () => {
+    handleOpenUpdateSpaceToggle();
+    setAnchorEl(null);
+  };
+
   useEffect(() => {
     if (results.isSuccess) {
       alert(results.data.status);
@@ -34,6 +44,13 @@ function SpaceMenu({ space }) {
 
   return (
     <div>
+      {openUpdateSpace && (
+        <UpdateSpaceModal
+          space={space}
+          boolean={openUpdateSpace}
+          onToggle={handleOpenUpdateSpaceToggle}
+        />
+      )}
       <Box
         aria-label="more"
         id="long-button"
@@ -62,7 +79,7 @@ function SpaceMenu({ space }) {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem onClick={handleEditClick}>Edit</MenuItem>
         <MenuItem onClick={handleClose}>Copy</MenuItem>
         <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
       </Menu>

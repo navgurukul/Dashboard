@@ -49,6 +49,17 @@ const spacesApi = createApi({
           };
         },
       }),
+      updateSpace: builder.mutation({
+        invalidatesTags: ["Spaces"],
+        query: (space) => {
+          const { spaceId, ...rest } = space;
+          return {
+            url: `/space/${spaceId}`,
+            body: { ...rest },
+            method: "PUT",
+          };
+        },
+      }),
     };
   },
 });
@@ -57,6 +68,7 @@ export const {
   useFetchSpacesQuery,
   useAddSpaceMutation,
   useRemoveSpaceMutation,
+  useUpdateSpaceMutation,
 } = spacesApi;
 
 export { spacesApi };

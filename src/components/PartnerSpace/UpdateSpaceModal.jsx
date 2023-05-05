@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, Modal, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/material";
-import { useAddSpaceMutation } from "../../store";
+import { useUpdateSpaceMutation } from "../../store";
 import { useParams } from "react-router-dom";
 
 const style = {
@@ -17,14 +17,14 @@ const style = {
   border: "none",
 };
 
-const CreateSpaceModal = ({ boolean, onToggle }) => {
-  const { partnerId } = useParams();
-  const [addSpace, results] = useAddSpaceMutation();
+const UpdateSpaceModal = ({ boolean, onToggle, space }) => {
+  const [updateSpace, results] = useUpdateSpaceMutation();
   console.log(results);
+  console.log(space);
   const [values, setValues] = useState({
-    name: "",
-    pocName: "",
-    pocEmail: "",
+    name: space["space_name"],
+    pocName: space["point_of_contact_name"] || "",
+    pocEmail: space["email"] || "",
   });
 
   useEffect(() => {
@@ -43,19 +43,20 @@ const CreateSpaceModal = ({ boolean, onToggle }) => {
   };
 
   const handleSubmit = () => {
-    let space = {};
-    space.partnerId = partnerId;
-    space["space_name"] = "";
+    let updatedSpace = {};
+    updatedSpace.spaceId = space.id;
+    updatedSpace["space_name"] = "";
     if (values.name.trim()) {
-      space["space_name"] = values.name;
+      updatedSpace["space_name"] = values.name;
     }
     if (values.pocName.trim()) {
-      space["point_of_contact_name"] = values.pocName;
+      updatedSpace["point_of_contact_name"] = values.pocName;
     }
     if (values.pocEmail.trim()) {
-      space["email"] = values.pocEmail;
+      updatedSpace["email"] = values.pocEmail;
     }
-    addSpace(space);
+    console.log(updatedSpace);
+    updateSpace(updatedSpace);
   };
 
   return (
@@ -68,7 +69,7 @@ const CreateSpaceModal = ({ boolean, onToggle }) => {
       >
         <Box sx={style}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <Typography variant="h6">New Space</Typography>
+            <Typography variant="h6">Edit Space</Typography>
             <TextField
               value={values.name}
               onChange={handleChange}
@@ -92,7 +93,7 @@ const CreateSpaceModal = ({ boolean, onToggle }) => {
               label="Point of Contact (Optional)"
             />
             <Button onClick={handleSubmit} variant="contained">
-              Create a space
+              Update Space Details
             </Button>
           </Box>
         </Box>
@@ -101,4 +102,4 @@ const CreateSpaceModal = ({ boolean, onToggle }) => {
   );
 };
 
-export default CreateSpaceModal;
+export default UpdateSpaceModal;

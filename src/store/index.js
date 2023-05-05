@@ -32,6 +32,7 @@ export {
   useFetchSpacesQuery,
   useAddSpaceMutation,
   useRemoveSpaceMutation,
+  useUpdateSpaceMutation,
 } from "./apis/spacesApi";
 
 export { store, changeSearchTerm, clearSearchTerm, changeFilterBy };

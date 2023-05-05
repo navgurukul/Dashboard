@@ -1,8 +1,8 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import { TextField, Button, Typography } from "@mui/material";
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import spaceShipImage from "../../../components/PartnerSpace/assets/student illustration.svg"
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import spaceShipImage from "../../../components/PartnerSpace/assets/student_illustration.svg";
 
 const BatchPage = () => {
   return (
@@ -13,7 +13,9 @@ const BatchPage = () => {
           <Typography variant="subtitle2">Yet to Start</Typography>
         </Box>
         <Box display="flex">
-          <Typography style={{fontSize:"12px", textAlign:"middle" }}><CalendarMonthIcon/> 16 Oct to 20 Nov</Typography>
+          <Typography style={{ fontSize: "12px", textAlign: "middle" }}>
+            <CalendarMonthIcon /> 16 Oct to 20 Nov
+          </Typography>
           {/* <Typography variant="subtitle2" >Student Name</Typography> */}
         </Box>
       </Box>
@@ -27,10 +29,13 @@ const BatchPage = () => {
           <Typography variant="subtitle2"> + Add Student(s)</Typography>
         </Button>
       </Box>
-      <Box sx={{ textAlign:"center", mt:5 }}>
-          <img src={spaceShipImage} alt="spaceshipimage" />
-          <Typography style={{fontSize:"12px"}} >Students havent arrived yet to the batch? Add some students to make it lively</Typography>
-        </Box>
+      <Box sx={{ textAlign: "center", mt: 5 }}>
+        <img src={spaceShipImage} alt="spaceshipimage" />
+        <Typography style={{ fontSize: "12px" }}>
+          Students havent arrived yet to the batch? Add some students to make it
+          lively
+        </Typography>
+      </Box>
     </Box>
   );
 };
