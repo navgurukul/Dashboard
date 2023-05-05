@@ -71,9 +71,9 @@ function SpaceAside(value) {
   const { createSpaceOpen, handleCreateSpaceToggle } = value.value;
   const { partnerId } = useParams();
   const location = useLocation();
-  const partner = location.state;
-  const [partnerName, setPartnerName] = useState(partner.name);
-  console.log(partnerName);
+  const partnerName = location.state;
+  const [partner_Name, setPartnerName] = useState(partnerName);
+
   const theme = useTheme();
 
   //x
@@ -118,7 +118,9 @@ function SpaceAside(value) {
             </IconButton>
           </DrawerHeader>
           <Divider />
-          <Typography sx={{ m: 3 }}>{partnerName}</Typography>
+
+          <Typography sx={{ m: 3 }}>{partner_Name}</Typography>
+
           <Typography variant="subtitle2" sx={{ ml: 6 }}>
             Spaces
           </Typography>
