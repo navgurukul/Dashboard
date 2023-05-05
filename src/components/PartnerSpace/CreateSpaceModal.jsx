@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Modal, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/material";
+import { useAddSpaceMutation } from "../../store";
+import { useParams } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -16,7 +18,44 @@ const style = {
 };
 
 const CreateSpaceModal = ({ boolean, onToggle }) => {
-  const [values, setValues] = useState({});
+  const { partnerId } = useParams();
+  const [addSpace, results] = useAddSpaceMutation();
+  console.log(results);
+  const [values, setValues] = useState({
+    name: "",
+    pocName: "",
+    pocEmail: "",
+  });
+
+  useEffect(() => {
+    if (results.isError) {
+      alert(results.error.data.Error);
+    } else if (results.isSuccess) {
+      alert(results.data.status);
+      onToggle();
+    }
+  }, [results, onToggle]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const updatedValues = { ...values, [name]: value };
+    setValues(updatedValues);
+  };
+
+  const handleSubmit = () => {
+    let space = {};
+    space.partnerId = partnerId;
+    if (values.name.trim()) {
+      space["space_name"] = values.name;
+    }
+    if (values.pocName.trim()) {
+      space["point_of_contact_name"] = values.pocName;
+    }
+    if (values.pocEmail.trim()) {
+      space["email"] = values.pocEmail;
+    }
+    addSpace(space);
+  };
 
   return (
     <Box>
@@ -29,17 +68,31 @@ const CreateSpaceModal = ({ boolean, onToggle }) => {
         <Box sx={style}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             <Typography variant="h6">New Space</Typography>
-            <TextField name="name" label="Space Name" />
+            <TextField
+              value={values.name}
+              onChange={handleChange}
+              name="name"
+              label="Space Name"
+            />
             <Typography variant="body2" color="#6D6D6D">
               Please fill the below fields if individual POC is required for
-              this space apart from the Partner’s main POC
+              this space apart from the Partner's main POC
             </Typography>
             <TextField
               name="pocName"
               label="Point of Contact Name (Optional)"
+              value={values.pocName}
+              onChange={handleChange}
             />
-            <TextField name="pocEmail" label="Point of Contact (Optional)" />
-            <Button variant="contained">Create a space</Button>
+            <TextField
+              value={values.pocEmail}
+              onChange={handleChange}
+              name="pocEmail"
+              label="Point of Contact (Optional)"
+            />
+            <Button onClick={handleSubmit} variant="contained">
+              Create a space
+            </Button>
           </Box>
         </Box>
       </Modal>

@@ -15,9 +15,9 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { useLocation, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
-import LongMenu from "./LongMenu";
+import LongMenu from "./SpaceMenu";
 import { Link } from "react-router-dom";
-import PartnerSpaceList from "./PartnerSpaceList";
+import SpaceList from "./SpaceList";
 import { useState } from "react";
 
 const drawerWidth = 280;
@@ -67,9 +67,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-start",
 }));
 
-function PartnerSpaceAside(value) {
+function SpaceAside(value) {
   const { createSpaceOpen, handleCreateSpaceToggle } = value.value;
-  const { id } = useParams();
+  const { partnerId } = useParams();
   const location = useLocation();
   const partner = location.state;
   const [partnerName, setPartnerName] = useState(partner.name);
@@ -130,7 +130,7 @@ function PartnerSpaceAside(value) {
           >
             <Typography variant="subtitle2">New Spaces</Typography>
           </Button>
-          <PartnerSpaceList partner={partner} />
+          <SpaceList partner={partner} />
           <Divider />
         </Drawer>
         <Main open={open}></Main>
@@ -139,4 +139,4 @@ function PartnerSpaceAside(value) {
   );
 }
 
-export default PartnerSpaceAside;
+export default SpaceAside;
