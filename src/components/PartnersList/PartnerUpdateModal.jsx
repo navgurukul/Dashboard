@@ -32,7 +32,6 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
     name: partner.name,
     pocName: partner.point_of_contact_name,
     pocEmail: partner.email,
-    status: partner.status,
   });
 
   const handleChange = (e) => {
@@ -45,8 +44,7 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
     if (
       !values.name.trim() ||
       !values.pocName.trim() ||
-      !values.pocEmail.trim() ||
-      !values.status
+      !values.pocEmail.trim()
     ) {
       return;
     } else {
@@ -55,7 +53,6 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
         name: "",
         pocName: "",
         pocEmail: "",
-        status: "",
       });
       dispatch(updatePartner({ token, object: values }));
     }
@@ -89,12 +86,6 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
               value={values.pocEmail}
               name="pocEmail"
               label="Point of Contact Email"
-            />
-            <TextField
-              onChange={handleChange}
-              value={values.status}
-              name="status"
-              label="Status"
             />
             <Button variant="contained" onClick={handleSubmit}>
               Update Partner
