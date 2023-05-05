@@ -71,8 +71,8 @@ function SpaceAside(value) {
   const { createSpaceOpen, handleCreateSpaceToggle } = value.value;
   const { partnerId } = useParams();
   const location = useLocation();
-  const partnerName = location.state;
-  const [partner_Name, setPartnerName] = useState(partnerName);
+  const partner = location.state;
+  const [partner_Name, setPartnerName] = useState(partner.name);
 
   const theme = useTheme();
 
