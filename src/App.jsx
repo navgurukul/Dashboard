@@ -12,7 +12,7 @@ import { ThemeProvider } from "@mui/material";
 import theme from "./theme/theme";
 import BatchPage from "./pages/partners/Batch/BatchPage";
 import PartnerSpacePage from "./pages/partners/PartnerSpace/PartnerSpacePage";
-import PartnerSpaceDefault from "./components/PartnerSpace/PartnerSpaceDefault";
+import PartnerSpaceDefault from "./components/PartnerSpace/SpaceDefault";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
       { path: "login", element: <LoginPage /> },
       { index: true, element: <PartnersListPage /> },
       {
-        path: "partnerspace/:id",
+        path: "partnerspace/:partnerId",
         element: <PartnerSpacePage />,
         children: [
           { index: true, element: <PartnerSpaceDefault /> },

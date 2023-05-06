@@ -1,19 +1,24 @@
-import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AddIcon from "@mui/icons-material/Add";
 import { Box } from "@mui/material";
-
-import { useState } from "react";
-
-const options = ["Edit Details", "Copy Link", "Delete"];
+import { useEffect, useState } from "react";
+import { useRemoveSpaceMutation } from "../../store";
+import UpdateSpaceModal from "./UpdateSpaceModal";
 
 const ITEM_HEIGHT = 48;
 
-export default function LongMenu() {
+function SpaceMenu({ space }) {
+  const [removeSpace, results] = useRemoveSpaceMutation();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const [openUpdateSpace, setOpenUpdateSpace] = useState(false);
+  const handleOpenUpdateSpaceToggle = () => {
+    setOpenUpdateSpace(!openUpdateSpace);
+  };
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -21,8 +26,31 @@ export default function LongMenu() {
     setAnchorEl(null);
   };
 
+  const handleDeleteClick = () => {
+    removeSpace(space);
+    setAnchorEl(null);
+  };
+
+  const handleEditClick = () => {
+    handleOpenUpdateSpaceToggle();
+    setAnchorEl(null);
+  };
+
+  useEffect(() => {
+    if (results.isSuccess) {
+      alert(results.data.status);
+    }
+  }, [results, handleDeleteClick]);
+
   return (
     <div>
+      {openUpdateSpace && (
+        <UpdateSpaceModal
+          space={space}
+          boolean={openUpdateSpace}
+          onToggle={handleOpenUpdateSpaceToggle}
+        />
+      )}
       <Box
         aria-label="more"
         id="long-button"
@@ -51,17 +79,12 @@ export default function LongMenu() {
           },
         }}
       >
-        {options.map((option) => (
-          <MenuItem
-            key={option}
-            selected={option === "Pyxis"}
-            onClick={handleClose}
-            sx={{ fontSize: "16px" }}
-          >
-            {option}
-          </MenuItem>
-        ))}
+        <MenuItem onClick={handleEditClick}>Edit</MenuItem>
+        <MenuItem onClick={handleClose}>Copy</MenuItem>
+        <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
       </Menu>
     </div>
   );
 }
+
+export default SpaceMenu;

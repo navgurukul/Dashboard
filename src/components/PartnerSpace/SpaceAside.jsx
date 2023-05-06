@@ -15,9 +15,9 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { useLocation, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
-import LongMenu from "./LongMenu";
+import LongMenu from "./SpaceMenu";
 import { Link } from "react-router-dom";
-import PartnerSpaceList from "./PartnerSpaceList";
+import SpaceList from "./SpaceList";
 import { useState } from "react";
 
 const drawerWidth = 280;
@@ -67,13 +67,12 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-start",
 }));
 
-function PartnerSpaceAside(value) {
- 
-  const { id } = useParams();
-  const location = useLocation();
-  const partnerName = location.state;
+function SpaceAside(value) {
   const { createSpaceOpen, handleCreateSpaceToggle } = value.value;
-  const [partner_Name, setPartnerName] = useState(partnerName.name)
+  const { partnerId } = useParams();
+  const location = useLocation();
+  const partner = location.state;
+  const [partner_Name, setPartnerName] = useState(partner.name);
 
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -114,13 +113,10 @@ function PartnerSpaceAside(value) {
               )}
             </IconButton>
           </DrawerHeader>
-          <Divider /> 
-         
+          <Divider />
 
-          <Typography   sx={{m:3}} >
-            {partner_Name}
-          </Typography>
- 
+          <Typography sx={{ m: 3 }}>{partner_Name}</Typography>
+
           <Typography variant="subtitle2" sx={{ ml: 6 }}>
             Spaces
           </Typography>
@@ -132,7 +128,7 @@ function PartnerSpaceAside(value) {
           >
             <Typography variant="subtitle2">New Spaces</Typography>
           </Button>
-          {/* <PartnerSpaceList partner={partner} /> */}
+          <SpaceList partner={partner} />
           <Divider />
         </Drawer>
         <Main open={open}></Main>
@@ -141,4 +137,4 @@ function PartnerSpaceAside(value) {
   );
 }
 
-export default PartnerSpaceAside;
+export default SpaceAside;

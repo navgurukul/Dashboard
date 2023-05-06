@@ -2,11 +2,11 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
-import spaceShipImage from "./assets/student illustration.svg";
+import spaceShipImage from "./assets/student_illustration.svg";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
-const PartnerSpaceDefault = () => {
+const SpaceDefault = () => {
   const { handleCreateSpaceToggle, createSpaceOpen } = useOutletContext();
 
   const [open, setOpen] = useState(false);
@@ -50,4 +50,4 @@ const PartnerSpaceDefault = () => {
   );
 };
 
-export default PartnerSpaceDefault;
+export default SpaceDefault;

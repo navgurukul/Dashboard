@@ -28,7 +28,12 @@ const store = configureStore({
 
 setupListeners(store.dispatch);
 
-export { useFetchSpacesQuery } from "./apis/spacesApi";
+export {
+  useFetchSpacesQuery,
+  useAddSpaceMutation,
+  useRemoveSpaceMutation,
+  useUpdateSpaceMutation,
+} from "./apis/spacesApi";
 
 export { store, changeSearchTerm, clearSearchTerm, changeFilterBy };
 

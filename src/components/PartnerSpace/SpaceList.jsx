@@ -1,9 +1,9 @@
 import { Skeleton, Typography } from "@mui/material";
 
 import { useFetchSpacesQuery } from "../../store";
-import PartnerSpaceItem from "./PartnerSpaceItem";
+import SpaceItem from "./SpaceItem";
 
-function PartnerSpaceList({ partner }) {
+function SpaceList({ partner }) {
   const { data, isLoading, error } = useFetchSpacesQuery(partner);
 
   let content;
@@ -17,10 +17,10 @@ function PartnerSpaceList({ partner }) {
     );
   } else {
     content = data.data.map((space) => {
-      return <PartnerSpaceItem space={space} key={space.id} />;
+      return <SpaceItem space={space} key={space.id} />;
     });
   }
 
   return <>{content}</>;
 }
-export default PartnerSpaceList;
+export default SpaceList;
