@@ -73,16 +73,10 @@ function PartnerSpaceAside(value) {
   const location = useLocation();
   const partnerName = location.state;
   const { createSpaceOpen, handleCreateSpaceToggle } = value.value;
-  const [partner_Name, setPartnerName] = useState(partnerName)
+  const [partner_Name, setPartnerName] = useState(partnerName.name)
 
-  
- 
   const theme = useTheme();
-
-  //x
   const [open, setOpen] = useState(false);
-
-  //x
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -138,7 +132,7 @@ function PartnerSpaceAside(value) {
           >
             <Typography variant="subtitle2">New Spaces</Typography>
           </Button>
-          <PartnerSpaceList partner={partner} />
+          {/* <PartnerSpaceList partner={partner} /> */}
           <Divider />
         </Drawer>
         <Main open={open}></Main>

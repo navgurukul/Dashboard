@@ -4,7 +4,7 @@ import LongMenu from "./LongMenu";
 
 function PartnerSpaceItem({ space }) {
   return (
-    <Box
+    <Link
       to={`batch`}
       style={{
         textDecoration: "none",
@@ -24,7 +24,7 @@ function PartnerSpaceItem({ space }) {
         <Typography sx={{ fontSize: "14px" }}>{space.space_name}</Typography>
         <LongMenu />
       </Button>
-    </Box>
+    </Link>
   );
 }
 export default PartnerSpaceItem;
