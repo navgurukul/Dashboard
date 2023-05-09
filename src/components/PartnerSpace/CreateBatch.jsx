@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import spaceShipImage from "./assets/student_illustration.svg";
-import { useState } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
 
 const CreateBatch = () => {

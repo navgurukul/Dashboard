@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Button, Modal, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/material";
 import { useUpdateSpaceMutation } from "../../store";
-import { useParams } from "react-router-dom";
 
 const style = {
   position: "absolute",

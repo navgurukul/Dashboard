@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   TableContainer,
   Table,
@@ -15,8 +15,8 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import EmailIcon from "@mui/icons-material/Email";
-import { useDispatch, useSelector } from "react-redux";
-import { deletePartner } from "../../store";
+
+import { useRemovePartnerMutation } from "../../store";
 import PartnerUpdateModal from "./PartnerUpdateModal";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material";
@@ -34,16 +34,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 function PartnersTable({ data }) {
-  const dispatch = useDispatch();
-  const token = useSelector((state) => state.auth.token);
+  const [removePartner, results] = useRemovePartnerMutation();
   const [open, setOpen] = useState(false);
   const [updateData, setUpdateData] = useState(null);
-
   const [currentPage, setCurrentPage] = useState(1);
-
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-  };
 
   const partnersPerPage = 10;
   const indexOfLastPartner = currentPage * partnersPerPage;
@@ -51,18 +45,29 @@ function PartnersTable({ data }) {
   const currentPartners = data.slice(indexOfFirstPartner, indexOfLastPartner);
   const pageNumbers = Math.ceil(data.length / partnersPerPage);
 
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
   const handleEditClick = (rowData) => {
     setOpen(!open);
     setUpdateData(rowData);
   };
 
-  const handleDeleteClick = (rowData) => {
-    dispatch(deletePartner({ token, object: rowData }));
-  };
-
   const handleEmailClick = (rowData) => {
     //
   };
+
+  const handleDeleteClick = (rowData) => {
+    removePartner(rowData);
+  };
+
+  useEffect(() => {
+    if (results.isSuccess) {
+      alert(results.data.status);
+      return;
+    }
+  }, [results, handleDeleteClick]);
 
   const Actions = ({ rowData }) => (
     <StyledTableCell>

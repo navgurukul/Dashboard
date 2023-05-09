@@ -1,25 +1,18 @@
-import { useSelector, useDispatch } from "react-redux";
-import { fetchPartners } from "../../../store";
-import { useThunk } from "../../../hooks/useThunk";
-import { useEffect, useState } from "react";
 import { Container } from "@mui/material";
+import { useSelector } from "react-redux";
+import { useFetchPartnersQuery } from "../../../store";
 
 //components
 import PartnersTable from "../../../components/PartnersList/PartnersTable";
 import PartnerFilter from "../../../components/PartnersList/PartnerFilter";
-import PartnerUpdateModal from "../../../components/PartnersList/PartnerUpdateModal";
 
 function PartnersListPage() {
-  const dispatch = useDispatch();
-  const token = useSelector((state) => state.auth.token);
+  const { data, isLoading, error } = useFetchPartnersQuery();
 
-  const { isLoading, data, error } = useSelector(
-    ({
-      partners: { data, isLoading, error },
-      partnerFilter: { searchTerm, filterBy },
-    }) => {
+  const { filteredData } = useSelector(
+    ({ partnerFilter: { searchTerm, filterBy } }) => {
       let lowerCased = searchTerm?.toLowerCase();
-      const filteredData = data.filter((partner) => {
+      const filteredData = data?.partners?.filter((partner) => {
         if (filterBy === "All Partners") {
           return partner.name.toLowerCase().includes(lowerCased);
         }
@@ -30,22 +23,18 @@ function PartnersListPage() {
       });
 
       return {
-        data: filteredData,
-        isLoading,
-        error,
+        filteredData,
       };
     }
   );
 
-  useEffect(() => {
-    dispatch(fetchPartners(token));
-  }, [dispatch]);
-
   let content;
   if (isLoading) {
     content = <h1>Loading...</h1>;
+  } else if (error) {
+    <h1>Error fetching partners...</h1>;
   } else {
-    content = <PartnersTable data={data} />;
+    content = <PartnersTable data={filteredData} />;
   }
 
   return (
