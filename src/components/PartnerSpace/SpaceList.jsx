@@ -1,4 +1,4 @@
-import { Skeleton, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 import { useFetchSpacesQuery } from "../../store";
 import SpaceItem from "./SpaceItem";
