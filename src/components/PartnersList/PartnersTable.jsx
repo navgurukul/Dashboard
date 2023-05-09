@@ -35,6 +35,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function PartnersTable({ data }) {
   const [removePartner, results] = useRemovePartnerMutation();
+  console.log(results);
   const [open, setOpen] = useState(false);
   const [updateData, setUpdateData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -65,9 +66,8 @@ function PartnersTable({ data }) {
   useEffect(() => {
     if (results.isSuccess) {
       alert(results.data.status);
-      return;
     }
-  }, [results, handleDeleteClick]);
+  }, [results]);
 
   const Actions = ({ rowData }) => (
     <StyledTableCell>
