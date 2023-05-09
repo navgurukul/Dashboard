@@ -4,21 +4,16 @@ import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import { useLocation, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
-import LongMenu from "./SpaceMenu";
-import { Link } from "react-router-dom";
 import SpaceList from "./SpaceList";
-import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useFetchSinglePartnerQuery } from "../../store";
 
 const drawerWidth = 280;
 
@@ -68,22 +63,25 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 function SpaceAside(value) {
-  const { createSpaceOpen, handleCreateSpaceToggle } = value.value;
   const { partnerId } = useParams();
-  const location = useLocation();
-  const partner = location.state;
-  const [partner_Name, setPartnerName] = useState(partner.name);
-
+  const { data, isLoading, error } = useFetchSinglePartnerQuery(partnerId);
+  const { createSpaceOpen, handleCreateSpaceToggle } = value.value;
+  const [partner, setPartner] = useState({});
   const theme = useTheme();
+
+  useEffect(() => {
+    if (data) {
+      let [partnerData] = data;
+      setPartner(partnerData);
+    }
+  }, [data]);
 
   //x
   const [open, setOpen] = useState(false);
-
   //x
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -119,7 +117,7 @@ function SpaceAside(value) {
           </DrawerHeader>
           <Divider />
 
-          <Typography sx={{ m: 3 }}>{partner_Name}</Typography>
+          <Typography sx={{ m: 3 }}>{partner.name}</Typography>
 
           <Typography variant="subtitle2" sx={{ ml: 6 }}>
             Spaces
