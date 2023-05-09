@@ -10,9 +10,10 @@ import LoginPage from "./pages/login/LoginPage";
 import PartnersListPage from "./pages/partners/PartnersList/PartnersListPage";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme/theme";
-import BatchPage from "./pages/partners/Batch/BatchPage";
+// import BatchPage from "./pages/partners/Batch/BatchPage";
 import PartnerSpacePage from "./pages/partners/PartnerSpace/PartnerSpacePage";
-import PartnerSpaceDefault from "./components/PartnerSpace/SpaceDefault";
+import CreateSpace from "./components/PartnerSpace/CreateSpace";
+import CreateBatch from "./components/PartnerSpace/CreateBatch";
 
 const router = createBrowserRouter([
   {
@@ -25,8 +26,12 @@ const router = createBrowserRouter([
         path: "partnerspace/:partnerId",
         element: <PartnerSpacePage />,
         children: [
-          { index: true, element: <PartnerSpaceDefault /> },
-          { path: "batch", element: <BatchPage /> },
+          {
+            index: true,
+            element: <CreateSpace />,
+          },
+          { path: "space/:spaceId", element: <CreateBatch /> },
+          //  { path: "batch", element: <BatchPage /> },
         ],
       },
     ],

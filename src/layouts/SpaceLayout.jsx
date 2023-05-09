@@ -5,14 +5,21 @@ import CreateSpaceModal from "../components/PartnerSpace/CreateSpaceModal";
 
 function SpaceLayout() {
   const [createSpaceOpen, setCreateStateOpen] = useState(false);
+  const [createBatchOpen, setCreateBatchOpen] = useState(false);
 
   const handleCreateSpaceToggle = () => {
     setCreateStateOpen(!createSpaceOpen);
   };
 
+  const handleCreateBatchToggle = () => {
+    setCreateBatchOpen(!createBatchOpen);
+  };
+
   const valueToShare = {
     createSpaceOpen,
     handleCreateSpaceToggle,
+    createBatchOpen,
+    handleCreateBatchToggle,
   };
 
   return (

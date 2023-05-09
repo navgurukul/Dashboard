@@ -4,8 +4,8 @@ import SpaceMenu from "./SpaceMenu";
 
 function SpaceItem({ space }) {
   return (
-    <Box
-      to={`batch`}
+    <Link
+      to={`space/${space.id}`}
       style={{
         textDecoration: "none",
       }}
@@ -24,7 +24,7 @@ function SpaceItem({ space }) {
         <Typography sx={{ fontSize: "14px" }}>{space.space_name}</Typography>
         <SpaceMenu space={space} />
       </Button>
-    </Box>
+    </Link>
   );
 }
 export default SpaceItem;
