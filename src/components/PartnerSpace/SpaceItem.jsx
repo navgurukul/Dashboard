@@ -5,7 +5,7 @@ import SpaceMenu from "./SpaceMenu";
 function SpaceItem({ space }) {
   return (
     <Link
-      to={`batch`}
+      to={`space/${space.id}`}
       style={{
         textDecoration: "none",
       }}

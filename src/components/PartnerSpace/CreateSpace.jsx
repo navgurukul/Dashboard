@@ -6,21 +6,10 @@ import spaceShipImage from "./assets/student_illustration.svg";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
-const SpaceDefault = () => {
+const CreateSpace = () => {
   const { handleCreateSpaceToggle, createSpaceOpen } = useOutletContext();
 
-  const [open, setOpen] = useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   return (
-    //   <Main open={open}>
     <>
       <Box
         sx={{
@@ -32,7 +21,7 @@ const SpaceDefault = () => {
       >
         <img src={spaceShipImage} alt="" />
         <Typography sx={{ fontSize: "14px", ml: 2 }}>
-          Let's create the first batch to get started
+          Let's create the first space to get started
         </Typography>
 
         <Button
@@ -50,4 +39,4 @@ const SpaceDefault = () => {
   );
 };
 
-export default SpaceDefault;
+export default CreateSpace;

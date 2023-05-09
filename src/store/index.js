@@ -3,7 +3,7 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { authReducer } from "./slices/authSlice";
 import { partnersReducer } from "./slices/partnersSlice";
 import { spacesApi } from "./apis/spacesApi";
-// import { partnersApi } from "./apis/partnersApi";
+import { partnersApi } from "./apis/partnersApi";
 
 import {
   changeSearchTerm,
@@ -19,14 +19,18 @@ const store = configureStore({
     partnerFilter: partnerFilterReducer,
     //API'S
     [spacesApi.reducerPath]: spacesApi.reducer,
-    // [partnersApi.reducerPath]: partnersApi.reducer,
+    [partnersApi.reducerPath]: partnersApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(spacesApi.middleware);
+    return getDefaultMiddleware()
+      .concat(spacesApi.middleware)
+      .concat(partnersApi.middleware);
   },
 });
 
 setupListeners(store.dispatch);
+
+export { useFetchSinglePartnerQuery } from "./apis/partnersApi";
 
 export {
   useFetchSpacesQuery,
