@@ -1,7 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { authReducer } from "./slices/authSlice";
-import { partnersReducer } from "./slices/partnersSlice";
-// import { partnersApi } from "./apis/partnersApi";
+import { spacesApi } from "./apis/spacesApi";
+import { partnersApi } from "./apis/partnersApi";
 
 import {
   changeSearchTerm,
@@ -9,25 +10,36 @@ import {
   changeFilterBy,
   partnerFilterReducer,
 } from "./slices/partnerFilterSlice";
-// import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    partners: partnersReducer,
     partnerFilter: partnerFilterReducer,
-    // [partnersApi.reducerPath]: partnersApi.reducer,
+    [partnersApi.reducerPath]: partnersApi.reducer,
+    [spacesApi.reducerPath]: spacesApi.reducer,
   },
-  // middleware: (getDefaultMiddleware) => {
-  //   return getDefaultMiddleware().concat(partnersApi.middleware);
-  // },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware()
+      .concat(partnersApi.middleware)
+      .concat(spacesApi.middleware);
+  },
 });
 
-// setupListeners(store.dispatch);
+setupListeners(store.dispatch);
+
+export {
+  useFetchSinglePartnerQuery,
+  useFetchPartnersQuery,
+  useAddPartnerMutation,
+  useRemovePartnerMutation,
+  useUpdatePartnerMutation,
+} from "./apis/partnersApi";
+
+export {
+  useFetchSpacesQuery,
+  useAddSpaceMutation,
+  useRemoveSpaceMutation,
+  useUpdateSpaceMutation,
+} from "./apis/spacesApi";
 
 export { store, changeSearchTerm, clearSearchTerm, changeFilterBy };
-
-export * from "./thunks/fetchPartners";
-export * from "./thunks/addPartner";
-export * from "./thunks/deletePartner";
-export * from "./thunks/updatePartner";
