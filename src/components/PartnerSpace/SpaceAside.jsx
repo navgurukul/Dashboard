@@ -88,11 +88,6 @@ function SpaceAside(value) {
 
   return (
     <>
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <AppBar position="fixed" open={open}>
-          <Toolbar></Toolbar>
-        </AppBar>
         <Drawer
           sx={{
             width: drawerWidth,
@@ -100,6 +95,8 @@ function SpaceAside(value) {
             "& .MuiDrawer-paper": {
               width: drawerWidth,
               boxSizing: "border-box",
+              position: "relative",
+              // border:"2px solid blue"
             },
           }}
           variant="persistent"
@@ -116,9 +113,7 @@ function SpaceAside(value) {
             </IconButton>
           </DrawerHeader>
           <Divider />
-
           <Typography sx={{ m: 3 }}>{partner.name}</Typography>
-
           <Typography variant="subtitle2" sx={{ ml: 6 }}>
             Spaces
           </Typography>
@@ -133,8 +128,7 @@ function SpaceAside(value) {
           <SpaceList partner={partner} />
           <Divider />
         </Drawer>
-        <Main open={open}></Main>
-      </Box>
+        {/* <Main open={open} sx={{ border:"2px solid green"}} ></Main> */}
     </>
   );
 }

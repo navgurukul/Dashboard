@@ -12,10 +12,9 @@ const CreateBatch = () => {
     <>
       <Box
         sx={{
-          width: "max-content",
-          margin: "0px auto",
+          ml:25,
           textAlign: "center",
-          mt: 15,
+          mt: 10,
         }}
       >
         <img src={spaceShipImage} alt="" />

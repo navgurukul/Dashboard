@@ -23,17 +23,14 @@ function SpaceLayout() {
   };
 
   return (
-    <main
-      style={{
-        display: "flex",
-      }}
-    >
-      <SpaceAside value={valueToShare} />
-      <Outlet context={valueToShare} />
+    <main style={{display:"flex",  height:"calc(100vh-80px)"  }}>
+      <SpaceAside value={valueToShare}   />
+      <Outlet context={valueToShare}   />
       {createSpaceOpen && (
         <CreateSpaceModal
           onToggle={handleCreateSpaceToggle}
           boolean={createSpaceOpen}
+          
         />
       )}
     </main>

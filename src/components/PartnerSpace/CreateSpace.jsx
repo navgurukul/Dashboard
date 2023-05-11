@@ -12,10 +12,10 @@ const CreateSpace = () => {
     <>
       <Box
         sx={{
-          width: "max-content",
-          margin: "0px auto",
           textAlign: "center",
-          mt: 15,
+          mt: 10,
+          width:"100%",
+          // border:"1px solid red"
         }}
       >
         <img src={spaceShipImage} alt="" />
@@ -29,7 +29,7 @@ const CreateSpace = () => {
           onClick={handleCreateSpaceToggle}
           edge="start"
           // sx={{ mr: 2, marginLeft: "16px", ...(open && { display: "none" }) }}
-          sx={{ mr: 2, marginLeft: "16px" }}
+          sx={{ m: 1 }}
         >
           <Typography variant="subtitle2">New Spaces</Typography>
         </Button>

@@ -1,10 +1,11 @@
 // rrd imports
 import { Outlet } from "react-router-dom";
+import Header from "../components/Header/Header";
 
 function RootLayout() {
   return (
     <main>
-      {/* MAIN HEADER WILL GO HERE  */}
+      <Header/>
       <Outlet />
     </main>
   );
