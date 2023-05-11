@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
-
-import { useUpdatePartnerMutation } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { updatePartner } from "../../store";
+// import { useAddPartnerMutation } from "../../store/apis/partnersApi";
 
 const style = {
   position: "absolute",
@@ -14,30 +15,23 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
-  borderRadius: "8px",
-  border: "none",
 };
 
 function PartnerUpdateModal({ boolean, onOpen, partner }) {
-  const [updatePartner, results] = useUpdatePartnerMutation();
-  console.log(results);
-
-  useEffect(() => {
-    if (results.isSuccess) {
-      alert(results.data.status);
-      onOpen();
-    } else if (results.isError) {
-      alert(results.error.data.status);
-    }
-  }, [results, onOpen]);
+  // const [addPartner, results] = useAddPartnerMutation();
+  console.log(partner);
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
 
   const [values, setValues] = useState({
-    partnerId: partner.id,
+    id: partner.id,
     name: partner.name,
-    point_of_contact_name: partner.point_of_contact_name,
-    email: partner.email,
+    pocName: partner.point_of_contact_name,
+    pocEmail: partner.email,
+    status: partner.status,
   });
 
   const handleChange = (e) => {
@@ -49,13 +43,20 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
   const handleSubmit = () => {
     if (
       !values.name.trim() ||
-      !values.point_of_contact_name.trim() ||
-      !values.email.trim()
+      !values.pocName.trim() ||
+      !values.pocEmail.trim() ||
+      !values.status
     ) {
-      alert("fill all fields");
       return;
     } else {
-      updatePartner(values);
+      onOpen();
+      setValues({
+        name: "",
+        pocName: "",
+        pocEmail: "",
+        status: "",
+      });
+      dispatch(updatePartner({ token, object: values }));
     }
   };
 
@@ -78,19 +79,23 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
             />
             <TextField
               onChange={handleChange}
-              value={values.point_of_contact_name}
-              name="point_of_contact_name"
+              value={values.pocName}
+              name="pocName"
               label="Point of Contact Name"
             />
             <TextField
               onChange={handleChange}
-              value={values.email}
-              name="email"
+              value={values.pocEmail}
+              name="pocEmail"
               label="Point of Contact Email"
             />
-            <Button variant="contained" onClick={handleSubmit}>
-              Update Partner
-            </Button>
+            <TextField
+              onChange={handleChange}
+              value={values.status}
+              name="status"
+              label="Status"
+            />
+            <Button onClick={handleSubmit}>Update Partner</Button>
           </Box>
         </Box>
       </Modal>

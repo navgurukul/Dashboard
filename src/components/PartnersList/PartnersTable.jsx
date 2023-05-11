@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   TableContainer,
   Table,
@@ -6,20 +6,25 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  IconButton,
   Box,
   Button,
   Typography,
+  Paper,
   Pagination,
 } from "@mui/material";
-
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import EmailIcon from "@mui/icons-material/Email";
-
-import { useRemovePartnerMutation } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { deletePartner } from "../../store";
 import PartnerUpdateModal from "./PartnerUpdateModal";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material";
+
+// const StyledTable = styled(Table)
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   // fontSize: 14,
@@ -34,56 +39,51 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 function PartnersTable({ data }) {
-  const [removePartner, results] = useRemovePartnerMutation();
-  console.log(results);
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
   const [open, setOpen] = useState(false);
   const [updateData, setUpdateData] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
 
+  const [currentPage, setCurrentPage] = useState(1);
   const partnersPerPage = 10;
   const indexOfLastPartner = currentPage * partnersPerPage;
   const indexOfFirstPartner = indexOfLastPartner - partnersPerPage;
   const currentPartners = data.slice(indexOfFirstPartner, indexOfLastPartner);
   const pageNumbers = Math.ceil(data.length / partnersPerPage);
+  const prevPage = () => setCurrentPage(currentPage - 1);
+  const nextPage = () => setCurrentPage(currentPage + 1);
 
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
+  const handleModalToggle = () => {
+    setOpen(!open);
   };
 
   const handleEditClick = (rowData) => {
     setOpen(!open);
     setUpdateData(rowData);
+    //
+  };
+
+  const handleDeleteClick = (rowData) => {
+    dispatch(deletePartner({ token, object: rowData }));
   };
 
   const handleEmailClick = (rowData) => {
     //
   };
 
-  const handleDeleteClick = (rowData) => {
-    removePartner(rowData);
-  };
-
-  useEffect(() => {
-    if (results.isSuccess) {
-      alert(results.data.status);
-    }
-  }, [results]);
-
   const Actions = ({ rowData }) => (
     <StyledTableCell>
-      <Button
-        onClick={() => handleEditClick(rowData)}
-        sx={{ color: "#BDBDBD", "&:hover": { color: "info.main" } }}
-      >
-        <EditIcon>Edit</EditIcon>
+      <Button sx={{ color: "#BDBDBD", "&:hover": { color: "info.main" } }}>
+        <EditIcon onClick={() => handleEditClick(rowData)}>Edit</EditIcon>
       </Button>
-      <Button
-        onClick={() => {
-          handleEmailClick(rowData);
-        }}
-        sx={{ color: "#BDBDBD", "&:hover": { color: "primary.main" } }}
-      >
-        <EmailIcon>Email</EmailIcon>
+      <Button sx={{ color: "#BDBDBD", "&:hover": { color: "primary.main" } }}>
+        <EmailIcon
+          onClick={() => {
+            handleEmailClick(rowData);
+          }}
+        >
+          Email
+        </EmailIcon>
       </Button>
       <Button sx={{ color: "#BDBDBD", "&:hover": { color: "error.main" } }}>
         <DeleteIcon onClick={() => handleDeleteClick(rowData)}>
@@ -96,10 +96,8 @@ function PartnersTable({ data }) {
   const renderedData = currentPartners.map((row) => (
     <StyledTableRow key={row.id} sx={{ border: "none" }}>
       <StyledTableCell>
-        <Link to={`partnerspace/${row.id}`} style={{ textDecoration: "none" }}>
-          <Typography sx={{ color: "black", textDecoration: "none" }}>
-            {row.name}
-          </Typography>
+        <Link to={`partnerspace/${row.id}`} sx={{textDecoration: "none"}} state={row.name}>
+        <Typography sx={{ color: "black",textDecoration: "none" }} >{row.name}</Typography>
         </Link>
       </StyledTableCell>
       <StyledTableCell>
@@ -143,33 +141,25 @@ function PartnersTable({ data }) {
                 <StyledTableCell>
                   <Typography variant="subtitle2">Status</Typography>
                 </StyledTableCell>
+                {/* <StyledTableCell><Typography variant="subtitle2">Actions</Typography></StyledTableCell> */}
               </StyledTableRow>
             </TableHead>
             <TableBody>{renderedData}</TableBody>
           </Table>
         </TableContainer>
         <Box mt={2} display="flex" justifyContent="center">
-          <Typography
-            sx={{
-              width: "700px",
-              height: "24px",
-              left: "165px",
-              top: "1080px",
-              position: "absolute",
-              fontFamily: "Noto Sans Anatolian Hieroglyphs, sans-serif",
-              color: "rgba(109, 109, 109, 1)",
-            }}
-          >
-            Showing {currentPage * 10 - 9} - {currentPage * 10} of {data.length}{" "}
-            partners{" "}
-          </Typography>
-
-          <Pagination
-            count={pageNumbers}
-            color="primary"
-            page={currentPage}
-            onChange={handlePageChange}
-          />
+          {/* <Button disabled={currentPage === 1} onClick={prevPage} sx={{ mr: 1 }}>
+          <KeyboardArrowLeftIcon />
+        </Button>
+        <Button>{currentPage}</Button>
+        <Button
+          disabled={currentPage === pageNumbers}
+          onClick={nextPage}
+          variant="contained"
+        >
+          <KeyboardArrowRightIcon />
+        </Button> */}
+          <Pagination count={3} color="primary" />
         </Box>
       </Box>
     </>

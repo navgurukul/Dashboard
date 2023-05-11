@@ -1,75 +1,37 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+// import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const partnersApi = createApi({
-  reducerPath: "partners",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "https://dev-api.navgurukul.org/apiDocs",
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
-      if (token) {
-        headers.set("authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
-  endpoints(builder) {
-    return {
-      fetchPartners: builder.query({
-        providesTags: ["Partner"],
-        query: () => {
-          return {
-            url: `/partners`,
-            method: "GET",
-          };
-        },
-      }),
-      addPartner: builder.mutation({
-        invalidatesTags: ["Partner"],
-        query: (partner) => {
-          return {
-            url: `/partners/create/newpartner`,
-            body: { ...partner },
-            method: "POST",
-          };
-        },
-      }),
-      removePartner: builder.mutation({
-        invalidatesTags: ["Partner"],
-        query: (partner) => {
-          return {
-            url: `/partners/${partner.id}`,
-            method: "DELETE",
-          };
-        },
-      }),
-      updatePartner: builder.mutation({
-        invalidatesTags: ["Partner"],
-        query: (partner) => {
-          const { partnerId, ...rest } = partner;
-          return {
-            url: `/partners/${partnerId}`,
-            body: { ...rest },
-            method: "PUT",
-          };
-        },
-      }),
-      fetchSinglePartner: builder.query({
-        query: (partnerId) => {
-          return {
-            url: `/partners/${partnerId}`,
-            method: "GET",
-          };
-        },
-      }),
-    };
-  },
-});
+// const partnersApi = createApi({
+//   reducerPath: "partnersApi",
+//   baseQuery: fetchBaseQuery({
+//     baseUrl: "https://dev-api.navgurukul.org/apiDocs",
+//     prepareHeaders: (headers, { getState }) => {
+//       const token = getState().auth.token;
 
-export const {
-  useFetchSinglePartnerQuery,
-  useFetchPartnersQuery,
-  useAddPartnerMutation,
-  useRemovePartnerMutation,
-  useUpdatePartnerMutation,
-} = partnersApi;
-export { partnersApi };
+//       if (token) {
+//         headers.set("authorization", `Bearer ${token}`);
+//       }
+
+//       return headers;
+//     },
+//   }),
+//   endpoints(builder) {
+//     return {
+//       addPartner: builder.mutation({
+//         query: (partner) => {
+//           return {
+//             url: "/partners/newpartner",
+//             method: "POST",
+//             body: {
+//               point_of_contact_name: partner.pocName,
+//               email: partner.pocEmail,
+//               platform: "string",
+//             },
+//           };
+//         },
+//       }),
+//     };
+//   },
+// });
+
+// export const { useAddPartnerMutation } = partnersApi;
+// export { partnersApi };
