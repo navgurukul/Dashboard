@@ -86,6 +86,7 @@ theme = createTheme(theme, {
     divider: "#DEDEDE",
   },
   typography: {
+    
     fontFamily: "Josefin Sans",
     fontSize: 18,
     h1: {

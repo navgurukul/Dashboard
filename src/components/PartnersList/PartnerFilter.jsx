@@ -1,3 +1,4 @@
+
 import { TextField, Box, Button, Typography, InputAdornment, useMediaQuery,styled } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { changeFilterBy, changeSearchTerm } from "../../store";
@@ -7,7 +8,7 @@ import { SearchOutlined } from "@mui/icons-material";
 import { breakpoints } from "../../theme/constant";
 
 function PartnerFilter() {
-  const [openModal, setOpenModal] = useState(false);
+  const [open, setOpen] = useState(false);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const dispatch = useDispatch();
@@ -27,16 +28,22 @@ function PartnerFilter() {
     dispatch(changeSearchTerm(e.target.value));
   };
 
-  const handleModalToggle = () => {
-    setOpenModal(!openModal);
+  const handleClick = () => {
+    setOpen(true);
   };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
 
   const filterButtons = filterTerms.map((term) => (
     <Button
       onClick={() => dispatch(changeFilterBy(term))}
       key={term}
       variant={term === filterBy ? "contained" : "outlined"}
-      sx={{ mr: 1, borderRadius: "50px",borderColor:"text.primary" }}
+      sx={{ mr: 1, borderRadius: "50px",borderColor:"#DCDCDC" }}
     >
       <Typography variant="body2" color= {term !== filterBy && "text.primary"}>
       {term}
@@ -64,18 +71,21 @@ function PartnerFilter() {
           sx={{ flex: 1,}}
         />
         <Button
-          onClick={handleModalToggle}
+          onClick={handleClick}
           variant="contained"
           sx={{ marginLeft: "16px", }}
         >
           <Typography variant="subtitle2">Add Partner</Typography>
         </Button>
-        {openModal && (
-          <PartnerAddModal onOpen={handleModalToggle} boolean={openModal} />
-        )}
+        {open && (
+          <PartnerAddModal open={open} handleClose={handleClose} />
+          )}
       </Box>
       {filterButtons}
     </Box>
   );
 }
 export default PartnerFilter;
+
+
+
