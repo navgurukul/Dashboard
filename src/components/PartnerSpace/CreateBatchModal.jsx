@@ -80,7 +80,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               variant="body2"
               color="text.secondary"
               pr={2}
-              // mt={1}
               // mb={3}
             >
               Learning Track
