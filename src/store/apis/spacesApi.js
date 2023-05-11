@@ -16,10 +16,10 @@ const spacesApi = createApi({
         providesTags: ["Spaces"],
         query: (partner) => {
           return {
-            url: "/space/{partner_id}",
-            params: {
-              ["partner_id"]: partner.id,
-            },
+            url: `/space/${partner.id}`,
+            // params: {
+            //   ["partner_id"]: partner.id,
+            // },
             method: "GET",
           };
         },

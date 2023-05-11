@@ -66,7 +66,7 @@ function SpaceAside(value) {
   const { partnerId } = useParams();
   const { data, isLoading, error } = useFetchSinglePartnerQuery(partnerId);
   const { createSpaceOpen, handleCreateSpaceToggle } = value.value;
-  const [partner, setPartner] = useState({});
+  const [partner, setPartner] = useState(null);
   const theme = useTheme();
 
   useEffect(() => {
@@ -76,9 +76,9 @@ function SpaceAside(value) {
     }
   }, [data]);
 
-  //x
+  
   const [open, setOpen] = useState(false);
-  //x
+  
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -113,19 +113,23 @@ function SpaceAside(value) {
             </IconButton>
           </DrawerHeader>
           <Divider />
-          <Typography sx={{ m: 3 }}>{partner.name}</Typography>
-          <Typography variant="subtitle2" sx={{ ml: 6 }}>
-            Spaces
-          </Typography>
-          <Button
-            variant="contained"
-            color="inherit"
-            sx={{ m: 2 }}
-            onClick={handleCreateSpaceToggle}
-          >
-            <Typography variant="subtitle2">New Spaces</Typography>
-          </Button>
-          <SpaceList partner={partner} />
+          {partner && (
+            <>
+              <Typography sx={{ m: 3 }}>{partner.name}</Typography>
+              <Typography variant="subtitle2" sx={{ ml: 6 }}>
+                Spaces
+              </Typography>
+              <Button
+                variant="contained"
+                color="inherit"
+                sx={{ m: 2 }}
+                onClick={handleCreateSpaceToggle}
+              >
+                <Typography variant="subtitle2">New Spaces</Typography>
+              </Button>
+              <SpaceList partner={partner} />
+            </>
+          )}
           <Divider />
         </Drawer>
         {/* <Main open={open} sx={{ border:"2px solid green"}} ></Main> */}
