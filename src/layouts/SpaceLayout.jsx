@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import SpaceAside from "../components/PartnerSpace/SpaceAside";
 import { useState } from "react";
 import CreateSpaceModal from "../components/PartnerSpace/CreateSpaceModal";
+import CreateBatchModal from "../components/PartnerSpace/CreateBatchModal";
 
 function SpaceLayout() {
   const [createSpaceOpen, setCreateStateOpen] = useState(false);
@@ -23,14 +24,19 @@ function SpaceLayout() {
   };
 
   return (
-    <main style={{display:"flex",  height:"calc(100vh-80px)"  }}>
-      <SpaceAside value={valueToShare}   />
-      <Outlet context={valueToShare}   />
+    <main style={{ display: "flex", height: "calc(100vh-80px)" }}>
+      <SpaceAside value={valueToShare} />
+      <Outlet context={valueToShare} />
       {createSpaceOpen && (
         <CreateSpaceModal
           onToggle={handleCreateSpaceToggle}
           boolean={createSpaceOpen}
-          
+        />
+      )}
+      {createBatchOpen && (
+        <CreateBatchModal
+          onToggle={handleCreateBatchToggle}
+          boolean={createBatchOpen}
         />
       )}
     </main>
