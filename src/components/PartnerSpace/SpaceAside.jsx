@@ -15,44 +15,6 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useFetchSinglePartnerQuery } from "../../store";
 
-const drawerWidth = 280;
-
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
-  ({ theme, open }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: `-${drawerWidth}px`,
-    ...(open && {
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    }),
-  })
-);
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -76,9 +38,8 @@ function SpaceAside(value) {
     }
   }, [data]);
 
-  
   const [open, setOpen] = useState(false);
-  
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -88,51 +49,50 @@ function SpaceAside(value) {
 
   return (
     <>
-        <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-              position: "relative",
-              // border:"2px solid blue"
-            },
-          }}
-          variant="persistent"
-          anchor="left"
-          open={true}
-        >
-          <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "ltr" ? (
-                <ChevronLeftIcon />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
-          </DrawerHeader>
-          <Divider />
-          {partner && (
-            <>
-              <Typography sx={{ m: 3 }}>{partner.name}</Typography>
-              <Typography variant="subtitle2" sx={{ ml: 6 }}>
-                Spaces
-              </Typography>
-              <Button
-                variant="contained"
-                color="inherit"
-                sx={{ m: 2 }}
-                onClick={handleCreateSpaceToggle}
-              >
-                <Typography variant="subtitle2">New Spaces</Typography>
-              </Button>
-              <SpaceList partner={partner} />
-            </>
-          )}
-          <Divider />
-        </Drawer>
-        {/* <Main open={open} sx={{ border:"2px solid green"}} ></Main> */}
+      <Drawer
+        sx={{
+          width: 272,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            bgcolor: "#FAFAFA",
+            width: 272,
+            boxSizing: "border-box",
+            position: "relative",
+            border: "none",
+            height: "calc(100vh - 80px)",
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={true}
+      >
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "ltr" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+        {partner && (
+          <>
+            <Typography sx={{ m: 3 }}>{partner.name}</Typography>
+            <Typography variant="subtitle2" sx={{ ml: 6 }}>
+              Spaces
+            </Typography>
+            <Button
+              variant="contained"
+              color="inherit"
+              sx={{ m: 2 }}
+              onClick={handleCreateSpaceToggle}
+            >
+              <Typography variant="subtitle2">New Spaces</Typography>
+            </Button>
+            <SpaceList partner={partner} />
+          </>
+        )}
+      </Drawer>
     </>
   );
 }

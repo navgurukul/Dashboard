@@ -12,9 +12,10 @@ const CreateBatch = () => {
     <>
       <Box
         sx={{
-          ml:25,
           textAlign: "center",
           mt: 10,
+          width: "100%",
+          // border:"1px solid red"
         }}
       >
         <img src={spaceShipImage} alt="" />
@@ -28,7 +29,7 @@ const CreateBatch = () => {
           onClick={handleCreateBatchToggle}
           edge="start"
           // sx={{ mr: 2, marginLeft: "16px", ...(open && { display: "none" }) }}
-          sx={{ mr: 2, marginLeft: "16px" }}
+          sx={{ m: 1 }}
         >
           <Typography variant="subtitle2">Create Batch</Typography>
         </Button>
