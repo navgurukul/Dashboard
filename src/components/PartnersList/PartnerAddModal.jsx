@@ -31,10 +31,8 @@ function PartnerAddModal({ boolean, onOpen }) {
     const { name, value } = e.target;
     const updatedValues = { ...values, [name]: value };
     setValues(updatedValues);
-  };
-
-  const handleSubmit = () => {
-    if (
+  };  const handleSubmit = () => {
+ if (
       !values.name.trim() ||
       !values.point_of_contact_name.trim() ||
       !values.email.trim()
@@ -67,7 +65,7 @@ function PartnerAddModal({ boolean, onOpen }) {
         <TextField
                 autoFocus
                 margin="dense"
-                label="space name"
+                label="partner name"
                 name="name"
                 value={values.name}
                 onChange={handleChange}
@@ -85,7 +83,7 @@ function PartnerAddModal({ boolean, onOpen }) {
               <TextField
               autoFocus
               margin="dense"
-              label="point of contact (Optional)"
+              label="point of contact email"
               name="email"
               value={values.email}
               onChange={handleChange}

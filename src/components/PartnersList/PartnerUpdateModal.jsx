@@ -61,7 +61,7 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
         <Grid container mb={3}>
             <Grid item xs={11}>
               <Typography variant="h6" component="h2">
-              new partner
+              Edit Space
               </Typography>
             </Grid>
             <Grid color="text.secondary" item xs={1}>
@@ -113,7 +113,7 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
          <Box sx={{ pb: 2, px: 2 }}>
         <DialogActions>
           <Button fullWidth variant="contained"  onClick={handleSubmit}>
-            Create Partner
+            updateData Space Details
           </Button>
         </DialogActions>
       </Box>
