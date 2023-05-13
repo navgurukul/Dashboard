@@ -36,7 +36,7 @@ function PartnerFilter() {
       onClick={() => dispatch(changeFilterBy(term))}
       key={term}
       variant={term === filterBy ? "contained" : "outlined"}
-      sx={{ mr: 1, borderRadius: "50px",borderColor:"text.primary" }}
+      sx={{ mr: 1, borderRadius: "50px",borderColor:"#DCDCDC" }}
     >
       <Typography variant="body2" color= {term !== filterBy && "text.primary"}>
       {term}
