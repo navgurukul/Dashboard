@@ -64,7 +64,6 @@ function PartnerAddModal({ boolean, onOpen }) {
         </Grid>
        
         <TextField
-        autoFocus
         margin="dense"
         label="space name"
         name="name"
@@ -73,7 +72,6 @@ function PartnerAddModal({ boolean, onOpen }) {
         fullWidth
       />
       <TextField
-      autoFocus
       margin="dense"
       label="point of contact name"
       name="point_of_contact_name"
@@ -82,7 +80,6 @@ function PartnerAddModal({ boolean, onOpen }) {
       fullWidth
     />
     <TextField
-    autoFocus
     margin="dense"
     label="point of contact email"
     name="email"
