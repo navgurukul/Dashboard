@@ -148,17 +148,9 @@ function PartnersTable({ data }) {
             <TableBody>{renderedData}</TableBody>
           </Table>
         </TableContainer>
-        <Box mt={2} display="flex" justifyContent="center">
+        <Box mt={2} display="flex" sx={{p:2, gap: 22,     color: "rgba(109, 109, 109, 1)",
+      }}>
           <Typography
-            sx={{
-              width: "700px",
-              height: "24px",
-              left: "165px",
-              top: "1080px",
-              position: "absolute",
-              fontFamily: "Noto Sans Anatolian Hieroglyphs, sans-serif",
-              color: "rgba(109, 109, 109, 1)",
-            }}
           >
             Showing {currentPage * 10 - 9} - {currentPage * 10} of {data.length}{" "}
             partners{" "}
