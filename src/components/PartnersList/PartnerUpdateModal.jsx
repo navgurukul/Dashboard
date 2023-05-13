@@ -77,7 +77,7 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
 
           <TextField
             margin="dense"
-            label="space name"
+            label="Partner Name"
             name="name"
             value={values.name}
             onChange={handleChange}
@@ -85,7 +85,7 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
           />
           <TextField
             margin="dense"
-            label="point of contact name"
+            label="Point of Contact Name"
             name="point_of_contact_name"
             value={values.point_of_contact_name}
             onChange={handleChange}
@@ -93,7 +93,7 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
           />
           <TextField
             margin="dense"
-            label="point of contact email"
+            label="Point of Contact Email"
             name="email"
             value={values.email}
             onChange={handleChange}
