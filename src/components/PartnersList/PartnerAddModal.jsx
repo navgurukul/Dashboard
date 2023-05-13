@@ -6,7 +6,15 @@ import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
 import { useAddPartnerMutation } from "../../store";
 import CloseIcon from "@mui/icons-material/Close";
-import {Dialog,Grid, DialogTitle,TableContainer, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import {
+  Dialog,
+  Grid,
+  DialogTitle,
+  TableContainer,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@mui/material";
 
 function PartnerAddModal({ boolean, onOpen }) {
   const [addPartner, results] = useAddPartnerMutation();
@@ -48,56 +56,57 @@ function PartnerAddModal({ boolean, onOpen }) {
   return (
     <div>
       {/* <Button onClick={handleOpen}>Open modal</Button> */}
-      <Dialog open={boolean} onClose={() => onOpen()}>
-
-      <DialogContent>
-      <Grid container mb={3}>
-          <Grid item xs={11}>
-            <Typography variant="h6" component="h2">
-            New Partner
-            </Typography>
+      <Dialog open={boolean} onClose={onOpen}>
+        <DialogContent>
+          <Grid container mb={3}>
+            <Grid item xs={11}>
+              <Typography variant="h6" component="h2">
+                New Partner
+              </Typography>
+            </Grid>
+            <Grid color="text.secondary" item xs={1}>
+              <CloseIcon
+                onClick={onOpen}
+                sx={{
+                  cursor: "pointer",
+                }}
+              />
+            </Grid>
           </Grid>
-          <Grid color="text.secondary" item xs={1}>
-          <CloseIcon  />
 
-          </Grid>
-        </Grid>
-       
-        <TextField
-        margin="dense"
-        label="space name"
-        name="name"
-        value={values.name}
-        onChange={handleChange}
-        fullWidth
-      />
-      <TextField
-      margin="dense"
-      label="point of contact name"
-      name="point_of_contact_name"
-      value={values.point_of_contact_name}
-      onChange={handleChange}
-      fullWidth
-    />
-    <TextField
-    margin="dense"
-    label="point of contact email"
-    name="email"
-    value={values.email}
-    onChange={handleChange}
-    fullWidth
-  />
-            
-            </DialogContent>
-            <Box sx={{ pb: 2, px: 2 }}>
-            <DialogActions>
-              <Button fullWidth variant="contained"  onClick={handleSubmit}>
-                Create  Partner
-              </Button>
-            </DialogActions>
-          </Box>
-            </Dialog>
-         
+          <TextField
+            margin="dense"
+            label="space name"
+            name="name"
+            value={values.name}
+            onChange={handleChange}
+            fullWidth
+          />
+          <TextField
+            margin="dense"
+            label="point of contact name"
+            name="point_of_contact_name"
+            value={values.point_of_contact_name}
+            onChange={handleChange}
+            fullWidth
+          />
+          <TextField
+            margin="dense"
+            label="point of contact email"
+            name="email"
+            value={values.email}
+            onChange={handleChange}
+            fullWidth
+          />
+        </DialogContent>
+        <Box sx={{ pb: 2, px: 2 }}>
+          <DialogActions>
+            <Button fullWidth variant="contained" onClick={handleSubmit}>
+              Create Partner
+            </Button>
+          </DialogActions>
+        </Box>
+      </Dialog>
     </div>
   );
 }

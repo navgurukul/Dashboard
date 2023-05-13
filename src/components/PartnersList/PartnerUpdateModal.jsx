@@ -5,21 +5,16 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import {Dialog,Grid, DialogTitle,TableContainer, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import {
+  Dialog,
+  Grid,
+  DialogTitle,
+  TableContainer,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@mui/material";
 import { useUpdatePartnerMutation } from "../../store";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: "8px",
-  border: "none",
-};
 
 function PartnerUpdateModal({ boolean, onOpen, partner }) {
   const [updatePartner, results] = useUpdatePartnerMutation();
@@ -62,61 +57,59 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
 
   return (
     <div>
-    <Dialog open={boolean} onClose={() => onOpen()}>
-
-      <DialogContent>
-      <Grid container mb={3}>
-          <Grid item xs={11}>
-            <Typography variant="h6" component="h2">
-            Update Partner
-            </Typography>
+      <Dialog open={boolean} onClose={onOpen}>
+        <DialogContent>
+          <Grid container mb={3}>
+            <Grid item xs={11}>
+              <Typography variant="h6" component="h2">
+                Update Partner
+              </Typography>
+            </Grid>
+            <Grid color="text.secondary" item xs={1}>
+              <CloseIcon
+                onClick={onOpen}
+                sx={{
+                  cursor: "pointer",
+                }}
+              />
+            </Grid>
           </Grid>
-          <Grid color="text.secondary" item xs={1}>
-          <CloseIcon  />
 
-          </Grid>
-        </Grid>
-       
-        <TextField
-        margin="dense"
-        label="space name"
-        name="name"
-        value={values.name}
-        onChange={handleChange}
-        fullWidth
-      />
-      <TextField
-    
-      margin="dense"
-      label="point of contact name"
-      name="point_of_contact_name"
-      value={values.point_of_contact_name}
-      onChange={handleChange}
-      fullWidth
-    />
-    <TextField
-    margin="dense"
-    label="point of contact email"
-    name="email"
-    value={values.email}
-    onChange={handleChange}
-    fullWidth
-  />
-            
-            </DialogContent>
-            <Box sx={{ pb: 2, px: 2 }}>
-            <DialogActions>
-              <Button fullWidth variant="contained"  onClick={handleSubmit}>
+          <TextField
+            margin="dense"
+            label="space name"
+            name="name"
+            value={values.name}
+            onChange={handleChange}
+            fullWidth
+          />
+          <TextField
+            margin="dense"
+            label="point of contact name"
+            name="point_of_contact_name"
+            value={values.point_of_contact_name}
+            onChange={handleChange}
+            fullWidth
+          />
+          <TextField
+            margin="dense"
+            label="point of contact email"
+            name="email"
+            value={values.email}
+            onChange={handleChange}
+            fullWidth
+          />
+        </DialogContent>
+        <Box sx={{ pb: 2, px: 2 }}>
+          <DialogActions>
+            <Button fullWidth variant="contained" onClick={handleSubmit}>
               Update Partner
-              </Button>
-            </DialogActions>
-          </Box>
-            </Dialog>
+            </Button>
+          </DialogActions>
+        </Box>
+      </Dialog>
     </div>
   );
 }
 
 export default PartnerUpdateModal;
-
-
-// Update Partner
