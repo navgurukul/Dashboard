@@ -148,10 +148,12 @@ function PartnersTable({ data }) {
             <TableBody>{renderedData}</TableBody>
           </Table>
         </TableContainer>
-        <Box mt={2} display="flex" sx={{p:2, gap: 22,     color: "rgba(109, 109, 109, 1)",
-      }}>
-          <Typography
-          >
+        <Box
+          mt={2}
+          display="flex"
+          sx={{ p: 2, gap: 22, color: "rgba(109, 109, 109, 1)" }}
+        >
+          <Typography>
             Showing {currentPage * 10 - 9} - {currentPage * 10} of {data.length}{" "}
             partners{" "}
           </Typography>
