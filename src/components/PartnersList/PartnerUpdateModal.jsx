@@ -8,18 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {Dialog,Grid, DialogTitle,TableContainer, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import { useUpdatePartnerMutation } from "../../store";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: "8px",
-  border: "none",
-};
+
 
 function PartnerUpdateModal({ boolean, onOpen, partner }) {
   const [updatePartner, results] = useUpdatePartnerMutation();
@@ -59,7 +48,9 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
       updatePartner(values);
     }
   };
-
+  const handleClose = () => {
+    onOpen(false);
+  };
   return (
     <div>
     <Dialog open={boolean} onClose={() => onOpen()}>
@@ -72,7 +63,7 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
             </Typography>
           </Grid>
           <Grid color="text.secondary" item xs={1}>
-          <CloseIcon  />
+          <CloseIcon  onClick={handleClose}/>
 
           </Grid>
         </Grid>
@@ -119,4 +110,3 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
 export default PartnerUpdateModal;
 
 
-// Update Partner

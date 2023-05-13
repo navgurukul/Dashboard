@@ -10,6 +10,7 @@ import {Dialog,Grid, DialogTitle,TableContainer, DialogContent, DialogContentTex
 
 function PartnerAddModal({ boolean, onOpen }) {
   const [addPartner, results] = useAddPartnerMutation();
+
   console.log(results);
   const [values, setValues] = useState({
     name: "",
@@ -45,6 +46,10 @@ function PartnerAddModal({ boolean, onOpen }) {
     }
   };
 
+  const handleClose = () => {
+    onOpen(false);
+  };
+
   return (
     <div>
       {/* <Button onClick={handleOpen}>Open modal</Button> */}
@@ -58,7 +63,7 @@ function PartnerAddModal({ boolean, onOpen }) {
             </Typography>
           </Grid>
           <Grid color="text.secondary" item xs={1}>
-          <CloseIcon  />
+          <CloseIcon  onClick={handleClose} />
 
           </Grid>
         </Grid>
