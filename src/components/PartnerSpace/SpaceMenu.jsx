@@ -51,18 +51,20 @@ function SpaceMenu({ space }) {
           onToggle={handleOpenUpdateSpaceToggle}
         />
       )}
-      <Box
+     <Box sx={{display:"flex"}} >
+     <Box
         aria-label="more"
         id="long-button"
         aria-controls={open ? "long-menu" : undefined}
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
         onClick={handleClick}
-        sx={{ display: "flex", gap: "14px" }}
+        sx={{ display: "flex", gap: "14px",  marginRight:"8px"}}
       >
         <MoreHorizIcon sx={{ color: "text.primary", fontSize: "16px" }} />
-        <AddIcon sx={{ color: "text.primary", fontSize: "16px" }} />
       </Box>
+        <AddIcon sx={{ color: "text.primary", fontSize: "16px" }} />
+     </Box>
 
       <Menu
         id="long-menu"
