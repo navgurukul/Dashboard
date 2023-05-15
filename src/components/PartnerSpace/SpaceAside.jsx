@@ -59,7 +59,8 @@ function SpaceAside(value) {
             boxSizing: "border-box",
             position: "relative",
             border: "none",
-            height: "calc(100vh - 80px)",
+            height: "calc(max-content - 80px)",
+            // border: "1px solid red"
           },
         }}
         variant="persistent"
