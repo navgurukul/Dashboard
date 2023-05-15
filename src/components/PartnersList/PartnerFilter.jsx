@@ -1,4 +1,12 @@
-import { TextField, Box, Button, Typography, InputAdornment, useMediaQuery,styled } from "@mui/material";
+import {
+  TextField,
+  Box,
+  Button,
+  Typography,
+  InputAdornment,
+  useMediaQuery,
+  styled,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { changeFilterBy, changeSearchTerm } from "../../store";
 import { useState } from "react";
@@ -36,15 +44,15 @@ function PartnerFilter() {
       onClick={() => dispatch(changeFilterBy(term))}
       key={term}
       variant={term === filterBy ? "contained" : "outlined"}
-      sx={{ mr: 1, borderRadius: "50px",borderColor:"text.primary" }}
+      sx={{ mr: 1, borderRadius: "50px", borderColor: "#DCDCDC" }}
     >
-      <Typography variant="body2" color= {term !== filterBy && "text.primary"}>
-      {term}
+      <Typography variant="body2" color={term !== filterBy && "text.primary"}>
+        {term}
       </Typography>
     </Button>
   ));
   return (
-    <Box sx={{ mt: 8, mb: 2 }} >
+    <Box sx={{ mt: 8, mb: 2 }}>
       <Box display="flex" mb={3}>
         <TextField
           placeholder="Search Partner, Point of Contact..."
@@ -57,16 +65,16 @@ function PartnerFilter() {
                 <SearchOutlined sx={{ color: "#2E2E2E" }} />
               </InputAdornment>
             ),
-            style: ({
+            style: {
               height: "48px",
-            })
+            },
           }}
-          sx={{ flex: 1,}}
+          sx={{ flex: 1 }}
         />
         <Button
           onClick={handleModalToggle}
           variant="contained"
-          sx={{ marginLeft: "16px", }}
+          sx={{ marginLeft: "16px" }}
         >
           <Typography variant="subtitle2">Add Partner</Typography>
         </Button>
