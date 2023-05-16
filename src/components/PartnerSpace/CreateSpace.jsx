@@ -14,7 +14,7 @@ const CreateSpace = () => {
         sx={{
           textAlign: "center",
           mt: 10,
-          width:"100%",
+          width: "100%",
           // border:"1px solid red"
         }}
       >
