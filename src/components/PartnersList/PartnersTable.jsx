@@ -20,6 +20,7 @@ import { useRemovePartnerMutation } from "../../store";
 import PartnerUpdateModal from "./PartnerUpdateModal";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material";
+import showToast from "../showToast";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   // fontSize: 14,
@@ -66,9 +67,9 @@ function PartnersTable({ data }) {
 
   useEffect(() => {
     if (results.isSuccess) {
-      alert(results.data.status);
+      showToast("success", results.data.status);
     }
-  }, [results]);
+  }, [results.isSuccess]);
 
   const Actions = ({ rowData }) => (
     <StyledTableCell>

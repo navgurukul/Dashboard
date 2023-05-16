@@ -3,6 +3,7 @@ import { Button, Modal, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/material";
 import { useAddSpaceMutation } from "../../store";
 import { useParams } from "react-router-dom";
+import showToast from "../showToast";
 
 const style = {
   position: "absolute",
@@ -29,12 +30,12 @@ const CreateSpaceModal = ({ boolean, onToggle }) => {
 
   useEffect(() => {
     if (results.isError) {
-      alert(results.error.data.Error);
+      showToast("error", results.error.data.Error);
     } else if (results.isSuccess) {
-      alert(results.data.status);
+      showToast("success", results.data.status);
       onToggle();
     }
-  }, [results, onToggle]);
+  }, [results.isSuccess, results.isError]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

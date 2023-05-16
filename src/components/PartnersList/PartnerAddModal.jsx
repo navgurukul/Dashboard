@@ -15,6 +15,7 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
+import showToast from "../showToast";
 
 function PartnerAddModal({ boolean, onOpen }) {
   const [addPartner, results] = useAddPartnerMutation();
@@ -27,12 +28,12 @@ function PartnerAddModal({ boolean, onOpen }) {
 
   useEffect(() => {
     if (results.isSuccess) {
-      alert(results.data.status);
+      showToast("success", results.data.status);
       onOpen();
     } else if (results.isError) {
-      alert(results.error.data.Error);
+      showToast("error", results.error.data.Error);
     }
-  }, [results, onOpen]);
+  }, [results.isSuccess, results.isError]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,7 +47,8 @@ function PartnerAddModal({ boolean, onOpen }) {
       !values.point_of_contact_name.trim() ||
       !values.email.trim()
     ) {
-      alert("Fill all fields");
+      // alert("Fill all fields");
+      showToast("error", "Fill all fields");
       return;
     } else {
       addPartner(values);
