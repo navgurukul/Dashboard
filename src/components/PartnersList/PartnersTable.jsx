@@ -41,12 +41,11 @@ function PartnersTable({ data }) {
   const [updateData, setUpdateData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const partnersPerPage = Math.ceil(data.length/3);
+  const partnersPerPage = 10;
   const indexOfLastPartner = currentPage * partnersPerPage;
   const indexOfFirstPartner = indexOfLastPartner - partnersPerPage;
   const currentPartners = data.slice(indexOfFirstPartner, indexOfLastPartner);
-  const pageNumbers = 3;
-  // const pageNumbers = Math.ceil(data.length / partnersPerPage);
+  const pageNumbers = Math.ceil(data.length / partnersPerPage);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -156,7 +155,7 @@ function PartnersTable({ data }) {
           sx={{ p: 2, gap: 22, color: "rgba(109, 109, 109, 1)" }}
         >
           <Typography>
-            Showing {currentPage * partnersPerPage - (partnersPerPage - 1)} - {currentPage * partnersPerPage} of {data.length}{" "}
+            Showing {currentPage * 10 - 9} - {currentPage * 10} of {data.length}{" "}
             partners{" "}
           </Typography>
 

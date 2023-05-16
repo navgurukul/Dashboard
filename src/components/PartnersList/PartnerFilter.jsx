@@ -74,9 +74,9 @@ function PartnerFilter() {
         <Button
           onClick={handleModalToggle}
           variant="contained"
-          sx={{ marginLeft: "15px", position:"relative"}}
+          sx={{ marginLeft: "16px" }}
         >
-          <Typography sx={{fontSize:"22px", position: "absolute", left: "10px", top: "5px", fontWeight:"bold"}}> + </Typography> <Typography variant="subtitle2" sx={{marginLeft:"15px"}}> Add Partner</Typography>
+          <Typography variant="subtitle2">Add Partner</Typography>
         </Button>
         {openModal && (
           <PartnerAddModal onOpen={handleModalToggle} boolean={openModal} />
