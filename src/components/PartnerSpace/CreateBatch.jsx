@@ -14,7 +14,7 @@ const CreateBatch = () => {
       <Box
         sx={{
           textAlign: "center",
-          mt: 10,
+          mt: 16,
           width: "100%",
           // border:"1px solid red"
         }}

@@ -79,16 +79,16 @@ function SpaceAside(value) {
         {partner && (
           <>
             <Typography sx={{ m: 3 }}>{partner.name}</Typography>
-            <Typography variant="subtitle2" sx={{ ml: 6 }}>
+            <Typography     style={{fontSize:"14px",fontWeight:"600", marginLeft:"16px" }} >
               Spaces
             </Typography>
             <Button
               variant="contained"
               color="inherit"
-              sx={{ m: 2 }}
+              style={{width: "240px" , margin:"16px"}}
               onClick={handleCreateSpaceToggle}
             >
-              <Typography variant="subtitle2">New Spaces</Typography>
+              <Typography  style={{fontSize:"14px",}} >New Spaces</Typography>
             </Button>
             <SpaceList partner={partner} />
           </>
