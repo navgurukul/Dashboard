@@ -13,7 +13,7 @@ const CreateSpace = () => {
       <Box
         sx={{
           textAlign: "center",
-          mt: 10,
+          mt: 16,
           width: "100%",
           // border:"1px solid red"
         }}
@@ -29,7 +29,7 @@ const CreateSpace = () => {
           onClick={handleCreateSpaceToggle}
           edge="start"
           // sx={{ mr: 2, marginLeft: "16px", ...(open && { display: "none" }) }}
-          sx={{ m: 1 }}
+          style={{ margin:"10px", width:"135px", height:"48px", borderRadius:"8px" }}
         >
           <Typography variant="subtitle2">New Spaces</Typography>
         </Button>
