@@ -1,12 +1,12 @@
-import React from "react";
-import PartnerFilter from "../../../components/PartnersList/PartnerFilter";
+import React from 'react'
+import PartnerFilter from '../../../components/PartnersList/PartnerFilter'
 
 const index = () => {
   return (
     <div>
-      <PartnerFilter />
+      <PartnerFilter/>
     </div>
-  );
-};
+  )
+}
 
-export default index;
+export default index
