@@ -1,11 +1,11 @@
 import SpaceLayout from "../../../layouts/SpaceLayout";
 import Header from "../../../components/Header/Header";
 
-function PartnerSpacePage() {
+function PartnerSpace() {
   return (
     <>
-      <SpaceLayout/>
+      <SpaceLayout />
     </>
   );
 }
-export default PartnerSpacePage;
+export default PartnerSpace;

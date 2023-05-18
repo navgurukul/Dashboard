@@ -6,7 +6,7 @@ import { useFetchPartnersQuery } from "../../../store";
 import PartnersTable from "../../../components/PartnersList/PartnersTable";
 import PartnerFilter from "../../../components/PartnersList/PartnerFilter";
 
-function PartnersListPage() {
+function PartnersList() {
   const { data, isLoading, error } = useFetchPartnersQuery();
 
   const { filteredData } = useSelector(
@@ -47,4 +47,4 @@ function PartnersListPage() {
   );
 }
 
-export default PartnersListPage;
+export default PartnersList;
