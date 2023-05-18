@@ -1,9 +1,10 @@
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+
+
+
+import React, { useEffect, useState } from "react";
+import { Box, Menu, MenuItem } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AddIcon from "@mui/icons-material/Add";
-import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
 import { useRemoveSpaceMutation } from "../../store";
 import UpdateSpaceModal from "./UpdateSpaceModal";
 import showToast from "../showToast";
@@ -16,6 +17,7 @@ function SpaceMenu({ space }) {
   const open = Boolean(anchorEl);
 
   const [openUpdateSpace, setOpenUpdateSpace] = useState(false);
+
   const handleOpenUpdateSpaceToggle = () => {
     setOpenUpdateSpace(!openUpdateSpace);
   };
@@ -23,6 +25,7 @@ function SpaceMenu({ space }) {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -93,3 +96,4 @@ function SpaceMenu({ space }) {
 }
 
 export default SpaceMenu;
+

@@ -4,7 +4,16 @@ import { Box } from "@mui/material";
 import { useAddSpaceMutation } from "../../store";
 import { useParams } from "react-router-dom";
 import showToast from "../showToast";
-
+import CloseIcon from "@mui/icons-material/Close";
+import {
+  Dialog,
+  Grid,
+  DialogTitle,
+  TableContainer,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@mui/material";
 const style = {
   position: "absolute",
   top: "50%",
@@ -60,17 +69,27 @@ const CreateSpaceModal = ({ boolean, onToggle }) => {
   };
 
   return (
-    <Box>
-      <Modal
-        open={boolean}
-        onClose={onToggle}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <Typography variant="h6">New Space</Typography>
+    <div>
+      <Dialog open={boolean} onClose={onToggle}>
+        <DialogContent>
+          <Grid container mb={3}>
+            <Grid item xs={11}>
+              <Typography variant="h6" component="h2">
+                New space
+              </Typography>
+            </Grid>
+            <Grid color="text.secondary" item xs={1}>
+              <CloseIcon
+                onClick={onToggle}
+                sx={{
+                  cursor: "pointer",
+                }}
+              />
+            </Grid>
+          </Grid>
             <TextField
+              margin="dense"
+              fullWidth
               value={values.name}
               onChange={handleChange}
               name="name"
@@ -85,20 +104,29 @@ const CreateSpaceModal = ({ boolean, onToggle }) => {
               label="Point of Contact Name (Optional)"
               value={values.pocName}
               onChange={handleChange}
+              margin="dense"
+              fullWidth
             />
             <TextField
               value={values.pocEmail}
               onChange={handleChange}
               name="pocEmail"
               label="Point of Contact (Optional)"
+              margin="dense"
+              fullWidth
             />
-            <Button onClick={handleSubmit} variant="contained">
-              Create a space
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
-    </Box>
+
+            </DialogContent>
+            <Box sx={{ pb: 2, px: 2 }}>
+            <DialogActions>
+              <Button  variant="contained" onClick={handleSubmit}>
+                create Partner
+              </Button>
+            </DialogActions>
+            </Box>
+            </Dialog>
+          
+    </div>
   );
 };
 

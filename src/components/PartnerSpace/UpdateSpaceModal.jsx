@@ -1,30 +1,29 @@
-import { useState, useEffect } from "react";
+
+import React, { useEffect, useState } from "react";
 import { Button, Modal, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/material";
 import { useUpdateSpaceMutation } from "../../store";
 import showToast from "../showToast";
+import CloseIcon from "@mui/icons-material/Close";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: "8px",
-  border: "none",
-};
+import {
+  Dialog,
+  Grid,
+  DialogTitle,
+  TableContainer,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@mui/material";
+
+
 
 const UpdateSpaceModal = ({ boolean, onToggle, space }) => {
   const [updateSpace, results] = useUpdateSpaceMutation();
-  console.log(results);
-  console.log(space);
   const [values, setValues] = useState({
-    name: space["space_name"],
-    pocName: space["point_of_contact_name"] || "",
-    pocEmail: space["email"] || "",
+    name: space?.space_name || "",
+    pocName: space?.point_of_contact_name || "",
+    pocEmail: space?.email || "",
   });
 
   useEffect(() => {
@@ -38,67 +37,80 @@ const UpdateSpaceModal = ({ boolean, onToggle, space }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const updatedValues = { ...values, [name]: value };
-    setValues(updatedValues);
+    setValues((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = () => {
-    let updatedSpace = {};
-    updatedSpace.spaceId = space.id;
-    updatedSpace["space_name"] = "";
-    if (values.name.trim()) {
-      updatedSpace["space_name"] = values.name;
-    }
-    if (values.pocName.trim()) {
-      updatedSpace["point_of_contact_name"] = values.pocName;
-    }
-    if (values.pocEmail.trim()) {
-      updatedSpace["email"] = values.pocEmail;
-    }
-    console.log(updatedSpace);
+    const updatedSpace = {
+      spaceId: space.id,
+      space_name: values.name,
+      point_of_contact_name: values.pocName,
+      email: values.pocEmail,
+    };
     updateSpace(updatedSpace);
   };
 
   return (
-    <Box>
-      <Modal
-        open={boolean}
-        onClose={onToggle}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <Typography variant="h6">Edit Space</Typography>
+    <div>
+    <Dialog open={boolean} onClose={onToggle}>
+    <DialogContent>
+      <Grid container mb={3}>
+        <Grid item xs={11}>
+          <Typography variant="h6" component="h2">
+            Edit space
+          </Typography>
+        </Grid>
+        <Grid color="text.secondary" item xs={1}>
+          <CloseIcon
+            onClick={onToggle}
+            sx={{
+              cursor: "pointer",
+            }}
+          />
+        </Grid>
+      </Grid>
             <TextField
               value={values.name}
               onChange={handleChange}
               name="name"
               label="Space Name"
+              margin="dense"
+              fullWidth
             />
             <Typography variant="body2" color="#6D6D6D">
-              Please fill the below fields if individual POC is required for
-              this space apart from the Partner's main POC
+              Please fill the below fields if individual POC is required for this space apart from the Partner's main POC
             </Typography>
             <TextField
               name="pocName"
               label="Point of Contact Name (Optional)"
               value={values.pocName}
               onChange={handleChange}
+              margin="dense"
+              fullWidth
             />
             <TextField
               value={values.pocEmail}
               onChange={handleChange}
               name="pocEmail"
               label="Point of Contact (Optional)"
+              margin="dense"
+              fullWidth
             />
-            <Button onClick={handleSubmit} variant="contained">
-              Update Space Details
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
-    </Box>
+            
+          </DialogContent>
+          <Box sx={{ pb: 2, px: 2 }}>
+            <DialogActions>
+              <Button  variant="contained" onClick={handleSubmit}>
+                Update Details
+              </Button>
+            </DialogActions>
+            </Box>
+          </Dialog>
+
+    </div>
   );
 };
 

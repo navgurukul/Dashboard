@@ -1,3 +1,11 @@
+
+
+
+
+
+
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -14,6 +22,8 @@ import SpaceList from "./SpaceList";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useFetchSinglePartnerQuery } from "../../store";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import SpaceMenu from "./SpaceMenu";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -23,6 +33,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
   justifyContent: "flex-start",
 }));
+const VerticalMoreVertIcon = styled(MoreVertIcon)({
+  transform: "rotate(90deg)",
+});
 
 function SpaceAside(value) {
   const { partnerId } = useParams();
@@ -39,6 +52,7 @@ function SpaceAside(value) {
   }, [data]);
 
   const [open, setOpen] = useState(false);
+  // const [menuAnchorEl, setMenuAnchorEl] = useState(null);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -46,8 +60,7 @@ function SpaceAside(value) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  return (
+   return (
     <>
       <Drawer
         sx={{
@@ -60,7 +73,6 @@ function SpaceAside(value) {
             position: "relative",
             border: "none",
             height: "calc(max-content - 80px)",
-            // border: "1px solid red"
           },
         }}
         variant="persistent"
@@ -78,24 +90,40 @@ function SpaceAside(value) {
         </DrawerHeader>
         {partner && (
           <>
-            <Typography sx={{ m: 3 }}>{partner.name}</Typography>
-            <Typography variant="subtitle2" sx={{ ml: 6 }}>
-              Spaces
-            </Typography>
-            <Button
-              variant="contained"
-              color="inherit"
-              sx={{ m: 2 }}
-              onClick={handleCreateSpaceToggle}
-            >
-              <Typography variant="subtitle2">New Spaces</Typography>
-            </Button>
-            <SpaceList partner={partner} />
-          </>
-        )}
-      </Drawer>
-    </>
-  );
+          <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            ml: 3,
+          }}
+        >
+          <Typography>{partner.name}</Typography>
+          
+          <SpaceMenu/>
+
+
+        </Box>
+        <Typography variant="subtitle2" sx={{ ml: 6 }}>
+          Spaces
+        </Typography>
+        <Button
+          variant="contained"
+          color="inherit"
+          sx={{ m: 2 }}
+          onClick={handleCreateSpaceToggle}
+        >
+          <Typography variant="subtitle2">New Spaces</Typography>
+        </Button>
+        <SpaceList partner={partner} />
+      </>
+    )}
+  </Drawer>
+</>
+);
 }
 
 export default SpaceAside;
+
+
+
