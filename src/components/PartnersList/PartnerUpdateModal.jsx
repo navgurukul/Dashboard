@@ -15,6 +15,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import { useUpdatePartnerMutation } from "../../store";
+import showToast from "../showToast";
 
 function PartnerUpdateModal({ boolean, onOpen, partner }) {
   const [updatePartner, results] = useUpdatePartnerMutation();
@@ -22,12 +23,12 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
 
   useEffect(() => {
     if (results.isSuccess) {
-      alert(results.data.status);
+      showToast("success", results.data.status);
       onOpen();
     } else if (results.isError) {
-      alert(results.error.data.status);
+      showToast("error", results.error.data.status);
     }
-  }, [results, onOpen]);
+  }, [results.isSuccess, results.isError]);
 
   const [values, setValues] = useState({
     partnerId: partner.id,
@@ -48,7 +49,7 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
       !values.point_of_contact_name.trim() ||
       !values.email.trim()
     ) {
-      alert("fill all fields");
+      showToast("error", "Fill all fields");
       return;
     } else {
       updatePartner(values);

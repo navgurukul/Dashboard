@@ -6,6 +6,7 @@ import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useRemoveSpaceMutation } from "../../store";
 import UpdateSpaceModal from "./UpdateSpaceModal";
+import showToast from "../showToast";
 
 const ITEM_HEIGHT = 48;
 
@@ -38,9 +39,9 @@ function SpaceMenu({ space }) {
 
   useEffect(() => {
     if (results.isSuccess) {
-      alert(results.data.status);
+      showToast("success", results.data.status);
     }
-  }, [results, handleDeleteClick]);
+  }, [results.isSuccess]);
 
   return (
     <div>
@@ -51,17 +52,22 @@ function SpaceMenu({ space }) {
           onToggle={handleOpenUpdateSpaceToggle}
         />
       )}
-      <Box
-        aria-label="more"
-        id="long-button"
-        aria-controls={open ? "long-menu" : undefined}
-        aria-expanded={open ? "true" : undefined}
-        aria-haspopup="true"
-        onClick={handleClick}
-        sx={{ display: "flex", gap: "14px" }}
-      >
-        <MoreHorizIcon sx={{ color: "text.primary", fontSize: "16px" }} />
-        <AddIcon sx={{ color: "text.primary", fontSize: "16px" }} />
+      <Box sx={{ display: "flex" }}>
+        <Box
+          aria-label="more"
+          id="long-button"
+          aria-controls={open ? "long-menu" : undefined}
+          aria-expanded={open ? "true" : undefined}
+          aria-haspopup="true"
+          onClick={handleClick}
+          sx={{ display: "flex", gap: "14px", marginRight: "8px" }}
+        >
+          <MoreHorizIcon sx={{ color: "text.primary", fontSize: "16px" }} />
+        </Box>
+        <AddIcon
+          // onClick={handleCreateBatchToggle}
+          sx={{ color: "text.primary", fontSize: "16px" }}
+        />
       </Box>
 
       <Menu
@@ -75,12 +81,11 @@ function SpaceMenu({ space }) {
         PaperProps={{
           style: {
             maxHeight: ITEM_HEIGHT * 4.5,
-            width: "14ch",
           },
         }}
       >
-        <MenuItem onClick={handleEditClick}>Edit</MenuItem>
-        <MenuItem onClick={handleClose}>Copy</MenuItem>
+        <MenuItem onClick={handleEditClick}>Edit Details</MenuItem>
+        <MenuItem onClick={handleClose}>Copy Link</MenuItem>
         <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
       </Menu>
     </div>

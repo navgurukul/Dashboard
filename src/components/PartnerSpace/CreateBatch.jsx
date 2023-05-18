@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import spaceShipImage from "./assets/student_illustration.svg";
 import { useOutletContext, useParams } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
 
 const CreateBatch = () => {
   const { handleCreateBatchToggle, createBatchOpen } = useOutletContext();
@@ -31,7 +32,12 @@ const CreateBatch = () => {
           // sx={{ mr: 2, marginLeft: "16px", ...(open && { display: "none" }) }}
           sx={{ m: 1 }}
         >
-          <Typography variant="subtitle2">Create Batch</Typography>
+          <Typography
+            variant="subtitle2"
+            sx={{ display: "flex", alignItems: "center" }}
+          >
+            <AddIcon sx={{ marginRight: "8px" }} /> Create Batch
+          </Typography>
         </Button>
       </Box>
     </>
