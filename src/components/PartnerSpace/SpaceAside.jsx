@@ -23,7 +23,6 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useFetchSinglePartnerQuery } from "../../store";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import SpaceMenu from "./SpaceMenu";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -100,7 +99,6 @@ function SpaceAside(value) {
         >
           <Typography>{partner.name}</Typography>
           
-          <SpaceMenu/>
 
 
         </Box>
