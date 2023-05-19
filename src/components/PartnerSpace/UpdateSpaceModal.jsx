@@ -1,9 +1,9 @@
 
-import React, { useEffect, useState } from "react";
+
+import { useState, useEffect } from "react";
 import { Button, Modal, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/material";
 import { useUpdateSpaceMutation } from "../../store";
-import showToast from "../showToast";
 import CloseIcon from "@mui/icons-material/Close";
 
 import {
@@ -14,42 +14,47 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-} from "@mui/material";
-
-
+} from "@mui/material"
 
 const UpdateSpaceModal = ({ boolean, onToggle, space }) => {
   const [updateSpace, results] = useUpdateSpaceMutation();
+  console.log(results);
+  console.log(space);
   const [values, setValues] = useState({
-    name: space?.space_name || "",
-    pocName: space?.point_of_contact_name || "",
-    pocEmail: space?.email || "",
+    name: space["space_name"],
+    pocName: space["point_of_contact_name"] || "",
+    pocEmail: space["email"] || "",
   });
-
+  
   useEffect(() => {
     if (results.isError) {
-      showToast("error", results.error.data.status);
+      alert(results.error.data.Error);
     } else if (results.isSuccess) {
-      showToast("success", results.data.status);
+      alert(results.data.status);
       onToggle();
     }
-  }, [results.isSuccess, results.isError]);
+  }, [results, onToggle]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setValues((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    const updatedValues = { ...values, [name]: value };
+    setValues(updatedValues);
   };
 
   const handleSubmit = () => {
-    const updatedSpace = {
-      spaceId: space.id,
-      space_name: values.name,
-      point_of_contact_name: values.pocName,
-      email: values.pocEmail,
-    };
+    let updatedSpace = {};
+    updatedSpace.spaceId = space.id;
+    updatedSpace["space_name"] = "";
+    if (values.name.trim()) {
+      updatedSpace["space_name"] = values.name;
+    }
+    if (values.pocName.trim()) {
+      updatedSpace["point_of_contact_name"] = values.pocName;
+    }
+    if (values.pocEmail.trim()) {
+      updatedSpace["email"] = values.pocEmail;
+    }
+    console.log(updatedSpace);
     updateSpace(updatedSpace);
   };
 
@@ -109,7 +114,6 @@ const UpdateSpaceModal = ({ boolean, onToggle, space }) => {
             </DialogActions>
             </Box>
           </Dialog>
-
     </div>
   );
 };

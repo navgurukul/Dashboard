@@ -100,7 +100,6 @@ function SpaceAside(value) {
           <Typography>{partner.name}</Typography>
           
 
-
         </Box>
         <Typography variant="subtitle2" sx={{ ml: 6 }}>
           Spaces
