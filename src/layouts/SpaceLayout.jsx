@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
-import SpaceAside from "../components/PartnerSpace/SpaceAside";
+import SpaceAside from "../components/Partner/SpaceAside";
 import { useState } from "react";
-import CreateSpaceModal from "../components/PartnerSpace/CreateSpaceModal";
-import CreateBatchModal from "../components/PartnerSpace/CreateBatchModal";
+import CreateSpaceModal from "../components/Partner/CreateSpaceModal";
+import CreateBatchModal from "../components/Partner/CreateBatchModal";
 
 function SpaceLayout() {
   const [createSpaceOpen, setCreateStateOpen] = useState(false);
