@@ -1,9 +1,9 @@
-import SpaceLayout from "../../../layouts/SpaceLayout";
+import PartnerLayout from "../../../layouts/PartnerLayout";
 
 function PartnerPage() {
   return (
     <>
-      <SpaceLayout />
+      <PartnerLayout />
     </>
   );
 }
