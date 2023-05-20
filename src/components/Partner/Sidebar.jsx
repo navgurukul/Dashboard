@@ -24,7 +24,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-start",
 }));
 
-function SpaceAside(value) {
+function Sidebar(value) {
   const { partnerId } = useParams();
   const { data, isLoading, error } = useFetchSinglePartnerQuery(partnerId);
   const { createSpaceOpen, handleCreateSpaceToggle } = value.value;
@@ -92,4 +92,4 @@ function SpaceAside(value) {
   );
 }
 
-export default SpaceAside;
+export default Sidebar;

@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // layouts
 import RootLayout from "./layouts/RootLayout";
-import SpaceLayout from "./layouts/SpaceLayout";
+import PartnerLayout from "./layouts/PartnerLayout";
 
 // pages
 import LoginPage from "./pages/login/LoginPage";
