@@ -11,7 +11,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Button } from "@mui/material";
 import SpaceList from "./SpaceList";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useFetchSinglePartnerQuery } from "../../store";
 
@@ -38,15 +38,6 @@ function SpaceAside(value) {
     }
   }, [data]);
 
-  const [open, setOpen] = useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   return (
     <>
       <Drawer
@@ -60,7 +51,6 @@ function SpaceAside(value) {
             position: "relative",
             border: "none",
             height: "calc(max-content - 80px)",
-            // border: "1px solid red"
           },
         }}
         variant="persistent"
@@ -68,27 +58,31 @@ function SpaceAside(value) {
         open={true}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
+          <Link to="/">
+            <IconButton>
               <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
+            </IconButton>
+          </Link>
         </DrawerHeader>
         {partner && (
           <>
             <Typography sx={{ m: 3 }}>{partner.name}</Typography>
-            <Typography     style={{fontSize:"14px",fontWeight:"600", marginLeft:"16px" }} >
+            <Typography
+              style={{
+                fontSize: "14px",
+                fontWeight: "600",
+                marginLeft: "16px",
+              }}
+            >
               Spaces
             </Typography>
             <Button
               variant="contained"
               color="inherit"
-              style={{width: "240px" , margin:"16px"}}
+              style={{ width: "240px", margin: "16px" }}
               onClick={handleCreateSpaceToggle}
             >
-              <Typography  style={{fontSize:"14px",}} >New Spaces</Typography>
+              <Typography style={{ fontSize: "14px" }}>New Space</Typography>
             </Button>
             <SpaceList partner={partner} />
           </>
