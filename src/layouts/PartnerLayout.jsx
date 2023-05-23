@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import SpaceAside from "../components/PartnerSpace/SpaceAside";
+import Sidebar from "../components/Partner/Sidebar";
 import { useState } from "react";
-import CreateSpaceModal from "../components/PartnerSpace/CreateSpaceModal";
-import CreateBatchModal from "../components/PartnerSpace/CreateBatchModal";
+import CreateSpaceModal from "../components/Partner/CreateSpaceModal";
+import CreateBatchModal from "../components/Partner/CreateBatchModal";
 
-function SpaceLayout() {
+function PartnerLayout() {
   const [createSpaceOpen, setCreateStateOpen] = useState(false);
   const [createBatchOpen, setCreateBatchOpen] = useState(false);
 
@@ -25,7 +25,7 @@ function SpaceLayout() {
 
   return (
     <main style={{ display: "flex", height: "calc(100vh-80px)" }}>
-      <SpaceAside value={valueToShare} />
+      <Sidebar value={valueToShare} />
       <Outlet context={valueToShare} />
       {createSpaceOpen && (
         <CreateSpaceModal
@@ -43,4 +43,4 @@ function SpaceLayout() {
   );
 }
 
-export default SpaceLayout;
+export default PartnerLayout;

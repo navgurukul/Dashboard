@@ -3,45 +3,39 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import spaceShipImage from "./assets/student_illustration.svg";
-import { useOutletContext, useParams } from "react-router-dom";
-import AddIcon from "@mui/icons-material/Add";
+import { useOutletContext } from "react-router-dom";
 
-const CreateBatch = () => {
-  const { handleCreateBatchToggle, createBatchOpen } = useOutletContext();
+const CreateSpace = () => {
+  const { handleCreateSpaceToggle, createSpaceOpen } = useOutletContext();
 
   return (
     <>
       <Box
         sx={{
           textAlign: "center",
-          mt: 10,
+          mt: 16,
           width: "100%",
           // border:"1px solid red"
         }}
       >
         <img src={spaceShipImage} alt="" />
         <Typography sx={{ fontSize: "14px", ml: 2 }}>
-          Let's create the first batch to start listing students
+          Let's create the first space to get started
         </Typography>
 
         <Button
           variant="contained"
           aria-label="open drawer"
-          onClick={handleCreateBatchToggle}
+          onClick={handleCreateSpaceToggle}
           edge="start"
           // sx={{ mr: 2, marginLeft: "16px", ...(open && { display: "none" }) }}
-          sx={{ m: 1 }}
+          style={{ margin:"10px", width:"135px", height:"48px", borderRadius:"8px" }}
         >
-          <Typography
-            variant="subtitle2"
-            sx={{ display: "flex", alignItems: "center" }}
-          >
-            <AddIcon sx={{ marginRight: "8px" }} /> Create Batch
-          </Typography>
+          <Typography variant="subtitle2">New Spaces</Typography>
         </Button>
       </Box>
     </>
   );
 };
 
-export default CreateBatch;
+export default CreateSpace;

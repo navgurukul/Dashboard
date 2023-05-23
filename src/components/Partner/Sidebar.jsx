@@ -11,7 +11,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Button } from "@mui/material";
 import SpaceList from "./SpaceList";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useFetchSinglePartnerQuery } from "../../store";
 
@@ -24,7 +24,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-start",
 }));
 
-function SpaceAside(value) {
+function Sidebar(value) {
   const { partnerId } = useParams();
   const { data, isLoading, error } = useFetchSinglePartnerQuery(partnerId);
   const { createSpaceOpen, handleCreateSpaceToggle } = value.value;
@@ -37,15 +37,6 @@ function SpaceAside(value) {
       setPartner(partnerData);
     }
   }, [data]);
-
-  const [open, setOpen] = useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
 
   return (
     <>
@@ -60,7 +51,6 @@ function SpaceAside(value) {
             position: "relative",
             border: "none",
             height: "calc(max-content - 80px)",
-            // border: "1px solid red"
           },
         }}
         variant="persistent"
@@ -68,27 +58,31 @@ function SpaceAside(value) {
         open={true}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
+          <Link to="/">
+            <IconButton>
               <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
+            </IconButton>
+          </Link>
         </DrawerHeader>
         {partner && (
           <>
             <Typography sx={{ m: 3 }}>{partner.name}</Typography>
-            <Typography variant="subtitle2" sx={{ ml: 6 }}>
+            <Typography
+              style={{
+                fontSize: "14px",
+                fontWeight: "600",
+                marginLeft: "16px",
+              }}
+            >
               Spaces
             </Typography>
             <Button
               variant="contained"
               color="inherit"
-              sx={{ m: 2 }}
+              style={{ width: "240px", margin: "16px" }}
               onClick={handleCreateSpaceToggle}
             >
-              <Typography variant="subtitle2">New Spaces</Typography>
+              <Typography style={{ fontSize: "14px" }}>New Space</Typography>
             </Button>
             <SpaceList partner={partner} />
           </>
@@ -98,4 +92,4 @@ function SpaceAside(value) {
   );
 }
 
-export default SpaceAside;
+export default Sidebar;
