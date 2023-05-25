@@ -4,13 +4,21 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AddIcon from "@mui/icons-material/Add";
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
-import showToast from "../../showToast";
+import { useRemoveSpaceMutation } from "../../store";
+import UpdateSpaceModal from "./UpdateSpaceModal";
+import showToast from "../showToast";
 
 const ITEM_HEIGHT = 48;
 
-function GroupMenu({ group }) {
+function SpaceMenu({ space }) {
+  const [removeSpace, results] = useRemoveSpaceMutation();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const [openUpdateSpace, setOpenUpdateSpace] = useState(false);
+  const handleOpenUpdateSpaceToggle = () => {
+    setOpenUpdateSpace(!openUpdateSpace);
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -19,8 +27,31 @@ function GroupMenu({ group }) {
     setAnchorEl(null);
   };
 
+  const handleDeleteClick = () => {
+    removeSpace(space);
+    setAnchorEl(null);
+  };
+
+  const handleEditClick = () => {
+    handleOpenUpdateSpaceToggle();
+    setAnchorEl(null);
+  };
+
+  useEffect(() => {
+    if (results.isSuccess) {
+      showToast("success", results.data.status);
+    }
+  }, [results.isSuccess]);
+
   return (
     <div>
+      {openUpdateSpace && (
+        <UpdateSpaceModal
+          space={space}
+          boolean={openUpdateSpace}
+          onToggle={handleOpenUpdateSpaceToggle}
+        />
+      )}
       <Box sx={{ display: "flex" }}>
         <Box
           aria-label="more"
@@ -34,10 +65,11 @@ function GroupMenu({ group }) {
           <MoreHorizIcon sx={{ color: "text.primary", fontSize: "16px" }} />
         </Box>
         <AddIcon
-          // onClick={handleCreateGroupToggle}
+          // onClick={handleCreateBatchToggle}
           sx={{ color: "text.primary", fontSize: "16px" }}
         />
       </Box>
+
       <Menu
         id="long-menu"
         MenuListProps={{
@@ -49,16 +81,15 @@ function GroupMenu({ group }) {
         PaperProps={{
           style: {
             maxHeight: ITEM_HEIGHT * 4.5,
-            width: "140px",
           },
         }}
       >
-        <MenuItem>Edit Details</MenuItem>
-        <MenuItem>Copy Link</MenuItem>
-        <MenuItem>Delete</MenuItem>
+        <MenuItem onClick={handleEditClick}>Edit Details</MenuItem>
+        <MenuItem onClick={handleClose}>Copy Link</MenuItem>
+        <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
       </Menu>
     </div>
   );
 }
 
-export default GroupMenu;
+export default SpaceMenu;
