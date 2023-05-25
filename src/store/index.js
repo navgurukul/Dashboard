@@ -3,7 +3,6 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { authReducer } from "./slices/authSlice";
 import { spacesApi } from "./apis/spacesApi";
 import { partnersApi } from "./apis/partnersApi";
-import { groupsApi } from "./apis/groupsApi";
 
 import {
   changeSearchTerm,
@@ -18,13 +17,11 @@ const store = configureStore({
     partnerFilter: partnerFilterReducer,
     [partnersApi.reducerPath]: partnersApi.reducer,
     [spacesApi.reducerPath]: spacesApi.reducer,
-    [groupsApi.reducerPath]: groupsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
       .concat(partnersApi.middleware)
-      .concat(spacesApi.middleware)
-      .concat(groupsApi.middleware);
+      .concat(spacesApi.middleware);
   },
 });
 
@@ -44,7 +41,5 @@ export {
   useRemoveSpaceMutation,
   useUpdateSpaceMutation,
 } from "./apis/spacesApi";
-
-export { useFetchGroupsQuery, useAddGroupMutation } from "./apis/groupsApi";
 
 export { store, changeSearchTerm, clearSearchTerm, changeFilterBy };

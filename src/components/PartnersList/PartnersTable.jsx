@@ -90,7 +90,7 @@ const typographyStyles4 = {
 
 function PartnersTable({ data }) {
   const [removePartner, results] = useRemovePartnerMutation();
-
+  console.log(results);
   const [open, setOpen] = useState(false);
   const [updateData, setUpdateData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);

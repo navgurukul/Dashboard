@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Button, Modal, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/material";
+import { useAddSpaceMutation } from "../../store";
 import { useParams } from "react-router-dom";
-import showToast from "../../showToast";
+import showToast from "../showToast";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
@@ -13,15 +14,15 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
-import { useAddGroupMutation } from "../../../store";
 
-const CreateGroupModal = ({ boolean, onToggle }) => {
-  const { spaceId } = useParams();
-  const [addGroup, results] = useAddGroupMutation();
+const CreateSpaceModal = ({ boolean, onToggle }) => {
+  const { partnerId } = useParams();
+  const [addSpace, results] = useAddSpaceMutation();
   console.log(results);
-
   const [values, setValues] = useState({
     name: "",
+    pocName: "",
+    pocEmail: "",
   });
 
   useEffect(() => {
@@ -40,12 +41,18 @@ const CreateGroupModal = ({ boolean, onToggle }) => {
   };
 
   const handleSubmit = () => {
-    let group = { spaceId: spaceId };
-    if (!values.name.trim()) return;
+    let space = { partnerId: partnerId };
+    space["space_name"] = "";
     if (values.name.trim()) {
-      group["group_name"] = values.name;
+      space["space_name"] = values.name;
     }
-    addGroup(group);
+    if (values.pocName.trim()) {
+      space["point_of_contact_name"] = values.pocName;
+    }
+    if (values.pocEmail.trim()) {
+      space["email"] = values.pocEmail;
+    }
+    addSpace(space);
   };
 
   return (
@@ -55,7 +62,7 @@ const CreateGroupModal = ({ boolean, onToggle }) => {
           <Grid container mb={3}>
             <Grid item xs={11}>
               <Typography variant="h6" component="h2">
-                New Student Group
+                New space
               </Typography>
             </Grid>
             <Grid color="text.secondary" item xs={1}>
@@ -73,17 +80,33 @@ const CreateGroupModal = ({ boolean, onToggle }) => {
             value={values.name}
             onChange={handleChange}
             name="name"
-            label="Group Name"
+            label="Space Name"
           />
           <Typography variant="body2" color="#6D6D6D">
-            Students can be added to the group later by sharing invite link or
-            through the dashboard single or in bulk
+            Please fill the below fields if individual POC is required for this
+            space apart from the Partner's main POC
           </Typography>
+          <TextField
+            name="pocName"
+            label="Point of Contact Name (Optional)"
+            value={values.pocName}
+            onChange={handleChange}
+            margin="dense"
+            fullWidth
+          />
+          <TextField
+            value={values.pocEmail}
+            onChange={handleChange}
+            name="pocEmail"
+            label="Point of Contact (Optional)"
+            margin="dense"
+            fullWidth
+          />
         </DialogContent>
         <Box sx={{ pb: 2, px: 2 }}>
           <DialogActions>
-            <Button onClick={handleSubmit} variant="contained">
-              Create Student Group
+            <Button variant="contained" onClick={handleSubmit}>
+              create Space
             </Button>
           </DialogActions>
         </Box>
@@ -92,4 +115,4 @@ const CreateGroupModal = ({ boolean, onToggle }) => {
   );
 };
 
-export default CreateGroupModal;
+export default CreateSpaceModal;

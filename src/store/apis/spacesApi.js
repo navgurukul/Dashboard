@@ -17,6 +17,9 @@ const spacesApi = createApi({
         query: (partner) => {
           return {
             url: `/space/${partner.id}`,
+            // params: {
+            //   ["partner_id"]: partner.id,
+            // },
             method: "GET",
           };
         },
@@ -28,7 +31,7 @@ const spacesApi = createApi({
           return {
             url: "/create/newspace",
             params: {
-              partner_id: partnerId,
+              ["partner_id"]: partnerId,
             },
             body: {
               ...rest,
