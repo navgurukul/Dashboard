@@ -57,6 +57,14 @@ const spacesApi = createApi({
           };
         },
       }),
+      fetchSingleSpace: builder.query({
+        query: (spaceId) => {
+          return {
+            url: `/space/${spaceId}`,
+            method: "GET",
+          };
+        },
+      }),
     };
   },
 });
@@ -66,6 +74,7 @@ export const {
   useAddSpaceMutation,
   useRemoveSpaceMutation,
   useUpdateSpaceMutation,
+  useFetchSingleSpaceQuery,
 } = spacesApi;
 
 export { spacesApi };

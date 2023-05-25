@@ -1,8 +1,18 @@
 import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import { Link } from "@mui/icons-material";
 import AddStudents from "../../../components/Partner/Group/AddStudents";
+import { useParams } from "react-router-dom";
+import {
+  useFetchSingleGroupQuery,
+  useFetchSingleSpaceQuery,
+} from "../../../store";
 
 function GroupPage() {
+  const { spaceId, groupId } = useParams();
+  // const { data, isLoading, error } = useFetchSingleSpaceQuery(spaceId);
+  const { data, isLoading, error } = useFetchSingleGroupQuery(groupId);
+  const groupName = data?.[0]?.group_name;
+
   return (
     <div
       style={{
@@ -12,7 +22,7 @@ function GroupPage() {
       }}
     >
       <Typography sx={{ py: 2 }} variant="body2">
-        Ahaan Bengaluru/ Student Group 1
+        Ahaan Bengaluru/{groupName}
       </Typography>
       <Stack spacing={2}>
         <Typography variant="subtitle2">Invite Link</Typography>

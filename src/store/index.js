@@ -43,8 +43,13 @@ export {
   useAddSpaceMutation,
   useRemoveSpaceMutation,
   useUpdateSpaceMutation,
+  useFetchSingleSpaceQuery,
 } from "./apis/spacesApi";
 
-export { useFetchGroupsQuery, useAddGroupMutation } from "./apis/groupsApi";
+export {
+  useFetchGroupsQuery,
+  useAddGroupMutation,
+  useFetchSingleGroupQuery,
+} from "./apis/groupsApi";
 
 export { store, changeSearchTerm, clearSearchTerm, changeFilterBy };

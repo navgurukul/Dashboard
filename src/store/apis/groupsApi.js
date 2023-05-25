@@ -38,9 +38,21 @@ const groupsApi = createApi({
           };
         },
       }),
+      fetchSingleGroup: builder.query({
+        query: (groupId) => {
+          return {
+            url: `/groupBy/${groupId}`,
+            method: `GET`,
+          };
+        },
+      }),
     };
   },
 });
 
-export const { useFetchGroupsQuery, useAddGroupMutation } = groupsApi;
+export const {
+  useFetchGroupsQuery,
+  useAddGroupMutation,
+  useFetchSingleGroupQuery,
+} = groupsApi;
 export { groupsApi };
