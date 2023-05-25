@@ -6,17 +6,20 @@ import RootLayout from "./layouts/RootLayout";
 import PartnerLayout from "./layouts/PartnerLayout";
 
 // pages
-import LoginPage from "./pages/login/LoginPage";
 import PartnersListPage from "./pages/partners/PartnersList/PartnersListPage";
+import LoginPage from "./pages/login/LoginPage";
 import PartnerPage from "./pages/partners/Partner/PartnerPage";
-import theme from "./theme/theme";
-// import BatchPage from "./pages/partners/Batch/BatchPage";
-import CreateSpace from "./components/Partner/CreateSpace";
+import GroupPage from "./pages/partners/Group/GroupPage";
 
-import CreateBatch from "./components/Partner/CreateBatch";
+//components
+import theme from "./theme/theme";
+import CreateGroup from "./components/Partner/Group/CreateGroup";
+import CreateSpace from "./components/Partner/Space/CreateSpace";
 import BatchPage from "./pages/partners/Batch/BatchPage";
 import StudentList from "./components/StudentList/StudentList";
 import AttandanceList from "./components/AttandanceList/AttandanceList";
+
+// library
 import { ThemeProvider } from "@mui/material";
 
 const router = createBrowserRouter([
@@ -31,13 +34,17 @@ const router = createBrowserRouter([
         element: <PartnerPage />,
         children: [
           { index: true, element: <CreateSpace /> },
-          { path: "space/:spaceId", element: <CreateBatch /> },
+          {
+            path: "space/:spaceId",
+            element: <CreateGroup />,
+          },
+          { path: "space/:spaceId/group/:groupId", element: <GroupPage /> },
           {
             path: "batch",
             element: <BatchPage />,
             children: [
               { index: true, element: <StudentList /> },
-              { path: "attandance", element: <AttandanceList /> },
+              { path: "attendance", element: <AttandanceList /> },
             ],
           },
         ],
