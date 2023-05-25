@@ -34,7 +34,7 @@ function GroupItem({ group }) {
 
   return (
     <>
-      <NavLink to={`space/${spaceId}/group/${group.id}`}>
+      <NavLink to={`space/${group.space_id}/group/${group.id}`}>
         <ListItemButton
           // selected={index === selected}
           sx={{

@@ -8,7 +8,12 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { NavLink, useOutletContext } from "react-router-dom";
+import {
+  NavLink,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from "react-router-dom";
 import SpaceMenu from "./SpaceMenu";
 import spaceItemSvg from "../assets/spaceitem.svg";
 import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";

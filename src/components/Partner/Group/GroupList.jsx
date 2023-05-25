@@ -2,6 +2,7 @@ import { List, ListItemButton, Typography } from "@mui/material";
 import { useFetchGroupsQuery } from "../../../store";
 import GroupItem from "./GroupItem";
 import { Add } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 function GroupList({ space, handleCreateGroupToggle }) {
   const { data, loading, isError } = useFetchGroupsQuery(space);
@@ -13,27 +14,29 @@ function GroupList({ space, handleCreateGroupToggle }) {
     content = <p>Error fetching groups</p>;
   } else if (!data?.length) {
     content = (
-      <ListItemButton
-        onClick={handleCreateGroupToggle}
-        sx={{
-          color: "text.primary",
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-          pl: 5.5,
-        }}
-      >
-        <Add sx={{ color: "#6d6d6d", width: "20px", height: "20px" }} />
-        <Typography
-          flex={1}
+      <Link to={`space/${space.id}`}>
+        <ListItemButton
+          onClick={handleCreateGroupToggle}
           sx={{
-            fontSize: "14px",
-            // fontWeight: index === selected ? 600 : 400,
+            color: "text.primary",
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            pl: 5.5,
           }}
         >
-          Add Student Group
-        </Typography>
-      </ListItemButton>
+          <Add sx={{ color: "#6d6d6d", width: "20px", height: "20px" }} />
+          <Typography
+            flex={1}
+            sx={{
+              fontSize: "14px",
+              // fontWeight: index === selected ? 600 : 400,
+            }}
+          >
+            Add Student Group
+          </Typography>
+        </ListItemButton>
+      </Link>
     );
   } else {
     content = data.map((group) => {
