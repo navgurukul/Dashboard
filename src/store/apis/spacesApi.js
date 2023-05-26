@@ -60,7 +60,7 @@ const spacesApi = createApi({
       fetchSingleSpace: builder.query({
         query: (spaceId) => {
           return {
-            url: `/space/${spaceId}`,
+            url: `/spaceby/${spaceId}`,
             method: "GET",
           };
         },

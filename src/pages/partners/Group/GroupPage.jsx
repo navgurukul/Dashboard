@@ -9,9 +9,19 @@ import {
 
 function GroupPage() {
   const { spaceId, groupId } = useParams();
-  // const { data, isLoading, error } = useFetchSingleSpaceQuery(spaceId);
-  const { data, isLoading, error } = useFetchSingleGroupQuery(groupId);
-  const groupName = data?.[0]?.group_name;
+  console.log(spaceId, groupId);
+  const {
+    data: spaceData,
+    isLoading: spaceIsLoading,
+    error: spaceError,
+  } = useFetchSingleSpaceQuery(spaceId);
+  const {
+    data: groupData,
+    isLoading: groupIsLoading,
+    error: groupError,
+  } = useFetchSingleGroupQuery(groupId);
+  const space = spaceData?.data?.[0];
+  const group = groupData?.[0];
 
   return (
     <div
@@ -21,9 +31,14 @@ function GroupPage() {
         paddingLeft: "20px",
       }}
     >
-      <Typography sx={{ py: 2 }} variant="body2">
-        Ahaan Bengaluru/{groupName}
-      </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", py: 2 }}>
+        <Typography pr={0.5} variant="body2">
+          {space?.space_name}
+        </Typography>
+        <Typography variant="body2" color="primary.main">
+          / {group?.group_name}
+        </Typography>
+      </Box>
       <Stack spacing={2}>
         <Typography variant="subtitle2">Invite Link</Typography>
         <Typography variant="body2">
