@@ -10,10 +10,11 @@ import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Button } from "@mui/material";
-import SpaceList from "./SpaceList";
+import SpaceList from "../Space/SpaceList";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useFetchSinglePartnerQuery } from "../../store";
+import { useFetchSinglePartnerQuery } from "../../../store";
+import { Add } from "@mui/icons-material";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -27,7 +28,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 function Sidebar(value) {
   const { partnerId } = useParams();
   const { data, isLoading, error } = useFetchSinglePartnerQuery(partnerId);
-  const { createSpaceOpen, handleCreateSpaceToggle } = value.value;
+  const { createSpaceOpen, handleCreateSpaceToggle, handleCreateGroupToggle } =
+    value.value;
   const [partner, setPartner] = useState(null);
   const theme = useTheme();
 
@@ -45,7 +47,7 @@ function Sidebar(value) {
           width: 272,
           flexShrink: 0,
           "& .MuiDrawer-paper": {
-            bgcolor: "#FAFAFA",
+            // bgcolor: "#FAFAFA",
             width: 272,
             boxSizing: "border-box",
             position: "relative",
@@ -58,33 +60,60 @@ function Sidebar(value) {
         open={true}
       >
         <DrawerHeader>
-          <Link to="/">
+          <Link
+            to="/"
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <IconButton>
               <ChevronLeftIcon />
             </IconButton>
+            <Typography
+              variant="span"
+              component="span"
+              fontFamily="Noto Sans"
+              sx={{ fontSize: "14px" }}
+              fontWeight="600"
+              color="text.primary"
+            >
+              Back
+            </Typography>
           </Link>
         </DrawerHeader>
         {partner && (
           <>
-            <Typography sx={{ m: 3 }}>{partner.name}</Typography>
             <Typography
+              sx={{ ml: 2, mb: 2, fontWeight: 600, fontSize: "18px" }}
+            >
+              {partner.name}
+            </Typography>
+            <Typography
+              color="text.secondary"
               style={{
                 fontSize: "14px",
                 fontWeight: "600",
                 marginLeft: "16px",
               }}
             >
-              Spaces
+              Partner Spaces
             </Typography>
             <Button
               variant="contained"
               color="inherit"
-              style={{ width: "240px", margin: "16px" }}
+              sx={{ width: "240px", margin: "16px", height: "40px" }}
               onClick={handleCreateSpaceToggle}
+              startIcon={<Add sx={{ height: "18px", width: "18px" }} />}
             >
-              <Typography style={{ fontSize: "14px" }}>New Space</Typography>
+              <Typography sx={{ fontSize: "14px", fontWeight: "600" }}>
+                New Space
+              </Typography>
             </Button>
-            <SpaceList partner={partner} />
+            <SpaceList
+              partner={partner}
+              handleCreateGroupToggle={handleCreateGroupToggle}
+            />
           </>
         )}
       </Drawer>

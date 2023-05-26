@@ -2,40 +2,46 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
-import spaceShipImage from "./assets/student_illustration.svg";
+import spaceShipImage from "../assets/student_illustration.svg";
 import { useOutletContext } from "react-router-dom";
+import { Add } from "@mui/icons-material";
 
-const CreateSpace = () => {
-  const { handleCreateSpaceToggle, createSpaceOpen } = useOutletContext();
+const CreateGroup = () => {
+  const { handleCreateGroupToggle, createGroupOpen } = useOutletContext();
 
   return (
     <>
       <Box
         sx={{
           textAlign: "center",
-          mt: 16,
+          bgcolor: "#FAFAFA",
+          pt: 10,
           width: "100%",
           // border:"1px solid red"
         }}
       >
         <img src={spaceShipImage} alt="" />
         <Typography sx={{ fontSize: "14px", ml: 2 }}>
-          Let's create the first space to get started
+          Get started by adding group and student details
         </Typography>
 
         <Button
           variant="contained"
           aria-label="open drawer"
-          onClick={handleCreateSpaceToggle}
+          onClick={handleCreateGroupToggle}
           edge="start"
+          startIcon={<Add />}
           // sx={{ mr: 2, marginLeft: "16px", ...(open && { display: "none" }) }}
-          style={{ margin:"10px", width:"135px", height:"48px", borderRadius:"8px" }}
+          sx={{
+            margin: "10px",
+            borderRadius: "8px",
+          }}
         >
-          <Typography variant="subtitle2">New Spaces</Typography>
+          <Typography variant="subtitle2">Add Student Group</Typography>
         </Button>
       </Box>
     </>
   );
 };
 
-export default CreateSpace;
+export default CreateGroup;

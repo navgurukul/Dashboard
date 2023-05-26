@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const spacesApi = createApi({
   reducerPath: "spaces",
   baseQuery: fetchBaseQuery({
-    baseUrl: `https://dev-api.navgurukul.org/apiDocs/partners`,
+    baseUrl: `https://merd-api.merakilearn.org/partners`,
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) headers.set(`authorization`, `Bearer ${token}`);
@@ -17,9 +17,6 @@ const spacesApi = createApi({
         query: (partner) => {
           return {
             url: `/space/${partner.id}`,
-            // params: {
-            //   ["partner_id"]: partner.id,
-            // },
             method: "GET",
           };
         },
@@ -31,7 +28,7 @@ const spacesApi = createApi({
           return {
             url: "/create/newspace",
             params: {
-              ["partner_id"]: partnerId,
+              partner_id: partnerId,
             },
             body: {
               ...rest,
@@ -60,6 +57,14 @@ const spacesApi = createApi({
           };
         },
       }),
+      fetchSingleSpace: builder.query({
+        query: (spaceId) => {
+          return {
+            url: `/space/${spaceId}`,
+            method: "GET",
+          };
+        },
+      }),
     };
   },
 });
@@ -69,6 +74,7 @@ export const {
   useAddSpaceMutation,
   useRemoveSpaceMutation,
   useUpdateSpaceMutation,
+  useFetchSingleSpaceQuery,
 } = spacesApi;
 
 export { spacesApi };
