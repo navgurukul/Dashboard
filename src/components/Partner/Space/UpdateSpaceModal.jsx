@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Button, Modal, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/material";
-import { useUpdateSpaceMutation } from "../../store";
-import showToast from "../showToast";
+import { useUpdateSpaceMutation } from "../../../store";
+import showToast from "../../showToast";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
@@ -16,8 +16,7 @@ import {
 
 const UpdateSpaceModal = ({ boolean, onToggle, space }) => {
   const [updateSpace, results] = useUpdateSpaceMutation();
-  console.log(results);
-  console.log(space);
+
   const [values, setValues] = useState({
     name: space["space_name"],
     pocName: space["point_of_contact_name"] || "",
