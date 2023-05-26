@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 import { useFetchPartnersQuery } from "../../../store";
 
 //components
-import PartnersTable from "../../../components/PartnersList/PartnersTable";
+// import PartnersTable from "../../../components/PartnersList/PartnersTable";
+import NewMuiTable from "../../../components/PartnersList/NewMuiTable";
 import PartnerFilter from "../../../components/PartnersList/PartnerFilter";
 
 function PartnersListPage() {
@@ -34,12 +35,12 @@ function PartnersListPage() {
   } else if (error) {
     <h1>Error fetching partners...</h1>;
   } else {
-    content = <PartnersTable data={filteredData} />;
+    content = <NewMuiTable data={filteredData} />;
   }
 
   return (
     <>
-      <Container>
+      <Container   >
         <PartnerFilter />
         {content}
       </Container>
