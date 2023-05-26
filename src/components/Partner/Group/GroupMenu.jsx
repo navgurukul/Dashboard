@@ -5,12 +5,15 @@ import AddIcon from "@mui/icons-material/Add";
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import showToast from "../../showToast";
+import CreateBatchModal from "../CreateBatchModal";
 
 const ITEM_HEIGHT = 48;
 
 function GroupMenu({ group }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [createBatchOpen, setCreateBatchOpen] = useState(false);
+  const handleCreateBatchToggle = () => setCreateBatchOpen(!createBatchOpen);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -18,9 +21,21 @@ function GroupMenu({ group }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  // handleCreateBatchDropdown = () => {
+  //   return(
+  //     <>
+  //     {/* <CreateBatchModal/> */}
+  //     </>
+  //   )
+  // };
   return (
     <div>
+      {createBatchOpen && (
+        <CreateBatchModal
+          onToggle={handleCreateBatchToggle}
+          boolean={createBatchOpen}
+        />
+      )}
       <Box sx={{ display: "flex" }}>
         <Box
           aria-label="more"
@@ -34,7 +49,8 @@ function GroupMenu({ group }) {
           <MoreHorizIcon sx={{ color: "text.primary", fontSize: "16px" }} />
         </Box>
         <AddIcon
-          // onClick={handleCreateGroupToggle}
+          onClick={handleCreateBatchToggle}
+          // onClick= {<CreateBatchModal/>}
           sx={{ color: "text.primary", fontSize: "16px" }}
         />
       </Box>
