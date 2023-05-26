@@ -8,7 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import React, { useState, useEffect } from "react";
 import showToast from "../showToast";
 import PartnerUpdateModal from "./PartnerUpdateModal";
-
+import { Link } from "react-router-dom"; 
 import { useRemovePartnerMutation } from "../../store";
 
 const options = {
@@ -29,8 +29,8 @@ const NewMuiTable = () => {
       name: "point_of_contact_name",
       label: "Point of Contact",
       options: {
-        filter: false,
-        sort: false,
+        filter: true,
+        sort: true,
       },
     },
     {
@@ -46,7 +46,7 @@ const NewMuiTable = () => {
       label: "Number of Students",
       options: {
         filter: false,
-        sort: false,
+        sort: true,
       },
     },
     {
@@ -65,8 +65,9 @@ const NewMuiTable = () => {
         sort: false,
         empty: true,
         customBodyRender: (_, tableMeta) => {
-          const partnerId = renderedData[tableMeta.rowIndex];
-
+          const partnerId = renderedData[tableMeta.rowIndex].id;
+          //  console.log(partnerId)
+          // console.log(columns)
           return (
             <>
               <Button
@@ -93,14 +94,20 @@ const NewMuiTable = () => {
               >
                 <DeleteIcon />
               </Button>
+              <Link
+                to={`/partner/${partnerId}`}
+                style={{ textDecoration: "none", color: "black" }}
+                 
+              >
+                <Button size="small">View</Button>
+              </Link>
             </>
           );
         },
       },
     },
-  ];
+  ]; 
 
-  // const [removePartner, { isSuccess }] = useRemovePartnerMutation();
   const [open, setOpen] = useState(false);
   const [updateData, setUpdateData] = useState(null);
 
@@ -114,11 +121,7 @@ const NewMuiTable = () => {
     }
   }, [results.isSuccess]);
 
-  // const handleDeleteClick = (rowData) => {
-  //   console.log(rowData)
-  //   removePartner(rowData);
-  // };
-
+  
   const handleDeleteClick = (partnerId) => {
     removePartner(partnerId);
   };
@@ -139,9 +142,7 @@ const NewMuiTable = () => {
           partner={updateData}
         />
       )}
-      <div
-        style={{margin: "0px auto"}}
-      >
+      <div style={{ margin: "0px auto" }}>
         <MUIDataTable
           title={"Partner List"}
           data={renderedData}
