@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const spacesApi = createApi({
   reducerPath: "spaces",
   baseQuery: fetchBaseQuery({
-    baseUrl: `https://dev-api.navgurukul.org/apiDocs/partners`,
+    baseUrl: `https://merd-api.merakilearn.org/partners`,
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) headers.set(`authorization`, `Bearer ${token}`);
