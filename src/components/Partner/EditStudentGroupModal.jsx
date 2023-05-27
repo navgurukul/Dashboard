@@ -1,8 +1,9 @@
+//26-05
 import { useState, useEffect } from "react";
 import { Button, Modal, TextField, Typography, Box } from "@mui/material";
-import { useAddSpaceMutation } from "../../store";
 import { useParams } from "react-router-dom";
 import showToast from "../showToast";
+import { useUpdateGroupMutation } from "../../store";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
@@ -14,14 +15,12 @@ import {
   DialogActions,
 } from "@mui/material";
 
-const EditStudentGroupModal = ({ boolean, onToggle }) => {
-  const { partnerId } = useParams();
-  const [addSpace, results] = useAddSpaceMutation();
+const EditStudentGroupModal = ({ boolean, onToggle,group }) => {
+  const { groupId } = useParams();
+  const [updateGroup, results] = useUpdateGroupMutation();
   console.log(results);
   const [values, setValues] = useState({
-    name: "",
-    pocName: "",
-    pocEmail: "",
+    name: group["group_name"] 
   });
 
   useEffect(() => {
@@ -40,23 +39,25 @@ const EditStudentGroupModal = ({ boolean, onToggle }) => {
   };
 
   const handleSubmit = () => {
-    let space = { partnerId: partnerId };
-    space["space_name"] = "";
+    let updatedGroup = { groupId: group?.id };
+    console.log(updatedGroup)
+    updatedGroup["group_name"] = "";
     if (values.name.trim()) {
-      space["space_name"] = values.name;
+      updatedGroup["group_name"] = values.name;
     }
-    if (values.pocName.trim()) {
-      space["point_of_contact_name"] = values.pocName;
-    }
-    if (values.pocEmail.trim()) {
-      space["email"] = values.pocEmail;
-    }
-    addSpace(space);
+    // if (values.pocName.trim()) {
+    //   space["point_of_contact_name"] = values.pocName;
+    // }
+    // if (values.pocEmail.trim()) {
+    //   space["email"] = values.pocEmail;
+    // }
+    console.log(updateGroup)
+    updateGroup(updatedGroup);
   };
 
   return (
     <div>
-      <Dialog fullWidth >
+      <Dialog open={boolean} onClose={onToggle} fullWidth>
         <DialogContent>
           <Grid container mb={3}>
             <Grid item xs={11}>
@@ -74,12 +75,12 @@ const EditStudentGroupModal = ({ boolean, onToggle }) => {
             </Grid>
           </Grid>
           <TextField
-            margin="dense"
-            fullWidth
             value={values.name}
             onChange={handleChange}
             name="name"
             label="Group Name"
+            margin="dense"
+            fullWidth
           />
         </DialogContent>
         <Box sx={{ pb: 2, px: 2 }}>

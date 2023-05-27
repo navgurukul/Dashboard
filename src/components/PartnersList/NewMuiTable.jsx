@@ -15,7 +15,11 @@ const options = {
   filterType: "checkbox",
 };
 
+ 
+ 
+
 const NewMuiTable = () => {
+   
   const columns = [
     {
       name: "name",
@@ -29,7 +33,7 @@ const NewMuiTable = () => {
       name: "point_of_contact_name",
       label: "Point of Contact",
       options: {
-        filter: true,
+        filter: false,
         sort: true,
       },
     },
