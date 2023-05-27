@@ -69,7 +69,8 @@ const NewMuiTable = () => {
         sort: false,
         empty: true,
         customBodyRender: (_, tableMeta) => {
-          const partnerId = renderedData[tableMeta.rowIndex];
+          const partnerId = renderedData[tableMeta.rowIndex].id;
+          const partneredit = renderedData[tableMeta.rowIndex];
           //  console.log(partnerId)
           // console.log(columns)
           return (
@@ -82,7 +83,7 @@ const NewMuiTable = () => {
                   color: "#BDBDBD",
                   "&:hover": { color: "primary.main" },
                 }}
-                onClick={() => handleEditClick(partnerId)}
+                onClick={() => handleEditClick(partneredit)}
               >
                 <EditIcon />
               </Button>
@@ -94,14 +95,13 @@ const NewMuiTable = () => {
                   color: "#BDBDBD",
                   "&:hover": { color: "error.main" },
                 }}
-                onClick={() => handleDeleteClick(partnerId)}
+                onClick={() => handleDeleteClick(partneredit)}
               >
                 <DeleteIcon />
               </Button>
               <Link
                 to={`/partner/${partnerId}`}
                 style={{ textDecoration: "none", color: "black" }}
-                 
               >
                 <Button size="small">View</Button>
               </Link>
