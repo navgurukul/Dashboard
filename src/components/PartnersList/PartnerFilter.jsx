@@ -23,13 +23,13 @@ function PartnerFilter() {
     return state.partnerFilter;
   });
 
-  const filterTerms = [
-    "All Partners",
-    "Newly Onboarded",
-    "Active",
-    "Inactive",
-    "Archived",
-  ];
+  // const filterTerms = [
+  //   "All Partners",
+  //   "Newly Onboarded",
+  //   "Active",
+  //   "Inactive",
+  //   "Archived",
+  // ];
 
   const handleChange = (e) => {
     dispatch(changeSearchTerm(e.target.value));
@@ -39,18 +39,18 @@ function PartnerFilter() {
     setOpenModal(!openModal);
   };
 
-  const filterButtons = filterTerms.map((term) => (
-    <Button
-      onClick={() => dispatch(changeFilterBy(term))}
-      key={term}
-      variant={term === filterBy ? "contained" : "outlined"}
-      sx={{ mr: 1, borderRadius: "50px", borderColor: "#DCDCDC" }}
-    >
-      <Typography variant="body2" color={term !== filterBy && "text.primary"}>
-        {term}
-      </Typography>
-    </Button>
-  ));
+  // const filterButtons = filterTerms.map((term) => (
+  //   <Button
+  //     onClick={() => dispatch(changeFilterBy(term))}
+  //     key={term}
+  //     variant={term === filterBy ? "contained" : "outlined"}
+  //     sx={{ mr: 1, borderRadius: "50px", borderColor: "#DCDCDC" }}
+  //   >
+  //     <Typography variant="body2" color={term !== filterBy && "text.primary"}>
+  //       {term}
+  //     </Typography>
+  //   </Button>
+  // ));
   return (
     <Box sx={{ mt: 8, mb: 2 }}>
       <Box display="flex" mb={3}>
@@ -82,7 +82,7 @@ function PartnerFilter() {
           <PartnerAddModal onOpen={handleModalToggle} boolean={openModal} />
         )}
       </Box>
-      {filterButtons}
+      {/* {filterButtons} */}
     </Box>
   );
 }
