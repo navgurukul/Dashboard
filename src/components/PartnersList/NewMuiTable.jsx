@@ -23,8 +23,6 @@ const getMuiTheme = createTheme({
   },
 });
 
-
-
 const options = {
   filterType: "checkbox",
   download: false,
