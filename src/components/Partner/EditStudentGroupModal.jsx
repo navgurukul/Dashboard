@@ -56,7 +56,7 @@ const EditStudentGroupModal = ({ boolean, onToggle }) => {
 
   return (
     <div>
-      <Dialog fullWidth >
+      <Dialog fullWidth>
         <DialogContent>
           <Grid container mb={3}>
             <Grid item xs={11}>
@@ -93,8 +93,5 @@ const EditStudentGroupModal = ({ boolean, onToggle }) => {
     </div>
   );
 };
- 
-
 
 export default EditStudentGroupModal;
-

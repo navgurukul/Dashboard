@@ -11,7 +11,6 @@ import PartnerUpdateModal from "./PartnerUpdateModal";
 import { Link } from "react-router-dom";
 import { useRemovePartnerMutation } from "../../store";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { makeStyles } from "@mui/styles";
 
 // Create a custom theme with the desired styles
 const getMuiTheme = createTheme({
@@ -24,19 +23,11 @@ const getMuiTheme = createTheme({
   },
 });
 
-const useStyles = makeStyles({
-  tableRow: {
-    "&:hover": {
-      backgroundColor: "red",
-    },
-  },
-});
-
 const options = {
   filterType: "checkbox",
   download: false,
   print: false,
-  rowHover:true,
+  rowHover: true,
 };
 
 let tableStyles = {
@@ -60,7 +51,6 @@ const NewMuiTable = () => {
       options: {
         filter: false,
         sort: true,
-  
       },
     },
     {
@@ -69,16 +59,14 @@ const NewMuiTable = () => {
       options: {
         filter: true,
         sort: true,
-
       },
     },
     {
       name: "email",
-      label:"Email",
+      label: "Email",
       options: {
         filter: false,
         sort: false,
-        
       },
     },
     {
@@ -87,7 +75,6 @@ const NewMuiTable = () => {
       options: {
         filter: false,
         sort: true,
-        
       },
     },
     {
@@ -96,7 +83,6 @@ const NewMuiTable = () => {
       options: {
         filter: true,
         sort: false,
-        
       },
     },
     {
@@ -106,8 +92,8 @@ const NewMuiTable = () => {
         filter: false,
         sort: false,
         empty: true,
-        style:{
-          color:"red"
+        style: {
+          color: "red",
         },
         customBodyRender: (_, tableMeta) => {
           const partnerId = renderedData[tableMeta.rowIndex].id;
@@ -173,8 +159,6 @@ const NewMuiTable = () => {
     setUpdateData(partnerId);
   };
 
-  // console.log(renderedData)
-  const classes = useStyles();
   return (
     <>
       {open && (
@@ -185,16 +169,16 @@ const NewMuiTable = () => {
         />
       )}
 
-      <div style={{overflowX: "auto"}}>
-      <ThemeProvider theme={getMuiTheme}>
-        <MUIDataTable
-          title={"Partner List"}
-          data={renderedData}
-          columns={columns}
-          options={options}
-          // sx={tableStyles}
-        />
-      </ThemeProvider>
+      <div style={{ overflowX: "auto" }}>
+        <ThemeProvider theme={getMuiTheme}>
+          <MUIDataTable
+            title={"Partner List"}
+            data={renderedData}
+            columns={columns}
+            options={options}
+            // sx={tableStyles}
+          />
+        </ThemeProvider>
       </div>
     </>
   );
