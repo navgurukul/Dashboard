@@ -45,12 +45,7 @@ const EditStudentGroupModal = ({ boolean, onToggle,group }) => {
     if (values.name.trim()) {
       updatedGroup["group_name"] = values.name;
     }
-    // if (values.pocName.trim()) {
-    //   space["point_of_contact_name"] = values.pocName;
-    // }
-    // if (values.pocEmail.trim()) {
-    //   space["email"] = values.pocEmail;
-    // }
+    
     console.log(updateGroup)
     updateGroup(updatedGroup);
   };

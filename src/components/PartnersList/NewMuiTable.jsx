@@ -69,7 +69,7 @@ const NewMuiTable = () => {
         sort: false,
         empty: true,
         customBodyRender: (_, tableMeta) => {
-          const partnerId = renderedData[tableMeta.rowIndex].id;
+          const partnerId = renderedData[tableMeta.rowIndex];
           //  console.log(partnerId)
           // console.log(columns)
           return (
