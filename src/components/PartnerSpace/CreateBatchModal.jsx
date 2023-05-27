@@ -10,7 +10,6 @@ import {
   TextField,
   Radio,
   RadioGroup,
-  useMediaQuery,
   //   Autocomplete,
   Checkbox,
   FormGroup,
@@ -37,25 +36,23 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 // import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 // import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker
-import { breakpoints } from "../../theme/constant";
+
 const CreateBatchModal = ({ boolean, onToggle }) => {
+
   const [classFields, setClassFields] = useState({
-    lang: "",
-    limit: "",
-    // selected_course:"",
-    title: "",
-    poc_name: "",
-    date: "",
+    lang:"",
+    limit:"",
+    selected_course:"",
+    title:"",
+    poc_name:"",
+    date:""
   });
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
-  const handleChange = (event) => {
-    // classFields.date = (event.target.value);
-    console.log(event.target);
-  };
-
-  // console.log(classFields.date);
-
+  
+  console.log(classFields.date);
+  
+  // const handleChange = (event) => {
+  //   setClassFields(event.target.value);
+  // };
   const [onInput, setOnInput] = useState({
     title: false,
     poc_name: false,
@@ -67,11 +64,11 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   const [value, setValue] = React.useState(new Date());
   const style = {
     position: "absolute",
-    top: !isActive ? "80%" : "90%",
-    left: !isActive ? "50%" : "45%",
-    // height:'920px',
+    top: "80%",
+    left: "50%",
+    height:'980px',
     transform: "translate(-50%, -50%)",
-    width: !isActive ? "579px" : "350px",
+    width: "579px",
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
@@ -90,25 +87,29 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   };
   return (
     <Box>
-      <Modal open={boolean} onClose={onToggle} style={{ overflow: "scroll" }}>
+      <Modal
+        open={boolean}
+        onClose={onToggle}
+        style={{ overflow: "scroll" }}
+      >
         <Box sx={style}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             <Grid container mb={3}>
-              <Grid item xs={11}>
-                <Typography variant="h6" component="h2">
-                  Create Batch
-                </Typography>
-              </Grid>
-              <Grid color="text.secondary" item xs={1}>
-                <CloseIcon
-                  onClick={onToggle}
-                  sx={{
-                    cursor: "pointer",
-                  }}
-                />
-              </Grid>
+            <Grid item xs={11}>
+              <Typography variant="h6" component="h2">
+              Create Batch
+              </Typography>
             </Grid>
-            {/* <Typography
+            <Grid color="text.secondary" item xs={1}>
+              <CloseIcon
+                onClick={onToggle}
+                sx={{
+                  cursor: "pointer",
+                }}
+              />
+            </Grid>
+          </Grid>
+            <Typography
               variant="body2"
               color="text.secondary"
               pr={2}
@@ -132,34 +133,8 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                 control={<Radio />}
                 label="Spoken English"
               />
-            </RadioGroup> */}
-
-            <TextField
-              onClick={() => {
-                setOnInput((prev) => {
-                  return { ...prev, poc_name: true };
-                });
-              }}
-              // name="title"
-              value={classFields.poc_name}
-              // helperText={helperText.title}
-              onChange={(e) => {
-                setClassFields({
-                  ...classFields,
-                  poc_name: e.target.value,
-                });
-              }}
-              name="poc_name"
-              label="Batch Name"
-              // value={values.poc_name}
-              // onChange={handleChange}
-            />
-
-            <Typography variant="body2" color="text.secondary">
-              All 28 classes will be created automatically with titles and
-              descriptions
-            </Typography>
-
+            </RadioGroup>
+            
             <TextField
               // value={values.name}
               // onChange={handleChange}
@@ -168,6 +143,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                   return { ...prev, title: true };
                 });
               }}
+              
               // name="title"
               value={classFields.title}
               // helperText={helperText.title}
@@ -181,7 +157,32 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               label="For Tutor"
             />
 
-            {/* <TextField
+            <TextField
+            onClick={() => {
+              setOnInput((prev) => {
+                return { ...prev, poc_name: true };
+              });
+            }}
+            
+            // name="title"
+            value={classFields.poc_name}
+            // helperText={helperText.title}
+            onChange={(e) => {
+              setClassFields({
+                ...classFields,
+                poc_name: e.target.value,
+              });
+            }}
+              name="poc_name"
+              label="Batch Name"
+              // value={values.poc_name}
+              // onChange={handleChange}
+            />
+            <Typography variant="body2" color="text.secondary">
+              All 28 classes will be created automatically with titles and
+              descriptions
+            </Typography>
+            <TextField
               // sx={{ mb: 4 }}
               type="date"
               variant="outlined"
@@ -195,8 +196,18 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               onChange={(e) => {
                 changeHandler(e);
               }}
-            /> */}
-
+            />
+            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <Stack spacing={3}>
+                <DesktopDatePicker
+                  // label="Start Date"
+                  inputFormat="MM/DD/YYYY"
+                  // value={classFields.date}
+                  // onChange={handleChange}
+                  // renderInput={(params) => <TextField {...params} />}
+                />
+              </Stack>
+            </LocalizationProvider> */}
             <FormLabel component="legend">
               <Typography
                 variant="body2"
@@ -231,36 +242,9 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                     Please select atleast one day
                   </FormHelperText>
                 ) : null} */}
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <Stack spacing={3}>
-                <DesktopDatePicker
-                  label="Start Date"
-                  inputFormat="MM/DD/YYYY"
-                  // value={classFields.date}
-                  onChange={handleChange}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </Stack>
-            </LocalizationProvider>
             <Typography variant="body2" color="text.secondary">
               Class Timings
             </Typography>
-            <FormControlLabel
-              control={
-                <Checkbox
-                // value={item}
-                // checked={classFields.on_days.includes(item)}
-                // onChange={handleDaySelection}
-                />
-              }
-              onClick={() => {
-                setOnInput((prev) => {
-                  return { ...prev, days: true };
-                });
-              }}
-              label="Keep the class timings same for all days"
-              // labelPlacement="rock"
-            />
             <LocalizationProvider dateAdapter={AdapterDayjs} row="true">
               <Grid container spacing={2}>
                 <Grid item xs={6} md={6}>
@@ -286,8 +270,8 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               Language
             </Typography>
             <RadioGroup
-              value={classFields.lang}
-              // onChange={handleChange}handleChange
+            value={classFields.lang}
+            // onChange={handleChange}
               onChange={(e) => {
                 setClassFields({
                   ...classFields,

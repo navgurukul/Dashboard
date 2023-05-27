@@ -3,10 +3,12 @@ import Sidebar from "../components/Partner/Sidebar/Sidebar";
 import { useState } from "react";
 import CreateSpaceModal from "../components/Partner/Space/CreateSpaceModal";
 import CreateGroupModal from "../components/Partner/Group/CreateGroupModal";
+import CreateBatchModal from "../components/Partner/CreateBatchModal";
 
 function PartnerLayout() {
   const [createSpaceOpen, setCreateStateOpen] = useState(false);
   const [createGroupOpen, setCreateGroupOpen] = useState(false);
+  
 
   const handleCreateSpaceToggle = () => setCreateStateOpen(!createSpaceOpen);
   const handleCreateGroupToggle = () => setCreateGroupOpen(!createGroupOpen);
@@ -36,6 +38,7 @@ function PartnerLayout() {
           boolean={createGroupOpen}
         />
       )}
+
     </main>
   );
 }
