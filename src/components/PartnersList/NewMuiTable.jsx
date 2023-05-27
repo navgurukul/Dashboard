@@ -11,7 +11,6 @@ import PartnerUpdateModal from "./PartnerUpdateModal";
 import { Link } from "react-router-dom";
 import { useRemovePartnerMutation } from "../../store";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { makeStyles } from "@mui/styles";
 
 // Create a custom theme with the desired styles
 const getMuiTheme = createTheme({
@@ -24,13 +23,7 @@ const getMuiTheme = createTheme({
   },
 });
 
-const useStyles = makeStyles({
-  tableRow: {
-    "&:hover": {
-      backgroundColor: "red",
-    },
-  },
-});
+
 
 const options = {
   filterType: "checkbox",
@@ -67,7 +60,7 @@ const NewMuiTable = () => {
       name: "point_of_contact_name",
       label: "Point of Contact",
       options: {
-        filter: true,
+        filter: false,
         sort: true,
 
       },
@@ -174,7 +167,7 @@ const NewMuiTable = () => {
   };
 
   // console.log(renderedData)
-  const classes = useStyles();
+  
   return (
     <>
       {open && (
