@@ -8,11 +8,39 @@ import EditIcon from "@mui/icons-material/Edit";
 import React, { useState, useEffect } from "react";
 import showToast from "../showToast";
 import PartnerUpdateModal from "./PartnerUpdateModal";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import { useRemovePartnerMutation } from "../../store";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+// Create a custom theme with the desired styles
+const getMuiTheme = createTheme({
+  overrides: {
+    MUIDataTableToolbar: {
+      root: {
+        boxShadow: "none", // Remove the shadow from the toolbar
+      },
+    },
+  },
+});
 
 const options = {
   filterType: "checkbox",
+  download: false,
+  print: false,
+  rowHover:true,
+};
+
+let tableStyles = {
+  width: "1440px",
+  height: "910px",
+  backgroundColor: "none !important",
+  boxShadow: "none",
+};
+
+let btnsContainerStyles = {
+  display: "flex",
+  alignItems: "center",
+  MaxWidth: "200px",
 };
 
  
@@ -27,6 +55,7 @@ const NewMuiTable = () => {
       options: {
         filter: false,
         sort: true,
+  
       },
     },
     {
@@ -35,14 +64,16 @@ const NewMuiTable = () => {
       options: {
         filter: false,
         sort: true,
+
       },
     },
     {
       name: "email",
-      label: "Email",
+      label:"Email",
       options: {
         filter: false,
         sort: false,
+        
       },
     },
     {
@@ -51,6 +82,7 @@ const NewMuiTable = () => {
       options: {
         filter: false,
         sort: true,
+        
       },
     },
     {
@@ -59,6 +91,7 @@ const NewMuiTable = () => {
       options: {
         filter: true,
         sort: false,
+        
       },
     },
     {
@@ -68,13 +101,17 @@ const NewMuiTable = () => {
         filter: false,
         sort: false,
         empty: true,
+        style:{
+          color:"red"
+        },
         customBodyRender: (_, tableMeta) => {
           const partnerId = renderedData[tableMeta.rowIndex].id;
+
           const partneredit = renderedData[tableMeta.rowIndex];
           //  console.log(partnerId)
           // console.log(columns)
           return (
-            <>
+            <Container sx={btnsContainerStyles}>
               <Button
                 size="small"
                 sx={{
@@ -105,12 +142,12 @@ const NewMuiTable = () => {
               >
                 <Button size="small">View</Button>
               </Link>
-            </>
+            </Container>
           );
         },
       },
     },
-  ]; 
+  ];
 
   const [open, setOpen] = useState(false);
   const [updateData, setUpdateData] = useState(null);
@@ -125,7 +162,6 @@ const NewMuiTable = () => {
     }
   }, [results.isSuccess]);
 
-  
   const handleDeleteClick = (partnerId) => {
     removePartner(partnerId);
   };
@@ -136,7 +172,7 @@ const NewMuiTable = () => {
   };
 
   // console.log(renderedData)
-
+  
   return (
     <>
       {open && (
@@ -146,13 +182,17 @@ const NewMuiTable = () => {
           partner={updateData}
         />
       )}
-      <div style={{ margin: "0px auto" }}>
+
+      <div style={{overflowX: "auto"}}>
+      <ThemeProvider theme={getMuiTheme}>
         <MUIDataTable
           title={"Partner List"}
           data={renderedData}
           columns={columns}
           options={options}
+          // sx={tableStyles}
         />
+      </ThemeProvider>
       </div>
     </>
   );
