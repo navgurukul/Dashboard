@@ -46,6 +46,17 @@ const groupsApi = createApi({
           };
         },
       }),
+      updateGroup: builder.mutation({
+        invalidatesTags: ["Group"],
+        query: (group) => {
+          const { groupId, ...rest } = group;
+          return {
+            url: `/group/${groupId}`,
+            body: { ...rest },
+            method: "PUT",
+          };
+        },
+      }),
     };
   },
 });
@@ -54,5 +65,6 @@ export const {
   useFetchGroupsQuery,
   useAddGroupMutation,
   useFetchSingleGroupQuery,
+  useUpdateGroupMutation,
 } = groupsApi;
 export { groupsApi };

@@ -43,7 +43,11 @@ let btnsContainerStyles = {
   MaxWidth: "200px",
 };
 
+ 
+ 
+
 const NewMuiTable = () => {
+   
   const columns = [
     {
       name: "name",
@@ -103,6 +107,9 @@ const NewMuiTable = () => {
         customBodyRender: (_, tableMeta) => {
           const partnerId = renderedData[tableMeta.rowIndex].id;
 
+          const partneredit = renderedData[tableMeta.rowIndex];
+          //  console.log(partnerId)
+          // console.log(columns)
           return (
             <Container sx={btnsContainerStyles}>
               <Button
@@ -113,7 +120,7 @@ const NewMuiTable = () => {
                   color: "#BDBDBD",
                   "&:hover": { color: "primary.main" },
                 }}
-                onClick={() => handleEditClick(partnerId)}
+                onClick={() => handleEditClick(partneredit)}
               >
                 <EditIcon />
               </Button>
@@ -125,7 +132,7 @@ const NewMuiTable = () => {
                   color: "#BDBDBD",
                   "&:hover": { color: "error.main" },
                 }}
-                onClick={() => handleDeleteClick(partnerId)}
+                onClick={() => handleDeleteClick(partneredit)}
               >
                 <DeleteIcon />
               </Button>

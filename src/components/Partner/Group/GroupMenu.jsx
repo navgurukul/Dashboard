@@ -5,12 +5,18 @@ import AddIcon from "@mui/icons-material/Add";
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import showToast from "../../showToast";
+import EditGroupModal from "./EditGroupModal";
 
 const ITEM_HEIGHT = 48;
 
 function GroupMenu({ group }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const [openUpdateGroup, setOpenUpdateGroup] = useState(false);
+  const handleOpenUpdateGroupToggle = () => {
+    setOpenUpdateGroup(!openUpdateGroup);
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -19,8 +25,20 @@ function GroupMenu({ group }) {
     setAnchorEl(null);
   };
 
+  const handleEditClick = () => {
+    handleOpenUpdateGroupToggle();
+    setAnchorEl(null);
+  };
+
   return (
     <div>
+      {openUpdateGroup && (
+        <EditGroupModal
+          group={group}
+          boolean={openUpdateGroup}
+          onToggle={handleOpenUpdateGroupToggle}
+        />
+      )}
       <Box sx={{ display: "flex" }}>
         <Box
           aria-label="more"
@@ -53,7 +71,7 @@ function GroupMenu({ group }) {
           },
         }}
       >
-        <MenuItem>Edit Details</MenuItem>
+        <MenuItem onClick={handleEditClick}>Edit Details</MenuItem>
         <MenuItem>Copy Link</MenuItem>
         <MenuItem>Delete</MenuItem>
       </Menu>

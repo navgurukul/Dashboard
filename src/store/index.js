@@ -50,6 +50,7 @@ export {
   useFetchGroupsQuery,
   useAddGroupMutation,
   useFetchSingleGroupQuery,
+  useUpdateGroupMutation,
 } from "./apis/groupsApi";
 
 export { store, changeSearchTerm, clearSearchTerm, changeFilterBy };
