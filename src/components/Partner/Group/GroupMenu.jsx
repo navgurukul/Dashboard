@@ -5,7 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import showToast from "../../showToast";
-import EditStudentGroupModal from "../EditStudentGroupModal";
+import EditGroupModal from "./EditGroupModal";
 
 const ITEM_HEIGHT = 48;
 
@@ -32,8 +32,8 @@ function GroupMenu({ group }) {
 
   return (
     <div>
-     {openUpdateGroup && (
-        <EditStudentGroupModal
+      {openUpdateGroup && (
+        <EditGroupModal
           group={group}
           boolean={openUpdateGroup}
           onToggle={handleOpenUpdateGroupToggle}
@@ -71,7 +71,7 @@ function GroupMenu({ group }) {
           },
         }}
       >
-        <MenuItem  onClick={handleEditClick}>Edit Details</MenuItem>
+        <MenuItem onClick={handleEditClick}>Edit Details</MenuItem>
         <MenuItem>Copy Link</MenuItem>
         <MenuItem>Delete</MenuItem>
       </Menu>

@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import { Button, Modal, TextField, Typography, Box } from "@mui/material";
 import { useParams } from "react-router-dom";
-import showToast from "../showToast";
-import { useUpdateGroupMutation } from "../../store";
+import showToast from "../../showToast";
+import { useUpdateGroupMutation } from "../../../store";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
@@ -15,17 +15,17 @@ import {
   DialogActions,
 } from "@mui/material";
 
-const EditStudentGroupModal = ({ boolean, onToggle,group }) => {
+const EditGroupModal = ({ boolean, onToggle, group }) => {
   const { groupId } = useParams();
   const [updateGroup, results] = useUpdateGroupMutation();
-  console.log(results);
+
   const [values, setValues] = useState({
-    name: group["group_name"] 
+    name: group["group_name"],
   });
 
   useEffect(() => {
     if (results.isError) {
-      showToast("error", results.error.data.Error);
+      showToast("error", results.error.data.status);
     } else if (results.isSuccess) {
       showToast("success", results.data.status);
       onToggle();
@@ -40,13 +40,10 @@ const EditStudentGroupModal = ({ boolean, onToggle,group }) => {
 
   const handleSubmit = () => {
     let updatedGroup = { groupId: group?.id };
-    console.log(updatedGroup)
     updatedGroup["group_name"] = "";
     if (values.name.trim()) {
       updatedGroup["group_name"] = values.name;
     }
-    
-    console.log(updateGroup)
     updateGroup(updatedGroup);
   };
 
@@ -89,8 +86,5 @@ const EditStudentGroupModal = ({ boolean, onToggle,group }) => {
     </div>
   );
 };
- 
 
-
-export default EditStudentGroupModal;
-
+export default EditGroupModal;
