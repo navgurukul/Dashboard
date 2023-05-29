@@ -36,7 +36,7 @@ const options = {
   filterType: "checkbox",
   download: false,
   print: false,
-  rowHover:true,
+  rowHover: true,
 };
 
 let tableStyles = {
@@ -51,11 +51,7 @@ let btnsContainerStyles = {
   MaxWidth: "200px",
 };
 
- 
- 
-
 const NewMuiTable = () => {
-   
   const columns = [
     {
       name: "name",
@@ -63,7 +59,6 @@ const NewMuiTable = () => {
       options: {
         filter: false,
         sort: true,
-  
       },
     },
     {
@@ -72,16 +67,14 @@ const NewMuiTable = () => {
       options: {
         filter: false,
         sort: true,
-
       },
     },
     {
       name: "email",
-      label:"Email",
+      label: "Email",
       options: {
         filter: false,
         sort: false,
-        
       },
     },
     {
@@ -90,7 +83,6 @@ const NewMuiTable = () => {
       options: {
         filter: false,
         sort: true,
-        
       },
     },
     {
@@ -99,7 +91,6 @@ const NewMuiTable = () => {
       options: {
         filter: true,
         sort: false,
-        
       },
     },
     {
@@ -109,8 +100,8 @@ const NewMuiTable = () => {
         filter: false,
         sort: false,
         empty: true,
-        style:{
-          color:"red"
+        style: {
+          color: "red",
         },
         customBodyRender: (_, tableMeta) => {
           const partnerId = renderedData[tableMeta.rowIndex].id;
@@ -180,7 +171,7 @@ const NewMuiTable = () => {
   };
 
   // console.log(renderedData)
-  
+
   return (
     <>
       {open && (
@@ -191,16 +182,16 @@ const NewMuiTable = () => {
         />
       )}
 
-      <div style={{overflowX: "auto"}}>
-      <ThemeProvider theme={getMuiTheme}>
-        <MUIDataTable
-          title={"Partner List"}
-          data={renderedData}
-          columns={columns}
-          options={options}
-          // sx={tableStyles}
-        />
-      </ThemeProvider>
+      <div style={{ overflowX: "auto" }}>
+        <ThemeProvider theme={getMuiTheme}>
+          <MUIDataTable
+            title={"Partner List"}
+            data={renderedData}
+            columns={columns}
+            options={options}
+            // sx={tableStyles}
+          />
+        </ThemeProvider>
       </div>
     </>
   );
