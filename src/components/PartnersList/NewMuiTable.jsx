@@ -13,15 +13,24 @@ import { useRemovePartnerMutation } from "../../store";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 // Create a custom theme with the desired styles
-const getMuiTheme = createTheme({
-  overrides: {
-    MUIDataTableToolbar: {
-      root: {
-        boxShadow: "none", // Remove the shadow from the toolbar
-      },
-    },
-  },
-});
+const getMuiTheme = () =>
+    createTheme({
+      components: {
+        MuiTableCell: {
+          styleOverrides:{ root: {
+            padding: '8px',
+            backgroundColor: 'none',
+            fontFamily:"Josefin Sans"
+            
+          }}
+        },
+        MuiToolbar: {
+          styleOverrides:{regular: {
+            minHeight: '8px',
+          }}
+        }
+      }
+    });
 
 const options = {
   filterType: "checkbox",
@@ -39,7 +48,6 @@ let tableStyles = {
 
 let btnsContainerStyles = {
   display: "flex",
-  alignItems: "center",
   MaxWidth: "200px",
 };
 
