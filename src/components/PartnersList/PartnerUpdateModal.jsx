@@ -30,11 +30,18 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
     }
   }, [results.isSuccess, results.isError]);
 
+  // const [values, setValues] = useState({
+  //   partnerId: partner.id,
+  //   name: partner.name,
+  //   point_of_contact_name: partner.point_of_contact_name,
+  //   email: partner.email,
+  // });
+
   const [values, setValues] = useState({
     partnerId: partner.id,
-    name: partner.name,
-    point_of_contact_name: partner.point_of_contact_name,
-    email: partner.email,
+    name: partner.name || "",
+    point_of_contact_name: partner.point_of_contact_name || "",
+    email: partner.email || "",
   });
 
   const handleChange = (e) => {
