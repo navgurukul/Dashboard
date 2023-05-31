@@ -12,44 +12,59 @@ import { Link } from "react-router-dom";
 import { useRemovePartnerMutation } from "../../store";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-// Create a custom theme with the desired styles
 const getMuiTheme = () =>
-    createTheme({
-      components: {
-        MuiTableCell: {
-          styleOverrides:{ root: {
-            padding: '8px',
-            backgroundColor: 'none',
-            fontFamily:"Josefin Sans"
-            
-          }}
+  createTheme({
+    components: {
+      MuiTableCell: {
+        styleOverrides: {
+          root: {
+            padding: "8px",
+            backgroundColor: "none",
+            fontFamily: "NatoSans, sans-serif",
+            textAlign: "left",
+            "&.custom-cell": {
+              width: "200px", // Set a fixed width for the cell using a custom CSS class
+            },
+          }, head: {
+            fontWeight: "bolder", // Set font weight to 600 for table header cells
+          },
         },
-        MuiToolbar: {
-          styleOverrides:{regular: {
-            minHeight: '8px',
-          }}
-        }
-      }
-    });
+      },
+      MuiTableRow: {
+        styleOverrides: {
+          root: {
+            "&:hover": {
+              backgroundColor: "rgba(233, 245, 233, 1) !important",
+              cursor: "pointer",
+            },
+          },
+        },
+      },
+      MuiToolbar: {
+        styleOverrides: {
+          regular: {
+            minHeight: "8px",
+          },
+        },
+      },
+    },
+  });
 
-const options = {
-  filterType: "checkbox",
-  download: false,
-  print: false,
-  rowHover: true,
-};
-
-let tableStyles = {
-  width: "1440px",
-  height: "910px",
-  backgroundColor: "none !important",
-  boxShadow: "none",
-};
-
+  const options = {
+    filterType: "checkbox",
+    download: false,
+    print: false,
+    // rowsHover: true, // Enable row hover effect
+  };
+  // Define CSS class for row hover effect
 let btnsContainerStyles = {
   display: "flex",
-  MaxWidth: "200px",
+  position: 'relative',
+  left: '-24px',
+  width: "170px",
+  // border:"1px solid red"
 };
+
 
 const NewMuiTable = () => {
   const columns = [
@@ -58,7 +73,8 @@ const NewMuiTable = () => {
       label: "Name",
       options: {
         filter: false,
-        sort: true,
+        sort: false,
+        customCellClass: "custom-cell",
       },
     },
     {
@@ -66,7 +82,8 @@ const NewMuiTable = () => {
       label: "Point of Contact",
       options: {
         filter: false,
-        sort: true,
+        sort: false,
+        customCellClass: "custom-cell",
       },
     },
     {
@@ -75,6 +92,7 @@ const NewMuiTable = () => {
       options: {
         filter: false,
         sort: false,
+        customCellClass: "custom-cell",
       },
     },
     {
@@ -83,6 +101,7 @@ const NewMuiTable = () => {
       options: {
         filter: false,
         sort: true,
+        customCellClass: "custom-cell",
       },
     },
     {
@@ -91,6 +110,7 @@ const NewMuiTable = () => {
       options: {
         filter: true,
         sort: false,
+        customCellClass: "custom-cell",
       },
     },
     {
@@ -100,6 +120,7 @@ const NewMuiTable = () => {
         filter: false,
         sort: false,
         empty: true,
+        customCellClass: "custom-cell",
         style: {
           color: "red",
         },
@@ -110,7 +131,7 @@ const NewMuiTable = () => {
           //  console.log(partnerId)
           // console.log(columns)
           return (
-            <Container sx={btnsContainerStyles}>
+            <div style={btnsContainerStyles}>
               <Button
                 size="small"
                 sx={{
@@ -141,7 +162,7 @@ const NewMuiTable = () => {
               >
                 <Button size="small">View</Button>
               </Link>
-            </Container>
+            </div>
           );
         },
       },
