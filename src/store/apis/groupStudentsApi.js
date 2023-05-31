@@ -14,7 +14,17 @@ const groupStudentsApi = createApi({
   }),
   endpoints(builder) {
     return {
+      fetchStudents: builder.query({
+        invalidatesTags: ["GroupStudents"],
+        query: (groupId) => {
+          return {
+            url: `/students/${groupId}`,
+            method: "GET",
+          };
+        },
+      }),
       addSingleStudents: builder.mutation({
+        providesTags: ["GroupStudents"],
         query: ({ students, groupId }) => {
           return {
             url: `/${groupId}/addstudent`,
@@ -28,4 +38,5 @@ const groupStudentsApi = createApi({
 });
 
 export { groupStudentsApi };
-export const { useAddSingleStudentsMutation } = groupStudentsApi;
+export const { useAddSingleStudentsMutation, useFetchStudentsQuery } =
+  groupStudentsApi;

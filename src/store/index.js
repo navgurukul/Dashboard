@@ -57,6 +57,9 @@ export {
   useDeleteGroupMutation,
 } from "./apis/groupsApi";
 
-export { useAddSingleStudentsMutation } from "./apis/groupStudentsApi";
+export {
+  useFetchStudentsQuery,
+  useAddSingleStudentsMutation,
+} from "./apis/groupStudentsApi";
 
 export { store, changeSearchTerm, clearSearchTerm, changeFilterBy };

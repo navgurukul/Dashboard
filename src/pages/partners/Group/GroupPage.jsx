@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import {
   useFetchSingleGroupQuery,
   useFetchSingleSpaceQuery,
+  useFetchStudentsQuery,
 } from "../../../store";
 import AddStudentsModal from "../../../components/Partner/Group/AddStudentsModal/AddStudentsModal";
 import { useState } from "react";
@@ -17,6 +18,7 @@ function GroupPage() {
     isLoading: spaceIsLoading,
     error: spaceError,
   } = useFetchSingleSpaceQuery(spaceId);
+
   const {
     data: groupData,
     isLoading: groupIsLoading,
@@ -25,8 +27,24 @@ function GroupPage() {
   const space = spaceData?.data?.[0];
   const group = groupData?.[0];
 
+  const {
+    data: studentsData,
+    isLoading: isStudentsLoading,
+    error: studentsError,
+  } = useFetchStudentsQuery(groupId);
+  console.log(studentsData);
+
   const [addStudentsOpen, setAddStudentsOpen] = useState(false);
   const handleAddStudentsOpen = () => setAddStudentsOpen(!addStudentsOpen);
+
+  let content;
+  if (isStudentsLoading) {
+    content = <Typography>Loading...</Typography>;
+  } else if (!studentsData?.length) {
+    content = <AddStudents handleAddStudentsOpen={handleAddStudentsOpen} />;
+  } else {
+    content = JSON.stringify(studentsData);
+  }
 
   return (
     <>
@@ -76,7 +94,8 @@ function GroupPage() {
             </Typography>
           </Box>
         </Stack>
-        <AddStudents handleAddStudentsOpen={handleAddStudentsOpen} />
+        {/* <AddStudents handleAddStudentsOpen={handleAddStudentsOpen} /> */}
+        {content}
       </div>
     </>
   );
