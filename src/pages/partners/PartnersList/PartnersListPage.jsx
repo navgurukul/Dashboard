@@ -22,7 +22,6 @@ function PartnersListPage() {
           partner.status === filterBy
         );
       });
-
       return {
         filteredData,
       };
@@ -40,7 +39,7 @@ function PartnersListPage() {
 
   return (
     <>
-   <div style={{width:"1215px", margin:"0px auto", }} >
+      <div style={{ width: "1215px", margin: "0px auto" }}>
         <PartnerFilter />
         {content}
       </div>

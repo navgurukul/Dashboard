@@ -25,7 +25,8 @@ const getMuiTheme = () =>
             "&.custom-cell": {
               width: "200px", // Set a fixed width for the cell using a custom CSS class
             },
-          }, head: {
+          },
+          head: {
             fontWeight: "bolder", // Set font weight to 600 for table header cells
           },
         },
@@ -50,30 +51,29 @@ const getMuiTheme = () =>
     },
   });
 
-  const options = {
-    filterType: "checkbox",
-    download: false,
-    print: false,
-    // rowsHover: true, // Enable row hover effect
-  };
-  // Define CSS class for row hover effect
+const options = {
+  filterType: "checkbox",
+  download: false,
+  print: false,
+  // rowsHover: true, // Enable row hover effect
+};
+// Define CSS class for row hover effect
 let btnsContainerStyles = {
   display: "flex",
-  position: 'relative',
-  left: '-24px',
+  position: "relative",
+  left: "-24px",
   width: "170px",
   // border:"1px solid red"
 };
 
-
-const NewMuiTable = () => {
+const NewMuiTable = ({ data }) => {
   const columns = [
     {
       name: "name",
       label: "Name",
       options: {
         filter: false,
-        sort: false,
+        sort: true,
         customCellClass: "custom-cell",
       },
     },
@@ -91,7 +91,7 @@ const NewMuiTable = () => {
       label: "Email",
       options: {
         filter: false,
-        sort: false,
+        sort: true,
         customCellClass: "custom-cell",
       },
     },
@@ -108,7 +108,7 @@ const NewMuiTable = () => {
       name: "status",
       label: "Status",
       options: {
-        filter: true,
+        filter: false,
         sort: false,
         customCellClass: "custom-cell",
       },
@@ -125,9 +125,9 @@ const NewMuiTable = () => {
           color: "red",
         },
         customBodyRender: (_, tableMeta) => {
-          const partnerId = renderedData[tableMeta.rowIndex].id;
+          const partnerId = data[tableMeta.rowIndex].id;
 
-          const partneredit = renderedData[tableMeta.rowIndex];
+          const partneredit = data[tableMeta.rowIndex];
           //  console.log(partnerId)
           // console.log(columns)
           return (
@@ -173,8 +173,8 @@ const NewMuiTable = () => {
   const [updateData, setUpdateData] = useState(null);
 
   const [removePartner, results] = useRemovePartnerMutation();
-  const { data, isLoading, error } = useFetchPartnersQuery();
-  const renderedData = data?.partners || [];
+  // const { data, isLoading, error } = useFetchPartnersQuery();
+  // const renderedData = data?.partners || [];
 
   useEffect(() => {
     if (results.isSuccess) {
@@ -207,9 +207,9 @@ const NewMuiTable = () => {
         <ThemeProvider theme={getMuiTheme}>
           <MUIDataTable
             title={"Partner List"}
-            data={renderedData}
+            data={data}
             columns={columns}
-            options={options}
+            // options={options}
             // sx={tableStyles}
           />
         </ThemeProvider>
