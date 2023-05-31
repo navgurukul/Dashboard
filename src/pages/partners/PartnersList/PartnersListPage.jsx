@@ -4,8 +4,8 @@ import { useFetchPartnersQuery } from "../../../store";
 
 //components
 // import PartnersTable from "../../../components/PartnersList/PartnersTable";
-import NewMuiTable from "../../../components/PartnersList/NewMuiTable";
 import PartnerFilter from "../../../components/PartnersList/PartnerFilter";
+import NewPartnerTable from "../../../components/PartnersList/NewPartnerTable";
 
 function PartnersListPage() {
   const { data, isLoading, error } = useFetchPartnersQuery();
@@ -34,7 +34,7 @@ function PartnersListPage() {
   } else if (error) {
     <h1>Error fetching partners...</h1>;
   } else {
-    content = <NewMuiTable data={filteredData} />;
+    content = <NewPartnerTable data={filteredData} />;
   }
 
   return (

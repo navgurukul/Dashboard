@@ -1,8 +1,5 @@
 import MUIDataTable from "mui-datatables";
-import { useSelector } from "react-redux";
-import { useFetchPartnersQuery } from "../../store";
 import Button from "@mui/material/Button";
-import { Container } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import React, { useState, useEffect } from "react";
@@ -53,8 +50,11 @@ const getMuiTheme = () =>
 
 const options = {
   filterType: "checkbox",
-  download: false,
+  download: true,
   print: false,
+  search: false,
+  filter: false,
+  rowFilter: false,
   // rowsHover: true, // Enable row hover effect
 };
 // Define CSS class for row hover effect
@@ -66,7 +66,7 @@ let btnsContainerStyles = {
   // border:"1px solid red"
 };
 
-const NewMuiTable = ({ data }) => {
+function NewPartnerTable({ data }) {
   const columns = [
     {
       name: "name",
@@ -126,10 +126,8 @@ const NewMuiTable = ({ data }) => {
         },
         customBodyRender: (_, tableMeta) => {
           const partnerId = data[tableMeta.rowIndex].id;
-
           const partneredit = data[tableMeta.rowIndex];
-          //  console.log(partnerId)
-          // console.log(columns)
+
           return (
             <div style={btnsContainerStyles}>
               <Button
@@ -173,8 +171,6 @@ const NewMuiTable = ({ data }) => {
   const [updateData, setUpdateData] = useState(null);
 
   const [removePartner, results] = useRemovePartnerMutation();
-  // const { data, isLoading, error } = useFetchPartnersQuery();
-  // const renderedData = data?.partners || [];
 
   useEffect(() => {
     if (results.isSuccess) {
@@ -191,8 +187,6 @@ const NewMuiTable = ({ data }) => {
     setUpdateData(partnerId);
   };
 
-  // console.log(renderedData)
-
   return (
     <>
       {open && (
@@ -206,16 +200,15 @@ const NewMuiTable = ({ data }) => {
       <div style={{ overflowX: "auto" }}>
         <ThemeProvider theme={getMuiTheme}>
           <MUIDataTable
-            title={"Partner List"}
+            title={"Partner's List"}
             data={data}
             columns={columns}
-            // options={options}
-            // sx={tableStyles}
+            options={options}
           />
         </ThemeProvider>
       </div>
     </>
   );
-};
+}
 
-export default NewMuiTable;
+export default NewPartnerTable;
