@@ -4,6 +4,7 @@ import { authReducer } from "./slices/authSlice";
 import { spacesApi } from "./apis/spacesApi";
 import { partnersApi } from "./apis/partnersApi";
 import { groupsApi } from "./apis/groupsApi";
+import { groupStudentsApi } from "./apis/groupStudentsApi";
 
 import {
   changeSearchTerm,
@@ -19,12 +20,14 @@ const store = configureStore({
     [partnersApi.reducerPath]: partnersApi.reducer,
     [spacesApi.reducerPath]: spacesApi.reducer,
     [groupsApi.reducerPath]: groupsApi.reducer,
+    [groupStudentsApi.reducerPath]: groupStudentsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
       .concat(partnersApi.middleware)
       .concat(spacesApi.middleware)
-      .concat(groupsApi.middleware);
+      .concat(groupsApi.middleware)
+      .concat(groupStudentsApi.middleware);
   },
 });
 
@@ -51,6 +54,9 @@ export {
   useAddGroupMutation,
   useFetchSingleGroupQuery,
   useUpdateGroupMutation,
+  useDeleteGroupMutation,
 } from "./apis/groupsApi";
+
+export { useAddSingleStudentsMutation } from "./apis/groupStudentsApi";
 
 export { store, changeSearchTerm, clearSearchTerm, changeFilterBy };
