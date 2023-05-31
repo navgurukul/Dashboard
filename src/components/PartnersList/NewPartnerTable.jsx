@@ -15,12 +15,12 @@ const getMuiTheme = () =>
       MuiTableCell: {
         styleOverrides: {
           root: {
-            padding: "8px",
+            // padding: "8px",
             backgroundColor: "none",
             fontFamily: "NatoSans, sans-serif",
             textAlign: "left",
             "&.custom-cell": {
-              width: "200px", // Set a fixed width for the cell using a custom CSS class
+              width: "0px",
             },
           },
           head: {
@@ -55,14 +55,16 @@ const options = {
   search: false,
   filter: false,
   rowFilter: false,
+  selectableRows: false
   // rowsHover: true, // Enable row hover effect
 };
 // Define CSS class for row hover effect
 let btnsContainerStyles = {
   display: "flex",
-  position: "relative",
-  left: "-24px",
-  width: "170px",
+  // position: "relative",
+  // left: "-24px",
+  // width: "170px",
+  textAlign:"right",
   // border:"1px solid red"
 };
 
@@ -75,6 +77,14 @@ function NewPartnerTable({ data }) {
         filter: false,
         sort: true,
         customCellClass: "custom-cell",
+        customBodyRender: (value, tableMeta) => (
+          <Link
+            to={`/partner/${data[tableMeta.rowIndex].id}`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            {value}
+          </Link>
+        ),
       },
     },
     {
@@ -111,11 +121,12 @@ function NewPartnerTable({ data }) {
         filter: false,
         sort: false,
         customCellClass: "custom-cell",
+        
       },
     },
     {
-      name: "actions",
-      label: "Actions",
+      name: "",
+      label: "",
       options: {
         filter: false,
         sort: false,
@@ -136,6 +147,7 @@ function NewPartnerTable({ data }) {
                   height: "18px",
                   width: "18px",
                   color: "#BDBDBD",
+                  paddingLeft:"50px",
                   "&:hover": { color: "primary.main" },
                 }}
                 onClick={() => handleEditClick(partneredit)}
@@ -148,18 +160,15 @@ function NewPartnerTable({ data }) {
                   height: "18px",
                   width: "18px",
                   color: "#BDBDBD",
+                  paddingLeft:"50px",
                   "&:hover": { color: "error.main" },
                 }}
                 onClick={() => handleDeleteClick(partneredit)}
               >
                 <DeleteIcon />
               </Button>
-              <Link
-                to={`/partner/${partnerId}`}
-                style={{ textDecoration: "none", color: "black" }}
-              >
-                <Button size="small">View</Button>
-              </Link>
+             
+
             </div>
           );
         },
