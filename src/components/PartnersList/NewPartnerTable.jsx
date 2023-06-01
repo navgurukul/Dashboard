@@ -1,8 +1,5 @@
 import MUIDataTable from "mui-datatables";
-import { useSelector } from "react-redux";
-import { useFetchPartnersQuery } from "../../store";
 import Button from "@mui/material/Button";
-import { Container } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import React, { useState, useEffect } from "react";
@@ -12,38 +9,66 @@ import { Link } from "react-router-dom";
 import { useRemovePartnerMutation } from "../../store";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-// Create a custom theme with the desired styles
-const getMuiTheme = createTheme({
-  overrides: {
-    MUIDataTableToolbar: {
-      root: {
-        boxShadow: "none", // Remove the shadow from the toolbar
+const getMuiTheme = () =>
+  createTheme({
+    components: {
+      MuiTableCell: {
+        styleOverrides: {
+          root: {
+            // padding: "8px",
+            backgroundColor: "none",
+            fontFamily: "NatoSans, sans-serif",
+            textAlign: "left",
+            "&.custom-cell": {
+              width: "0px",
+            },
+          },
+          head: {
+            fontWeight: "bolder", // Set font weight to 600 for table header cells
+          },
+        },
+      },
+      MuiTableRow: {
+        styleOverrides: {
+          root: {
+            "&:hover": {
+              backgroundColor: "rgba(233, 245, 233, 1) !important",
+              cursor: "pointer",
+            },
+          },
+        },
+      },
+      MuiToolbar: {
+        styleOverrides: {
+          regular: {
+            minHeight: "8px",
+          },
+        },
       },
     },
-  },
-});
+  });
 
 const options = {
   filterType: "checkbox",
-  download: false,
+  download: true,
   print: false,
-  rowHover: true,
+  search: false,
+  filter: false,
+  rowFilter: false,
+  selectableRows: false
+  // rowsHover: true, // Enable row hover effect
 };
-
-let tableStyles = {
-  width: "1440px",
-  height: "910px",
-  backgroundColor: "none !important",
-  boxShadow: "none",
-};
-
+// Define CSS class for row hover effect
 let btnsContainerStyles = {
   display: "flex",
-  alignItems: "center",
-  MaxWidth: "200px",
+  // position: "relative",
+  // left: "-24px",
+  // width: "170px",
+  textAlign:"right",
+  // border:"1px solid red"
 };
 
-const NewMuiTable = () => {
+function NewPartnerTable({ data }) {
   const columns = [
     {
       name: "name",
@@ -51,6 +76,15 @@ const NewMuiTable = () => {
       options: {
         filter: false,
         sort: true,
+        customCellClass: "custom-cell",
+        customBodyRender: (value, tableMeta) => (
+          <Link
+            to={`/partner/${data[tableMeta.rowIndex].id}`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            {value}
+          </Link>
+        ),
       },
     },
     {
@@ -58,7 +92,8 @@ const NewMuiTable = () => {
       label: "Point of Contact",
       options: {
         filter: false,
-        sort: true,
+        sort: false,
+        customCellClass: "custom-cell",
       },
     },
     {
@@ -66,7 +101,8 @@ const NewMuiTable = () => {
       label: "Email",
       options: {
         filter: false,
-        sort: false,
+        sort: true,
+        customCellClass: "custom-cell",
       },
     },
     {
@@ -75,40 +111,43 @@ const NewMuiTable = () => {
       options: {
         filter: false,
         sort: true,
+        customCellClass: "custom-cell",
       },
     },
     {
       name: "status",
       label: "Status",
       options: {
-        filter: true,
+        filter: false,
         sort: false,
+        customCellClass: "custom-cell",
+        
       },
     },
     {
-      name: "actions",
-      label: "Actions",
+      name: "",
+      label: "",
       options: {
         filter: false,
         sort: false,
         empty: true,
+        customCellClass: "custom-cell",
         style: {
           color: "red",
         },
         customBodyRender: (_, tableMeta) => {
-          const partnerId = renderedData[tableMeta.rowIndex].id;
+          const partnerId = data[tableMeta.rowIndex].id;
+          const partneredit = data[tableMeta.rowIndex];
 
-          const partneredit = renderedData[tableMeta.rowIndex];
-          //  console.log(partnerId)
-          // console.log(columns)
           return (
-            <Container sx={btnsContainerStyles}>
+            <div style={btnsContainerStyles}>
               <Button
                 size="small"
                 sx={{
                   height: "18px",
                   width: "18px",
                   color: "#BDBDBD",
+                  paddingLeft:"50px",
                   "&:hover": { color: "primary.main" },
                 }}
                 onClick={() => handleEditClick(partneredit)}
@@ -121,19 +160,16 @@ const NewMuiTable = () => {
                   height: "18px",
                   width: "18px",
                   color: "#BDBDBD",
+                  paddingLeft:"50px",
                   "&:hover": { color: "error.main" },
                 }}
                 onClick={() => handleDeleteClick(partneredit)}
               >
                 <DeleteIcon />
               </Button>
-              <Link
-                to={`/partner/${partnerId}`}
-                style={{ textDecoration: "none", color: "black" }}
-              >
-                <Button size="small">View</Button>
-              </Link>
-            </Container>
+             
+
+            </div>
           );
         },
       },
@@ -144,8 +180,6 @@ const NewMuiTable = () => {
   const [updateData, setUpdateData] = useState(null);
 
   const [removePartner, results] = useRemovePartnerMutation();
-  const { data, isLoading, error } = useFetchPartnersQuery();
-  const renderedData = data?.partners || [];
 
   useEffect(() => {
     if (results.isSuccess) {
@@ -162,8 +196,6 @@ const NewMuiTable = () => {
     setUpdateData(partnerId);
   };
 
-  // console.log(renderedData)
-
   return (
     <>
       {open && (
@@ -177,16 +209,15 @@ const NewMuiTable = () => {
       <div style={{ overflowX: "auto" }}>
         <ThemeProvider theme={getMuiTheme}>
           <MUIDataTable
-            title={"Partner List"}
-            data={renderedData}
+            title={"Partner's List"}
+            data={data}
             columns={columns}
             options={options}
-            // sx={tableStyles}
           />
         </ThemeProvider>
       </div>
     </>
   );
-};
+}
 
-export default NewMuiTable;
+export default NewPartnerTable;
