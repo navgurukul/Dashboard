@@ -23,13 +23,15 @@ function PartnerFilter() {
     return state.partnerFilter;
   });
 
-  // const filterTerms = [
-  //   "All Partners",
-  //   "Newly Onboarded",
-  //   "Active",
-  //   "Inactive",
-  //   "Archived",
-  // ];
+  console.log(filterBy);
+
+  const filterTerms = [
+    "All Partners",
+    "Newly Onboarded",
+    "Active",
+    "Inactive",
+    "Archived",
+  ];
 
   const handleChange = (e) => {
     dispatch(changeSearchTerm(e.target.value));
@@ -39,21 +41,21 @@ function PartnerFilter() {
     setOpenModal(!openModal);
   };
 
-  // const filterButtons = filterTerms.map((term) => (
-  //   <Button
-  //     onClick={() => dispatch(changeFilterBy(term))}
-  //     key={term}
-  //     variant={term === filterBy ? "contained" : "outlined"}
-  //     sx={{ mr: 1, borderRadius: "50px", borderColor: "#DCDCDC" }}
-  //   >
-  //     <Typography variant="body2" color={term !== filterBy && "text.primary"}>
-  //       {term}
-  //     </Typography>
-  //   </Button>
-  // ));
+  const filterButtons = filterTerms.map((term) => (
+    <Button
+      onClick={() => dispatch(changeFilterBy(term))}
+      key={term}
+      variant={term === filterBy ? "contained" : "outlined"}
+      sx={{ mr: 1, borderRadius: "50px", borderColor: "#DCDCDC" }}
+    >
+      <Typography variant="body2" color={term !== filterBy && "text.primary"}>
+        {term}
+      </Typography>
+    </Button>
+  ));
   return (
     <Box sx={{ mt: 8, mb: 2 }}>
-      <Box display="flex" mb={3}>
+      <Box display="flex" justifyContent={"space-between"} mb={3}>
         <TextField
           placeholder="Search Partner, Point of Contact..."
           size="medium"
@@ -69,12 +71,12 @@ function PartnerFilter() {
               height: "48px",
             },
           }}
-          sx={{ flex: 1 }}
+          sx={{ width: "250px" }}
         />
         <Button
           onClick={handleModalToggle}
           variant="contained"
-          sx={{ marginLeft: "16px" }}
+          sx={{  }}
         >
           <Typography variant="subtitle2">Add Partner</Typography>
         </Button>
@@ -82,7 +84,7 @@ function PartnerFilter() {
           <PartnerAddModal onOpen={handleModalToggle} boolean={openModal} />
         )}
       </Box>
-      {/* {filterButtons} */}
+      {filterButtons}
     </Box>
   );
 }
