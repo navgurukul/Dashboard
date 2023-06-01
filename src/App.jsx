@@ -34,17 +34,14 @@ const router = createBrowserRouter([
         element: <PartnerPage />,
         children: [
           { index: true, element: <CreateSpace /> },
+          { path: "space/:spaceId", element: <CreateGroup />},
+          { path: "space/:spaceId/group/:groupId", element: <GroupPage />, },
           {
-            path: "space/:spaceId",
-            element: <CreateGroup />,
-          },
-          { path: "space/:spaceId/group/:groupId", element: <GroupPage /> },
-          {
-            path: "batch",
+            path: "space/:spaceId/group/:groupId/batch",
             element: <BatchPage />,
             children: [
               { index: true, element: <StudentList /> },
-              { path: "attendance", element: <AttandanceList /> },
+              { path: "attandancelist", element: <AttandanceList /> },
             ],
           },
         ],
