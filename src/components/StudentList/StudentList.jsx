@@ -4,6 +4,10 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 
+import { SearchOutlined } from "@mui/icons-material";
+import { TextField, Button, Typography, InputAdornment } from "@mui/material";
+import Box from "@mui/material/Box";
+
 const getMuiTheme = () =>
   createTheme({
     components: {
@@ -15,16 +19,16 @@ const getMuiTheme = () =>
         },
       },
 
-      MuiInputBase: {
-        styleOverrides: {
-          root: {
-            display: "block !important ",
-            backgroundColor: "white",
-            borderRadius: "8px",
-            padding: "8px",
-          },
-        },
-      },
+      // MuiInputBase: {
+      //   styleOverrides: {
+      //     root: {
+      //       display: "block !important ",
+      //       backgroundColor: "white",
+      //       borderRadius: "8px",
+      //       padding: "8px",
+      //     },
+      //   },
+      // },
       MuiDataTableHeadCell: {
         styleOverrides: {
           root: {
@@ -42,20 +46,20 @@ const getMuiTheme = () =>
           },
         },
       },
-      MuiDataTableSearchmain: {
-        styleOverrides: {
-          root: {
-            display: "block !important ", // Apply NatoSans font to the whole table
-          },
-        },
-      },
-      MuiTextField: {
-        styleOverrides: {
-          root: {
-            display: "block !important ", // Apply NatoSans font to the whole table
-          },
-        },
-      },
+      // MuiDataTableSearchmain: {
+      //   styleOverrides: {
+      //     root: {
+      //       display: "block !important ", // Apply NatoSans font to the whole table
+      //     },
+      //   },
+      // },
+      // MuiTextField: {
+      //   styleOverrides: {
+      //     root: {
+      //       display: "block !important ", // Apply NatoSans font to the whole table
+      //     },
+      //   },
+      // },
       MuiTableCell: {
         styleOverrides: {
           root: {
@@ -80,6 +84,13 @@ const getMuiTheme = () =>
               backgroundColor: "rgba(233, 245, 233, 1) !important",
               cursor: "pointer",
             },
+          },
+        },
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            boxShadow: "none",
           },
         },
       },
@@ -184,7 +195,7 @@ const data = [
 
 const options = {
   filterType: "checkbox",
-  search: true,
+  search: false,
   download: false,
   print: false,
   rowsHover: true,
@@ -204,14 +215,28 @@ const StudentList = () => {
   const { spaceId, groupId } = useParams();
 
   return (
-    <div style={{ paddingTop: "1px", overflowX: "auto" }}>
-      <ThemeProvider theme={getMuiTheme}>
-        <MUIDataTable
-          title={"Employee List"}
-          data={data}
-          columns={columns}
-          options={options}
+    <div style={{ overflowX: "auto" }}>
+      <Box style={{ margin: "10px 10px 10px 5px" }}>
+        <TextField
+          placeholder="Search Student..."
+          size="medium"
+          // value={searchTerm}
+          // onChange={handleChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchOutlined sx={{ color: "#2E2E2E" }} />
+              </InputAdornment>
+            ),
+            style: {
+              height: "48px",
+            },
+          }}
+          sx={{ width: "360px" }}
         />
+      </Box>
+      <ThemeProvider theme={getMuiTheme}>
+        <MUIDataTable data={data} columns={columns} options={options} />
       </ThemeProvider>
     </div>
   );

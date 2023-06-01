@@ -3,6 +3,12 @@ import MUIDataTable from "mui-datatables";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import MultipleSelect from "../Batch/MultipleSelect";
+import Box from "@mui/material/Box";
+import calenderIcon from "../../pages/./partners/Batch/assests/reshot-icon-calendar-FEQDJ2T9NL 1.png";
+import { TextField, Button, Typography, InputAdornment } from "@mui/material";
+import { SearchOutlined } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 
 const getMuiTheme = () =>
   createTheme({
@@ -14,17 +20,23 @@ const getMuiTheme = () =>
           },
         },
       },
-
-      MuiInputBase: {
+      MuiPaper: {
         styleOverrides: {
           root: {
-            display: "block !important ",
-            backgroundColor: "white",
-            borderRadius: "8px",
-            padding: "8px",
+            boxShadow: "none",
           },
         },
       },
+      // MuiInputBase: {
+      //   styleOverrides: {
+      //     root: {
+      //       display: "block !important ",
+      //       backgroundColor: "white",
+      //       borderRadius: "8px",
+      //       padding: "8px",
+      //     },
+      //   },
+      // },
       MuiDataTableHeadCell: {
         styleOverrides: {
           root: {
@@ -34,28 +46,28 @@ const getMuiTheme = () =>
           },
         },
       },
-      MuiDataTableToolbar: {
-        styleOverrides: {
-          root: {
-            display: "block !important ",
-            // fontFamily: "NatoSans !important", // Apply NatoSans font to the whole table
-          },
-        },
-      },
-      MuiDataTableSearchmain: {
-        styleOverrides: {
-          root: {
-            display: "block !important ", // Apply NatoSans font to the whole table
-          },
-        },
-      },
-      MuiTextField: {
-        styleOverrides: {
-          root: {
-            display: "block !important ", // Apply NatoSans font to the whole table
-          },
-        },
-      },
+      // MuiDataTableToolbar: {
+      //   styleOverrides: {
+      //     root: {
+      //       display: "block !important ",
+      //       // fontFamily: "NatoSans !important", // Apply NatoSans font to the whole table
+      //     },
+      //   },
+      // },
+      // MuiDataTableSearchmain: {
+      //   styleOverrides: {
+      //     root: {
+      //       display: "block !important ", // Apply NatoSans font to the whole table
+      //     },
+      //   },
+      // },
+      // MuiTextField: {
+      //   styleOverrides: {
+      //     root: {
+      //       display: "block !important ", // Apply NatoSans font to the whole table
+      //     },
+      //   },
+      // },
       MuiTableCell: {
         styleOverrides: {
           root: {
@@ -181,7 +193,7 @@ const data = [
 
 const options = {
   filterType: "checkbox",
-  search: true,
+  search: false,
   download: true,
   print: false,
   rowsHover: true,
@@ -198,17 +210,87 @@ const options = {
 };
 
 const AttandanceList = () => {
+  const filterTerms = ["All Partners", "Absent", "Present"];
+
+  const { searchTerm, filterBy } = useSelector((state) => {
+    return state.partnerFilter;
+  });
+
+  const filterButtons = filterTerms.map((term) => (
+    <Button
+      onClick={() => dispatch(changeFilterBy(term))}
+      key={term}
+      variant={term === filterBy ? "contained" : "outlined"}
+      sx={{
+        mr: 1,
+        borderRadius: "50px",
+        borderColor: "#DCDCDC",
+        padding: "8px 8px",
+        height: "40px",
+        margin: "0px 10px",
+      }}
+    >
+      <Typography variant="body2" color={term !== filterBy && "text.primary"}>
+        {term}
+      </Typography>
+    </Button>
+  ));
+
   const { spaceId, groupId } = useParams();
 
   return (
     <div style={{ paddingTop: "1px", overflowX: "auto" }}>
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          // border: "1px solid green",
+          paddingRight: "30px",
+        }}
+      >
+        <MultipleSelect style={{ height: "10px !important" }} />
+
+        <Box
+          style={{
+            display: "flex",
+          }}
+        >
+          <img src={calenderIcon} alt="" style={{ height: "22px" }} />
+          <Typography
+            style={{
+              fontSize: "14px",
+              fontWeight: "400",
+            }}
+          >
+            16 Oct 23
+          </Typography>
+        </Box>
+      </Box>
+      <Box>
+        <Box style={{ margin: "10px 10px 10px 5px" }}>
+          <TextField
+            placeholder="Search Student..."
+            size="medium"
+            // value={searchTerm}
+            // onChange={handleChange}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchOutlined sx={{ color: "#2E2E2E" }} />
+                </InputAdornment>
+              ),
+              style: {
+                height: "48px",
+              },
+            }}
+            sx={{ width: "360px" }}
+          />
+        </Box>
+      </Box>
+      {filterButtons}
       <ThemeProvider theme={getMuiTheme}>
-        <MUIDataTable
-          title={"Employee List"}
-          data={data}
-          columns={columns}
-          options={options}
-        />
+        <MUIDataTable data={data} columns={columns} options={options} />
       </ThemeProvider>
     </div>
   );

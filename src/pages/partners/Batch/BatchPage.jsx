@@ -33,9 +33,15 @@ const BatchPage = () => {
   };
 
   return (
-    <Box style={{ width: "100%", padding: "25px" }}>
+    <Box style={{ width: "100%", padding: "0px 20px" }}>
       <Box>
-        <Typography style={{ fontSize: "14px" }}>
+        <Typography
+          style={{
+            fontSize: "14px",
+            marginBottom: "10px",
+            // border: "1px solid blue",
+          }}
+        >
           C / Student Group /Python
         </Typography>
       </Box>
@@ -125,9 +131,9 @@ const BatchPage = () => {
       <Box
         style={{
           // border: "1px solid green",
-          paddingTop: "15px",
+
           // paddingLeft: "15px",
-          marginTop: "20px",
+          marginTop: "15px",
           display: "flex",
           justifyContent: "flex-start",
           alignItems: "center",
@@ -172,7 +178,7 @@ const BatchPage = () => {
           </Typography>
         </Link>
       </Box>
-      <hr style={{ borderTop: "1px solid #BDBDBD", marginBottom: "33px" }} />
+      <hr style={{ borderTop: "1px solid #BDBDBD", marginBottom: "10px" }} />
       <Outlet />
     </Box>
   );
