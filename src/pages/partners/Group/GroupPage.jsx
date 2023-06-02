@@ -9,6 +9,7 @@ import {
 } from "../../../store";
 import AddStudentsModal from "../../../components/Partner/Group/AddStudentsModal/AddStudentsModal";
 import { useState } from "react";
+import GroupStudentsTable from "../../../components/Partner/Group/GroupStudentsTable";
 
 function GroupPage() {
   const { spaceId, groupId } = useParams();
@@ -44,6 +45,9 @@ function GroupPage() {
     content = <AddStudents handleAddStudentsOpen={handleAddStudentsOpen} />;
   } else {
     content = JSON.stringify(studentsData);
+    content = (
+      <GroupStudentsTable handleAddStudentsOpen={handleAddStudentsOpen} />
+    );
   }
 
   return (
