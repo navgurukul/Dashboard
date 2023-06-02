@@ -3,7 +3,7 @@ import { Box, Button, InputAdornment, TextField } from "@mui/material";
 
 function GroupStudentsFilter({ handleAddStudentsOpen }) {
   return (
-    <Box display="flex" justifyContent="space-between">
+    <Box display="flex" justifyContent="space-between" mb={2}>
       <TextField
         // label="Student Name, Email..."
         placeholder="Student Name, Email..."

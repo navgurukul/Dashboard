@@ -15,7 +15,6 @@ const getMuiTheme = () =>
       MuiTableCell: {
         styleOverrides: {
           root: {
-            // padding: "8px",
             backgroundColor: "none",
             fontFamily: "NatoSans, sans-serif",
             textAlign: "left",
@@ -24,7 +23,7 @@ const getMuiTheme = () =>
             },
           },
           head: {
-            fontWeight: "bolder", // Set font weight to 600 for table header cells
+            fontWeight: "bolder",
           },
         },
       },
@@ -55,17 +54,12 @@ const options = {
   search: false,
   filter: false,
   rowFilter: false,
-  selectableRows: false
-  // rowsHover: true, // Enable row hover effect
+  selectableRows: "none",
 };
-// Define CSS class for row hover effect
+
 let btnsContainerStyles = {
   display: "flex",
-  // position: "relative",
-  // left: "-24px",
-  // width: "170px",
-  textAlign:"right",
-  // border:"1px solid red"
+  justifyContent: "flex-end",
 };
 
 function NewPartnerTable({ data }) {
@@ -121,7 +115,6 @@ function NewPartnerTable({ data }) {
         filter: false,
         sort: false,
         customCellClass: "custom-cell",
-        
       },
     },
     {
@@ -144,10 +137,7 @@ function NewPartnerTable({ data }) {
               <Button
                 size="small"
                 sx={{
-                  height: "18px",
-                  width: "18px",
                   color: "#BDBDBD",
-                  paddingLeft:"50px",
                   "&:hover": { color: "primary.main" },
                 }}
                 onClick={() => handleEditClick(partneredit)}
@@ -157,18 +147,13 @@ function NewPartnerTable({ data }) {
               <Button
                 size="small"
                 sx={{
-                  height: "18px",
-                  width: "18px",
                   color: "#BDBDBD",
-                  paddingLeft:"50px",
                   "&:hover": { color: "error.main" },
                 }}
                 onClick={() => handleDeleteClick(partneredit)}
               >
                 <DeleteIcon />
               </Button>
-             
-
             </div>
           );
         },

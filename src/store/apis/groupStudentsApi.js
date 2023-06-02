@@ -15,7 +15,7 @@ const groupStudentsApi = createApi({
   endpoints(builder) {
     return {
       fetchStudents: builder.query({
-        invalidatesTags: ["GroupStudents"],
+        providesTags: ["GroupStudents"],
         query: (groupId) => {
           return {
             url: `/students/${groupId}`,
@@ -24,7 +24,7 @@ const groupStudentsApi = createApi({
         },
       }),
       addSingleStudents: builder.mutation({
-        providesTags: ["GroupStudents"],
+        invalidatesTags: ["GroupStudents"],
         query: ({ students, groupId }) => {
           return {
             url: `/${groupId}/addstudent`,

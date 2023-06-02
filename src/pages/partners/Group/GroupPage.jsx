@@ -44,9 +44,11 @@ function GroupPage() {
   } else if (!studentsData?.length) {
     content = <AddStudents handleAddStudentsOpen={handleAddStudentsOpen} />;
   } else {
-    content = JSON.stringify(studentsData);
     content = (
-      <GroupStudentsTable handleAddStudentsOpen={handleAddStudentsOpen} />
+      <GroupStudentsTable
+        handleAddStudentsOpen={handleAddStudentsOpen}
+        data={studentsData}
+      />
     );
   }
 
@@ -62,6 +64,7 @@ function GroupPage() {
         style={{
           backgroundColor: "#FAFAFA",
           width: "100%",
+          height: "max-content",
           paddingLeft: "20px",
         }}
       >
@@ -98,7 +101,6 @@ function GroupPage() {
             </Typography>
           </Box>
         </Stack>
-        {/* <AddStudents handleAddStudentsOpen={handleAddStudentsOpen} /> */}
         {content}
       </div>
     </>
