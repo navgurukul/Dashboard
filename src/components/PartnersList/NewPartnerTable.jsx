@@ -55,7 +55,7 @@ const options = {
   search: false,
   filter: false,
   rowFilter: false,
-  selectableRows: false
+  selectableRows: 'none'
   // rowsHover: true, // Enable row hover effect
 };
 // Define CSS class for row hover effect

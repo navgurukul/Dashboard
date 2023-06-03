@@ -55,7 +55,7 @@ function PartnerFilter() {
   ));
   return (
     <Box sx={{ mt: 8, mb: 2 }}>
-      <Box display="flex" justifyContent={"space-between"} mb={3}>
+      <Box display="flex" mb={3}>
         <TextField
           placeholder="Search Partner, Point of Contact..."
           size="medium"
@@ -71,14 +71,14 @@ function PartnerFilter() {
               height: "48px",
             },
           }}
-          sx={{ width: "250px" }}
+          sx={{ width: "500px" }}
         />
         <Button
           onClick={handleModalToggle}
           variant="contained"
-          sx={{  }}
+          sx={{ width:"160px", margin:"0 0 0 550px" }}
         >
-          <Typography variant="subtitle2">Add Partner</Typography>
+          <Typography variant="subtitle2"> <span style={{position:"absolute", left:"20px", fontSize:"18px"}}>+</span> Add Partner</Typography>
         </Button>
         {openModal && (
           <PartnerAddModal onOpen={handleModalToggle} boolean={openModal} />
