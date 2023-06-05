@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-
+import Dialog from "@mui/material/Dialog";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import {
   Typography,
   Grid,
@@ -27,8 +28,10 @@ import {
   //   InputLabel,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-
+import moment from "moment";
 import dayjs from "dayjs";
+import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
+
 // import Stack from '@mui/material/Stack';
 // import TextField from '@mui/material/TextField';
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -38,23 +41,22 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 // import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker
 import { breakpoints } from "../../theme/constant";
-const CreateBatchModal = ({ boolean, onToggle }) => {
+const CreateBatchModal = ({ boolean, onToggle, saw }) => {
+  // const [value, setValue] = React.useState(new Date());
   const [classFields, setClassFields] = useState({
     lang: "",
     limit: "",
     // selected_course:"",
     title: "",
     poc_name: "",
-    date: "",
+    date: moment.utc(new Date()).format("YYYY-MM-DD"),
+    start_time: new Date(new Date().setSeconds(0)),
+    end_time: new Date(
+      new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)
+    ),
   });
+
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
-  const handleChange = (event) => {
-    // classFields.date = (event.target.value);
-    console.log(event.target);
-  };
-
-  // console.log(classFields.date);
 
   const [onInput, setOnInput] = useState({
     title: false,
@@ -63,8 +65,15 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   // const changeHandler = (e) => {
   //   setClassFields({ ...classFields, [e.target.title]: e.target.value });
   // };
+  // const handleLang = (e) => {
+  //     setClassFields({ ...classFields, [e.target.lang]: e.target.value });
+  //   };
 
-  const [value, setValue] = React.useState(new Date());
+  //   console.log(classFields.lang);
+  const changeHandler = (e) => {
+    setClassFields({ ...classFields, [e.target.name]: e.target.value });
+  };
+
   const style = {
     position: "absolute",
     top: !isActive ? "80%" : "90%",
@@ -88,6 +97,120 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     SA: "Sat",
     SU: "Sun",
   };
+
+  // --------------------------------------------------------------------------
+
+  // const handleSubmit = () => {
+  //   const weekDday = Object.values(classFields.on_days);
+  //   if (classFields.type === "batch") {
+  //     let incrementedDate = new Date(classFields.date);
+  //     let onDay = incrementedDate.toString().split(" ")[0];
+  //     let flag = false;
+  //     let firstDay = "";
+  //     for (let i in days) {
+  //       for (let k in days) {
+  //         if (onDay === days[k]) {
+  //           flag = true;
+  //         }
+  //         if (flag) {
+  //           for (let j of weekDday) {
+  //             if (days[j] === days[k]) {
+  //               flag = false;
+  //               firstDay = j;
+  //               setMatchDay(false);
+  //               break;
+  //             } else {
+  //               setMatchDay(true);
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //     const index = weekDday.indexOf(firstDay);
+  //     if (days[firstDay] !== onDay) {
+  //       let newDate;
+  //       var i = 1;
+  //       while (i <= 7) {
+  //         incrementedDate = moment(incrementedDate).add(1, "days")._d;
+  //         let Day = incrementedDate.toString().split(" ")[0];
+  //         if (days[weekDday[index]] === Day) {
+  //           newDate = incrementedDate;
+  //           break;
+  //         }
+  //         i = i + 1;
+  //       }
+  //       // Fields.date = moment.utc(newDate).format("YYYY-MM-DD");
+  //       classFields.date = formatInUtc(newDate, "yyyy-MM-dd");
+  //     } else {
+  //       classFields.date = classFields.date;
+  //     }
+  //   } else {
+  //     classFields.date = classFields.date;
+  //   }
+
+  //   //taking hours and minues from the time
+  //   classFields.start_time = `${classFields.start_time.getHours()}:${classFields.start_time.getMinutes()}`;
+
+  //   classFields.end_time = `${classFields.end_time.getHours()}:${classFields.end_time.getMinutes()}`;
+
+  //   //combining time and date
+  //   const classStartTime = moment(
+  //     `${classFields.date} ${classFields.start_time}`
+  //   );
+  //   const classEndTime = moment(`${classFields.date} ${classFields.end_time}`);
+
+  //   if (classStartTime.valueOf() >= classEndTime.valueOf()) {
+  //   }
+
+  //   //deleting partner_id when it's length is 0
+  //   if (classFields.partner_id.length === 0) delete classFields.partner_id;
+
+  //   //deleting date as we have combined with time and we don't want date separately
+  //   delete classFields.date;
+  //   // delete classFields[date];
+
+  //   //adding combined date and time to start_time and end_time
+  //   classFields.start_time = `${moment(classStartTime).format(
+  //     "YYYY-MM-DDTHH:mm:ss"
+  //   )}Z`;
+  //   classFields.end_time = `${moment(classEndTime).format(
+  //     "YYYY-MM-DDTHH:mm:ss"
+  //   )}Z`;
+
+  //   const commonFields = [
+  //     "title",
+  //     "description",
+  //     "start_time",
+  //     "end_time",
+  //     "category_id",
+  //     "pathway_id",
+  //     "lang",
+  //     "type",
+  //     "volunteer_id",
+  //   ];
+  //   let payload;
+  //   if (classFields.type === "doubt_class") {
+  //     payload = _.pick(classFields, [
+  //       ...commonFields,
+  //       "course_id",
+  //       "exercise_id",
+  //     ]);
+  //   } else if (classFields.type === "batch") {
+  //     payload = _.pick(classFields, [
+  //       ...commonFields,
+  //       "partner_id",
+  //       "frequency",
+  //       "on_days",
+  //     ]);
+  //   }
+  //   if (classFields.max_enrolment != "No Limit") {
+  //     //add max_enrolment field only if it is not No Limit
+  //     payload.max_enrolment = classFields.max_enrolment;
+  //   }
+  //   (!isEditMode ? createClass : editClass)(payload);
+  // };
+
+  //---------------------------------------------------------------------------
   return (
     <Box>
       <Modal open={boolean} onClose={onToggle} style={{ overflow: "scroll" }}>
@@ -96,7 +219,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
             <Grid container mb={3}>
               <Grid item xs={11}>
                 <Typography variant="h6" component="h2">
-                  Create Batch
+                  Create {saw} Batch
                 </Typography>
               </Grid>
               <Grid color="text.secondary" item xs={1}>
@@ -108,32 +231,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                 />
               </Grid>
             </Grid>
-            {/* <Typography
-              variant="body2"
-              color="text.secondary"
-              pr={2}
-              // mb={3}
-            >
-              Learning Track
-            </Typography>
-            <RadioGroup
-              onChange={(e) => {
-                setClassFields({
-                  ...classFields,
-                  selected_course: e.target.value,
-                });
-              }}
-              row="true"
-              mb={3}
-            >
-              <FormControlLabel value="1" control={<Radio />} label="Python" />
-              <FormControlLabel
-                value="2"
-                control={<Radio />}
-                label="Spoken English"
-              />
-            </RadioGroup> */}
-
             <TextField
               onClick={() => {
                 setOnInput((prev) => {
@@ -181,23 +278,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               label="For Tutor"
             />
 
-            {/* <TextField
-              // sx={{ mb: 4 }}
-              type="date"
-              variant="outlined"
-              inputProps={{
-                min: moment().format("YYYY-MM-DD"),
-              }}
-              value={classFields.date}
-              name="date"
-              label="Start Date"
-              fullWidth
-              onChange={(e) => {
-                changeHandler(e);
-              }}
-            /> */}
-
-            <FormLabel component="legend">
+            {/* <FormLabel component="legend">
               <Typography
                 variant="body2"
                 color="text.secondary"
@@ -205,8 +286,8 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               >
                 Schedule on days
               </Typography>
-            </FormLabel>
-            <FormGroup aria-label="position" row>
+            </FormLabel> */}
+            {/* <FormGroup aria-label="position" row>
               {Object.keys(days).map((item) => (
                 <FormControlLabel
                   control={
@@ -222,30 +303,35 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                     });
                   }}
                   label={item}
-                  labelPlacement={item}
+                  // labelPlacement={item}
                 />
               ))}
-            </FormGroup>
+            </FormGroup> */}
             {/* {classFields.on_days?.length === 0 && onInput.days ? (
                   <FormHelperText sx={{ color: "red" }} id="my-helper-text">
                     Please select atleast one day
                   </FormHelperText>
                 ) : null} */}
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <Stack spacing={3}>
-                <DesktopDatePicker
-                  label="Start Date"
-                  inputFormat="MM/DD/YYYY"
-                  // value={classFields.date}
-                  onChange={handleChange}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </Stack>
-            </LocalizationProvider>
+            <TextField
+              // sx={{ mb: 4 }}
+              type="date"
+              variant="outlined"
+              inputProps={{
+                min: moment().format("YYYY-MM-DD"),
+              }}
+              value={classFields.date}
+              name="date"
+              label="Start Date"
+              fullWidth
+              onChange={(e) => {
+                changeHandler(e);
+              }}
+            />
+            
             <Typography variant="body2" color="text.secondary">
               Class Timings
             </Typography>
-            <FormControlLabel
+            {/* <FormControlLabel
               control={
                 <Checkbox
                 // value={item}
@@ -260,8 +346,8 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               }}
               label="Keep the class timings same for all days"
               // labelPlacement="rock"
-            />
-            <LocalizationProvider dateAdapter={AdapterDayjs} row="true">
+            /> */}
+            {/* <LocalizationProvider dateAdapter={AdapterDayjs} row="true">
               <Grid container spacing={2}>
                 <Grid item xs={6} md={6}>
                   <TimePicker
@@ -280,21 +366,56 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                   />
                 </Grid>
               </Grid>
-            </LocalizationProvider>
+            </LocalizationProvider> */}
 
+            <Grid container mt={2} spacing={2}>
+              {[
+                { label: "Start Time", prop: "start_time" },
+                { label: "End Time", prop: "end_time" },
+              ].map(({ label, prop }, index) => (
+                <Grid item xs={isActive ? 12 : 6} key={index}>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDateFns}
+                    key={index}
+                  >
+                    <Stack spacing={3} key={index}>
+                      <DesktopTimePicker
+                        key={index}
+                        label={label}
+                        value={classFields[prop]}
+                        onChange={(time) => {
+                          setClassFields({
+                            ...classFields,
+                            [prop]: time,
+                          });
+                        }}
+                        minTime={
+                          classFields.date === moment().format("YYYY-MM-DD")
+                            ? new Date(new Date().setSeconds(0))
+                            : null
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </Stack>
+                  </LocalizationProvider>
+                </Grid>
+              ))}
+            </Grid>
             <Typography variant="body2" color="text.secondary">
               Language
             </Typography>
             <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
               value={classFields.lang}
-              // onChange={handleChange}handleChange
+              // onChange={handleLang}
               onChange={(e) => {
                 setClassFields({
                   ...classFields,
                   lang: e.target.value,
                 });
               }}
-              row="true"
+              row
               mb={3}
             >
               <FormControlLabel value="1" control={<Radio />} label="English" />
@@ -313,7 +434,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                 });
               }}
               mb={3}
-              row="true"
+              row
             >
               <FormControlLabel
                 value="1"

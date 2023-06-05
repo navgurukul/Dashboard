@@ -1,50 +1,73 @@
+import * as React from 'react';
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AddIcon from "@mui/icons-material/Add";
-import { Box,Select } from "@mui/material";
+import { Box, Select } from "@mui/material";
 import { useEffect, useState } from "react";
 import showToast from "../../showToast";
 import CreateBatchModal from "../CreateBatchModal";
+// import BatchMenu from './BatchMenu';
 
 const ITEM_HEIGHT = 48;
+const options = [
+  "Python",
+  "Spoken English",
+  "Typing",
+  "Climate Action",
+  "Scratch",
+  "Foundations of DSA",
+  "C4CA Projects",
+];
+const optionsForEdit = [
+  "Edit Details",
+  "Copy Link",
+  "Delete",
+];
 
 function GroupMenu({ group }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorCourse, setAnchorCourse] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
   const open = Boolean(anchorEl);
   const openPathwayList = Boolean(anchorCourse);
   const [createBatchOpen, setCreateBatchOpen] = useState(false);
   const handleCreateBatchToggle = () => setCreateBatchOpen(!createBatchOpen);
-  // const [selectedPath, setSelectedPath]= useState("");
 
-  console.log(anchorCourse);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClickAdd = (event) => {
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleEditMenu = (event, index) => {
+    setSelectedIndex(index);
+    setAnchorEl(null);
+  };
+
+  const handleClickAdd = () => {
     setAnchorCourse(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleCloseAdd = () => {
     setAnchorCourse(null);
   };
-  // handleCreateBatchDropdown = () => {
-  //   return(
-  //     <>
-  //     {/* <CreateBatchModal/> */}
-  //     </>
-  //   )
-  // };
+
+  const handleMenuItemClick = (event, index) => {
+    setSelectedIndex(index);
+    handleCreateBatchToggle();
+    setAnchorCourse(null);
+  };
+  
   return (
     <div>
       {createBatchOpen && (
         <CreateBatchModal
           onToggle={handleCreateBatchToggle}
           boolean={createBatchOpen}
-          // selectedPath= {selectedPath}
+          saw={options[selectedIndex]}
         />
       )}
       <Box sx={{ display: "flex" }}>
@@ -60,43 +83,40 @@ function GroupMenu({ group }) {
           <MoreHorizIcon sx={{ color: "text.primary", fontSize: "16px" }} />
         </Box>
         <Box
-        aria-label="more"
-        id="long-button"
-        aria-controls={openPathwayList ? "long-menu" : undefined}
-        aria-expanded={openPathwayList ? "true" : undefined}
-        aria-haspopup="true"
-        onClick={handleClickAdd}>
-          <AddIcon
-          // onClick={handleCreateBatchToggle}
-          // onClick= {<CreateBatchModal/>}
-          sx={{ color: "text.primary", fontSize: "16px" }}
-        />
+          aria-label="more"
+          id="long-button"
+          aria-controls={openPathwayList ? "long-menu" : undefined}
+          aria-expanded={openPathwayList ? "true" : undefined}
+          aria-haspopup="true"
+          onClick={handleClickAdd}
+        >
+          <AddIcon sx={{ color: "text.primary", fontSize: "16px" }} />
         </Box>
-        
       </Box>
       <Menu
         id="long-menu"
         MenuListProps={{
           "aria-labelledby": "long-button",
         }}
-        anchorCourse={anchorCourse}
+        anchorEl={anchorCourse}
         open={openPathwayList}
-        onClose={handleClose}
-        onClick={handleCreateBatchToggle}
-        // PaperProps={{
-        //   style: {
-        //     maxHeight: ITEM_HEIGHT * 4.5,
-        //     width: "140px",
-        //   },
-        // }}
+        onClose={handleCloseAdd}
+        PaperProps={{
+          style: {
+            maxHeight: ITEM_HEIGHT * 7.5,
+            width: "200px",
+          },
+        }}
       >
-        <MenuItem>Python</MenuItem>
-        <MenuItem>Spoken English</MenuItem>
-        <MenuItem>Typing</MenuItem>
-        <MenuItem>Climate Action</MenuItem>
-        <MenuItem>Scratch</MenuItem>
-        <MenuItem>Foundations of DSA</MenuItem>
-        <MenuItem>C4CA Projects</MenuItem>
+        {options.map((option, index) => (
+          <MenuItem
+            key={option}
+            selected={index === selectedIndex}
+            onClick={(event) => handleMenuItemClick(event, index)}
+          >
+            {option}
+          </MenuItem>
+        ))}
       </Menu>
       <Menu
         id="long-menu"
@@ -113,9 +133,15 @@ function GroupMenu({ group }) {
           },
         }}
       >
-        <MenuItem>Edit Details</MenuItem>
-        <MenuItem>Copy Link</MenuItem>
-        <MenuItem>Delete</MenuItem>
+        {optionsForEdit.map((option, index) => (
+          <MenuItem
+            key={option}
+            selected={index === selectedIndex}
+            onClick={(event) => handleEditMenu(event, index)}
+          >
+            {option}
+          </MenuItem>
+        ))}
       </Menu>
     </div>
   );

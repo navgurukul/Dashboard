@@ -76,7 +76,7 @@ function SpaceMenu({ space, handleCreateGroupToggle }) {
         MenuListProps={{
           "aria-labelledby": "long-button",
         }}
-        anchorEl={anchorEl}
+        // anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         PaperProps={{
