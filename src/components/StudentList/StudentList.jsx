@@ -3,10 +3,12 @@ import MUIDataTable from "mui-datatables";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
-
 import { SearchOutlined } from "@mui/icons-material";
 import { TextField, Button, Typography, InputAdornment } from "@mui/material";
 import Box from "@mui/material/Box";
+import { useSelector } from "react-redux";
+import { useFetchBatchsQuery } from "../../store";
+import { Link } from "react-router-dom";
 
 const getMuiTheme = () =>
   createTheme({
@@ -104,94 +106,7 @@ const getMuiTheme = () =>
     },
   });
 
-const columns = [
-  {
-    name: "name",
-    label: "Student Name",
-    options: {
-      filter: false,
-      sort: false,
-    },
-  },
-  {
-    name: "email",
-    label: "Email",
-    options: {
-      filter: false,
-      sort: false,
-    },
-  },
-  {
-    name: "city",
-    label: "Latest Attended Class",
-    options: {
-      filter: false,
-      sort: false,
-    },
-  },
-  {
-    name: "state",
-    label: "Progress",
-    options: {
-      filter: false,
-      sort: false,
-      customBodyRender: (value, tableMeta, updateValue) => {
-        const progressValue = 68;
 
-        return (
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <CircularProgress
-              variant="determinate"
-              size={25}
-              value={progressValue}
-              style={{ color: "green", marginRight: "8px" }}
-            />
-            <span style={{ fontSize: "14px" }}>{`${progressValue}%`}</span>
-          </div>
-        );
-      },
-    },
-  },
-  {
-    name: "state",
-    label: "Attendance",
-    options: {
-      filter: true,
-      sort: false,
-    },
-  },
-];
-
-const data = [
-  {
-    name: "Joe James",
-    email: "aa@gmail.com",
-    company: "Test Corp",
-    city: "Yonkers",
-    state: "NY",
-  },
-  {
-    name: "John Walsh",
-    email: "aa@gmail.com",
-    company: "Test Corp",
-    city: "Hartford",
-    state: "CT",
-  },
-  {
-    name: "Bob Herm",
-    email: "aa@gmail.com",
-    company: "Test Corp",
-    city: "Tampa",
-    state: "FL",
-  },
-  {
-    name: "James Houston",
-    email: "aa@gmail.com",
-    company: "Test Corp",
-    city: "Dallas",
-    state: "TX",
-  },
-];
 
 const options = {
   filterType: "checkbox",
@@ -200,28 +115,83 @@ const options = {
   print: false,
   rowsHover: true,
   searchTextVariant: "outlined",
-  selectableRows: false,
-  searchProps: {
-    style: {
-      display: "block !important",
-      border: "2px solid grey", // Custom border style for the search bar
-      borderRadius: "8px", // Custom border radius for the search bar
-      padding: "8px", // Custom padding for the search bar
-    },
-  },
+  selectableRows: "none",
 };
 
-const StudentList = () => {
+const StudentList = ({}) => {
+  const columns = [
+    {
+      name: "firstName",
+      label: "Student Name",
+      options: {
+        filter: false,
+        sort: false,
+        
+      },
+    },
+    {
+      name: "email",
+      label: "Email",
+      options: {
+        filter: false,
+        sort: false,
+      },
+    },
+    {
+      name: "lastName",
+      label: "Latest Attended Class",
+      options: {
+        filter: false,
+        sort: false,
+      },
+    },
+    {
+      name: "state",
+      label: "Progress",
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          const progressValue = 68;
+  
+          return (
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <CircularProgress
+                variant="determinate"
+                size={25}
+                value={progressValue}
+                style={{ color: "green", marginRight: "8px" }}
+              />
+              <span style={{ fontSize: "14px" }}>{`${progressValue}%`}</span>
+            </div>
+          );
+        },
+      },
+    },
+    {
+      name: "state",
+      label: "Attendance",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+  ];
+  const { data, isLoading, error } = useFetchBatchsQuery();
+// console.log(data);
   const { spaceId, groupId } = useParams();
 
+  const handleClickRow = (rowData) => {
+    const studentId = rowData[0];   
+    window.location.href = `batch/studentinfo`;
+  };
+ 
   return (
     <div style={{ overflowX: "auto" }}>
-      <Box style={{ margin: "10px 10px 10px 5px" }}>
+      <Box style={{ margin: "0px 10px 0px 5px" }}>
         <TextField
           placeholder="Search Student..."
           size="medium"
-          // value={searchTerm}
-          // onChange={handleChange}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -236,7 +206,14 @@ const StudentList = () => {
         />
       </Box>
       <ThemeProvider theme={getMuiTheme}>
-        <MUIDataTable data={data} columns={columns} options={options} />
+        <MUIDataTable
+          data={data}
+          columns={columns}
+          options={{
+            ...options,
+            onRowClick: handleClickRow,
+          }}
+        />
       </ThemeProvider>
     </div>
   );

@@ -9,6 +9,7 @@ import calenderIcon from "../../pages/./partners/Batch/assests/reshot-icon-calen
 import { TextField, Button, Typography, InputAdornment } from "@mui/material";
 import { SearchOutlined } from "@mui/icons-material";
 import { useSelector } from "react-redux";
+import { useFetchBatchsQuery } from "../../store";
 
 const getMuiTheme = () =>
   createTheme({
@@ -107,7 +108,7 @@ const getMuiTheme = () =>
 
 const columns = [
   {
-    name: "name",
+    name: "firstName",
     label: "Name",
     options: {
       filter: false,
@@ -123,7 +124,7 @@ const columns = [
     },
   },
   {
-    name: "firstentrytime",
+    name: "salary",
     label: "First Entry Time",
     options: {
       filter: false,
@@ -198,7 +199,7 @@ const options = {
   print: false,
   rowsHover: true,
   searchTextVariant: "outlined",
-  selectableRows: false,
+  selectableRows: "none",
   searchProps: {
     style: {
       display: "block !important",
@@ -210,6 +211,8 @@ const options = {
 };
 
 const AttandanceList = () => {
+  const { data, isLoading, error } = useFetchBatchsQuery();
+  const datar = [{ data }];
   const filterTerms = ["All Partners", "Absent", "Present"];
 
   const { searchTerm, filterBy } = useSelector((state) => {
