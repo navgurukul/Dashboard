@@ -117,7 +117,7 @@ const StudentInfo = () => {
             <img
               src={emailLogo}
               alt="emailLogo"
-              style={{ marginRight: "10px" }}
+              style={{ marginRight: "10px", height: "16px", width: "20px" }}
             />
             <Typography
               style={{
@@ -132,7 +132,7 @@ const StudentInfo = () => {
             <img
               src={phoneIcon}
               alt="phoneIcon"
-              style={{ marginRight: "10px" }}
+              style={{ marginRight: "10px", height: "16px", width: "20px" }}
             />
             <Typography
               style={{
@@ -145,6 +145,7 @@ const StudentInfo = () => {
           </Box>
         </Box>
       </Box>
+
       <Accordion />
       <Accordion />
       <Accordion />

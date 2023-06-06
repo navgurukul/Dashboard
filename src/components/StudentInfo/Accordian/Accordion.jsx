@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
+import greenTick from "../assests/greenTick.png";
 
 export default function SimpleAccordion() {
   return (
@@ -13,6 +14,8 @@ export default function SimpleAccordion() {
       style={{
         width: "584px",
         margin: "20px auto",
+        boxShadow:
+          "0px 1px 2px rgba(0, 0, 0, 0.06), 0px 2px 1px rgba(0, 0, 0, 0.04), 0px 1px 5px rgba(0, 0, 0, 0.08)",
       }}
     >
       <Accordion>
@@ -22,6 +25,22 @@ export default function SimpleAccordion() {
           id="panel1a-header"
         >
           <Typography>Course 1: Introduction to Python</Typography>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              position: "relative",
+              left: "180px",
+            }}
+          >
+            <CircularProgress
+              variant="determinate"
+              size={25}
+              value={74}
+              style={{ color: "green", marginRight: "8px" }}
+            />
+            <span style={{ fontSize: "14px" }}>{`${68}%`}</span>
+          </div>
         </AccordionSummary>
         <AccordionDetails>
           <Box style={{ display: "flex", justifyContent: "space-between" }}>
@@ -36,25 +55,117 @@ export default function SimpleAccordion() {
                 Course 1: Introduction to Python
               </Typography>
             </Box>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <CircularProgress
-                variant="determinate"
-                size={25}
-                value={74}
-                style={{ color: "green", marginRight: "8px" }}
-              />
-              <span style={{ fontSize: "14px" }}>{`${44}%`}</span>
-            </div>
           </Box>
-          <Box>
-            <Typography 
+          <Box
             style={{
-              fontSize: "14px",
-              fontColor:"red !important",
+              // border: "1px solid red",
+              margin: "20px 0px",
             }}
+          >
+            <Typography
+              style={{
+                fontSize: "14px",
+                color: "#6D6D6D",
+              }}
             >
               Classes
             </Typography>
+            <Box
+              style={{
+                display: "flex",
+                alignItems: "center",
+                // border: "1px solid red",
+              }}
+            >
+              <img src={greenTick} alt="greenTick" />
+              <Typography
+                style={{
+                  fontSize: "14px",
+                  marginLeft: "5px",
+                }}
+              >
+                Attended all 2 classes in the course
+              </Typography>
+            </Box>
+          </Box>
+          <Box>
+            <Box>
+              <Typography
+                style={{
+                  fontSize: "14px",
+                  marginBottom: "15px",
+                  color: "#6D6D6D",
+                }}
+              >
+                Assessments (MCQs)
+              </Typography>
+            </Box>
+            <Box style={{ display: "flex" }}>
+              <Box style={{ marginRight: "20px" }}>
+                <Typography style={{ fontSize: "14px" }}>
+                  Total Questions
+                </Typography>
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: "12px",
+                    height: "12px",
+                    backgroundColor: "#FF6D60",
+                    borderRadius: "4px",
+                    marginRight: "5px",
+                  }}
+                ></span>
+                20
+              </Box>
+              <Box style={{ marginRight: "20px" }}>
+                <Typography style={{ fontSize: "14px" }}>
+                  Total Questions
+                </Typography>
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: "12px",
+                    height: "12px",
+                    backgroundColor: "#2E2E2E",
+                    borderRadius: "4px",
+                    marginRight: "5px",
+                  }}
+                ></span>
+                20
+              </Box>
+              <Box style={{ marginRight: "20px" }}>
+                <Typography style={{ fontSize: "14px" }}>
+                  Total Questions
+                </Typography>
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: "12px",
+                    height: "12px",
+                    backgroundColor: "#2196F3",
+                    borderRadius: "4px",
+                    marginRight: "5px",
+                  }}
+                ></span>
+                20
+              </Box>
+              <Box style={{ marginRight: "20px" }}>
+                <Typography style={{ fontSize: "14px" }}>
+                  Total Questions
+                </Typography>
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: "12px",
+                    height: "12px",
+                    backgroundColor: "#48A145",
+                    borderRadius: "4px",
+                    marginRight: "5px",
+                  }}
+                ></span>
+                20
+              </Box>
+            </Box>
           </Box>
         </AccordionDetails>
       </Accordion>
