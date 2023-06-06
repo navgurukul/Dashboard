@@ -28,16 +28,7 @@ const getMuiTheme = () =>
           },
         },
       },
-      // MuiInputBase: {
-      //   styleOverrides: {
-      //     root: {
-      //       display: "block !important ",
-      //       backgroundColor: "white",
-      //       borderRadius: "8px",
-      //       padding: "8px",
-      //     },
-      //   },
-      // },
+     
       MuiDataTableHeadCell: {
         styleOverrides: {
           root: {
@@ -47,28 +38,6 @@ const getMuiTheme = () =>
           },
         },
       },
-      // MuiDataTableToolbar: {
-      //   styleOverrides: {
-      //     root: {
-      //       display: "block !important ",
-      //       // fontFamily: "NatoSans !important", // Apply NatoSans font to the whole table
-      //     },
-      //   },
-      // },
-      // MuiDataTableSearchmain: {
-      //   styleOverrides: {
-      //     root: {
-      //       display: "block !important ", // Apply NatoSans font to the whole table
-      //     },
-      //   },
-      // },
-      // MuiTextField: {
-      //   styleOverrides: {
-      //     root: {
-      //       display: "block !important ", // Apply NatoSans font to the whole table
-      //     },
-      //   },
-      // },
       MuiTableCell: {
         styleOverrides: {
           root: {
