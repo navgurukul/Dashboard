@@ -13,6 +13,7 @@ import { useState } from "react";
 import PartnerAddModal from "./PartnerAddModal";
 import { SearchOutlined } from "@mui/icons-material";
 import { breakpoints } from "../../theme/constant";
+import { Add } from "@mui/icons-material";
 
 function PartnerFilter() {
   const [openModal, setOpenModal] = useState(false);
@@ -46,7 +47,12 @@ function PartnerFilter() {
       onClick={() => dispatch(changeFilterBy(term))}
       key={term}
       variant={term === filterBy ? "contained" : "outlined"}
-      sx={{ mr: 1, borderRadius: "50px", borderColor: "#DCDCDC" }}
+      sx={{
+        mr: 2,
+        borderRadius: "18px",
+        borderColor: "#DCDCDC",
+        p: "12px",
+      }}
     >
       <Typography variant="body2" color={term !== filterBy && "text.primary"}>
         {term}
@@ -55,7 +61,7 @@ function PartnerFilter() {
   ));
   return (
     <Box sx={{ mt: 8, mb: 2 }}>
-      <Box display="flex" mb={3}>
+      <Box display="flex" justifyContent={"space-between"} mb={3}>
         <TextField
           placeholder="Search Partner, Point of Contact..."
           size="medium"
@@ -69,14 +75,17 @@ function PartnerFilter() {
             ),
             style: {
               height: "48px",
+              borderRadius: "8px",
+              fontSize: "14px",
             },
           }}
-          sx={{ flex: 1 }}
+          sx={{ width: "360px" }}
         />
         <Button
+          startIcon={<Add />}
           onClick={handleModalToggle}
           variant="contained"
-          sx={{ marginLeft: "16px" }}
+          sx={{}}
         >
           <Typography variant="subtitle2">Add Partner</Typography>
         </Button>
