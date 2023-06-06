@@ -98,7 +98,7 @@ const CreateSpaceModal = ({ boolean, onToggle }) => {
             value={values.pocEmail}
             onChange={handleChange}
             name="pocEmail"
-            label="Point of Contact (Optional)"
+            label="Point of Contact Email (Optional)"
             margin="dense"
             fullWidth
           />

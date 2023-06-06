@@ -5,6 +5,7 @@ import { spacesApi } from "./apis/spacesApi";
 import { partnersApi } from "./apis/partnersApi";
 import { groupsApi } from "./apis/groupsApi";
 import { groupStudentsApi } from "./apis/groupStudentsApi";
+import { checkEmailApi } from "./apis/checkEmailApi";
 
 import {
   changeSearchTerm,
@@ -21,13 +22,15 @@ const store = configureStore({
     [spacesApi.reducerPath]: spacesApi.reducer,
     [groupsApi.reducerPath]: groupsApi.reducer,
     [groupStudentsApi.reducerPath]: groupStudentsApi.reducer,
+    [checkEmailApi.reducerPath]: checkEmailApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
       .concat(partnersApi.middleware)
       .concat(spacesApi.middleware)
       .concat(groupsApi.middleware)
-      .concat(groupStudentsApi.middleware);
+      .concat(groupStudentsApi.middleware)
+      .concat(checkEmailApi.middleware);
   },
 });
 
@@ -61,5 +64,7 @@ export {
   useFetchStudentsQuery,
   useAddSingleStudentsMutation,
 } from "./apis/groupStudentsApi";
+
+export { useCheckEmailQuery } from "./apis/checkEmailApi";
 
 export { store, changeSearchTerm, clearSearchTerm, changeFilterBy };
