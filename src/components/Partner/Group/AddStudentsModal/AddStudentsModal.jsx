@@ -34,7 +34,6 @@ const AddStudentsModal = ({ boolean, onToggle }) => {
     { name: "", email: "", id: crypto.randomUUID() },
   ]);
   const [radioValue, setRadioValue] = useState("one");
-  console.log(results);
 
   const handleRadioChange = (e) => {
     setRadioValue(e.target.value);
@@ -79,9 +78,9 @@ const AddStudentsModal = ({ boolean, onToggle }) => {
     <div>
       <Dialog open={boolean} onClose={onToggle}>
         <DialogContent
-          sx={{
-            overflow: "hidden",
-          }}
+        // sx={{
+        //   overflow: "scroll",
+        // }}
         >
           <Grid container mb={3}>
             <Grid item xs={11}>
