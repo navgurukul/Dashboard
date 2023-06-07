@@ -6,7 +6,7 @@ import spaceShipImage from "../assets/student_illustration.svg";
 import { useOutletContext } from "react-router-dom";
 import { Add } from "@mui/icons-material";
 
-const AddStudents = () => {
+const AddStudents = ({ handleAddStudentsOpen }) => {
   return (
     <>
       <Box
@@ -30,6 +30,7 @@ const AddStudents = () => {
         </Typography>
 
         <Button
+          onClick={handleAddStudentsOpen}
           variant="contained"
           aria-label="open drawer"
           edge="start"

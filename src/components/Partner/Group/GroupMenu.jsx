@@ -6,12 +6,19 @@ import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import showToast from "../../showToast";
 import EditGroupModal from "./EditGroupModal";
+import { useDeleteGroupMutation } from "../../../store";
 
 const ITEM_HEIGHT = 48;
 
 function GroupMenu({ group }) {
+  const [deleteGroup, results] = useDeleteGroupMutation();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  console.log(results);
+
+  useEffect(() => {
+    showToast("success", results?.data?.message);
+  }, [results.isSuccess]);
 
   const [openUpdateGroup, setOpenUpdateGroup] = useState(false);
   const handleOpenUpdateGroupToggle = () => {
@@ -28,6 +35,10 @@ function GroupMenu({ group }) {
   const handleEditClick = () => {
     handleOpenUpdateGroupToggle();
     setAnchorEl(null);
+  };
+
+  const handleDeleteClick = () => {
+    deleteGroup(group);
   };
 
   return (
@@ -73,7 +84,7 @@ function GroupMenu({ group }) {
       >
         <MenuItem onClick={handleEditClick}>Edit Details</MenuItem>
         <MenuItem>Copy Link</MenuItem>
-        <MenuItem>Delete</MenuItem>
+        <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
       </Menu>
     </div>
   );

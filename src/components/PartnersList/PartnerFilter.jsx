@@ -13,6 +13,7 @@ import { useState } from "react";
 import PartnerAddModal from "./PartnerAddModal";
 import { SearchOutlined } from "@mui/icons-material";
 import { breakpoints } from "../../theme/constant";
+import { Add } from "@mui/icons-material";
 
 function PartnerFilter() {
   const [openModal, setOpenModal] = useState(false);
@@ -46,7 +47,12 @@ function PartnerFilter() {
       onClick={() => dispatch(changeFilterBy(term))}
       key={term}
       variant={term === filterBy ? "contained" : "outlined"}
-      sx={{ mr: 1, borderRadius: "50px", borderColor: "#DCDCDC" }}
+      sx={{
+        mr: 2,
+        borderRadius: "18px",
+        borderColor: "#DCDCDC",
+        p: "12px",
+      }}
     >
       <Typography variant="body2" color={term !== filterBy && "text.primary"}>
         {term}
@@ -69,16 +75,19 @@ function PartnerFilter() {
             ),
             style: {
               height: "48px",
+              borderRadius: "8px",
+              fontSize: "14px",
             },
           }}
           sx={{ width: "500px" }}
         />
         <Button
+          startIcon={<Add />}
           onClick={handleModalToggle}
           variant="contained"
-          sx={{ width:"160px", margin:"0 0 0 550px" }}
+          sx={{ width:"160px", margin:"0 0 0 540px" }}
         >
-          <Typography variant="subtitle2"> <span style={{position:"absolute", left:"20px", fontSize:"18px"}}>+</span> Add Partner</Typography>
+          <Typography variant="subtitle2"> Add Partner</Typography>
         </Button>
         {openModal && (
           <PartnerAddModal onOpen={handleModalToggle} boolean={openModal} />
