@@ -4,7 +4,11 @@ import GroupItem from "./GroupItem";
 import { Add } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
-function GroupList({ space, handleCreateGroupToggle }) {
+function GroupList({
+  space,
+  handleCreateGroupToggle,
+  handleCreateBatchToggle,
+}) {
   const { data, loading, isError } = useFetchGroupsQuery(space);
 
   let content;
@@ -40,7 +44,13 @@ function GroupList({ space, handleCreateGroupToggle }) {
     );
   } else {
     content = data.map((group) => {
-      return <GroupItem group={group} key={group.id} />;
+      return (
+        <GroupItem
+          group={group}
+          key={group.id}
+          handleCreateBatchToggle={handleCreateBatchToggle}
+        />
+      );
     });
   }
 

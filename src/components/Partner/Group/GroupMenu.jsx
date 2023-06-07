@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -19,20 +19,14 @@ const options = [
   "Foundations of DSA",
   "C4CA Projects",
 ];
-const optionsForEdit = [
-  "Edit Details",
-  "Copy Link",
-  "Delete",
-];
+const optionsForEdit = ["Edit Details", "Copy Link", "Delete"];
 
-function GroupMenu({ group }) {
+function GroupMenu({ group, handleCreateBatchToggle }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorCourse, setAnchorCourse] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const open = Boolean(anchorEl);
   const openPathwayList = Boolean(anchorCourse);
-  const [createBatchOpen, setCreateBatchOpen] = useState(false);
-  const handleCreateBatchToggle = () => setCreateBatchOpen(!createBatchOpen);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -47,7 +41,8 @@ function GroupMenu({ group }) {
     setAnchorEl(null);
   };
 
-  const handleClickAdd = () => {
+  const handleClickAdd = (event) => {
+    // handleCreateBatchToggle();
     setAnchorCourse(event.currentTarget);
   };
 
@@ -57,19 +52,13 @@ function GroupMenu({ group }) {
 
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
-    handleCreateBatchToggle();
+    const saw = options[selectedIndex];
+    handleCreateBatchToggle(saw);
     setAnchorCourse(null);
   };
-  
+
   return (
     <div>
-      {createBatchOpen && (
-        <CreateBatchModal
-          onToggle={handleCreateBatchToggle}
-          boolean={createBatchOpen}
-          saw={options[selectedIndex]}
-        />
-      )}
       <Box sx={{ display: "flex" }}>
         <Box
           aria-label="more"
@@ -88,9 +77,11 @@ function GroupMenu({ group }) {
           aria-controls={openPathwayList ? "long-menu" : undefined}
           aria-expanded={openPathwayList ? "true" : undefined}
           aria-haspopup="true"
-          onClick={handleClickAdd}
         >
-          <AddIcon sx={{ color: "text.primary", fontSize: "16px" }} />
+          <AddIcon
+            onClick={handleClickAdd}
+            sx={{ color: "text.primary", fontSize: "16px" }}
+          />
         </Box>
       </Box>
       <Menu
