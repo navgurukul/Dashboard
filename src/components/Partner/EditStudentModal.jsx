@@ -15,7 +15,7 @@ import {
   DialogActions,
 } from "@mui/material";
 
-const EditStudentModal = ({   }) => {
+const EditStudentModal = ({}) => {
   // const { partnerId } = useParams();
   // const [addSpace, results] = useAddSpaceMutation();
   // console.log(results);
@@ -56,8 +56,7 @@ const EditStudentModal = ({   }) => {
   // };
 
   return (
-    
-      <Dialog   >
+    <Dialog>
       <Container>
         <DialogContent>
           <Grid container mb={3}>
@@ -99,12 +98,9 @@ const EditStudentModal = ({   }) => {
             </Button>
           </DialogActions>
         </Box>
-        </Container>
-      </Dialog>
-    
+      </Container>
+    </Dialog>
   );
 };
- 
-
 
 export default EditStudentModal;

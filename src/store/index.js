@@ -4,7 +4,9 @@ import { authReducer } from "./slices/authSlice";
 import { spacesApi } from "./apis/spacesApi";
 import { partnersApi } from "./apis/partnersApi";
 import { groupsApi } from "./apis/groupsApi";
+import { batchsApi } from "./apis/batchsApi";
 import { groupStudentsApi } from "./apis/groupStudentsApi";
+import { checkEmailApi } from "./apis/checkEmailApi";
 
 import {
   changeSearchTerm,
@@ -20,14 +22,18 @@ const store = configureStore({
     [partnersApi.reducerPath]: partnersApi.reducer,
     [spacesApi.reducerPath]: spacesApi.reducer,
     [groupsApi.reducerPath]: groupsApi.reducer,
+    [batchsApi.reducerPath]: batchsApi.reducer,
     [groupStudentsApi.reducerPath]: groupStudentsApi.reducer,
+    [checkEmailApi.reducerPath]: checkEmailApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
       .concat(partnersApi.middleware)
       .concat(spacesApi.middleware)
       .concat(groupsApi.middleware)
-      .concat(groupStudentsApi.middleware);
+      .concat(batchsApi.middleware)
+      .concat(groupStudentsApi.middleware)
+      .concat(checkEmailApi.middleware)
   },
 });
 
@@ -57,9 +63,12 @@ export {
   useDeleteGroupMutation,
 } from "./apis/groupsApi";
 
+export { useFetchBatchsQuery } from "./apis/batchsApi";
 export {
   useFetchStudentsQuery,
   useAddSingleStudentsMutation,
 } from "./apis/groupStudentsApi";
+
+export { useCheckEmailQuery } from "./apis/checkEmailApi";
 
 export { store, changeSearchTerm, clearSearchTerm, changeFilterBy };

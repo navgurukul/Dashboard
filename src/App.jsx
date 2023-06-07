@@ -18,6 +18,7 @@ import CreateSpace from "./components/Partner/Space/CreateSpace";
 import BatchPage from "./pages/partners/Batch/BatchPage";
 import StudentList from "./components/StudentList/StudentList";
 import AttandanceList from "./components/AttandanceList/AttandanceList";
+import StudentInfo from "./components/StudentInfo/StudentInfo";
 
 // library
 import { ThemeProvider } from "@mui/material";
@@ -34,19 +35,17 @@ const router = createBrowserRouter([
         element: <PartnerPage />,
         children: [
           { index: true, element: <CreateSpace /> },
+          { path: "space/:spaceId", element: <CreateGroup />},
+          { path: "space/:spaceId/group/:groupId", element: <GroupPage />, },
           {
-            path: "space/:spaceId",
-            element: <CreateGroup />,
-          },
-          { path: "space/:spaceId/group/:groupId", element: <GroupPage /> },
-          {
-            path: "batch",
+            path: "space/:spaceId/group/:groupId/batch",
             element: <BatchPage />,
             children: [
               { index: true, element: <StudentList /> },
-              { path: "attendance", element: <AttandanceList /> },
+              { path: "attandancelist", element: <AttandanceList /> },
             ],
           },
+          { path: "space/:spaceId/group/:groupId/batch/studentinfo", element: <StudentInfo/> },
         ],
       },
     ],

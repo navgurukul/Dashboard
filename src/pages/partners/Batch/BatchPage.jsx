@@ -3,81 +3,182 @@ import Box from "@mui/material/Box";
 import { TextField, Button, Typography } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import spaceShipImage from "../../../components/Partner/assets/student_illustration.svg";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
+import pythonlogo from "./assests/courseicon.png";
+import calenderIcon from "./assests/reshot-icon-calendar-FEQDJ2T9NL 1.png";
+import teacherImage from "./assests/reshot-icon-teacher-3ADUGQCW6P (1) 1.png";
+import { useState, useEffect } from "react";
 
+const ImageSize = {
+  width: "32px",
+  height: "32px",
+};
+
+const ImageSizeCal = {
+  width: "25px",
+  height: "25px",
+};
 const BatchPage = () => {
+  const navigate = useNavigate();
+  const { spaceId, groupId, partnerId } = useParams();
+  const [activeElement, setActiveElement] = useState("students");
+
+  useEffect(() => {
+    setActiveElement("students");
+  }, []);
+
+  const handleClick = (element) => {
+    setActiveElement(element);
+    navigate(`/${element}`);
+  };
+
   return (
-    <Box style={{ width: "100%", padding: "1rem" }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Box display="flex" alignItems="center">
-          <Typography variant="subtitle2" style={{ fontSize: "16px" }}>
-            Batch 1
+    <Box style={{ width: "100%", padding: "0px 20px" }}>
+      <Box>
+        <Typography
+          style={{
+            fontSize: "14px",
+            marginBottom: "10px",
+            // border: "1px solid blue",
+          }}
+        >
+          C / Student Group /Python
+        </Typography>
+      </Box>
+      <Box
+        style={{
+          // border: "1px solid blue",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            // border: "1px solid red",
+            marginTop: "10px",
+          }}
+        >
+          <img src={pythonlogo} alt="pythonImage" style={ImageSize} />
+          <Typography
+            variant="subtitle2"
+            style={{ fontSize: "18px", margin: "0px 10px", fontWeight: "bold" }}
+          >
+            Python Batch 1
           </Typography>
           <Typography
             style={{
               fontSize: "14px",
-              marginLeft: "15px",
-              padding: "8px",
+              marginLeft: "10px",
+              padding: "5px 11px",
               borderRadius: "50px",
-              backgroundColor: "grey",
+              backgroundColor: "#F7D060",
+              fontWeight: "400",
             }}
           >
-            Yet to Start
+            Ongoing
           </Typography>
         </Box>
-        <Box>
+        <Box
+          style={{
+            // border: "1px solid green",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              // border: "1px solid green",
+              marginRight: "40px",
+            }}
+          >
+            <img src={calenderIcon} alt="" style={ImageSizeCal} />
+            <Typography
+              style={{
+                fontSize: "14px",
+                fontWeight: "400",
+              }}
+            >
+              16 Oct 23 to 20 Nov 23
+            </Typography>
+          </Box>
+          <Box
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              marginRight: "25px",
+            }}
+          >
+            <img src={teacherImage} alt="" style={ImageSize} />
+            <Typography
+              style={{
+                fontSize: "14px",
+                fontWeight: "400",
+              }}
+            >
+              Prajakta Kishori
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+      <Box
+        style={{
+          // border: "1px solid green",
+
+          // paddingLeft: "15px",
+          marginTop: "15px",
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+      >
+        <Link
+          to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch`}
+          style={{ textDecoration: "none" }}
+        >
           <Typography
-            style={{ fontSize: "12px" }}
-            display="flex"
-            alignItems="center"
+            style={{
+              borderBottom:
+                activeElement === "students" ? "2px solid green" : "none",
+              fontSize: "14px",
+              fontWeight: "600",
+              padding: "10px 40px",
+              color: activeElement === "students" ? "green" : "black",
+              cursor: "pointer",
+            }}
+            onClick={() => handleClick("students")}
           >
-            <CalendarMonthIcon /> 16 Oct to 20 Nov
+            Students
           </Typography>
-        </Box>
-      </Box>
-      <Box display="flex" margin="5px 0px">
-        <Box sx={{ m: 1 }}>
-          <Link
-            to={`students`}
+        </Link>
+        <Link
+          to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/attandancelist`}
+          style={{ textDecoration: "none" }}
+        >
+          <Typography
             style={{
-              textUnderlineOffset: "15px",
-              fontSize: "12px",
-              color: "black",
+              borderBottom:
+                activeElement === "attendance" ? "2px solid green" : "none",
+              fontSize: "14px",
+              fontWeight: "600",
+              padding: "10px 40px",
+              color: activeElement === "attendance" ? "green" : "black",
+              cursor: "pointer",
             }}
+            onClick={() => handleClick("attendance")}
           >
-            <Typography sx={{ mr: 3, fontSize: "16px" }}>Students</Typography>
-          </Link>
-        </Box>
-        <Box sx={{ m: 1 }}>
-          <Link
-            to={`attandance`}
-            style={{
-              textUnderlineOffset: "15px",
-              fontSize: "12px",
-              color: "black",
-            }}
-          >
-            <Typography>Attendance Data</Typography>
-          </Link>
-        </Box>
+            Attendance Data
+          </Typography>
+        </Link>
       </Box>
-      <Box display="flex" sx={{ mt: 2 }}>
-        <TextField
-          placeholder="Student Name, Class..."
-          sx={{ flex: 1 }}
-          size="small"
-        />
-        <Button variant="contained" sx={{ marginLeft: "16px" }}>
-          <Typography variant="subtitle2"> + Add Student(s)</Typography>
-        </Button>
-      </Box>
-      <Box sx={{ textAlign: "center", mt: 5 }}>
-        <img src={spaceShipImage} alt="spaceshipimage" />
-        <Typography style={{ fontSize: "12px" }}>
-          Students havent arrived yet to the batch? Add some students to make it
-          lively
-        </Typography>
-      </Box>
+      <hr style={{ borderTop: "1px solid #BDBDBD", marginBottom: "10px" }} />
       <Outlet />
     </Box>
   );
