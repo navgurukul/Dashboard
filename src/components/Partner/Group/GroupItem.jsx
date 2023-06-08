@@ -13,7 +13,7 @@ import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
 import { useState } from "react";
 import GroupMenu from "./GroupMenu";
 
-function GroupItem({ group }) {
+function GroupItem({ group, handleCreateBatchToggle }) {
   const { spaceId } = useParams();
   const [open, setOpen] = useState(false);
 
@@ -55,7 +55,8 @@ function GroupItem({ group }) {
           >
             {group.group_name}
           </Typography>
-          <GroupMenu group={group} />
+          <GroupMenu group={group} 
+          handleCreateBatchToggle={handleCreateBatchToggle}/>
         </ListItemButton>
       </NavLink>
     </>
