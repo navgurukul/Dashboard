@@ -33,10 +33,23 @@ const groupStudentsApi = createApi({
           };
         },
       }),
+      updateStudents: builder.mutation({
+        invalidatesTags: ["GroupStudents"],
+        query: ({ studentId, ...student }) => {
+          return {
+            url: `/students/${studentId}`,
+            body: { ...rest },
+            method: "PUT",
+          };
+        },
+      }),
     };
   },
 });
 
 export { groupStudentsApi };
-export const { useAddSingleStudentsMutation, useFetchStudentsQuery } =
-  groupStudentsApi;
+export const {
+  useAddSingleStudentsMutation,
+  useFetchStudentsQuery,
+  useUpdateStudentsMutation
+} = groupStudentsApi;

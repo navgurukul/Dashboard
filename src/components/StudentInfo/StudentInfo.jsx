@@ -145,7 +145,18 @@ const StudentInfo = () => {
           </Box>
         </Box>
       </Box>
-
+      <Box>
+        <Typography
+          style={{
+            fontSize: "18px",
+            weight:"600", 
+            width:"584px",
+            margin:"0px auto",
+          }}
+        >
+          Course Wise Performance
+        </Typography>
+      </Box>
       <Accordion />
       <Accordion />
       <Accordion />

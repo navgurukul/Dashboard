@@ -8,6 +8,21 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import greenTick from "../assests/greenTick.png";
 
+const spanQuestionElement = {
+  display: "inline-block",
+  width: "12px",
+  height: "12px",
+  borderRadius: "4px",
+  marginRight: "5px",
+};
+
+const spanColors = {
+  totalQuestions: "#48A145",
+  attemptedQuestions: "#2E2E2E",
+  correctAnswers: "#2196F3",
+  wrongAnswers: "#48A145",
+};
+
 export default function SimpleAccordion() {
   return (
     <div
@@ -107,60 +122,44 @@ export default function SimpleAccordion() {
                 </Typography>
                 <span
                   style={{
-                    display: "inline-block",
-                    width: "12px",
-                    height: "12px",
-                    backgroundColor: "#FF6D60",
-                    borderRadius: "4px",
-                    marginRight: "5px",
+                    ...spanQuestionElement,
+                    backgroundColor: spanColors.totalQuestions,
                   }}
                 ></span>
                 20
               </Box>
               <Box style={{ marginRight: "20px" }}>
                 <Typography style={{ fontSize: "14px" }}>
-                  Total Questions
+                  Attempted Questions
                 </Typography>
                 <span
                   style={{
-                    display: "inline-block",
-                    width: "12px",
-                    height: "12px",
-                    backgroundColor: "#2E2E2E",
-                    borderRadius: "4px",
-                    marginRight: "5px",
+                    ...spanQuestionElement,
+                    backgroundColor: spanColors.attemptedQuestions,
                   }}
                 ></span>
                 20
               </Box>
               <Box style={{ marginRight: "20px" }}>
                 <Typography style={{ fontSize: "14px" }}>
-                  Total Questions
+                  Correct Answers
                 </Typography>
                 <span
                   style={{
-                    display: "inline-block",
-                    width: "12px",
-                    height: "12px",
-                    backgroundColor: "#2196F3",
-                    borderRadius: "4px",
-                    marginRight: "5px",
+                    ...spanQuestionElement,
+                    backgroundColor: spanColors.correctAnswers,
                   }}
                 ></span>
                 20
               </Box>
               <Box style={{ marginRight: "20px" }}>
                 <Typography style={{ fontSize: "14px" }}>
-                  Total Questions
+                  Wrong Answers
                 </Typography>
                 <span
                   style={{
-                    display: "inline-block",
-                    width: "12px",
-                    height: "12px",
-                    backgroundColor: "#48A145",
-                    borderRadius: "4px",
-                    marginRight: "5px",
+                    ...spanQuestionElement,
+                    backgroundColor: spanColors.wrongAnswers,
                   }}
                 ></span>
                 20

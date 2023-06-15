@@ -6,9 +6,11 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { SearchOutlined } from "@mui/icons-material";
 import { TextField, Button, Typography, InputAdornment } from "@mui/material";
 import Box from "@mui/material/Box";
-import { useSelector } from "react-redux";
-import { useFetchBatchsQuery } from "../../store";
+// import { useSelector } from "react-redux";
+// import { useFetchBatchsQuery } from "../../store";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { changeFilterBym, changeSearchTermm } from "../../store";
 
 const getMuiTheme = () =>
   createTheme({
@@ -118,7 +120,7 @@ const options = {
   selectableRows: "none",
 };
 
-const StudentList = ({}) => {
+const StudentList = ({data}) => {
   const columns = [
     {
       name: "firstName",
@@ -177,9 +179,29 @@ const StudentList = ({}) => {
       },
     },
   ];
-  const { data, isLoading, error } = useFetchBatchsQuery();
+ 
 // console.log(data);
   const { spaceId, groupId } = useParams();
+
+  const dispatch = useDispatch();
+  const { searchTerm, filterBy } = useSelector((state) => {
+    return state.studentFilter;
+  });
+
+  console.log(filterBy);
+
+  const filterTerms = [
+    "All Partners",
+    "Newly Onboarded",
+    "Active",
+    "Inactive",
+    "Archived",
+  ];
+
+  const handleChange = (e) => {
+    dispatch(changeSearchTermm(e.target.value));
+  };
+
 
   const handleClickRow = (rowData) => {
     const studentId = rowData[0];   
@@ -191,6 +213,8 @@ const StudentList = ({}) => {
       <Box style={{ margin: "0px 10px 0px 5px" }}>
         <TextField
           placeholder="Search Student..."
+          value={searchTerm}
+          onChange={handleChange}
           size="medium"
           InputProps={{
             startAdornment: (

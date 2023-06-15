@@ -16,10 +16,13 @@ const batchsApi = createApi({
     return {
       fetchBatchs: builder.query({
         providesTags: ["Batch"],
-        query: () => {
+        query: (noofRecords = 25) => {
           return {
             url: `/employee`,
             method: "GET",
+            params: {
+              noofRecords,
+            },
           };
         },
       }),
