@@ -16,10 +16,19 @@ import {
 } from "@mui/material";
 import { useUpdatePartnerMutation } from "../../store";
 import showToast from "../showToast";
+import useValidEmail from "../../hooks/useValidEmail";
 
 function PartnerUpdateModal({ boolean, onOpen, partner }) {
   const [updatePartner, results] = useUpdatePartnerMutation();
-  console.log(results);
+
+  const [values, setValues] = useState({
+    partnerId: partner.id,
+    name: partner.name || "",
+    point_of_contact_name: partner.point_of_contact_name || "",
+    email: partner.email || "",
+  });
+
+  const { isValidEmail } = useValidEmail(values.email);
 
   useEffect(() => {
     if (results.isSuccess) {
@@ -29,20 +38,6 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
       showToast("error", results.error.data.status);
     }
   }, [results.isSuccess, results.isError]);
-
-  // const [values, setValues] = useState({
-  //   partnerId: partner.id,
-  //   name: partner.name,
-  //   point_of_contact_name: partner.point_of_contact_name,
-  //   email: partner.email,
-  // });
-
-  const [values, setValues] = useState({
-    partnerId: partner.id,
-    name: partner.name || "",
-    point_of_contact_name: partner.point_of_contact_name || "",
-    email: partner.email || "",
-  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -107,10 +102,20 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
             onChange={handleChange}
             fullWidth
           />
+          {!isValidEmail && (
+            <Typography sx={{ fontSize: "14px", color: "red" }}>
+              Please enter a valid email
+            </Typography>
+          )}
         </DialogContent>
         <Box sx={{ pb: 2, px: 2 }}>
           <DialogActions>
-            <Button fullWidth variant="contained" onClick={handleSubmit}>
+            <Button
+              disabled={!isValidEmail || values.email.trim() === ""}
+              fullWidth
+              variant="contained"
+              onClick={handleSubmit}
+            >
               Update Partner
             </Button>
           </DialogActions>
