@@ -8,6 +8,11 @@ import { groupStudentsApi } from "./apis/groupStudentsApi";
 import { checkEmailApi } from "./apis/checkEmailApi";
 
 import {
+  changeSelectedCourse,
+  selectedCourseReducer,
+} from "./slices/selectedCourseSlice";
+
+import {
   changeSearchTerm,
   clearSearchTerm,
   changeFilterBy,
@@ -18,6 +23,7 @@ const store = configureStore({
   reducer: {
     auth: authReducer,
     partnerFilter: partnerFilterReducer,
+    selectedCourse: selectedCourseReducer,
     [partnersApi.reducerPath]: partnersApi.reducer,
     [spacesApi.reducerPath]: spacesApi.reducer,
     [groupsApi.reducerPath]: groupsApi.reducer,
@@ -67,4 +73,10 @@ export {
 
 export { useCheckEmailQuery } from "./apis/checkEmailApi";
 
-export { store, changeSearchTerm, clearSearchTerm, changeFilterBy };
+export {
+  store,
+  changeSearchTerm,
+  clearSearchTerm,
+  changeFilterBy,
+  changeSelectedCourse,
+};

@@ -28,10 +28,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { breakpoints } from "../../theme/constant";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const CreateBatchModal = ({ boolean, onToggle, selected_course }) => {
+const CreateBatchModal = ({ boolean, onToggle }) => {
   const { partnerId, spaceId, groupId } = useParams();
 
+  const { courseName } = useSelector((state) => state.selectedCourse);
 
   const [classFields, setClassFields] = useState({
     group_id: groupId,
@@ -57,8 +59,6 @@ const CreateBatchModal = ({ boolean, onToggle, selected_course }) => {
     ),
     // on_days: [],
   });
-
-  console.log(selected_course);
 
   const [partnerPathwayId, setPartnerPathwayId] = useState();
   const [volunteer, setVolunteer] = useState([]);
@@ -186,7 +186,7 @@ const CreateBatchModal = ({ boolean, onToggle, selected_course }) => {
             <Grid container mb={3}>
               <Grid item xs={11}>
                 <Typography variant="h6" component="h2">
-                  Create {selected_course} Batch
+                  Create {courseName} Batch
                 </Typography>
               </Grid>
               <Grid color="text.secondary" item xs={1}>

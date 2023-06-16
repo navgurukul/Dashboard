@@ -6,7 +6,8 @@ import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import showToast from "../../showToast";
 import EditGroupModal from "./EditGroupModal";
-import { useDeleteGroupMutation } from "../../../store";
+import { changeSelectedCourse, useDeleteGroupMutation } from "../../../store";
+import { useDispatch, useSelector } from "react-redux";
 // import CreateBatchModal from "../CreateBatchModal";
 
 const ITEM_HEIGHT = 48;
@@ -27,8 +28,10 @@ function GroupMenu({ group, handleCreateBatchToggle }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const open = Boolean(anchorEl);
   const openPathwayList = Boolean(anchorCourse);
-  const selected_course = (options[selectedIndex]);
-  
+  const selected_course = options[selectedIndex];
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     showToast("success", results?.data?.message);
   }, [results.isSuccess]);
@@ -55,7 +58,6 @@ function GroupMenu({ group, handleCreateBatchToggle }) {
   };
 
   const handleClickAdd = (event) => {
-    // handleCreateBatchToggle();
     setAnchorCourse(event.currentTarget);
   };
 
@@ -63,11 +65,15 @@ function GroupMenu({ group, handleCreateBatchToggle }) {
     setAnchorCourse(null);
   };
 
-  const handleMenuItemClick = (event, index) => {
-    setSelectedIndex(index);
-    handleCreateBatchToggle()
+  const handleMenuItemClick = (event, option) => {
+    // setSelectedIndex(index);
+    handleCreateBatchToggle();
     setAnchorCourse(null);
+    dispatch(changeSelectedCourse(option));
   };
+
+  const { courseName } = useSelector((state) => state.selectedCourse);
+  console.log(courseName);
 
   return (
     <div>
@@ -123,7 +129,7 @@ function GroupMenu({ group, handleCreateBatchToggle }) {
           <MenuItem
             key={option}
             selected={index === selectedIndex}
-            onClick={(event) => handleMenuItemClick(event, index)}
+            onClick={(event) => handleMenuItemClick(event, option)}
           >
             {option}
           </MenuItem>
