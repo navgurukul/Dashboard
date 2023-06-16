@@ -16,15 +16,18 @@ import {
   DialogActions,
 } from "@mui/material";
 import showToast from "../showToast";
+import useValidEmail from "../../hooks/useValidEmail";
 
 function PartnerAddModal({ boolean, onOpen }) {
   const [addPartner, results] = useAddPartnerMutation();
-  console.log(results);
+
   const [values, setValues] = useState({
     name: "",
     point_of_contact_name: "",
     email: "",
   });
+
+  const { isValidEmail } = useValidEmail(values.email);
 
   useEffect(() => {
     if (results.isSuccess) {
@@ -100,10 +103,20 @@ function PartnerAddModal({ boolean, onOpen }) {
             onChange={handleChange}
             fullWidth
           />
+          {!isValidEmail && (
+            <Typography sx={{ fontSize: "14px", color: "red" }}>
+              Please enter a valid email
+            </Typography>
+          )}
         </DialogContent>
         <Box sx={{ pb: 2, px: 2 }}>
           <DialogActions>
-            <Button fullWidth variant="contained" onClick={handleSubmit}>
+            <Button
+              disabled={!isValidEmail || values.email.trim() === ""}
+              fullWidth
+              variant="contained"
+              onClick={handleSubmit}
+            >
               Create Partner
             </Button>
           </DialogActions>
