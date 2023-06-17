@@ -118,6 +118,7 @@ const options = {
   rowsHover: true,
   searchTextVariant: "outlined",
   selectableRows: "none",
+  viewColumns: false,
 };
 
 const StudentList = ({data}) => {

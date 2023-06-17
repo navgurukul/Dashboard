@@ -83,6 +83,7 @@ const options = {
   rowsHover: true,
   searchTextVariant: "outlined",
   selectableRows: "none",
+  viewColumns: false,
   searchProps: {
     style: {
       display: "block !important",
@@ -162,10 +163,10 @@ const AttandanceList = ({ data }) => {
       key={term}
       variant={term === filterBy ? "contained" : "outlined"}
       sx={{
-        mr: 1,
-        borderRadius: "50px",
+        mr: 2,
+        borderRadius: "18px",
         borderColor: "#DCDCDC",
-        padding: "8px 8px",
+       padding: "7px 12px",
         height: "40px",
         margin: "0px 10px",
       }}
