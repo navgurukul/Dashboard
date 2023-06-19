@@ -40,7 +40,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     space_id: spaceId,
     partner_id: [partnerId],
     volunteer_id: "",
-    pathway_id: 1,
+    pathway_id: 0,
     // facilitator_id: 7108,
     // exercise_id: 530,
     // course_id: 21,
@@ -86,6 +86,17 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     border: "none",
   };
 
+  const PathwayList = [
+    { id: 1, name: "Python" },
+    { id: 2, name: "Spoken English" },
+    { id: 3, name: "Typing" }
+  ];
+
+  PathwayList.map((course) => {
+    if (course.name === courseName){
+      classFields.pathway_id = course.id;
+    }
+  })
   // const days = {
   //   MO: "Mon",
   //   TU: "Tue",
@@ -125,7 +136,8 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     });
   }, []);
 
-  console.log(volunteer);
+  // console.log(classFields);
+  // console.log(volunteer);
   const handleSubmit = () => {
     const start_time =
       classFields.date +
@@ -154,7 +166,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
       },
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         onToggle = true;
         // e.target.reset();
       })

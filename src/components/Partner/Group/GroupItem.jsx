@@ -12,6 +12,7 @@ import { NavLink, useOutletContext, useParams } from "react-router-dom";
 import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
 import { useState } from "react";
 import GroupMenu from "./GroupMenu";
+import BatchList from "../Batch/BatchList";
 
 function GroupItem({ group, handleCreateBatchToggle }) {
   const { spaceId } = useParams();
@@ -59,6 +60,12 @@ function GroupItem({ group, handleCreateBatchToggle }) {
           handleCreateBatchToggle={handleCreateBatchToggle}/>
         </ListItemButton>
       </NavLink>
+      {open && (
+        <BatchList
+          group={group}
+          // handleCreateBatchToggle={handleCreateBatchToggle}
+        />
+      )}
     </>
   );
 }

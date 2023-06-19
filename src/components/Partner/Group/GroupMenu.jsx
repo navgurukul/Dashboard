@@ -16,10 +16,10 @@ const options = [
   "Python",
   "Spoken English",
   "Typing",
-  "Climate Action",
-  "Scratch",
-  "Foundations of DSA",
-  "C4CA Projects",
+  // "Climate Action",
+  // "Scratch",
+  // "Foundations of DSA",
+  // "C4CA Projects",
 ];
 function GroupMenu({ group, handleCreateBatchToggle }) {
   const [deleteGroup, results] = useDeleteGroupMutation();
@@ -73,7 +73,7 @@ function GroupMenu({ group, handleCreateBatchToggle }) {
   };
 
   const { courseName } = useSelector((state) => state.selectedCourse);
-  console.log(courseName);
+  // console.log(courseName);
 
   return (
     <div>
