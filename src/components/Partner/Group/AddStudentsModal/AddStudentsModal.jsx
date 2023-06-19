@@ -26,6 +26,7 @@ import {
 import { Add, Delete } from "@mui/icons-material";
 import AddStudentsList from "./AddStudentsList";
 import { useAddSingleStudentsMutation } from "../../../../store";
+import BulkUpload from "./BulkUpload";
 
 const AddStudentsModal = ({ boolean, onToggle }) => {
   const { groupId } = useParams();
@@ -113,11 +114,15 @@ const AddStudentsModal = ({ boolean, onToggle }) => {
               </Stack>
             </RadioGroup>
           </Box>
-          <AddStudentsList
-            students={students}
-            onDelete={handleDeleteStudent}
-            onChange={handleEditStudent}
-          />
+          {radioValue === "one" ? (
+            <AddStudentsList
+              students={students}
+              onDelete={handleDeleteStudent}
+              onChange={handleEditStudent}
+            />
+          ) : (
+            <BulkUpload />
+          )}
         </DialogContent>
         <Box sx={{ pb: 2, px: 2 }}>
           <DialogActions sx={{ display: "flex", flexDirection: "column" }}>
