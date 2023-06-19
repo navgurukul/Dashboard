@@ -8,8 +8,8 @@ import Box from "@mui/material/Box";
 import calenderIcon from "../../pages/./partners/Batch/assests/reshot-icon-calendar-FEQDJ2T9NL 1.png";
 import { TextField, Button, Typography, InputAdornment } from "@mui/material";
 import { SearchOutlined } from "@mui/icons-material";
-import { useSelector } from "react-redux";
-import { useFetchBatchsQuery } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { changeFilterBya, changeSearchTerma } from "../../store";
 
 const getMuiTheme = () =>
   createTheme({
@@ -28,7 +28,7 @@ const getMuiTheme = () =>
           },
         },
       },
-     
+
       MuiDataTableHeadCell: {
         styleOverrides: {
           root: {
@@ -75,92 +75,6 @@ const getMuiTheme = () =>
     },
   });
 
-const columns = [
-  {
-    name: "firstName",
-    label: "Name",
-    options: {
-      filter: false,
-      sort: false,
-    },
-  },
-  {
-    name: "email",
-    label: "Email",
-    options: {
-      filter: false,
-      sort: false,
-    },
-  },
-  {
-    name: "salary",
-    label: "First Entry Time",
-    options: {
-      filter: false,
-      sort: false,
-    },
-  },
-  {
-    name: "lastentrytime",
-    label: "Last Exit Time",
-    options: {
-      filter: false,
-      sort: false,
-    },
-  },
-  {
-    name: "duration",
-    label: "Duration (mins)",
-    options: {
-      filter: false,
-      sort: false,
-    },
-  },
-  {
-    name: "status",
-    label: "Status",
-    options: {
-      filter: true,
-      sort: false,
-    },
-  },
-];
-
-const data = [
-  {
-    name: "Joe James",
-    email: "aa@gmail.com",
-    firstentrytime: "Test Corp",
-    lastentrytime: "Yonkers",
-    duration: "NY",
-    status: "Absent",
-  },
-  {
-    name: "John Walsh",
-    email: "aa@gmail.com",
-    firstentrytime: "Test Corp",
-    lastentrytime: "Hartford",
-    duration: "CT",
-    status: "Absent",
-  },
-  {
-    name: "Bob Herm",
-    email: "aa@gmail.com",
-    firstentrytime: "Test Corp",
-    lastentrytime: "Tampa",
-    duration: "FL",
-    status: "Absent",
-  },
-  {
-    name: "James Houston",
-    email: "aa@gmail.com",
-    firstentrytime: "Test Corp",
-    lastentrytime: "Dallas",
-    duration: "FL",
-    status: "Absent",
-  },
-];
-
 const options = {
   filterType: "checkbox",
   search: false,
@@ -169,6 +83,7 @@ const options = {
   rowsHover: true,
   searchTextVariant: "outlined",
   selectableRows: "none",
+  viewColumns: false,
   searchProps: {
     style: {
       display: "block !important",
@@ -179,25 +94,79 @@ const options = {
   },
 };
 
-const AttandanceList = () => {
-  const { data, isLoading, error } = useFetchBatchsQuery();
-  const datar = [{ data }];
-  const filterTerms = ["All Partners", "Absent", "Present"];
+const AttandanceList = ({ data }) => {
+  const columns = [
+    {
+      name: "firstName",
+      label: "Name",
+      options: {
+        filter: false,
+        sort: false,
+      },
+    },
+    {
+      name: "email",
+      label: "Email",
+      options: {
+        filter: false,
+        sort: false,
+      },
+    },
+    {
+      name: "salary",
+      label: "First Entry Time",
+      options: {
+        filter: false,
+        sort: false,
+      },
+    },
+    {
+      name: "lastentrytime",
+      label: "Last Exit Time",
+      options: {
+        filter: false,
+        sort: false,
+      },
+    },
+    {
+      name: "duration",
+      label: "Duration (mins)",
+      options: {
+        filter: false,
+        sort: false,
+      },
+    },
+    {
+      name: "status",
+      label: "Status",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+  ];
 
+  const filterTerms = ["All Students", "Absent", "Present"];
+
+  const dispatch = useDispatch();
   const { searchTerm, filterBy } = useSelector((state) => {
-    return state.partnerFilter;
+    return state.attendanceFilter;
   });
+
+  const handleChange = (e) => {
+    dispatch(changeSearchTerma(e.target.value));
+  };
 
   const filterButtons = filterTerms.map((term) => (
     <Button
-      onClick={() => dispatch(changeFilterBy(term))}
+      onClick={() => dispatch(changeFilterBya(term))}
       key={term}
       variant={term === filterBy ? "contained" : "outlined"}
       sx={{
-        mr: 1,
-        borderRadius: "50px",
+        mr: 2,
+        borderRadius: "18px",
         borderColor: "#DCDCDC",
-        padding: "8px 8px",
+       padding: "7px 12px",
         height: "40px",
         margin: "0px 10px",
       }}
@@ -244,8 +213,8 @@ const AttandanceList = () => {
           <TextField
             placeholder="Search Student..."
             size="medium"
-            // value={searchTerm}
-            // onChange={handleChange}
+            value={searchTerm}
+            onChange={handleChange}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const attandanceApi = createApi({
-  reducerPath: "attandance",
+const attendanceApi = createApi({
+  reducerPath: "attendance",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://hub.dummyapis.com",
     prepareHeaders: (headers, { getState }) => {
@@ -12,14 +12,17 @@ const attandanceApi = createApi({
       return headers;
     },
   }),
-  endpoints(builder) {
+  endpoints(builder){
     return {
-      fetchAttandance: builder.query({
-        providesTags: ["Attandance"],
-        query: () => {
+      fetchAttendance: builder.query({
+        providesTags: ["Attendance"],
+        query: (noofRecords = 20) => {
           return {
             url: `/employee`,
             method: "GET",
+            params: {
+              noofRecords,
+            },
           };
         },
       }),
@@ -27,5 +30,5 @@ const attandanceApi = createApi({
   },
 });
 
-export const { useFetchBatchsQuery } = batchsApi;
-export { batchsApi };
+export const { useFetchAttendanceQuery } = attendanceApi;
+export { attendanceApi };

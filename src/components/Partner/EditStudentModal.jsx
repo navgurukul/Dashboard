@@ -4,7 +4,7 @@ import { useAddSpaceMutation } from "../../store";
 import { useParams } from "react-router-dom";
 import showToast from "../showToast";
 import CloseIcon from "@mui/icons-material/Close";
-import Container from "@mui/material";
+import {Container} from "@mui/material";
 import {
   Dialog,
   Grid,
@@ -14,15 +14,15 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
+import { useUpdateStudentsMutation } from "../../store";
 
-const EditStudentModal = ({}) => {
-  // const { partnerId } = useParams();
-  // const [addSpace, results] = useAddSpaceMutation();
-  // console.log(results);
+const EditStudentModal = ({boolean, onToggle, student}) => {
+  const { studentId } = useParams();
+  const [updateStudent, results] = useUpdateStudentsMutation();
+  console.log(results);
   // const [values, setValues] = useState({
-  //   name: "",
-  //   pocName: "",
-  //   pocEmail: "",
+  //   name: student["student_name"],
+  //   // email: student["student_name"],
   // });
 
   // useEffect(() => {
@@ -41,22 +41,22 @@ const EditStudentModal = ({}) => {
   // };
 
   // const handleSubmit = () => {
-  //   let space = { partnerId: partnerId };
-  //   space["space_name"] = "";
+  //   let updateStudent = { studentId: studentId };
+  //   updateStudent["student_name"] = "";
   //   if (values.name.trim()) {
-  //     space["space_name"] = values.name;
+  //     space["student_name"] = values.name;
   //   }
-  //   if (values.pocName.trim()) {
-  //     space["point_of_contact_name"] = values.pocName;
+  //   if (values.email.trim()) {
+  //     space["email"] = values.pocName;
   //   }
-  //   if (values.pocEmail.trim()) {
-  //     space["email"] = values.pocEmail;
-  //   }
-  //   addSpace(space);
+  // //   // if (values.pocEmail.trim()) {
+  // //   //   space["email"] = values.pocEmail;
+  // //   // }
+  // //   updateStudent(updateStudent);
   // };
 
   return (
-    <Dialog>
+    <Dialog open={boolean} onClose={onToggle} fullWidth  >
       <Container>
         <DialogContent>
           <Grid container mb={3}>
@@ -77,14 +77,14 @@ const EditStudentModal = ({}) => {
           <TextField
             margin="dense"
             fullWidth
-            value={values.name}
-            onChange={handleChange}
+            // value={values.name}
+            // onChange={handleChange}
             name="name"
             label="Student Name"
           />
           <TextField
-            value={values.pocEmail}
-            onChange={handleChange}
+            // value={values.pocEmail}
+            // onChange={handleChange}
             name="Email"
             label="Student Email"
             margin="dense"
@@ -93,7 +93,7 @@ const EditStudentModal = ({}) => {
         </DialogContent>
         <Box sx={{ pb: 2, px: 2 }}>
           <DialogActions>
-            <Button variant="contained" onClick={handleSubmit}>
+            <Button variant="contained"  > 
               Edit Student
             </Button>
           </DialogActions>
