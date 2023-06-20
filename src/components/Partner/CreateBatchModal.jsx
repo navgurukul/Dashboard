@@ -89,14 +89,14 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   const PathwayList = [
     { id: 1, name: "Python" },
     { id: 2, name: "Spoken English" },
-    { id: 3, name: "Typing" }
+    { id: 3, name: "Typing" },
   ];
 
   PathwayList.map((course) => {
-    if (course.name === courseName){
+    if (course.name === courseName) {
       classFields.pathway_id = course.id;
     }
-  })
+  });
   // const days = {
   //   MO: "Mon",
   //   TU: "Tue",
@@ -139,16 +139,24 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   // console.log(classFields);
   // console.log(volunteer);
   const handleSubmit = () => {
-    const start_time =
+    let start_time =
       classFields.date +
       "T" +
-      classFields.start_time.toLocaleTimeString() +
+      classFields.start_time.toLocaleTimeString("en-US", {
+        hour12: false,
+        timeZone: "Asia/Kolkata",
+      }) +
       "Z";
-    const end_time =
-      classFields.date + "T" + classFields.end_time.toLocaleTimeString() + "Z";
+    let end_time =
+      classFields.date +
+      "T" +
+      classFields.end_time.toLocaleTimeString("en-US", {
+        hour12: false,
+        timeZone: "Asia/Kolkata",
+      }) +
+      "Z";
 
-    const FinalData = { ...classFields };
-    delete FinalData.date;
+    const { date, ...rest } = classFields;
 
     return axios({
       url: "https://merd-api.merakilearn.org/classes",
@@ -160,7 +168,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
         "version-code": 50,
       },
       data: {
-        ...FinalData,
+        ...rest,
         start_time,
         end_time,
       },
