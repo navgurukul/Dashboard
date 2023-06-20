@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { useDropzone } from "react-dropzone";
-import axios from "axios";
-import { Button, Paper, Typography } from "@mui/material";
+import { Delete, Upload } from "@mui/icons-material";
+import { Button, IconButton, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import { Upload } from "@mui/icons-material";
+import { useState } from "react";
+import { useDropzone } from "react-dropzone";
+import { useParams } from "react-router-dom";
+import { useAddBulkStudentsMutation } from "../../../../store";
 import BulkUploadStatus from "./BulkUploadStatus";
 
 const DropzoneContainer = styled("div")(({ theme, isDragActive }) => ({
@@ -35,9 +36,10 @@ const ButtonContainer = styled("div")({
 });
 
 const BulkUpload = () => {
+  const [addBulkStudents, results] = useAddBulkStudentsMutation();
+  const { groupId } = useParams();
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(null);
-  console.log(file);
 
   const onDrop = (acceptedFiles) => {
     if (acceptedFiles.length === 1) {
@@ -58,33 +60,15 @@ const BulkUpload = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const handleAddStudents = async () => {
-    if (file) {
-      try {
-        const formData = new FormData();
-        formData.append("group_id", "72");
-        formData.append("file", file);
+  const handleAddStudents = () => {
+    const formData = new FormData();
+    formData.append("group_id", groupId);
+    formData.append("file", file);
+    addBulkStudents(formData);
+  };
 
-        await axios.post(
-          "https://merd-api.merakilearn.org/partner/students/upload",
-          formData,
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "multipart/form-data",
-              Authorization:
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
-            },
-          }
-        );
-
-        setMessage("File uploaded successfully!");
-      } catch (error) {
-        setMessage("Error uploading file. Please try again.");
-      }
-    } else {
-      setMessage("Please select a file first.");
-    }
+  const handleDeleteFile = () => {
+    setFile(null);
   };
 
   return (
@@ -102,6 +86,15 @@ const BulkUpload = () => {
           <Typography variant="subtitle1">Upload or drag file</Typography>
         )}
         <Typography variant="body2">xlsx or csv files are supported</Typography>
+        {/* {file && (
+          <IconButton
+            color="secondary"
+            aria-label="delete file"
+            onClick={handleDeleteFile}
+          >
+            <Delete />
+          </IconButton>
+        )} */}
       </DropzoneContainer>
       {message && <Message variant="body1">{message}</Message>}
       <BulkUploadStatus file={file} message={message} />

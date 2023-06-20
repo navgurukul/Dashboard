@@ -63,6 +63,7 @@ export {
 export {
   useFetchStudentsQuery,
   useAddSingleStudentsMutation,
+  useAddBulkStudentsMutation,
 } from "./apis/groupStudentsApi";
 
 export { useCheckEmailQuery } from "./apis/checkEmailApi";
