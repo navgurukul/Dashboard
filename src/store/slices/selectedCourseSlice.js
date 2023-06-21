@@ -3,11 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const selectedCourse = createSlice({
   name: "selectedCourse",
   initialState: {
-    courseName: "",
+    course:{},
   },
   reducers: {
     changeSelectedCourse(state, action) {
-      state.courseName = action.payload;
+      state.course = action.payload;
     },
   },
 });

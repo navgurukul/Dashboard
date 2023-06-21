@@ -8,19 +8,10 @@ import showToast from "../../showToast";
 import EditGroupModal from "./EditGroupModal";
 import { changeSelectedCourse, useDeleteGroupMutation } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
-// import CreateBatchModal from "../CreateBatchModal";
+import axios from "axios";
 
 const ITEM_HEIGHT = 48;
 
-const options = [
-  "Python",
-  "Spoken English",
-  "Typing",
-  // "Climate Action",
-  // "Scratch",
-  // "Foundations of DSA",
-  // "C4CA Projects",
-];
 function GroupMenu({ group, handleCreateBatchToggle }) {
   const [deleteGroup, results] = useDeleteGroupMutation();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -28,13 +19,34 @@ function GroupMenu({ group, handleCreateBatchToggle }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const open = Boolean(anchorEl);
   const openPathwayList = Boolean(anchorCourse);
-  const selected_course = options[selectedIndex];
+  const [pathways, setPathways] = useState([]);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     showToast("success", results?.data?.message);
   }, [results.isSuccess]);
+
+  useEffect(() => {
+    axios({
+      url: "https://dev-api.merakilearn.org/pathways/dropdown",
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
+        "version-code": 50,
+      },
+    }).then((res) => {
+      const path = res?.data?.pathways?.map((item, index) => {
+        return {
+          label: item.name,
+          pathway_id: item.id,
+        };
+      });
+      setPathways(path);
+    });
+  }, []);
 
   const [openUpdateGroup, setOpenUpdateGroup] = useState(false);
   const handleOpenUpdateGroupToggle = () => {
@@ -66,14 +78,12 @@ function GroupMenu({ group, handleCreateBatchToggle }) {
   };
 
   const handleMenuItemClick = (event, option) => {
-    // setSelectedIndex(index);
     handleCreateBatchToggle();
     setAnchorCourse(null);
     dispatch(changeSelectedCourse(option));
   };
 
   const { courseName } = useSelector((state) => state.selectedCourse);
-  // console.log(courseName);
 
   return (
     <div>
@@ -102,7 +112,6 @@ function GroupMenu({ group, handleCreateBatchToggle }) {
           aria-controls={openPathwayList ? "long-menu" : undefined}
           aria-expanded={openPathwayList ? "true" : undefined}
           aria-haspopup="true"
-          // onClick={handleClickAdd}
         >
           <AddIcon
             onClick={handleClickAdd}
@@ -121,17 +130,17 @@ function GroupMenu({ group, handleCreateBatchToggle }) {
         PaperProps={{
           style: {
             maxHeight: ITEM_HEIGHT * 7.5,
-            width: "200px",
+            width: "330px",
           },
         }}
       >
-        {options.map((option, index) => (
+        {pathways?.map((course, index) => (
           <MenuItem
-            key={option}
+            key={index}
             selected={index === selectedIndex}
-            onClick={(event) => handleMenuItemClick(event, option)}
+            onClick={(event) => handleMenuItemClick(event, course)}
           >
-            {option}
+            {course?.label}
           </MenuItem>
         ))}
       </Menu>

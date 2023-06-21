@@ -14,18 +14,11 @@ import {
   useMediaQuery,
   FormControlLabel,
   Autocomplete,
-  FormLabel,
-  FormGroup,
-  Checkbox,
-  FormHelperText,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
-import dayjs from "dayjs";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { breakpoints } from "../../theme/constant";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -33,19 +26,19 @@ import { useSelector } from "react-redux";
 const CreateBatchModal = ({ boolean, onToggle }) => {
   const { partnerId, spaceId, groupId } = useParams();
 
-  const { courseName } = useSelector((state) => state.selectedCourse);
+  const { course } = useSelector((state) => state.selectedCourse);
 
   const [classFields, setClassFields] = useState({
     group_id: groupId,
     space_id: spaceId,
     partner_id: [partnerId],
     volunteer_id: "",
-    pathway_id: 0,
+    pathway_id: course.pathway_id,
     // facilitator_id: 7108,
     // exercise_id: 530,
     // course_id: 21,
-    description: "description",
     category_id: 3,
+    description: "description",
     type: "batch",
     frequency: "DAILY",
     lang: "",
@@ -60,7 +53,8 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     // on_days: [],
   });
 
-  const [partnerPathwayId, setPartnerPathwayId] = useState();
+  // console.log(classFields);
+
   const [volunteer, setVolunteer] = useState([]);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
@@ -86,17 +80,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     border: "none",
   };
 
-  const PathwayList = [
-    { id: 1, name: "Python" },
-    { id: 2, name: "Spoken English" },
-    { id: 3, name: "Typing" },
-  ];
-
-  PathwayList.map((course) => {
-    if (course.name === courseName) {
-      classFields.pathway_id = course.id;
-    }
-  });
   // const days = {
   //   MO: "Mon",
   //   TU: "Tue",
@@ -106,12 +89,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   //   SA: "Sat",
   //   SU: "Sun",
   // };
-
-  // useEffect(() => {
-  //   setClassFields((prev) => {
-  //     return { ...prev, pathway_id: partnerPathwayId?.[0] };
-  //   });
-  // }, [partnerPathwayId]);
 
   useEffect(() => {
     axios({
@@ -132,17 +109,14 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
         };
       });
       setVolunteer(volunteers);
-      // console.log(volunteers);
     });
   }, []);
 
-  // console.log(classFields);
-  // console.log(volunteer);
   const handleSubmit = () => {
     let start_time =
       classFields.date +
       "T" +
-      classFields.start_time.toLocaleTimeString("en-US", {
+      classFields.start_time.toLocaleTimeString("en-IN", {
         hour12: false,
         timeZone: "Asia/Kolkata",
       }) +
@@ -150,7 +124,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     let end_time =
       classFields.date +
       "T" +
-      classFields.end_time.toLocaleTimeString("en-US", {
+      classFields.end_time.toLocaleTimeString("en-IN", {
         hour12: false,
         timeZone: "Asia/Kolkata",
       }) +
@@ -175,8 +149,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     })
       .then((res) => {
         // console.log(res);
-        onToggle = true;
-        // e.target.reset();
       })
       .catch((error) => {
         console.log(error);
@@ -206,7 +178,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
             <Grid container mb={3}>
               <Grid item xs={11}>
                 <Typography variant="h6" component="h2">
-                  Create {courseName} Batch
+                  Create {course.label} Batch
                 </Typography>
               </Grid>
               <Grid color="text.secondary" item xs={1}>
@@ -239,30 +211,11 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               All 28 classes will be created automatically with titles and
               descriptions
             </Typography>
-
-            {/* <TextField
-              onClick={() => {
-                setOnInput((prev) => {
-                  return { ...prev, facilitator_name: true };
-                });
-              }}
-              value={classFields.facilitator_name}
-              onChange={(e) => {
-                setClassFields({
-                  ...classFields,
-                  facilitator_name: e.target.value,
-                });
-              }}
-              name="name"
-              label="For Tutor"
-            /> */}
-
             <Autocomplete
               value={{
                 label: classFields.facilitator_name || "",
                 id: classFields.volunteer_id || "",
               }}
-              // name="partner_id"
 
               sx={{ mb: 3 }}
               options={volunteer}
@@ -270,7 +223,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                 return option.id === value.id;
               }}
               onChange={(e, newVal) => {
-                // setPartnerPathwayId(newVal?.pathway_id);
                 setClassFields((prev) => {
                   return {
                     ...prev,
@@ -284,11 +236,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                 <TextField
                   {...params}
                   id="outlined-error-helper-text"
-                  onClick={() => {
-                    // setOnInput((prev) => {
-                    //   return { ...prev, partner: true };
-                    // });
-                  }}
                   variant="outlined"
                   label="For Tutor"
                 />
@@ -404,7 +351,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
               value={classFields.lang}
-              // onChange={handleLang}
               onChange={(e) => {
                 setClassFields({
                   ...classFields,
