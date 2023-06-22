@@ -33,7 +33,7 @@ function GroupPage() {
     isLoading: isStudentsLoading,
     error: studentsError,
   } = useFetchStudentsQuery(groupId);
-  console.log(studentsData);
+  // console.log(studentsData);
 
   const [addStudentsOpen, setAddStudentsOpen] = useState(false);
   const handleAddStudentsOpen = () => setAddStudentsOpen(!addStudentsOpen);

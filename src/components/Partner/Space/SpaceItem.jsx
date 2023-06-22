@@ -20,7 +20,7 @@ import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
 import { useState } from "react";
 import GroupList from "../Group/GroupList";
 
-function SpaceItem({ space, handleCreateGroupToggle }) {
+function SpaceItem({ space, handleCreateGroupToggle,handleCreateBatchToggle }) {
   const [open, setOpen] = useState(false);
 
   const activeStyles = {
@@ -70,6 +70,7 @@ function SpaceItem({ space, handleCreateGroupToggle }) {
         <GroupList
           space={space}
           handleCreateGroupToggle={handleCreateGroupToggle}
+          handleCreateBatchToggle={handleCreateBatchToggle}
         />
       )}
     </>
