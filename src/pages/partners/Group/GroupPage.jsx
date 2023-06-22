@@ -90,7 +90,7 @@ function GroupPage() {
               Meraki Web
             </Button>
             <Button endIcon={<Link />} sx={{ fontSize: "14px" }}>
-              CRCA Platform
+              C4CA Platform
             </Button>
           </Grid>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>

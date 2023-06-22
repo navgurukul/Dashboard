@@ -26,6 +26,7 @@ import {
 import { Add, Delete } from "@mui/icons-material";
 import AddStudentsList from "./AddStudentsList";
 import { useAddSingleStudentsMutation } from "../../../../store";
+import BulkUpload from "./BulkUpload";
 
 const AddStudentsModal = ({ boolean, onToggle }) => {
   const { groupId } = useParams();
@@ -75,8 +76,8 @@ const AddStudentsModal = ({ boolean, onToggle }) => {
   };
 
   return (
-    <div>
-      <Dialog open={boolean} onClose={onToggle}>
+    <Box sx={{ width: "592px" }}>
+      <Dialog fullWidth open={boolean} onClose={onToggle}>
         <DialogContent
         // sx={{
         //   overflow: "scroll",
@@ -113,33 +114,40 @@ const AddStudentsModal = ({ boolean, onToggle }) => {
               </Stack>
             </RadioGroup>
           </Box>
-          <AddStudentsList
-            students={students}
-            onDelete={handleDeleteStudent}
-            onChange={handleEditStudent}
-          />
+          {radioValue === "one" ? (
+            <AddStudentsList
+              students={students}
+              onDelete={handleDeleteStudent}
+              onChange={handleEditStudent}
+            />
+          ) : (
+            <BulkUpload />
+          )}
         </DialogContent>
-        <Box sx={{ pb: 2, px: 2 }}>
-          <DialogActions sx={{ display: "flex", flexDirection: "column" }}>
-            <Button
-              disabled={students.length === 5 ? true : false}
-              onClick={handleAddStudent}
-              startIcon={<Add />}
-              sx={{ alignSelf: "flex-start", marginBottom: "20px" }}
-            >
-              Add Another Student
-            </Button>
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              sx={{ alignSelf: "flex-end" }}
-            >{`Add ${students.length} Student${
-              students.length > 1 ? "(s)" : ""
-            }`}</Button>
-          </DialogActions>
-        </Box>
+
+        {radioValue === "one" && (
+          <Box sx={{ pb: 2, px: 2 }}>
+            <DialogActions sx={{ display: "flex", flexDirection: "column" }}>
+              <Button
+                disabled={students.length === 5 ? true : false}
+                onClick={handleAddStudent}
+                startIcon={<Add />}
+                sx={{ alignSelf: "flex-start", marginBottom: "20px" }}
+              >
+                Add Another Student
+              </Button>
+              <Button
+                onClick={handleSubmit}
+                variant="contained"
+                sx={{ alignSelf: "flex-end" }}
+              >{`Add ${students.length} Student${
+                students.length > 1 ? "(s)" : ""
+              }`}</Button>
+            </DialogActions>
+          </Box>
+        )}
       </Dialog>
-    </div>
+    </Box>
   );
 };
 
