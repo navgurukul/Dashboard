@@ -19,7 +19,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { breakpoints } from "../../theme/constant";
+import { breakpoints } from "../../../theme/constant";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -337,7 +337,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                             ? new Date(new Date().setSeconds(0))
                             : null
                         }
-                        renderInput={(params) => <TextField {...params} />}
                       />
                     </Stack>
                   </LocalizationProvider>
