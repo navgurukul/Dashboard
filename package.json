@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@emotion/styled": "^11.10.6",
-    "@esbuild/win32-x64": "^0.18.5",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.1",
     "@mui/x-data-grid": "^6.2.1",
