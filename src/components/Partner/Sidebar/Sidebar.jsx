@@ -28,7 +28,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 function Sidebar(value) {
   const { partnerId } = useParams();
   const { data, isLoading, error } = useFetchSinglePartnerQuery(partnerId);
-  const { createSpaceOpen, handleCreateSpaceToggle, handleCreateGroupToggle } =
+  const { createSpaceOpen, handleCreateSpaceToggle, handleCreateGroupToggle,
+    handleCreateBatchToggle,
+  } =
     value.value;
   const [partner, setPartner] = useState(null);
   const theme = useTheme();
@@ -113,6 +115,7 @@ function Sidebar(value) {
             <SpaceList
               partner={partner}
               handleCreateGroupToggle={handleCreateGroupToggle}
+              handleCreateBatchToggle={handleCreateBatchToggle}
             />
           </>
         )}
