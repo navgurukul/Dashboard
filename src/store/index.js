@@ -6,6 +6,7 @@ import { partnersApi } from "./apis/partnersApi";
 import { groupsApi } from "./apis/groupsApi";
 import { groupStudentsApi } from "./apis/groupStudentsApi";
 import { checkEmailApi } from "./apis/checkEmailApi";
+import { batchesApi } from "./apis/batchesApi";
 
 import {
   changeSelectedCourse,
@@ -29,6 +30,7 @@ const store = configureStore({
     [groupsApi.reducerPath]: groupsApi.reducer,
     [groupStudentsApi.reducerPath]: groupStudentsApi.reducer,
     [checkEmailApi.reducerPath]: checkEmailApi.reducer,
+    [batchesApi.reducerPath]: batchesApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
@@ -36,7 +38,8 @@ const store = configureStore({
       .concat(spacesApi.middleware)
       .concat(groupsApi.middleware)
       .concat(groupStudentsApi.middleware)
-      .concat(checkEmailApi.middleware);
+      .concat(checkEmailApi.middleware)
+      .concat(batchesApi.middleware);
   },
 });
 
@@ -71,6 +74,12 @@ export {
   useAddSingleStudentsMutation,
   useAddBulkStudentsMutation,
 } from "./apis/groupStudentsApi";
+
+export {
+  useFetchBatchesQuery,
+  useAddBatchMutation,
+  useFetchVolunteersQuery,
+} from "./apis/batchesApi";
 
 export { useCheckEmailQuery } from "./apis/checkEmailApi";
 
