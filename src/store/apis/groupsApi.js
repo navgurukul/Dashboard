@@ -1,8 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { spacesApi } from "./spacesApi";
 
 const groupsApi = createApi({
-  reducerPath: "Groups",
+  reducerPath: "groups",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://merd-api.merakilearn.org/partners",
     prepareHeaders: (headers, { getState }) => {

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import axios from "axios";
 import {
   Typography,
   Grid,
@@ -22,11 +21,24 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { breakpoints } from "../../../theme/constant";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useAddBatchMutation } from "../../../store";
+import { useFetchVolunteersQuery } from "../../../store";
+import showToast from "../../showToast";
 
 const CreateBatchModal = ({ boolean, onToggle }) => {
   const { partnerId, spaceId, groupId } = useParams();
-
   const { course } = useSelector((state) => state.selectedCourse);
+  const [addBatch, results] = useAddBatchMutation();
+  console.log(results);
+
+  useEffect(() => {
+    if (results.isError) {
+      showToast("error", "Failed to create a batch");
+    } else if (results.isSuccess) {
+      showToast("success", "Created a batch successfully");
+      onToggle();
+    }
+  }, [results.isSuccess, results.isError]);
 
   const [classFields, setClassFields] = useState({
     group_id: groupId,
@@ -53,9 +65,13 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     // on_days: [],
   });
 
-  // console.log(classFields);
+  const { data } = useFetchVolunteersQuery();
+  const volunteer = data?.map((item) => ({
+    label: item.name,
+    id: item.volunteer_id,
+    pathway_id: item.pathway_id,
+  }));
 
-  const [volunteer, setVolunteer] = useState([]);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const [onInput, setOnInput] = useState({
@@ -90,28 +106,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   //   SU: "Sun",
   // };
 
-  useEffect(() => {
-    axios({
-      url: "https://merd-api.merakilearn.org/volunteers",
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
-        "version-code": 50,
-      },
-    }).then((res) => {
-      const volunteers = res?.data?.map((item, index) => {
-        return {
-          label: item.name,
-          id: item.volunteer_id,
-          pathway_id: item.pathway_id,
-        };
-      });
-      setVolunteer(volunteers);
-    });
-  }, []);
-
   const handleSubmit = () => {
     let start_time =
       classFields.date +
@@ -132,27 +126,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
 
     const { date, ...rest } = classFields;
 
-    return axios({
-      url: "https://merd-api.merakilearn.org/classes",
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0NTAxIiwiZW1haWwiOiJhYWRhcnNoMjFAbmF2Z3VydWt1bC5vcmciLCJpYXQiOjE2Nzg3ODA4MDIsImV4cCI6MTcxMDMzODQwMn0.PYkl5H4bE10CtE_VUKU11q8MquHGs3xSdmAbTEctwUA",
-        "version-code": 50,
-      },
-      data: {
-        ...rest,
-        start_time,
-        end_time,
-      },
-    })
-      .then((res) => {
-        // console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    addBatch({ ...rest, start_time, end_time });
   };
 
   // const handleDaySelection = (e) => {
@@ -216,9 +190,8 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                 label: classFields.facilitator_name || "",
                 id: classFields.volunteer_id || "",
               }}
-
               sx={{ mb: 3 }}
-              options={volunteer}
+              options={volunteer || []}
               isOptionEqualToValue={(option, value) => {
                 return option.id === value.id;
               }}
@@ -390,8 +363,12 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               <FormControlLabel value="20" control={<Radio />} label="20" />
               <FormControlLabel value="30" control={<Radio />} label="30" />
             </RadioGroup>
-            <Button onClick={handleSubmit} variant="contained">
-              Create a Batch
+            <Button
+              disabled={results.isLoading}
+              onClick={handleSubmit}
+              variant="contained"
+            >
+              {results.isLoading ? "Creating..." : "Create a Batch"}
             </Button>
           </Box>
         </Box>

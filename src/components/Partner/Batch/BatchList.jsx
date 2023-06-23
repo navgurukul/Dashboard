@@ -1,31 +1,18 @@
-import React, { useEffect, useState } from "react";
 import { List, ListItemButton, Typography } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import BatchItem from "./BatchItem";
-import axios from "axios";
-function BatchList({ group }) {
-  const [batchData, setBatchData] = useState([]);
+import { useFetchBatchesQuery } from "../../../store";
 
-  useEffect(() => {
-    axios({
-      url: `https://merd-api.merakilearn.org/partners/batches/${group.id}`,
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
-        "version-code": 50,
-      },
-    }).then((res) => {
-      //   console.log(res);
-      setBatchData(res.data);
-    });
-  }, []);
+function BatchList({ group }) {
+  const { data, isLoading, error } = useFetchBatchesQuery(group.id);
 
   let content;
-
-  if (!batchData?.length) {
+  if (isLoading) {
+    content = <h1>Loading...</h1>;
+  } else if (error) {
+    content = <p>Error fetching groups</p>;
+  } else if (!data?.length) {
     content = (
       <Link>
         <ListItemButton
@@ -44,13 +31,13 @@ function BatchList({ group }) {
               fontSize: "14px",
             }}
           >
-            Add Batches
+            Add a page
           </Typography>
         </ListItemButton>
       </Link>
     );
   } else {
-    content = batchData.map((batch, index) => {
+    content = data.map((batch, index) => {
       return <BatchItem batch={batch} key={index} />;
     });
   }
