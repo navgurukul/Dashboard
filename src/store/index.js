@@ -24,9 +24,9 @@ import {
 } from "./slices/studentBatchFilterSlice";
 
 import {
-  changeSearchTerma,
-  clearSearchTerma,
-  changeFilterBya,
+  changeSearchTerm_attendance,
+  clearSearchTerm_attendance,
+  changeFilterBy_attendance,
   attendanceFilterReducer,
 } from "./slices/attendanceFilter";
 
@@ -103,8 +103,8 @@ export {
   changeFilterBym,
   studentFilterReducer,
   //attandance
-  changeSearchTerma,
-  clearSearchTerma,
-  changeFilterBya,
+  changeSearchTerm_attendance,
+  clearSearchTerm_attendance,
+  changeFilterBy_attendance,
   attendanceFilterReducer,
 };
