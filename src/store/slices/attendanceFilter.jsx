@@ -7,18 +7,21 @@ const attendanceFilter = createSlice({
     filterBy: "All Students",
   },
   reducers: {
-    changeSearchTerma(state, action) {
+    changeSearchTerm_attendance(state, action) {
       state.searchTerm = action.payload;
     },
-    clearSearchTerma(state, action) {
+    clearSearchTerm_attendance(state, action) {
       state.searchTerm = "";
     },
-    changeFilterBya(state, action) {
+    changeFilterBy_attendance(state, action) {
       state.filterBy = action.payload;
     },
   },
 });
 
-export const { changeSearchTerma, clearSearchTerma, changeFilterBya } =
-    attendanceFilter.actions;
+export const {
+  changeSearchTerm_attendance,
+  clearSearchTerm_attendance,
+  changeFilterBy_attendance,
+} = attendanceFilter.actions;
 export const attendanceFilterReducer = attendanceFilter.reducer;

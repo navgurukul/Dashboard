@@ -9,7 +9,10 @@ import calenderIcon from "../../pages/./partners/Batch/assests/reshot-icon-calen
 import { TextField, Button, Typography, InputAdornment } from "@mui/material";
 import { SearchOutlined } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { changeFilterBya, changeSearchTerma } from "../../store";
+import {
+  changeFilterBy_attendance,
+  changeSearchTerm_attendance,
+} from "../../store";
 
 const getMuiTheme = () =>
   createTheme({
@@ -154,19 +157,19 @@ const AttandanceList = ({ data }) => {
   });
 
   const handleChange = (e) => {
-    dispatch(changeSearchTerma(e.target.value));
+    dispatch(changeSearchTerm_attendance(e.target.value));
   };
 
   const filterButtons = filterTerms.map((term) => (
     <Button
-      onClick={() => dispatch(changeFilterBya(term))}
+      onClick={() => dispatch(changeFilterBy_attendance(term))}
       key={term}
       variant={term === filterBy ? "contained" : "outlined"}
       sx={{
         mr: 2,
         borderRadius: "18px",
         borderColor: "#DCDCDC",
-       padding: "7px 12px",
+        padding: "7px 12px",
         height: "40px",
         margin: "0px 10px",
       }}
