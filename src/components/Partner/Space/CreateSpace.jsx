@@ -22,7 +22,7 @@ const CreateSpace = () => {
       >
         <img src={spaceShipImage} alt="" />
         <Typography sx={{ fontSize: "14px", ml: 2 }}>
-          Spaces help organize your student data in smaller chunks
+        Each partner can have multiple spaces. In each space, you can have multiple groups so that you can add relevant students to relevant groups. For Example - There can be a space for Python which will have a morning group, afternoon group & evening group. Each group will have students relevant to the time they can attend the classes.
         </Typography>
 
         <Button

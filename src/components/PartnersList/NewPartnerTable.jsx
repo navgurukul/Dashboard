@@ -8,6 +8,10 @@ import PartnerUpdateModal from "./PartnerUpdateModal";
 import { Link } from "react-router-dom";
 import { useRemovePartnerMutation } from "../../store";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
 
 
 const getMuiTheme = () =>
@@ -176,6 +180,7 @@ function NewPartnerTable({ data }) {
 
   const [open, setOpen] = useState(false);
   const [updateData, setUpdateData] = useState(null);
+  const [deletePartnerId, setDeletePartnerId] = useState(null);
 
   const [removePartner, results] = useRemovePartnerMutation();
 
@@ -186,7 +191,17 @@ function NewPartnerTable({ data }) {
   }, [results.isSuccess]);
 
   const handleDeleteClick = (partnerId) => {
-    removePartner(partnerId);
+    setDeletePartnerId(partnerId);
+    setOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    removePartner(deletePartnerId);
+    setOpen(false);
+  };
+
+  const handleCancelDelete = () => {
+    setOpen(false);
   };
 
   const handleEditClick = (partnerId) => {
@@ -197,11 +212,18 @@ function NewPartnerTable({ data }) {
   return (
     <>
       {open && (
-        <PartnerUpdateModal
-          boolean={open}
-          onOpen={handleEditClick}
-          partner={updateData}
-        />
+        <Dialog open={open}>
+          <DialogTitle>Confirm Delete</DialogTitle>
+          <DialogContent>
+            Are you sure you want to delete this partner?
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCancelDelete}>Cancel</Button>
+            <Button onClick={handleConfirmDelete} autoFocus>
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
       )}
 
       <div style={{ overflowX: "auto" }}>
