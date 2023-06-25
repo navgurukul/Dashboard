@@ -1,15 +1,11 @@
 import { List, ListItemButton, Typography } from "@mui/material";
-import { useFetchGroupsQuery } from "../../../store";
-import GroupItem from "./GroupItem";
 import { Add } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import BatchItem from "./BatchItem";
+import { useFetchBatchesQuery } from "../../../store";
 
-function GroupList({
-  space,
-  handleCreateGroupToggle,
-  handleCreateBatchToggle,
-}) {
-  const { data, isLoading, error } = useFetchGroupsQuery(space);
+function BatchList({ group }) {
+  const { data, isLoading, error } = useFetchBatchesQuery(group.id);
 
   let content;
   if (isLoading) {
@@ -18,9 +14,8 @@ function GroupList({
     content = <p>Error fetching groups</p>;
   } else if (!data?.length) {
     content = (
-      <Link to={`space/${space.id}`}>
+      <Link  >
         <ListItemButton
-          onClick={handleCreateGroupToggle}
           sx={{
             color: "text.primary",
             display: "flex",
@@ -34,27 +29,20 @@ function GroupList({
             flex={1}
             sx={{
               fontSize: "14px",
-              // fontWeight: index === selected ? 600 : 400,
             }}
           >
-            Add Student Group
+            Add a page
           </Typography>
         </ListItemButton>
       </Link>
     );
   } else {
-    content = data.map((group) => {
-      return (
-        <GroupItem
-          group={group}
-          key={group.id}
-          handleCreateBatchToggle={handleCreateBatchToggle}
-        />
-      );
+    content = data.map((batch, index) => {
+      return <BatchItem batch={batch} key={index} />;
     });
   }
 
   return <List>{content}</List>;
 }
 
-export default GroupList;
+export default BatchList;

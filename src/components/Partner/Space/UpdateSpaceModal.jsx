@@ -13,6 +13,7 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
+import useValidEmail from "../../../hooks/useValidEmail";
 
 const UpdateSpaceModal = ({ boolean, onToggle, space }) => {
   const [updateSpace, results] = useUpdateSpaceMutation();
@@ -22,6 +23,8 @@ const UpdateSpaceModal = ({ boolean, onToggle, space }) => {
     pocName: space["point_of_contact_name"] || "",
     pocEmail: space["email"] || "",
   });
+
+  const { isValidEmail } = useValidEmail(values.pocEmail);
 
   useEffect(() => {
     if (results.isError) {
@@ -101,10 +104,19 @@ const UpdateSpaceModal = ({ boolean, onToggle, space }) => {
             margin="dense"
             fullWidth
           />
+          {!isValidEmail && values.pocEmail.trim() && (
+            <Typography sx={{ fontSize: "14px", color: "red" }}>
+              Please enter a valid email
+            </Typography>
+          )}
         </DialogContent>
         <Box sx={{ pb: 2, px: 2 }}>
           <DialogActions>
-            <Button variant="contained" onClick={handleSubmit}>
+            <Button
+              disabled={!isValidEmail && values.pocEmail.trim().length > 0}
+              variant="contained"
+              onClick={handleSubmit}
+            >
               Update Details
             </Button>
           </DialogActions>

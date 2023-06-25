@@ -37,8 +37,8 @@ const router = createBrowserRouter([
         element: <PartnerPage />,
         children: [
           { index: true, element: <CreateSpace /> },
-          { path: "space/:spaceId", element: <CreateGroup />},
-          { path: "space/:spaceId/group/:groupId", element: <GroupPage />, },
+          { path: "space/:spaceId", element: <CreateGroup /> },
+          { path: "space/:spaceId/group/:groupId", element: <GroupPage /> },
           {
             path: "space/:spaceId/group/:groupId/batch",
             element: <BatchPage />,
@@ -47,7 +47,10 @@ const router = createBrowserRouter([
               { path: "attandancelist", element: <AttandanceFilter /> },
             ],
           },
-          { path: "space/:spaceId/group/:groupId/batch/studentinfo", element: <StudentInfo/> },
+          {
+            path: "space/:spaceId/group/:groupId/batch/studentinfo",
+            element: <StudentInfo />,
+          },
         ],
       },
     ],

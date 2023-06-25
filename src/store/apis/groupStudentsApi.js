@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 const groupStudentsApi = createApi({
   reducerPath: "groupStudents",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://merd-api.merakilearn.org/partners",
+    baseUrl: "https://merd-api.merakilearn.org",
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) {
@@ -18,7 +18,7 @@ const groupStudentsApi = createApi({
         providesTags: ["GroupStudents"],
         query: (groupId) => {
           return {
-            url: `/students/${groupId}`,
+            url: `/partners/students/${groupId}`,
             method: "GET",
           };
         },
@@ -27,7 +27,7 @@ const groupStudentsApi = createApi({
         invalidatesTags: ["GroupStudents"],
         query: ({ students, groupId }) => {
           return {
-            url: `/${groupId}/addstudent`,
+            url: `/partners/${groupId}/addstudent`,
             body: students,
             method: "POST",
           };
@@ -43,6 +43,16 @@ const groupStudentsApi = createApi({
           };
         },
       }),
+      addBulkStudents: builder.mutation({
+        invalidatesTags: ["GroupStudents"],
+        query: (file) => {
+          return {
+            url: "/partner/students/upload",
+            body: file,
+            method: "POST",
+          };
+        },
+      }),
     };
   },
 });
@@ -51,5 +61,6 @@ export { groupStudentsApi };
 export const {
   useAddSingleStudentsMutation,
   useFetchStudentsQuery,
-  useUpdateStudentsMutation
+  useUpdateStudentsMutation,
+  useAddBulkStudentsMutation,
 } = groupStudentsApi;
