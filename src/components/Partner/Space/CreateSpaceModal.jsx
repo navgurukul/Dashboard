@@ -14,6 +14,7 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
+import useValidEmail from "../../../hooks/useValidEmail";
 
 const CreateSpaceModal = ({ boolean, onToggle }) => {
   const { partnerId } = useParams();
@@ -24,6 +25,8 @@ const CreateSpaceModal = ({ boolean, onToggle }) => {
     pocName: "",
     pocEmail: "",
   });
+
+  const { isValidEmail } = useValidEmail(values.pocEmail);
 
   useEffect(() => {
     if (results.isError) {
@@ -102,10 +105,19 @@ const CreateSpaceModal = ({ boolean, onToggle }) => {
             margin="dense"
             fullWidth
           />
+          {!isValidEmail && values.pocEmail.trim() && (
+            <Typography sx={{ fontSize: "14px", color: "red" }}>
+              Please enter a valid email
+            </Typography>
+          )}
         </DialogContent>
         <Box sx={{ pb: 2, px: 2 }}>
           <DialogActions>
-            <Button variant="contained" onClick={handleSubmit}>
+            <Button
+              disabled={!isValidEmail && values.pocEmail.trim().length > 0}
+              variant="contained"
+              onClick={handleSubmit}
+            >
               create Space
             </Button>
           </DialogActions>

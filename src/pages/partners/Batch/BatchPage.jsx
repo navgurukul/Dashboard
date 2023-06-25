@@ -8,6 +8,12 @@ import pythonlogo from "./assests/courseicon.png";
 import calenderIcon from "./assests/reshot-icon-calendar-FEQDJ2T9NL 1.png";
 import teacherImage from "./assests/reshot-icon-teacher-3ADUGQCW6P (1) 1.png";
 import { useState, useEffect } from "react";
+import {
+  useFetchSinglePartnerQuery,
+  useFetchSingleGroupQuery,
+  useFetchSingleSpaceQuery,
+  useFetchStudentsQuery,
+} from "../../../store";
 
 const ImageSize = {
   width: "32px",
@@ -21,6 +27,36 @@ const ImageSizeCal = {
 const BatchPage = () => {
   const navigate = useNavigate();
   const { spaceId, groupId, partnerId } = useParams();
+
+  const {
+    data: partnerData,
+    isLoading: partnerIsLoading,
+    error: partnerError,
+  } = useFetchSinglePartnerQuery(partnerId);
+
+  const {
+    data: spaceData,
+    isLoading: spaceIsLoading,
+    error: spaceError,
+  } = useFetchSingleSpaceQuery(spaceId);
+
+  const {
+    data: groupData,
+    isLoading: groupIsLoading,
+    error: groupError,
+  } = useFetchSingleGroupQuery(groupId);
+
+  const partner = partnerData?.[0]?.name;
+  // console.log(partner)
+  const space = spaceData?.data?.[0];
+  const group = groupData?.[0];
+
+  const {
+    data: studentsData,
+    isLoading: isStudentsLoading,
+    error: studentsError,
+  } = useFetchStudentsQuery(groupId);
+
   const [activeElement, setActiveElement] = useState("students");
 
   useEffect(() => {
@@ -29,20 +65,20 @@ const BatchPage = () => {
 
   const handleClick = (element) => {
     setActiveElement(element);
-    navigate(`/${element}`);
+    // navigate(`/${element}`);
   };
 
   return (
-    <Box style={{ width: "100%", padding: "0px 20px" }}>
-      <Box>
-        <Typography
-          style={{
-            fontSize: "14px",
-            marginBottom: "10px",
-            // border: "1px solid blue",
-          }}
-        >
-          C / Student Group /Python
+    <Box style={{ width: "100%", padding: "0px 20px", overflowY: "scroll" }}>
+      <Box sx={{ display: "flex", alignItems: "center", py: 2 }}>
+        <Typography pr={0.5} variant="body2">
+          {partner} /
+        </Typography>
+        <Typography pr={0.5} variant="body2">
+          {space?.space_name}
+        </Typography>
+        <Typography variant="body2" color="primary.main">
+          / {group?.group_name}
         </Typography>
       </Box>
       <Box
@@ -149,7 +185,7 @@ const BatchPage = () => {
                 activeElement === "students" ? "2px solid green" : "none",
               fontSize: "14px",
               fontWeight: "600",
-              padding: "10px 40px",
+              padding: "10px 30px",
               color: activeElement === "students" ? "green" : "black",
               cursor: "pointer",
             }}
@@ -168,7 +204,7 @@ const BatchPage = () => {
                 activeElement === "attendance" ? "2px solid green" : "none",
               fontSize: "14px",
               fontWeight: "600",
-              padding: "10px 40px",
+              padding: "10px 30px",
               color: activeElement === "attendance" ? "green" : "black",
               cursor: "pointer",
             }}

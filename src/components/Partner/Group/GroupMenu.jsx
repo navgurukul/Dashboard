@@ -6,19 +6,47 @@ import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import showToast from "../../showToast";
 import EditGroupModal from "./EditGroupModal";
-import { useDeleteGroupMutation } from "../../../store";
+import { changeSelectedCourse, useDeleteGroupMutation } from "../../../store";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 const ITEM_HEIGHT = 48;
 
-function GroupMenu({ group }) {
+function GroupMenu({ group, handleCreateBatchToggle }) {
   const [deleteGroup, results] = useDeleteGroupMutation();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorCourse, setAnchorCourse] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const open = Boolean(anchorEl);
-  console.log(results);
+  const openPathwayList = Boolean(anchorCourse);
+  const [pathways, setPathways] = useState([]);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     showToast("success", results?.data?.message);
   }, [results.isSuccess]);
+
+  useEffect(() => {
+    axios({
+      url: "https://dev-api.merakilearn.org/pathways/dropdown",
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
+        "version-code": 50,
+      },
+    }).then((res) => {
+      const path = res?.data?.pathways?.map((item, index) => {
+        return {
+          label: item.name,
+          pathway_id: item.id,
+        };
+      });
+      setPathways(path);
+    });
+  }, []);
 
   const [openUpdateGroup, setOpenUpdateGroup] = useState(false);
   const handleOpenUpdateGroupToggle = () => {
@@ -41,6 +69,22 @@ function GroupMenu({ group }) {
     deleteGroup(group);
   };
 
+  const handleClickAdd = (event) => {
+    setAnchorCourse(event.currentTarget);
+  };
+
+  const handleCloseAdd = () => {
+    setAnchorCourse(null);
+  };
+
+  const handleMenuItemClick = (event, option) => {
+    handleCreateBatchToggle();
+    setAnchorCourse(null);
+    dispatch(changeSelectedCourse(option));
+  };
+
+  const { courseName } = useSelector((state) => state.selectedCourse);
+
   return (
     <div>
       {openUpdateGroup && (
@@ -62,11 +106,44 @@ function GroupMenu({ group }) {
         >
           <MoreHorizIcon sx={{ color: "text.primary", fontSize: "16px" }} />
         </Box>
-        <AddIcon
-          // onClick={handleCreateGroupToggle}
-          sx={{ color: "text.primary", fontSize: "16px" }}
-        />
+        <Box
+          aria-label="more"
+          id="long-button"
+          aria-controls={openPathwayList ? "long-menu" : undefined}
+          aria-expanded={openPathwayList ? "true" : undefined}
+          aria-haspopup="true"
+        >
+          <AddIcon
+            onClick={handleClickAdd}
+            sx={{ color: "text.primary", fontSize: "16px" }}
+          />
+        </Box>
       </Box>
+      <Menu
+        id="long-menu"
+        MenuListProps={{
+          "aria-labelledby": "long-button",
+        }}
+        anchorEl={anchorCourse}
+        open={openPathwayList}
+        onClose={handleCloseAdd}
+        PaperProps={{
+          style: {
+            maxHeight: ITEM_HEIGHT * 7.5,
+            width: "330px",
+          },
+        }}
+      >
+        {pathways?.map((course, index) => (
+          <MenuItem
+            key={index}
+            selected={index === selectedIndex}
+            onClick={(event) => handleMenuItemClick(event, course)}
+          >
+            {course?.label}
+          </MenuItem>
+        ))}
+      </Menu>
       <Menu
         id="long-menu"
         MenuListProps={{

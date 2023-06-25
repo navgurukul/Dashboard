@@ -22,7 +22,6 @@ const getMuiTheme = () =>
           },
         },
       },
-
       // MuiInputBase: {
       //   styleOverrides: {
       //     root: {
@@ -87,6 +86,7 @@ const getMuiTheme = () =>
             "&:hover": {
               backgroundColor: "rgba(233, 245, 233, 1) !important",
               cursor: "pointer",
+              // border: "1px solid red !important",
             },
           },
         },
@@ -108,8 +108,6 @@ const getMuiTheme = () =>
     },
   });
 
-
-
 const options = {
   filterType: "checkbox",
   search: false,
@@ -121,7 +119,7 @@ const options = {
   viewColumns: false,
 };
 
-const StudentList = ({data}) => {
+const StudentList = ({ data }) => {
   const columns = [
     {
       name: "firstName",
@@ -129,7 +127,6 @@ const StudentList = ({data}) => {
       options: {
         filter: false,
         sort: false,
-        
       },
     },
     {
@@ -156,7 +153,7 @@ const StudentList = ({data}) => {
         sort: false,
         customBodyRender: (value, tableMeta, updateValue) => {
           const progressValue = 68;
-  
+
           return (
             <div style={{ display: "flex", alignItems: "center" }}>
               <CircularProgress
@@ -180,9 +177,9 @@ const StudentList = ({data}) => {
       },
     },
   ];
- 
-// console.log(data);
-  const { spaceId, groupId } = useParams();
+
+  // console.log(data);
+  const { spaceId, groupId, partnerId } = useParams();
 
   const dispatch = useDispatch();
   const { searchTerm, filterBy } = useSelector((state) => {
@@ -203,12 +200,11 @@ const StudentList = ({data}) => {
     dispatch(changeSearchTermm(e.target.value));
   };
 
+  // const handleClickRow = (rowData) => {
+  //   const studentId = rowData[0];
+  //   window.location.href = `batch/studentinfo`;
+  // };
 
-  const handleClickRow = (rowData) => {
-    const studentId = rowData[0];   
-    window.location.href = `batch/studentinfo`;
-  };
- 
   return (
     <div style={{ overflowX: "auto" }}>
       <Box style={{ margin: "0px 10px 0px 5px" }}>
@@ -230,16 +226,14 @@ const StudentList = ({data}) => {
           sx={{ width: "360px" }}
         />
       </Box>
-      <ThemeProvider theme={getMuiTheme}>
-        <MUIDataTable
-          data={data}
-          columns={columns}
-          options={{
-            ...options,
-            onRowClick: handleClickRow,
-          }}
-        />
-      </ThemeProvider>
+      <Link
+        to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/studentinfo`}
+        style={{ textDecoration: "none" }}
+      >
+        <ThemeProvider theme={getMuiTheme}>
+          <MUIDataTable data={data} columns={columns} options={options} />
+        </ThemeProvider>
+      </Link>
     </div>
   );
 };
