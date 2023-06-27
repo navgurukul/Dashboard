@@ -5,7 +5,6 @@ import CreateSpaceModal from "../components/Partner/Space/CreateSpaceModal";
 import CreateGroupModal from "../components/Partner/Group/CreateGroupModal";
 import CreateBatchModal from "../components/Partner/Batch/CreateBatchModal";
 
-
 function PartnerLayout() {
   const [createSpaceOpen, setCreateStateOpen] = useState(false);
   const [createGroupOpen, setCreateGroupOpen] = useState(false);
@@ -27,7 +26,13 @@ function PartnerLayout() {
   };
 
   return (
-    <main style={{ display: "flex",     }}>
+    <main
+      style={{
+        display: "flex",
+        height: "100%",
+        // border: "2px solid blue",
+      }}
+    >
       <Sidebar value={valueToShare} />
       <Outlet context={valueToShare} />
       {/* outlet modals  */}
@@ -44,13 +49,12 @@ function PartnerLayout() {
           boolean={createGroupOpen}
         />
       )}
-       {createBatchOpen && (
+      {createBatchOpen && (
         <CreateBatchModal
           onToggle={handleCreateBatchToggle}
           boolean={createBatchOpen}
         />
       )}
-
     </main>
   );
 }

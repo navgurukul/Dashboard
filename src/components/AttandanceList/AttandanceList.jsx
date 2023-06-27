@@ -46,7 +46,7 @@ const getMuiTheme = () =>
           root: {
             padding: "8px",
             backgroundColor: "none",
-            fontFamily: "NatoSans",
+            fontFamily: "Noto Sans !important",
             textAlign: "left",
             "&.custom-cell": {
               width: "200px", // Set a fixed width for the cell using a custom CSS class

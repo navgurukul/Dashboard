@@ -58,10 +58,10 @@ function Sidebar(value) {
             border: "none",
             // display: "flex",
             // flexDirection: "column",
-            overflow: "hidden",
+            overflowX: "hidden",
             // overflowY: "scroll",
-            height: "100%",
-            // border: "1px solid red",
+            // height: "88vh",
+            // border: "2px solid yellow",
           },
         }}
         variant="persistent"

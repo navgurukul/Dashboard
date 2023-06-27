@@ -67,8 +67,9 @@ const getMuiTheme = () =>
         styleOverrides: {
           root: {
             padding: "8px",
+            // color:"red",
             backgroundColor: "none",
-            fontFamily: "NatoSans",
+            fontFamily: "Noto Sans !important",
             textAlign: "left",
             "&.custom-cell": {
               width: "200px", // Set a fixed width for the cell using a custom CSS class
@@ -206,7 +207,13 @@ const StudentList = ({ data }) => {
   // };
 
   return (
-    <div style={{ overflowX: "auto" }}>
+    <div
+      style={
+        {
+          // border:"1px solid red"
+        }
+      }
+    >
       <Box style={{ margin: "0px 10px 0px 5px" }}>
         <TextField
           placeholder="Search Student..."
