@@ -17,10 +17,10 @@ const spanQuestionElement = {
 };
 
 const spanColors = {
-  totalQuestions: "#48A145",
-  attemptedQuestions: "#2E2E2E",
-  correctAnswers: "#2196F3",
-  wrongAnswers: "#48A145",
+  totalQuestions: "#2E2E2E", 
+  attemptedQuestions: "#2196F3",
+  correctAnswers: "#48A145",
+  wrongAnswers: "red",
 };
 
 export default function SimpleAccordion() {

@@ -72,7 +72,7 @@ const getMuiTheme = () =>
             fontFamily: "Noto Sans !important",
             textAlign: "left",
             "&.custom-cell": {
-              width: "200px", // Set a fixed width for the cell using a custom CSS class
+              width: "200px",  
             },
           },
           head: {
