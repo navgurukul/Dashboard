@@ -7,6 +7,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import EditStudentModal from "../EditStudentModal";
 
 const getMuiTheme = () =>
   createTheme({
@@ -77,7 +78,20 @@ let btnsContainerStyles = {
   justifyContent: "flex-end",
 };
 
-function GroupStudentsTable({ handleAddStudentsOpen, data }) {
+function GroupStudentsTable({ handleAddStudentsOpen, data,student }) {
+  
+  const [anchorEl, setAnchorEl] = useState(null);
+  const opena = Boolean(anchorEl);
+
+  const [openUpdateStudent, setOpenUpdateStudent] = useState(false);
+  const handleOpenUpdateStudentToggle = () => {
+    setOpenUpdateStudent(!openUpdateStudent);
+  };
+  
+  const handleEditClick = () => {
+    handleOpenUpdateStudentToggle();
+    setAnchorEl(null);
+  };
   const columns = [
     {
       name: "name",
@@ -125,6 +139,7 @@ function GroupStudentsTable({ handleAddStudentsOpen, data }) {
             <div style={btnsContainerStyles}>
               <Button
                 size="small"
+                onClick={handleEditClick}
                 sx={{
                   // height: "18px",
                   // width: "18px",
@@ -132,7 +147,7 @@ function GroupStudentsTable({ handleAddStudentsOpen, data }) {
                   "&:hover": { color: "primary.main" },
                 }}
               >
-                <EditIcon />
+                <EditIcon/>
               </Button>
               <Button
                 size="small"
@@ -171,6 +186,14 @@ function GroupStudentsTable({ handleAddStudentsOpen, data }) {
   // };
 
   return (
+    <>
+      {openUpdateStudent && (
+      <EditStudentModal
+        student={student}
+        boolean={openUpdateStudent}
+        onToggle={handleOpenUpdateStudentToggle}
+      />
+    )}
     <Box pr="20px" mt="15px">
       <GroupStudentsFilter handleAddStudentsOpen={handleAddStudentsOpen} />
       <Box sx={{ overflowX: "auto" }}>
@@ -179,6 +202,7 @@ function GroupStudentsTable({ handleAddStudentsOpen, data }) {
         </ThemeProvider>
       </Box>
     </Box>
+    </>
   );
 }
 

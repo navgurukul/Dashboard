@@ -14,7 +14,7 @@ function BatchList({ group }) {
     content = <p>Error fetching groups</p>;
   } else if (!data?.length) {
     content = (
-      <Link>
+      <Link  >
         <ListItemButton
           sx={{
             color: "text.primary",

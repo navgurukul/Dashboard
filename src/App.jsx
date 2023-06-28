@@ -16,11 +16,14 @@ import theme from "./theme/theme";
 import CreateGroup from "./components/Partner/Group/CreateGroup";
 import CreateSpace from "./components/Partner/Space/CreateSpace";
 import BatchPage from "./pages/partners/Batch/BatchPage";
-import StudentList from "./components/StudentList/StudentList";
-import AttandanceList from "./components/AttandanceList/AttandanceList";
+// import StudentList from "./components/StudentList/StudentList";
+// import AttandanceList from "./components/AttandanceList/AttandanceList";
+import StudentInfo from "./components/StudentInfo/StudentInfo";
 
 // library
 import { ThemeProvider } from "@mui/material";
+import StudentFilter from "./components/StudentList/StudentFilter";
+import AttandanceFilter from "./components/AttandanceList/AttandanceFilter";
 
 const router = createBrowserRouter([
   {
@@ -34,18 +37,19 @@ const router = createBrowserRouter([
         element: <PartnerPage />,
         children: [
           { index: true, element: <CreateSpace /> },
-          {
-            path: "space/:spaceId",
-            element: <CreateGroup />,
-          },
+          { path: "space/:spaceId", element: <CreateGroup /> },
           { path: "space/:spaceId/group/:groupId", element: <GroupPage /> },
           {
-            path: "batch",
+            path: "space/:spaceId/group/:groupId/batch",
             element: <BatchPage />,
             children: [
-              { index: true, element: <StudentList /> },
-              { path: "attendance", element: <AttandanceList /> },
+              { index: true, element: <StudentFilter /> },
+              { path: "attandancelist", element: <AttandanceFilter /> },
             ],
+          },
+          {
+            path: "space/:spaceId/group/:groupId/batch/studentinfo",
+            element: <StudentInfo />,
           },
         ],
       },

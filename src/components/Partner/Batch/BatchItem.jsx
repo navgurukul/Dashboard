@@ -4,8 +4,11 @@ import { NavLink } from "react-router-dom";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { useState } from "react";
 import BatchMenu from "./BatchMenu";
+import { useParams } from "react-router-dom";
 
 function BatchItem({ batch }) {
+  
+  const { spaceId, groupId } = useParams();
   const [open, setOpen] = useState(false);
 
   const activeStyles = {
@@ -25,14 +28,14 @@ function BatchItem({ batch }) {
 
   return (
     <>
-      <NavLink>
+      <NavLink to={`space/${spaceId}/group/${groupId}/batch`} >
         <ListItemButton
           sx={{
             color: "text.primary",
             display: "flex",
             alignItems: "center",
             gap: 1,
-            pl: 9.5,
+            pl: 9.5, 
           }}
         >
           {/* {expandIcon} */}
