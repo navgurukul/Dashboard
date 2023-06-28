@@ -76,7 +76,7 @@ const getMuiTheme = () =>
             },
           },
           head: {
-            fontWeight: "bolder", // Set font weight to 600 for table header cells
+            fontWeight: "bolder",  
           },
         },
       },
