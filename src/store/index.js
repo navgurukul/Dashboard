@@ -13,6 +13,7 @@ import { batchesApi } from "./apis/batchesApi";
 import {
   changeSelectedCourse,
   selectedCourseReducer,
+  changeId,
 } from "./slices/selectedCourseSlice";
 
 import {
@@ -124,4 +125,5 @@ export {
   changeFilterBy_attendance,
   attendanceFilterReducer,
   changeSelectedCourse,
+  changeId,
 };

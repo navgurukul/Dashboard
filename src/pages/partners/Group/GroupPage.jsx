@@ -60,12 +60,13 @@ function GroupPage() {
           onToggle={handleAddStudentsOpen}
         />
       )}
-      <div
-        style={{
+      <Box
+        sx={{
           backgroundColor: "#FAFAFA",
           width: "100%",
-          height: "max-content",
+          height: "calc(100vh - 80px)",
           paddingLeft: "20px",
+          overflowY: "scroll",
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", py: 2 }}>
@@ -102,7 +103,7 @@ function GroupPage() {
           </Box>
         </Stack>
         {content}
-      </div>
+      </Box>
     </>
   );
 }

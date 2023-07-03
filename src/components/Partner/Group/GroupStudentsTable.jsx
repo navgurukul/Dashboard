@@ -4,8 +4,8 @@ import MUIDataTable from "mui-datatables";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import EditStudentModal from "../EditStudentModal";
 
@@ -78,8 +78,7 @@ let btnsContainerStyles = {
   justifyContent: "flex-end",
 };
 
-function GroupStudentsTable({ handleAddStudentsOpen, data,student }) {
-  
+function GroupStudentsTable({ handleAddStudentsOpen, data, student }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const opena = Boolean(anchorEl);
 
@@ -87,7 +86,7 @@ function GroupStudentsTable({ handleAddStudentsOpen, data,student }) {
   const handleOpenUpdateStudentToggle = () => {
     setOpenUpdateStudent(!openUpdateStudent);
   };
-  
+
   const handleEditClick = () => {
     handleOpenUpdateStudentToggle();
     setAnchorEl(null);
@@ -147,7 +146,7 @@ function GroupStudentsTable({ handleAddStudentsOpen, data,student }) {
                   "&:hover": { color: "primary.main" },
                 }}
               >
-                <EditIcon/>
+                <EditIcon />
               </Button>
               <Button
                 size="small"
@@ -188,20 +187,20 @@ function GroupStudentsTable({ handleAddStudentsOpen, data,student }) {
   return (
     <>
       {openUpdateStudent && (
-      <EditStudentModal
-        student={student}
-        boolean={openUpdateStudent}
-        onToggle={handleOpenUpdateStudentToggle}
-      />
-    )}
-    <Box pr="20px" mt="15px">
-      <GroupStudentsFilter handleAddStudentsOpen={handleAddStudentsOpen} />
-      <Box sx={{ overflowX: "auto" }}>
-        <ThemeProvider theme={getMuiTheme}>
-          <MUIDataTable data={data} columns={columns} options={options} />
-        </ThemeProvider>
+        <EditStudentModal
+          student={student}
+          boolean={openUpdateStudent}
+          onToggle={handleOpenUpdateStudentToggle}
+        />
+      )}
+      <Box pr="20px" mt="15px">
+        <GroupStudentsFilter handleAddStudentsOpen={handleAddStudentsOpen} />
+        <Box sx={{ overflowX: "auto" }}>
+          <ThemeProvider theme={getMuiTheme}>
+            <MUIDataTable data={data} columns={columns} options={options} />
+          </ThemeProvider>
+        </Box>
       </Box>
-    </Box>
     </>
   );
 }

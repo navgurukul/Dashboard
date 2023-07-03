@@ -9,18 +9,16 @@ function PartnerLayout() {
   const [createSpaceOpen, setCreateStateOpen] = useState(false);
   const [createGroupOpen, setCreateGroupOpen] = useState(false);
   const [createBatchOpen, setCreateBatchOpen] = useState(false);
-  const selected = null;
 
   const handleCreateSpaceToggle = () => setCreateStateOpen(!createSpaceOpen);
   const handleCreateGroupToggle = () => setCreateGroupOpen(!createGroupOpen);
   const handleCreateBatchToggle = () => {
     setCreateBatchOpen(!createBatchOpen);
   };
+
   const valueToShare = {
     createSpaceOpen,
     handleCreateSpaceToggle,
-    createGroupOpen,
-    handleCreateGroupToggle,
     createBatchOpen,
     handleCreateBatchToggle,
   };
@@ -49,6 +47,7 @@ function PartnerLayout() {
           boolean={createGroupOpen}
         />
       )}
+
       {createBatchOpen && (
         <CreateBatchModal
           onToggle={handleCreateBatchToggle}

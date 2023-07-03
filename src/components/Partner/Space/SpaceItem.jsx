@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Collapse,
+  IconButton,
   List,
   ListItemButton,
   ListItemIcon,
@@ -20,7 +21,7 @@ import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
 import { useState } from "react";
 import GroupList from "../Group/GroupList";
 
-function SpaceItem({ space, handleCreateGroupToggle,handleCreateBatchToggle }) {
+function SpaceItem({ space }) {
   const [open, setOpen] = useState(false);
 
   const activeStyles = {
@@ -40,39 +41,34 @@ function SpaceItem({ space, handleCreateGroupToggle,handleCreateBatchToggle }) {
 
   return (
     <>
-      <NavLink to={`space/${space.id}`}>
-        <ListItemButton
-          sx={{
-            color: "text.primary",
-            display: "flex",
-            alignItems: "center",
-            gap: 1,
-          }}
+      <ListItemButton
+        sx={{
+          color: "text.primary",
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+        }}
+      >
+        {expandIcon}
+        <NavLink
+          to={`space/${space.id}`}
+          style={{ display: "flex", flexGrow: 1, color: "#2E2E2E" }}
         >
-          {expandIcon}
           <img src={spaceItemSvg} alt="" />
           <Typography
             flex={1}
             sx={{
               fontSize: "14px",
+              marginLeft: "10px",
               // fontWeight: index === selected ? 600 : 400,
             }}
           >
             {space.space_name}
           </Typography>
-          <SpaceMenu
-            space={space}
-            handleCreateGroupToggle={handleCreateGroupToggle}
-          />
-        </ListItemButton>
-      </NavLink>
-      {open && (
-        <GroupList
-          space={space}
-          handleCreateGroupToggle={handleCreateGroupToggle}
-          handleCreateBatchToggle={handleCreateBatchToggle}
-        />
-      )}
+        </NavLink>
+        <SpaceMenu space={space} expand={setOpen} />
+      </ListItemButton>
+      {open && <GroupList space={space} />}
     </>
   );
 }
