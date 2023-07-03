@@ -3,16 +3,21 @@ import MenuItem from "@mui/material/MenuItem";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AddIcon from "@mui/icons-material/Add";
 import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import showToast from "../../showToast";
 import EditGroupModal from "./EditGroupModal";
-import { changeSelectedCourse, useDeleteGroupMutation } from "../../../store";
+import {
+  changeId,
+  changeSelectedCourse,
+  useDeleteGroupMutation,
+} from "../../../store";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import SidebarContext from "../Sidebar/sidebarContext";
 
 const ITEM_HEIGHT = 48;
 
-function GroupMenu({ group, handleCreateBatchToggle }) {
+function GroupMenu({ group, expand }) {
   const [deleteGroup, results] = useDeleteGroupMutation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorCourse, setAnchorCourse] = useState(null);
@@ -20,6 +25,7 @@ function GroupMenu({ group, handleCreateBatchToggle }) {
   const open = Boolean(anchorEl);
   const openPathwayList = Boolean(anchorCourse);
   const [pathways, setPathways] = useState([]);
+  const { handleCreateBatchToggle } = useContext(SidebarContext);
 
   const dispatch = useDispatch();
 
@@ -84,7 +90,7 @@ function GroupMenu({ group, handleCreateBatchToggle }) {
   };
 
   return (
-    <div>
+    <Box sx={{ display: "flex", marginLeft: "auto" }}>
       {openUpdateGroup && (
         <EditGroupModal
           group={group}
@@ -112,7 +118,13 @@ function GroupMenu({ group, handleCreateBatchToggle }) {
           aria-haspopup="true"
         >
           <AddIcon
-            onClick={handleClickAdd}
+            onClick={(e) => {
+              handleClickAdd(e);
+              dispatch(
+                changeId({ space_id: group.space_id, group_id: group.id })
+              );
+              expand(true);
+            }}
             sx={{ color: "text.primary", fontSize: "16px" }}
           />
         </Box>
@@ -161,7 +173,7 @@ function GroupMenu({ group, handleCreateBatchToggle }) {
         <MenuItem>Copy Link</MenuItem>
         <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
       </Menu>
-    </div>
+    </Box>
   );
 }
 

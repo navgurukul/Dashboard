@@ -5,7 +5,7 @@ import { Add } from "@mui/icons-material";
 import { useState } from "react";
 import CreateGroupModal from "./CreateGroupModal";
 
-function GroupList({ space, handleCreateBatchToggle }) {
+function GroupList({ space }) {
   const { data, isLoading, error } = useFetchGroupsQuery(space);
 
   const [createGroupOpen, setCreateGroupOpen] = useState(false);
@@ -52,13 +52,7 @@ function GroupList({ space, handleCreateBatchToggle }) {
     );
   } else {
     content = data.map((group) => {
-      return (
-        <GroupItem
-          group={group}
-          key={group.id}
-          handleCreateBatchToggle={handleCreateBatchToggle}
-        />
-      );
+      return <GroupItem group={group} key={group.id} />;
     });
   }
 

@@ -1,22 +1,12 @@
-//26-05
 import { useState, useEffect } from "react";
-import { Button, Modal, TextField, Typography, Box } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Button, TextField, Typography, Box } from "@mui/material";
+
 import showToast from "../../showToast";
 import { useUpdateGroupMutation } from "../../../store";
 import CloseIcon from "@mui/icons-material/Close";
-import {
-  Dialog,
-  Grid,
-  DialogTitle,
-  TableContainer,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-} from "@mui/material";
+import { Dialog, Grid, DialogContent, DialogActions } from "@mui/material";
 
 const EditGroupModal = ({ boolean, onToggle, group }) => {
-  const { groupId } = useParams();
   const [updateGroup, results] = useUpdateGroupMutation();
 
   const [values, setValues] = useState({

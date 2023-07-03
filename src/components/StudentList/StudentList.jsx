@@ -72,11 +72,11 @@ const getMuiTheme = () =>
             fontFamily: "Noto Sans !important",
             textAlign: "left",
             "&.custom-cell": {
-              width: "200px",  
+              width: "200px",
             },
           },
           head: {
-            fontWeight: "bolder",  
+            fontWeight: "bolder",
           },
         },
       },
@@ -179,15 +179,12 @@ const StudentList = ({ data }) => {
     },
   ];
 
-  // console.log(data);
   const { spaceId, groupId, partnerId } = useParams();
 
   const dispatch = useDispatch();
   const { searchTerm, filterBy } = useSelector((state) => {
     return state.studentFilter;
   });
-
-  console.log(filterBy);
 
   const filterTerms = [
     "All Partners",

@@ -15,6 +15,7 @@ function PartnerLayout() {
   const handleCreateBatchToggle = () => {
     setCreateBatchOpen(!createBatchOpen);
   };
+
   const valueToShare = {
     createSpaceOpen,
     handleCreateSpaceToggle,

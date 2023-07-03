@@ -2,28 +2,16 @@ import { useState, useEffect } from "react";
 import {
   Button,
   FormControlLabel,
-  IconButton,
-  Modal,
   Radio,
   RadioGroup,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/material";
 import { useParams } from "react-router-dom";
-import showToast from "../../../showToast";
 import CloseIcon from "@mui/icons-material/Close";
-import {
-  Dialog,
-  Grid,
-  DialogTitle,
-  TableContainer,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-} from "@mui/material";
-import { Add, Delete } from "@mui/icons-material";
+import { Dialog, Grid, DialogContent, DialogActions } from "@mui/material";
+import { Add } from "@mui/icons-material";
 import AddStudentsList from "./AddStudentsList";
 import { useAddSingleStudentsMutation } from "../../../../store";
 import BulkUpload from "./BulkUpload";
@@ -74,6 +62,10 @@ const AddStudentsModal = ({ boolean, onToggle }) => {
     });
     addSingleStudents({ students: array, groupId });
   };
+
+  useEffect(() => {
+    //
+  }, []);
 
   return (
     <Box sx={{ maxWidth: "592px" }}>

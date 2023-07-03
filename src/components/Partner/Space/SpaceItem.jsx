@@ -21,7 +21,7 @@ import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
 import { useState } from "react";
 import GroupList from "../Group/GroupList";
 
-function SpaceItem({ space, handleCreateBatchToggle }) {
+function SpaceItem({ space }) {
   const [open, setOpen] = useState(false);
 
   const activeStyles = {
@@ -66,14 +66,9 @@ function SpaceItem({ space, handleCreateBatchToggle }) {
             {space.space_name}
           </Typography>
         </NavLink>
-        <SpaceMenu space={space} expand={handleClick} />
+        <SpaceMenu space={space} expand={setOpen} />
       </ListItemButton>
-      {open && (
-        <GroupList
-          space={space}
-          handleCreateBatchToggle={handleCreateBatchToggle}
-        />
-      )}
+      {open && <GroupList space={space} />}
     </>
   );
 }

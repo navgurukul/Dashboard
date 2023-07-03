@@ -80,7 +80,7 @@ function SpaceMenu({ space, expand }) {
         <AddIcon
           onClick={() => {
             handleCreateGroupToggle();
-            expand();
+            expand(true);
           }}
           sx={{ color: "text.primary", fontSize: "16px" }}
         />

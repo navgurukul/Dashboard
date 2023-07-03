@@ -4,7 +4,7 @@ import { useFetchSpacesQuery } from "../../../store";
 import SpaceItem from "./SpaceItem";
 import { useState } from "react";
 
-function SpaceList({ partner, handleCreateBatchToggle }) {
+function SpaceList({ partner }) {
   const { data, isLoading, error } = useFetchSpacesQuery(partner);
 
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -20,13 +20,7 @@ function SpaceList({ partner, handleCreateBatchToggle }) {
     );
   } else {
     content = data.data.map((space, i) => {
-      return (
-        <SpaceItem
-          space={space}
-          key={space.id}
-          handleCreateBatchToggle={handleCreateBatchToggle}
-        />
-      );
+      return <SpaceItem space={space} key={space.id} />;
     });
   }
 

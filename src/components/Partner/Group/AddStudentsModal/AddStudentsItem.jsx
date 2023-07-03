@@ -1,13 +1,12 @@
 import { Delete } from "@mui/icons-material";
 import { Box, IconButton, Stack, TextField, Typography } from "@mui/material";
 import { useCheckEmailQuery } from "../../../../store";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function AddStudentsItem({ student, index, onDelete, onChange, length }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const { data, isLoading, error } = useCheckEmailQuery(email);
-  console.log(error?.data?.message);
 
   const handleDeleteClick = () => {
     onDelete(student.id);

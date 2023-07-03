@@ -26,10 +26,12 @@ import { useFetchVolunteersQuery } from "../../../store";
 import showToast from "../../showToast";
 
 const CreateBatchModal = ({ boolean, onToggle }) => {
-  const { partnerId, spaceId, groupId } = useParams();
+  const { partnerId } = useParams();
+  const {
+    id: { spaceId, groupId },
+  } = useSelector((state) => state.selectedCourse);
   const { course } = useSelector((state) => state.selectedCourse);
   const [addBatch, results] = useAddBatchMutation();
-  console.log(results);
 
   useEffect(() => {
     if (results.isError) {
