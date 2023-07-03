@@ -64,7 +64,7 @@ function GroupPage() {
         sx={{
           backgroundColor: "#FAFAFA",
           width: "100%",
-          maxHeight: "calc(100vh - 80px)",
+          height: "calc(100vh - 80px)",
           paddingLeft: "20px",
           overflowY: "scroll",
         }}
