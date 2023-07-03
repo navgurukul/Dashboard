@@ -14,19 +14,16 @@ const StudentInfo = () => {
         width: "100%",
       }}
     >
-      <Box
-        style={{
-          fontSize: "14px",
-          // display:"block",
-          // width:"100%",
-          // border: "1px solid blue",
-        }}
-      >
-        Ahaan Bengaluru / Student Group 1 / Python / Anand NG
+      <Box>
+        <Typography 
+          style={{ fontFamily: "Noto Sans",  fontSize: "14px", }}
+        >
+          Ahaan Bengaluru / Student Group 1 / Python / Anand NG
+        </Typography>
       </Box>
       <Box
         style={{
-          //   border: "1px solid blue",
+          //border: "1px solid blue",
           margin: "20px auto",
           width: "584px",
         }}
@@ -58,7 +55,7 @@ const StudentInfo = () => {
                 // border: "1px solid blue",
               }}
             >
-              Anand NG
+              Anand NGa
             </Typography>
             <Box
               style={{
@@ -149,9 +146,9 @@ const StudentInfo = () => {
         <Typography
           style={{
             fontSize: "18px",
-            weight:"600", 
-            width:"584px",
-            margin:"0px auto",
+            weight: "600",
+            width: "584px",
+            margin: "0px auto",
           }}
         >
           Course Wise Performance
