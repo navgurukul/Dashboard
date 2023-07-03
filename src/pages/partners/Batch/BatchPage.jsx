@@ -69,11 +69,15 @@ const BatchPage = () => {
   };
 
   return (
-    <Box style={{ width: "100%", padding: "0px 20px",
-    //  overflowY: "scroll",
-    height: "100%",
-    // border:"1px solid green", 
-      }}>
+    <Box
+      style={{
+        width: "100%",
+        padding: "0px 20px",
+        overflowY: "scroll",
+        height: "100vh",
+        // border:"1px solid green",
+      }}
+    >
       <Box sx={{ display: "flex", alignItems: "center", py: 2 }}>
         <Typography pr={0.5} variant="body2">
           {partner} /
