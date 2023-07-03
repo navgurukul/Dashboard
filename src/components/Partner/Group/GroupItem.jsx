@@ -1,21 +1,11 @@
-import {
-  Box,
-  Button,
-  Collapse,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from "@mui/material";
-import { NavLink, useOutletContext, useParams } from "react-router-dom";
-import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
+import { ListItemButton, Typography } from "@mui/material";
+import { NavLink } from "react-router-dom";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { useState } from "react";
 import GroupMenu from "./GroupMenu";
 import BatchList from "../Batch/BatchList";
 
 function GroupItem({ group, handleCreateBatchToggle }) {
-  const { spaceId } = useParams();
   const [open, setOpen] = useState(false);
 
   const activeStyles = {
@@ -56,8 +46,10 @@ function GroupItem({ group, handleCreateBatchToggle }) {
           >
             {group.group_name}
           </Typography>
-          <GroupMenu group={group} 
-          handleCreateBatchToggle={handleCreateBatchToggle}/>
+          <GroupMenu
+            group={group}
+            handleCreateBatchToggle={handleCreateBatchToggle}
+          />
         </ListItemButton>
       </NavLink>
       {open && (

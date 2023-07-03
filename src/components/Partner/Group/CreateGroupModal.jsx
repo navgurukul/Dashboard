@@ -14,10 +14,9 @@ import { useParams } from "react-router-dom";
 import { useAddGroupMutation } from "../../../store";
 import showToast from "../../showToast";
 
-const CreateGroupModal = ({ boolean, onToggle }) => {
+const CreateGroupModal = ({ boolean, onToggle, space }) => {
   const { spaceId } = useParams();
   const [addGroup, results] = useAddGroupMutation();
-  console.log(results);
 
   const [values, setValues] = useState({
     name: "",
@@ -39,7 +38,7 @@ const CreateGroupModal = ({ boolean, onToggle }) => {
   };
 
   const handleSubmit = () => {
-    let group = { spaceId: spaceId };
+    let group = { spaceId: space?.id || spaceId };
     if (!values.name.trim()) return;
     if (values.name.trim()) {
       group["group_name"] = values.name;

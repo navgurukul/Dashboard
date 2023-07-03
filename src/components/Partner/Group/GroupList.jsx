@@ -2,14 +2,14 @@ import { List, ListItemButton, Typography } from "@mui/material";
 import { useFetchGroupsQuery } from "../../../store";
 import GroupItem from "./GroupItem";
 import { Add } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import CreateGroupModal from "./CreateGroupModal";
 
-function GroupList({
-  space,
-  handleCreateGroupToggle,
-  handleCreateBatchToggle,
-}) {
+function GroupList({ space, handleCreateBatchToggle }) {
   const { data, isLoading, error } = useFetchGroupsQuery(space);
+
+  const [createGroupOpen, setCreateGroupOpen] = useState(false);
+  const handleCreateGroupToggle = () => setCreateGroupOpen(!createGroupOpen);
 
   let content;
   if (isLoading) {
@@ -18,7 +18,15 @@ function GroupList({
     content = <p>Error fetching groups</p>;
   } else if (!data?.length) {
     content = (
-      <Link to={`space/${space.id}`}>
+      <>
+        {createGroupOpen && (
+          <CreateGroupModal
+            onToggle={handleCreateGroupToggle}
+            boolean={createGroupOpen}
+            space={space}
+          />
+        )}
+
         <ListItemButton
           onClick={handleCreateGroupToggle}
           sx={{
@@ -40,7 +48,7 @@ function GroupList({
             Add Student Group
           </Typography>
         </ListItemButton>
-      </Link>
+      </>
     );
   } else {
     content = data.map((group) => {

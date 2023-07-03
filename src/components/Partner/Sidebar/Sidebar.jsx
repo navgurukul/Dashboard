@@ -28,12 +28,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 function Sidebar(value) {
   const { partnerId } = useParams();
   const { data, isLoading, error } = useFetchSinglePartnerQuery(partnerId);
-  const {
-    createSpaceOpen,
-    handleCreateSpaceToggle,
-    handleCreateGroupToggle,
-    handleCreateBatchToggle,
-  } = value.value;
+  const { handleCreateSpaceToggle, handleCreateBatchToggle } = value.value;
   const [partner, setPartner] = useState(null);
   const theme = useTheme();
 
@@ -51,17 +46,13 @@ function Sidebar(value) {
           width: 272,
           flexShrink: 0,
           "& .MuiDrawer-paper": {
-            // bgcolor: "red",
             width: 272,
             boxSizing: "border-box",
             position: "relative",
             border: "none",
-            // display: "flex",
-            // flexDirection: "column",
             overflowX: "hidden",
-            // overflowY: "scroll",
-            // height: "88vh",
-            // border: "2px solid yellow",
+            overflowY: "scroll",
+            maxHeight: "calc(100vh - 80px)",
           },
         }}
         variant="persistent"
@@ -121,7 +112,6 @@ function Sidebar(value) {
             </Button>
             <SpaceList
               partner={partner}
-              handleCreateGroupToggle={handleCreateGroupToggle}
               handleCreateBatchToggle={handleCreateBatchToggle}
             />
           </>

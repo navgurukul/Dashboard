@@ -76,13 +76,9 @@ const AddStudentsModal = ({ boolean, onToggle }) => {
   };
 
   return (
-    <Box sx={{ width: "592px" }}>
+    <Box sx={{ maxWidth: "592px" }}>
       <Dialog fullWidth open={boolean} onClose={onToggle}>
-        <DialogContent
-        // sx={{
-        //   overflow: "scroll",
-        // }}
-        >
+        <DialogContent>
           <Grid container mb={3}>
             <Grid item xs={11}>
               <Typography variant="h6" component="h2">

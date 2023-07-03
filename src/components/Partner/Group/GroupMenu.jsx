@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import showToast from "../../showToast";
 import EditGroupModal from "./EditGroupModal";
 import { changeSelectedCourse, useDeleteGroupMutation } from "../../../store";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 
 const ITEM_HEIGHT = 48;
@@ -82,8 +82,6 @@ function GroupMenu({ group, handleCreateBatchToggle }) {
     setAnchorCourse(null);
     dispatch(changeSelectedCourse(option));
   };
-
-  const { courseName } = useSelector((state) => state.selectedCourse);
 
   return (
     <div>
