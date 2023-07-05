@@ -23,11 +23,11 @@ import GroupList from "../Group/GroupList";
 
 function SpaceItem({ space }) {
   const [open, setOpen] = useState(false);
+  const { spaceId, groupId } = useParams();
 
-  const activeStyles = {
-    backgroundColor: "#E9F5E9",
-    fontWeight: 600,
-  };
+  const isActiveSpace = space.id == spaceId;
+
+  const hasGroupId = Boolean(groupId);
 
   const handleClick = () => {
     setOpen(!open);
@@ -47,6 +47,11 @@ function SpaceItem({ space }) {
           display: "flex",
           alignItems: "center",
           gap: 1,
+          bgcolor:
+            isActiveSpace && hasGroupId ? "" : isActiveSpace ? "#E9F5E9" : "",
+          "&:hover": {
+            bgcolor: isActiveSpace && !hasGroupId ? "#E9F5E9" : "",
+          },
         }}
       >
         {expandIcon}
@@ -60,7 +65,7 @@ function SpaceItem({ space }) {
             sx={{
               fontSize: "14px",
               marginLeft: "10px",
-              // fontWeight: index === selected ? 600 : 400,
+              fontWeight: isActiveSpace && hasGroupId ? "bold" : "normal",
             }}
           >
             {space.space_name}

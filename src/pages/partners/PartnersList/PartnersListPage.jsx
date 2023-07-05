@@ -43,6 +43,7 @@ function PartnersListPage() {
         style={{
           width: "1215px",
           margin: "0px auto",
+          overflowY: "scroll",
         }}
       >
         <PartnerFilter />

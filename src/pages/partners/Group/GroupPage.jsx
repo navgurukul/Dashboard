@@ -10,9 +10,10 @@ import {
 import AddStudentsModal from "../../../components/Partner/Group/AddStudentsModal/AddStudentsModal";
 import { useState } from "react";
 import GroupStudentsTable from "../../../components/Partner/Group/GroupStudentsTable";
+import showToast from "../../../components/showToast";
 
 function GroupPage() {
-  const { spaceId, groupId } = useParams();
+  const { partnerId, spaceId, groupId } = useParams();
 
   const {
     data: spaceData,
@@ -52,6 +53,11 @@ function GroupPage() {
     );
   }
 
+  const handleLinkCopy = () => {
+    navigator.clipboard.writeText(window.location);
+    showToast("success", "Link copied to the clipboard");
+  };
+
   return (
     <>
       {addStudentsOpen && (
@@ -84,13 +90,25 @@ function GroupPage() {
             facilitate it to the students
           </Typography>
           <Grid sx={{ display: "flex", gap: 3 }}>
-            <Button endIcon={<Link />} sx={{ fontSize: "14px" }}>
+            <Button
+              onClick={handleLinkCopy}
+              endIcon={<Link />}
+              sx={{ fontSize: "14px" }}
+            >
               Meraki App
             </Button>
-            <Button endIcon={<Link />} sx={{ fontSize: "14px" }}>
+            <Button
+              onClick={handleLinkCopy}
+              endIcon={<Link />}
+              sx={{ fontSize: "14px" }}
+            >
               Meraki Web
             </Button>
-            <Button endIcon={<Link />} sx={{ fontSize: "14px" }}>
+            <Button
+              onClick={handleLinkCopy}
+              endIcon={<Link />}
+              sx={{ fontSize: "14px" }}
+            >
               C4CA Platform
             </Button>
           </Grid>
