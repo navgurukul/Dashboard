@@ -18,7 +18,7 @@ import {
 import SpaceMenu from "./SpaceMenu";
 import spaceItemSvg from "../assets/spaceitem.svg";
 import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import GroupList from "../Group/GroupList";
 
 function SpaceItem({ space }) {
@@ -32,6 +32,12 @@ function SpaceItem({ space }) {
   const handleClick = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    if (hasGroupId && spaceId == space.id) {
+      setOpen(true);
+    }
+  }, [hasGroupId, spaceId]);
 
   const expandIcon = open ? (
     <ExpandLess sx={{ color: "#6d6d6d" }} onClick={handleClick} />

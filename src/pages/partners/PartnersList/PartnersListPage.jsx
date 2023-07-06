@@ -1,6 +1,7 @@
 import { Container } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useFetchPartnersQuery } from "../../../store";
+import { Box } from "@mui/material";
 
 //components
 // import PartnersTable from "../../../components/PartnersList/PartnersTable";
@@ -39,16 +40,17 @@ function PartnersListPage() {
 
   return (
     <>
-      <div
+      <Box
         style={{
           width: "1215px",
           margin: "0px auto",
-          overflowY: "scroll",
+          height: "calc(100vh - 80px)",
+          // overflowY: "scroll",
         }}
       >
         <PartnerFilter />
         {content}
-      </div>
+      </Box>
     </>
   );
 }
