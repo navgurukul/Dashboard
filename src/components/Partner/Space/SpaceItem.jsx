@@ -18,20 +18,26 @@ import {
 import SpaceMenu from "./SpaceMenu";
 import spaceItemSvg from "../assets/spaceitem.svg";
 import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import GroupList from "../Group/GroupList";
 
 function SpaceItem({ space }) {
   const [open, setOpen] = useState(false);
+  const { spaceId, groupId } = useParams();
 
-  const activeStyles = {
-    backgroundColor: "#E9F5E9",
-    fontWeight: 600,
-  };
+  const isActiveSpace = space.id == spaceId;
+
+  const hasGroupId = Boolean(groupId);
 
   const handleClick = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    if (hasGroupId && spaceId == space.id) {
+      setOpen(true);
+    }
+  }, [hasGroupId, spaceId]);
 
   const expandIcon = open ? (
     <ExpandLess sx={{ color: "#6d6d6d" }} onClick={handleClick} />
@@ -47,6 +53,11 @@ function SpaceItem({ space }) {
           display: "flex",
           alignItems: "center",
           gap: 1,
+          bgcolor:
+            isActiveSpace && hasGroupId ? "" : isActiveSpace ? "#E9F5E9" : "",
+          "&:hover": {
+            bgcolor: isActiveSpace && !hasGroupId ? "#E9F5E9" : "",
+          },
         }}
       >
         {expandIcon}
@@ -60,7 +71,7 @@ function SpaceItem({ space }) {
             sx={{
               fontSize: "14px",
               marginLeft: "10px",
-              // fontWeight: index === selected ? 600 : 400,
+              fontWeight: isActiveSpace && hasGroupId ? "bold" : "normal",
             }}
           >
             {space.space_name}

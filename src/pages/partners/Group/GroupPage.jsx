@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import { Link } from "@mui/icons-material";
 import AddStudents from "../../../components/Partner/Group/AddStudents";
 import { useParams } from "react-router-dom";
@@ -6,13 +6,15 @@ import {
   useFetchSingleGroupQuery,
   useFetchSingleSpaceQuery,
   useFetchStudentsQuery,
+  useGetLinksMutation,
 } from "../../../store";
 import AddStudentsModal from "../../../components/Partner/Group/AddStudentsModal/AddStudentsModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GroupStudentsTable from "../../../components/Partner/Group/GroupStudentsTable";
+import showToast from "../../../components/showToast";
 
 function GroupPage() {
-  const { spaceId, groupId } = useParams();
+  const { partnerId, spaceId, groupId } = useParams();
 
   const {
     data: spaceData,
@@ -33,7 +35,14 @@ function GroupPage() {
     isLoading: isStudentsLoading,
     error: studentsError,
   } = useFetchStudentsQuery(groupId);
-  // console.log(studentsData);
+
+  const [getLinks, results] = useGetLinksMutation();
+  useEffect(() => {
+    if (group && !group.web_link) {
+      getLinks({ groupId, spaceId, partnerId });
+    }
+  }, [groupId]);
+  const linksData = results.data;
 
   const [addStudentsOpen, setAddStudentsOpen] = useState(false);
   const handleAddStudentsOpen = () => setAddStudentsOpen(!addStudentsOpen);
@@ -51,6 +60,31 @@ function GroupPage() {
       />
     );
   }
+
+  const handleLinkCopy = (linkType) => {
+    let link;
+    switch (linkType) {
+      case "merakiApp":
+        link = group?.android_link ?? linksData?.android_link;
+        break;
+      case "merakiWeb":
+        link = group?.web_link ?? linksData?.web_link;
+        break;
+      case "c4ca":
+        link = group?.c4ca_link ?? linksData?.c4ca_link;
+        break;
+      default:
+        break;
+    }
+
+    if (link) {
+      navigator.clipboard.writeText(link);
+      showToast("success", "Link copied to the clipboard");
+    }
+    if (!link) {
+      showToast("error", "No link found for this platform");
+    }
+  };
 
   return (
     <>
@@ -84,13 +118,25 @@ function GroupPage() {
             facilitate it to the students
           </Typography>
           <Grid sx={{ display: "flex", gap: 3 }}>
-            <Button endIcon={<Link />} sx={{ fontSize: "14px" }}>
+            <Button
+              onClick={() => handleLinkCopy("merakiApp")}
+              endIcon={<Link />}
+              sx={{ fontSize: "14px" }}
+            >
               Meraki App
             </Button>
-            <Button endIcon={<Link />} sx={{ fontSize: "14px" }}>
+            <Button
+              onClick={() => handleLinkCopy("merakiWeb")}
+              endIcon={<Link />}
+              sx={{ fontSize: "14px" }}
+            >
               Meraki Web
             </Button>
-            <Button endIcon={<Link />} sx={{ fontSize: "14px" }}>
+            <Button
+              onClick={() => handleLinkCopy("c4ca")}
+              endIcon={<Link />}
+              sx={{ fontSize: "14px" }}
+            >
               C4CA Platform
             </Button>
           </Grid>

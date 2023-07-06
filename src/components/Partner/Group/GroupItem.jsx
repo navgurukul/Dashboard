@@ -9,11 +9,6 @@ function GroupItem({ group }) {
   const [open, setOpen] = useState(false);
   const { groupId } = useParams();
 
-  const activeStyles = {
-    backgroundColor: "#E9F5E9",
-    fontWeight: 600,
-  };
-
   const handleClick = () => {
     setOpen(!open);
   };
@@ -34,6 +29,7 @@ function GroupItem({ group }) {
           alignItems: "center",
           gap: 1,
           pl: 5.5,
+          bgcolor: groupId == group.id ? "#E9F5E9" : "",
           // backgroundColor: group.id === parseInt(groupId) ? "red" : "",
           // "&:hover": {
           //   backgroundColor: group.id === parseInt(groupId) ? "red" : "",

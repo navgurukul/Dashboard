@@ -7,9 +7,9 @@ import BatchMenu from "./BatchMenu";
 import { useParams } from "react-router-dom";
 
 function BatchItem({ batch }) {
-  
   const { spaceId, groupId } = useParams();
   const [open, setOpen] = useState(false);
+  console.log(batch);
 
   const activeStyles = {
     backgroundColor: "#E9F5E9",
@@ -28,14 +28,14 @@ function BatchItem({ batch }) {
 
   return (
     <>
-      <NavLink to={`space/${spaceId}/group/${groupId}/batch`} >
+      <NavLink to={`space/${spaceId}/group/${groupId}/batch/`}>
         <ListItemButton
           sx={{
             color: "text.primary",
             display: "flex",
             alignItems: "center",
             gap: 1,
-            pl: 9.5, 
+            pl: 9.5,
           }}
         >
           {/* {expandIcon} */}
@@ -45,7 +45,7 @@ function BatchItem({ batch }) {
               fontSize: "14px",
             }}
           >
-            {batch}
+            {batch.title}
           </Typography>
           <BatchMenu />
         </ListItemButton>

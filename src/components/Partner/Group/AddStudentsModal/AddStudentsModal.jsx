@@ -15,6 +15,7 @@ import { Add } from "@mui/icons-material";
 import AddStudentsList from "./AddStudentsList";
 import { useAddSingleStudentsMutation } from "../../../../store";
 import BulkUpload from "./BulkUpload";
+import showToast from "../../../showToast";
 
 const AddStudentsModal = ({ boolean, onToggle }) => {
   const { groupId } = useParams();
@@ -64,8 +65,13 @@ const AddStudentsModal = ({ boolean, onToggle }) => {
   };
 
   useEffect(() => {
-    //
-  }, []);
+    if (results.isSuccess && !results.data[0]?.Error) {
+      onToggle();
+      showToast("success", "Added Students Successfully");
+    } else if (results.isSuccess && results.data[0]?.Error) {
+      showToast("error", "Invalid Student Details");
+    }
+  }, [results.isSuccess, results.isError]);
 
   return (
     <Box sx={{ maxWidth: "592px" }}>

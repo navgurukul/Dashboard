@@ -35,7 +35,7 @@ function GroupMenu({ group, expand }) {
 
   useEffect(() => {
     axios({
-      url: "https://dev-api.merakilearn.org/pathways/dropdown",
+      url: "https://merd-api.merakilearn.org/pathways/names",
       method: "GET",
       headers: {
         accept: "application/json",
@@ -44,7 +44,7 @@ function GroupMenu({ group, expand }) {
         "version-code": 50,
       },
     }).then((res) => {
-      const path = res?.data?.pathways?.map((item, index) => {
+      const path = res?.data?.map((item, index) => {
         return {
           label: item.name,
           pathway_id: item.id,
