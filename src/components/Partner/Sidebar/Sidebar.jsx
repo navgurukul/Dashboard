@@ -55,13 +55,14 @@ function Sidebar(value) {
             width: 272,
             boxSizing: "border-box",
             position: "relative",
-            border: "none",
+            // border: "none",
             // display: "flex",
             // flexDirection: "column",
             overflowX: "hidden",
-            // overflowY: "scroll",
-            // height: "88vh",
-            // border: "2px solid yellow",
+            overflowY: "auto",
+            // height: "100%",
+            height: "calc (100vh - 400px)",
+            border: "2px solid yellow",
           },
         }}
         variant="persistent"

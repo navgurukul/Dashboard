@@ -9,7 +9,9 @@ const headerStyle = {
     height:"80px",
     display:'flex',
     padding:"10px 20px",
-    justifyContent: "space-between", 
+    justifyContent: "space-between",
+    // position: "fixed",
+    // top: "0"
 }
 
   return (

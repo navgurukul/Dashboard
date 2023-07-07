@@ -6,6 +6,7 @@ import { useState } from "react";
 
 function SpaceList({ partner, handleCreateGroupToggle,handleCreateBatchToggle }) {
   const { data, isLoading, error } = useFetchSpacesQuery(partner);
+  
 
   const [selectedIndex, setSelectedIndex] = useState(-1);
 

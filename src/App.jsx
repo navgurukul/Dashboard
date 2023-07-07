@@ -23,7 +23,7 @@ import StudentInfo from "./components/StudentInfo/StudentInfo";
 // library
 import { ThemeProvider } from "@mui/material";
 import StudentFilter from "./components/StudentList/StudentFilter";
-import AttandanceFilter from "./components/AttandanceList/AttandanceFilter";
+import AttendanceFilter from "./components/AttendanceList/AttendanceFilter";
 
 const router = createBrowserRouter([
   {
@@ -40,11 +40,11 @@ const router = createBrowserRouter([
           { path: "space/:spaceId", element: <CreateGroup /> },
           { path: "space/:spaceId/group/:groupId", element: <GroupPage /> },
           {
-            path: "space/:spaceId/group/:groupId/batch",
+            path: "space/:spaceId/group/:groupId/batch/:recurring_id",
             element: <BatchPage />,
             children: [
               { index: true, element: <StudentFilter /> },
-              { path: "attandancelist", element: <AttandanceFilter /> },
+              { path: "attandancelist", element: <AttendanceFilter /> },
             ],
           },
           {

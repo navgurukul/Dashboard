@@ -23,9 +23,9 @@ const getMuiTheme = () =>
               width: "0px",
             },
           },
-          head: {
-            fontWeight: "bolder",
-          },
+          // head: {
+          //   fontWeight: "bolder",
+          // },
         },
       },
       MuiTableRow: {

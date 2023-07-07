@@ -210,7 +210,7 @@ const StudentList = ({ data }) => {
     <div
       style={
         {
-          // border:"1px solid red"
+          border:"1px solid red"
         }
       }
     >

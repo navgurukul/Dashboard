@@ -66,6 +66,8 @@ function GroupPage() {
           width: "100%",
           height: "max-content",
           paddingLeft: "20px",
+          border: "5px solid black",
+          height: "calc (100vh - 80px)"
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", py: 2 }}>

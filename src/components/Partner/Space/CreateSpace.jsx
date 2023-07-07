@@ -17,7 +17,7 @@ const CreateSpace = () => {
           bgcolor: "#FAFAFA",
           pt: 10,
           width: "100%",
-          // border:"1px solid red"
+          border:"3px solid yellow"
         }}
       >
         <img src={spaceShipImage} alt="" />

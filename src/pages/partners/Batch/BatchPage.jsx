@@ -47,7 +47,6 @@ const BatchPage = () => {
   } = useFetchSingleGroupQuery(groupId);
 
   const partner = partnerData?.[0]?.name;
-  // console.log(partner)
   const space = spaceData?.data?.[0];
   const group = groupData?.[0];
 
@@ -65,15 +64,18 @@ const BatchPage = () => {
 
   const handleClick = (element) => {
     setActiveElement(element);
-    // navigate(`/${element}`);
   };
 
   return (
-    <Box style={{ width: "100%", padding: "0px 20px",
-    //  overflowY: "scroll",
-    height: "100%",
-    // border:"1px solid green", 
-      }}>
+    <Box
+      style={{
+        width: "100%",
+        padding: "0px 20px",
+        overflowY: "scroll",
+        border: "2px solid red",
+        height: "calc (100vh - 80px)",
+      }}
+    >
       <Box sx={{ display: "flex", alignItems: "center", py: 2 }}>
         <Typography pr={0.5} variant="body2">
           {partner} /

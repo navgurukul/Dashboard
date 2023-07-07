@@ -29,8 +29,8 @@ function PartnerLayout() {
     <main
       style={{
         display: "flex",
-        height: "100%",
-        // border: "2px solid blue",
+        height: "calc (100vh - 400px)",
+        border: "10px solid blue",
       }}
     >
       <Sidebar value={valueToShare} />

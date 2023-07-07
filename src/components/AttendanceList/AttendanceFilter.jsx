@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { useFetchAttendanceQuery } from "../../store";
 
 //components
-import AttandanceList from "./AttandanceList";
+import AttendanceList from "./AttendanceList"
 
-function AttandanceFilter() {
+function AttendanceFilter() {
   const { data, isLoading, error } = useFetchAttendanceQuery();
 
   // console.log(data);
@@ -32,7 +32,7 @@ function AttandanceFilter() {
   } else if (error) {
     <h1>Error fetching partners...</h1>;
   } else {
-    content = <AttandanceList data={filteredData} />;
+    content = <AttendanceList data={filteredData} />;
   }
 
   return (
@@ -42,4 +42,4 @@ function AttandanceFilter() {
   );
 }
 
-export default AttandanceFilter;
+export default AttendanceFilter;
