@@ -1,11 +1,13 @@
-import { Delete, Upload } from "@mui/icons-material";
-import { Button, IconButton, Typography } from "@mui/material";
+import { Upload } from "@mui/icons-material";
+import { Box, Button, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useParams } from "react-router-dom";
 import { useAddBulkStudentsMutation } from "../../../../store";
 import BulkUploadStatus from "./BulkUploadStatus";
+import showToast from "../../../showToast";
+import * as XLSX from "xlsx";
 
 const DropzoneContainer = styled("div")(({ theme, isDragActive }) => ({
   display: "flex",
@@ -38,8 +40,21 @@ const ButtonContainer = styled("div")({
 const BulkUpload = () => {
   const [addBulkStudents, results] = useAddBulkStudentsMutation();
   const { groupId } = useParams();
+
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(null);
+  const [resultsData, setResultsData] = useState(null);
+
+  useEffect(() => {
+    setResultsData(null);
+  }, [file]);
+
+  useEffect(() => {
+    if (results.isSuccess) {
+      setResultsData(results.data?.[0]);
+      showToast("success", "Upload Status Ready");
+    }
+  }, [results.isSuccess]);
 
   const onDrop = (acceptedFiles) => {
     if (acceptedFiles.length === 1) {
@@ -71,6 +86,31 @@ const BulkUpload = () => {
     setFile(null);
   };
 
+  const handleSampleDownload = () => {
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.aoa_to_sheet([
+      ["name", "email"],
+      ["jhon", "jhon@gmail.com"],
+      ["andrew", "andrew@gmail.com"],
+    ]);
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const excelData = new Blob([excelBuffer], {
+      type: "application/octet-stream",
+    });
+    const fileName = "Sample_Student_Data.xlsx";
+
+    const element = document.createElement("a");
+    element.href = URL.createObjectURL(excelData);
+    element.download = fileName;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
   return (
     <div>
       <DropzoneContainer
@@ -86,18 +126,28 @@ const BulkUpload = () => {
           <Typography variant="subtitle1">Upload or drag file</Typography>
         )}
         <Typography variant="body2">xlsx or csv files are supported</Typography>
-        {/* {file && (
-          <IconButton
-            color="secondary"
-            aria-label="delete file"
-            onClick={handleDeleteFile}
-          >
-            <Delete />
-          </IconButton>
-        )} */}
       </DropzoneContainer>
+      {!file && (
+        <Box mt={2} display="flex" alignItems="center">
+          <Typography variant="body2" color="#6D6D6D">
+            Format for student data:
+          </Typography>
+          <Button sx={{ fontSize: "14px" }} onClick={handleSampleDownload}>
+            Sample_Student_Data.xlsx
+          </Button>
+        </Box>
+      )}
       {message && <Message variant="body1">{message}</Message>}
-      <BulkUploadStatus file={file} message={message} />
+      {file && (
+        <BulkUploadStatus
+          setResultsData
+          results={results}
+          status={resultsData}
+          handleDelete={handleDeleteFile}
+          file={file}
+          message={message}
+        />
+      )}
       <ButtonContainer sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Button
           disabled={!file}

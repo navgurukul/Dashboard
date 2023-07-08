@@ -15,6 +15,8 @@ import showToast from "../../../components/showToast";
 
 function GroupPage() {
   const { partnerId, spaceId, groupId } = useParams();
+  const arr = [1, 2, 3, 4, 5];
+  const rev = arr.toReversed();
 
   const {
     data: spaceData,
