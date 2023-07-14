@@ -5,10 +5,15 @@ import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { useState } from "react";
 import BatchMenu from "./BatchMenu";
 import { useParams } from "react-router-dom";
+import { useFetchBatchsQuery } from "../../../store";
+
 
 function BatchItem({ batch }) {
-  
   const { spaceId, groupId } = useParams();
+  // const { data, isLoading, error } = useFetchBatchsQuery(batch.recurringid);
+  // const { data, isLoading, error } = useFetchBatchesQuery();
+  // console.log(batchId)
+  console.log(batch);
   const [open, setOpen] = useState(false);
 
   const activeStyles = {
@@ -28,14 +33,14 @@ function BatchItem({ batch }) {
 
   return (
     <>
-      <NavLink to={`space/${spaceId}/group/${groupId}/batch`} >
+      <NavLink to={`space/${batch.space_id}/group/${batch.group_id}/batch/${batch.recurring_id}`}>
         <ListItemButton
           sx={{
             color: "text.primary",
             display: "flex",
             alignItems: "center",
             gap: 1,
-            pl: 9.5, 
+            pl: 9.5,
           }}
         >
           {/* {expandIcon} */}
@@ -45,7 +50,7 @@ function BatchItem({ batch }) {
               fontSize: "14px",
             }}
           >
-            {batch}
+            {batch.title}
           </Typography>
           <BatchMenu />
         </ListItemButton>

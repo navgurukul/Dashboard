@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Collapse,
+  IconButton,
   List,
   ListItemButton,
   ListItemIcon,
@@ -17,20 +18,26 @@ import {
 import SpaceMenu from "./SpaceMenu";
 import spaceItemSvg from "../assets/spaceitem.svg";
 import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import GroupList from "../Group/GroupList";
 
-function SpaceItem({ space, handleCreateGroupToggle,handleCreateBatchToggle }) {
+function SpaceItem({ space }) {
   const [open, setOpen] = useState(false);
+  const { spaceId, groupId } = useParams();
 
-  const activeStyles = {
-    backgroundColor: "#E9F5E9",
-    fontWeight: 600,
-  };
+  const isActiveSpace = space.id == spaceId;
+
+  const hasGroupId = Boolean(groupId);
 
   const handleClick = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    if (hasGroupId && spaceId == space.id) {
+      setOpen(true);
+    }
+  }, [hasGroupId, spaceId]);
 
   const expandIcon = open ? (
     <ExpandLess sx={{ color: "#6d6d6d" }} onClick={handleClick} />
@@ -40,39 +47,39 @@ function SpaceItem({ space, handleCreateGroupToggle,handleCreateBatchToggle }) {
 
   return (
     <>
-      <NavLink to={`space/${space.id}`}>
-        <ListItemButton
-          sx={{
-            color: "text.primary",
-            display: "flex",
-            alignItems: "center",
-            gap: 1,
-          }}
+      <ListItemButton
+        sx={{
+          color: "text.primary",
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          bgcolor:
+            isActiveSpace && hasGroupId ? "" : isActiveSpace ? "#E9F5E9" : "",
+          "&:hover": {
+            bgcolor: isActiveSpace && !hasGroupId ? "#E9F5E9" : "",
+          },
+        }}
+      >
+        {expandIcon}
+        <NavLink
+          to={`space/${space.id}`}
+          style={{ display: "flex", flexGrow: 1, color: "#2E2E2E" }}
         >
-          {expandIcon}
           <img src={spaceItemSvg} alt="" />
           <Typography
             flex={1}
             sx={{
               fontSize: "14px",
-              // fontWeight: index === selected ? 600 : 400,
+              marginLeft: "10px",
+              fontWeight: isActiveSpace && hasGroupId ? "bold" : "normal",
             }}
           >
             {space.space_name}
           </Typography>
-          <SpaceMenu
-            space={space}
-            handleCreateGroupToggle={handleCreateGroupToggle}
-          />
-        </ListItemButton>
-      </NavLink>
-      {open && (
-        <GroupList
-          space={space}
-          handleCreateGroupToggle={handleCreateGroupToggle}
-          handleCreateBatchToggle={handleCreateBatchToggle}
-        />
-      )}
+        </NavLink>
+        <SpaceMenu space={space} expand={setOpen} />
+      </ListItemButton>
+      {open && <GroupList space={space} />}
     </>
   );
 }

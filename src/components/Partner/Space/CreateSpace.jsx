@@ -17,12 +17,12 @@ const CreateSpace = () => {
           bgcolor: "#FAFAFA",
           pt: 10,
           width: "100%",
-          border:"3px solid yellow"
+          minHeight: "calc(100vh - 80px)",
         }}
       >
         <img src={spaceShipImage} alt="" />
-        <Typography sx={{ fontSize: "14px", ml: 2 }}>
-          Spaces help organize your student data in smaller chunks
+        <Typography sx={{ fontSize: "14px",  width:"540px",   margin:"0px auto" }}>
+        Partner spaces are the individual branches of the partner which may be a school, NGO or any other organizational branch in the same location or different locations. For best practices, please give them an appropriate name like ‘Partnername-Location” or similar.
         </Typography>
 
         <Button

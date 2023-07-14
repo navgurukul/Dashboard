@@ -17,8 +17,7 @@ const CreateGroup = () => {
           bgcolor: "#FAFAFA",
           pt: 10,
           width: "100%",
-          border:"4px solid yellow",
-          height:" calc( 100vh - 80px)"
+          minHeight: "calc(100vh - 80px)",
         }}
       >
         <img src={spaceShipImage} alt="" />

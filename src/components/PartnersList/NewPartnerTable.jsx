@@ -8,14 +8,14 @@ import PartnerUpdateModal from "./PartnerUpdateModal";
 import { Link } from "react-router-dom";
 import { useRemovePartnerMutation } from "../../store";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import {Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 const getMuiTheme = () =>
   createTheme({
     components: {
       MuiTableCell: {
         styleOverrides: {
-          root: { 
+          root: {
             backgroundColor: "none",
             fontFamily: "Noto Sans !important",
             textAlign: "left",
@@ -139,21 +139,11 @@ function NewPartnerTable({ data }) {
                 size="small"
                 sx={{
                   color: "#BDBDBD",
-                  "&:hover": { color: "primary.main" },
+                  "&:hover": { color: "primary.main" }, 
                 }}
                 onClick={() => handleEditClick(partneredit)}
               >
                 <EditIcon />
-              </Button>
-              <Button
-                size="small"
-                sx={{
-                  color: "#BDBDBD",
-                  "&:hover": { color: "error.main" },
-                }}
-                onClick={() => handleDeleteClick(partneredit)}
-              >
-                <DeleteIcon />
               </Button>
             </div>
           );
@@ -195,7 +185,7 @@ function NewPartnerTable({ data }) {
       <div style={{ overflowX: "auto" }}>
         <ThemeProvider theme={getMuiTheme}>
           <MUIDataTable
-             title={
+            title={
               <Typography variant="h6" style={{ fontFamily: "Noto Sans" }}>
                 Partner's List
               </Typography>

@@ -10,12 +10,12 @@ function BatchList({ group }) {
 
   let content;
   if (isLoading) {
-    content = <h1>Loading...</h1>;
+    content = <Typography>Loading...</Typography>;
   } else if (error) {
-    content = <p>Error fetching groups</p>;
+    content = <Typography>Error fetching groups</Typography>;
   } else if (!data?.length) {
     content = (
-      <Link  >
+      <Link>
         <ListItemButton
           sx={{
             color: "text.primary",

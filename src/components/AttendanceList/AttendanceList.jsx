@@ -97,7 +97,7 @@ const options = {
   },
 };
 
-const AttandanceList = ({ data }) => {
+const AttendanceList = ({ data }) => {
   const columns = [
     {
       name: "firstName",
@@ -183,7 +183,7 @@ const AttandanceList = ({ data }) => {
   const { spaceId, groupId } = useParams();
 
   return (
-    <div style={{ paddingTop: "1px", overflowX: "auto" }}>
+    <div style={{ paddingTop: "1px", overflowX: "auto", border:"0px solid red",  }}>
       <Box
         style={{
           display: "flex",
@@ -240,4 +240,4 @@ const AttandanceList = ({ data }) => {
   );
 };
 
-export default AttandanceList;
+export default AttendanceList;

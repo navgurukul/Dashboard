@@ -26,7 +26,7 @@ const ImageSizeCal = {
 };
 const BatchPage = () => {
   const navigate = useNavigate();
-  const { spaceId, groupId, partnerId } = useParams();
+  const { spaceId, groupId, partnerId, batchId } = useParams();
 
   const {
     data: partnerData,
@@ -44,7 +44,7 @@ const BatchPage = () => {
     data: groupData,
     isLoading: groupIsLoading,
     error: groupError,
-  } = useFetchSingleGroupQuery(groupId);
+  } = useFetchSingleGroupQuery(groupId); 
 
   const partner = partnerData?.[0]?.name;
   const space = spaceData?.data?.[0];
@@ -72,8 +72,8 @@ const BatchPage = () => {
         width: "100%",
         padding: "0px 20px",
         overflowY: "scroll",
-        border: "2px solid red",
-        height: "calc (100vh - 80px)",
+        height:"620px",
+        // border:"3px solid green", 
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", py: 2 }}>
@@ -99,7 +99,6 @@ const BatchPage = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            // border: "1px solid red",
             marginTop: "10px",
           }}
         >
@@ -182,7 +181,7 @@ const BatchPage = () => {
         }}
       >
         <Link
-          to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch`}
+          to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/${batchId}`}
           style={{ textDecoration: "none" }}
         >
           <Typography
@@ -201,7 +200,7 @@ const BatchPage = () => {
           </Typography>
         </Link>
         <Link
-          to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/attandancelist`}
+          to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/${batchId}/attendancelist`}
           style={{ textDecoration: "none" }}
         >
           <Typography

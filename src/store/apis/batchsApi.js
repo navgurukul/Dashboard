@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const batchsApi = createApi({
   reducerPath: "batchs",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://hub.dummyapis.com",
+    baseUrl: "https://merd-api.merakilearn.org/classes",
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) {
@@ -16,13 +16,10 @@ const batchsApi = createApi({
     return {
       fetchBatchs: builder.query({
         providesTags: ["Batch"],
-        query: (noofRecords = 25) => {
+        query: (Id) => {
           return {
-            url: `/employee`,
-            method: "GET",
-            params: {
-              noofRecords,
-            },
+            url: `/${Id}/students`,
+            method: "GET", 
           };
         },
       }),

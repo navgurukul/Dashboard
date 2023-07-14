@@ -16,8 +16,6 @@ import theme from "./theme/theme";
 import CreateGroup from "./components/Partner/Group/CreateGroup";
 import CreateSpace from "./components/Partner/Space/CreateSpace";
 import BatchPage from "./pages/partners/Batch/BatchPage";
-// import StudentList from "./components/StudentList/StudentList";
-// import AttandanceList from "./components/AttandanceList/AttandanceList";
 import StudentInfo from "./components/StudentInfo/StudentInfo";
 
 // library
@@ -40,11 +38,11 @@ const router = createBrowserRouter([
           { path: "space/:spaceId", element: <CreateGroup /> },
           { path: "space/:spaceId/group/:groupId", element: <GroupPage /> },
           {
-            path: "space/:spaceId/group/:groupId/batch/:recurring_id",
+            path: "space/:spaceId/group/:groupId/batch/:batchId",
             element: <BatchPage />,
             children: [
-              { index: true, element: <StudentFilter /> },
-              { path: "attandancelist", element: <AttendanceFilter /> },
+              { index: true, element: <StudentFilter/> },
+              { path: "attendancelist", element: <AttendanceFilter /> },
             ],
           },
           {

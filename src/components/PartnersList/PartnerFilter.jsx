@@ -24,7 +24,7 @@ function PartnerFilter() {
     return state.partnerFilter;
   });
 
-  console.log(filterBy);
+  // console.log(filterBy);
 
   const filterTerms = [
     "All Partners",

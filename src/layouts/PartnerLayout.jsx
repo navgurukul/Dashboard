@@ -9,18 +9,16 @@ function PartnerLayout() {
   const [createSpaceOpen, setCreateStateOpen] = useState(false);
   const [createGroupOpen, setCreateGroupOpen] = useState(false);
   const [createBatchOpen, setCreateBatchOpen] = useState(false);
-  const selected = null;
 
   const handleCreateSpaceToggle = () => setCreateStateOpen(!createSpaceOpen);
   const handleCreateGroupToggle = () => setCreateGroupOpen(!createGroupOpen);
   const handleCreateBatchToggle = () => {
     setCreateBatchOpen(!createBatchOpen);
   };
+
   const valueToShare = {
     createSpaceOpen,
     handleCreateSpaceToggle,
-    createGroupOpen,
-    handleCreateGroupToggle,
     createBatchOpen,
     handleCreateBatchToggle,
   };
@@ -29,8 +27,11 @@ function PartnerLayout() {
     <main
       style={{
         display: "flex",
-        height: "calc (100vh - 400px)",
-        border: "10px solid blue",
+        height: "calc (100vh - 80px)",
+        // border: "10px solid blue",
+        marginTop: "80px",
+        position: "fixed",
+        width: "100%",
       }}
     >
       <Sidebar value={valueToShare} />
@@ -49,6 +50,7 @@ function PartnerLayout() {
           boolean={createGroupOpen}
         />
       )}
+
       {createBatchOpen && (
         <CreateBatchModal
           onToggle={handleCreateBatchToggle}

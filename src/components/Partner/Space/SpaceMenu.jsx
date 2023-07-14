@@ -7,10 +7,11 @@ import { useEffect, useState } from "react";
 import { useRemoveSpaceMutation } from "../../../store";
 import UpdateSpaceModal from "./UpdateSpaceModal";
 import showToast from "../../showToast";
+import CreateGroupModal from "../Group/CreateGroupModal";
 
 const ITEM_HEIGHT = 48;
 
-function SpaceMenu({ space, handleCreateGroupToggle }) {
+function SpaceMenu({ space, expand }) {
   const [removeSpace, results] = useRemoveSpaceMutation();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -19,6 +20,9 @@ function SpaceMenu({ space, handleCreateGroupToggle }) {
   const handleOpenUpdateSpaceToggle = () => {
     setOpenUpdateSpace(!openUpdateSpace);
   };
+
+  const [createGroupOpen, setCreateGroupOpen] = useState(false);
+  const handleCreateGroupToggle = () => setCreateGroupOpen(!createGroupOpen);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -53,6 +57,14 @@ function SpaceMenu({ space, handleCreateGroupToggle }) {
         />
       )}
 
+      {createGroupOpen && (
+        <CreateGroupModal
+          onToggle={handleCreateGroupToggle}
+          boolean={createGroupOpen}
+          space={space}
+        />
+      )}
+
       <Box sx={{ display: "flex" }}>
         <Box
           aria-label="more"
@@ -66,7 +78,10 @@ function SpaceMenu({ space, handleCreateGroupToggle }) {
           <MoreHorizIcon sx={{ color: "text.primary", fontSize: "16px" }} />
         </Box>
         <AddIcon
-          onClick={handleCreateGroupToggle}
+          onClick={() => {
+            handleCreateGroupToggle();
+            expand(true);
+          }}
           sx={{ color: "text.primary", fontSize: "16px" }}
         />
       </Box>
@@ -76,7 +91,7 @@ function SpaceMenu({ space, handleCreateGroupToggle }) {
         MenuListProps={{
           "aria-labelledby": "long-button",
         }}
-        // anchorEl={anchorEl}
+        anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         PaperProps={{

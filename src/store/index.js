@@ -9,10 +9,12 @@ import { attendanceApi } from "./apis/attandanceApi";
 import { groupStudentsApi } from "./apis/groupStudentsApi";
 import { checkEmailApi } from "./apis/checkEmailApi";
 import { batchesApi } from "./apis/batchesApi";
+import { genereateLinksApi } from "./apis/generateLinksApi";
 
 import {
   changeSelectedCourse,
   selectedCourseReducer,
+  changeId,
 } from "./slices/selectedCourseSlice";
 
 import {
@@ -51,6 +53,7 @@ const store = configureStore({
     [groupStudentsApi.reducerPath]: groupStudentsApi.reducer,
     [checkEmailApi.reducerPath]: checkEmailApi.reducer,
     [batchesApi.reducerPath]: batchesApi.reducer,
+    [genereateLinksApi.reducerPath]: genereateLinksApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
@@ -61,7 +64,8 @@ const store = configureStore({
       .concat(attendanceApi.middleware)
       .concat(groupStudentsApi.middleware)
       .concat(checkEmailApi.middleware)
-      .concat(batchesApi.middleware);
+      .concat(batchesApi.middleware)
+      .concat(genereateLinksApi.middleware);
   },
 });
 
@@ -109,6 +113,8 @@ export {
 
 export { useCheckEmailQuery } from "./apis/checkEmailApi";
 
+export { useGetLinksMutation } from "./apis/generateLinksApi";
+
 export {
   store,
   changeSearchTerm,
@@ -124,4 +130,5 @@ export {
   changeFilterBy_attendance,
   attendanceFilterReducer,
   changeSelectedCourse,
+  changeId,
 };
