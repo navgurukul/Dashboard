@@ -9,6 +9,9 @@ import { Link, useParams } from "react-router-dom";
 import { useFetchSinglePartnerQuery } from "../../../store";
 import { Add } from "@mui/icons-material";
 import SidebarContext from "./sidebarContext";
+import infoIcon from "./assests/info.svg";
+import Box from "@mui/material/Box";
+import { useState } from "react";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -20,6 +23,13 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 function Sidebar(value) {
+  const [showBox, setShowBox] = useState(true);
+
+  const InfoIcon = () => {
+    setShowBox(!showBox);
+  };
+
+  
   const { partnerId } = useParams();
   const {
     data: partner,
@@ -81,16 +91,62 @@ function Sidebar(value) {
               >
                 {partner.name}
               </Typography>
-              <Typography
-                color="text.secondary"
-                style={{
-                  fontSize: "14px",
-                  fontWeight: "600",
-                  marginLeft: "16px",
+              <Box
+                sx={{
+                  display: "flex",
                 }}
               >
-                Partner Spaces
-              </Typography>
+                <Typography
+                  color="text.secondary"
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    marginLeft: "16px",
+                  }}
+                >
+                  Partner Spaces
+                </Typography>
+               
+                {showBox ?  <img
+                  src={infoIcon}
+                  alt={infoIcon}
+                  style={{
+                    marginLeft: "8px",
+                    width: "24px",
+                    transition: "opacity 0.3s",
+                  }}
+                  onClick={InfoIcon}
+                /> : (
+                  <Box
+                    style={{
+                      // border: "1px solid red",
+                      marginLeft: "162px",
+                      borderRadius: "8px",
+                      position: "fixed",
+                      padding:"32px",
+                      left:"-900",
+                      zIndex: "1000",
+                      background:"#FFF",
+                      width:"540px",
+                      height:"max-content",
+                      boxShadow:
+                        "0px 8px 10px 0px rgba(0, 0, 0, 0.08), 0px 6px 30px 0px rgba(0, 0, 0, 0.04), 0px 16px 24px 0px rgba(0, 0, 0, 0.06)",
+                    }}
+                    onClick={InfoIcon}
+                  >
+                    <Typography variant="body2" style={{fontSize: "18px", fontWeight: "600", marginBottom:"16px"}} >
+                      What are partner spaces?
+                    </Typography> 
+                    <Typography variant="body2" style={{fontSize: "14px", fontWeight: "400"}}  >
+                      Partner spaces are the individual branches of the partner
+                      which may be a school, NGO or any other organizational
+                      branch in the same location or different locations. For
+                      best practices, please give them an appropriate name like
+                      ‘Partnername-Location” or similar.
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
               <Button
                 variant="contained"
                 color="inherit"

@@ -6,7 +6,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 function RootLayout() {
   return (
-    <main>
+    <main style={{
+      // border: "5px solid green",
+      height: "100vh", 
+       
+      // overflowY: "scroll",
+      }} >
       <ToastContainer limit={1} />
       <Header />
       <Outlet />

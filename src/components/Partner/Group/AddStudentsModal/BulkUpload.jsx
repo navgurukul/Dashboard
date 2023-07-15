@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useParams } from "react-router-dom";
 import { useAddBulkStudentsMutation } from "../../../../store";
-import BulkUploadStatus from "./BulkUploadStatus";
 import showToast from "../../../showToast";
+import BulkUploadStatus from "./BulkUploadStatus";
 import * as XLSX from "xlsx";
 
 const DropzoneContainer = styled("div")(({ theme, isDragActive }) => ({

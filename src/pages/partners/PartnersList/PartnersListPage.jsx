@@ -43,9 +43,15 @@ function PartnersListPage() {
       <Box
         style={{
           width: "1215px",
-          margin: "0px auto",
-          height: "calc(100vh - 80px)",
-          // overflowY: "scroll",
+          maxHeight: "calc(100vh - 75px)",
+          // border: "1px solid red",
+          position: "fixed",
+          // textAlign:"center",
+          overflowY: "scroll", 
+          top: "10%",
+          left: "10%",
+          // transform: "translate(-10%, -10%)",
+          padding: "0px 25px",
         }}
       >
         <PartnerFilter />

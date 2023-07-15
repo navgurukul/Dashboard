@@ -6,6 +6,7 @@ import { useFetchBatchesQuery } from "../../../store";
 
 function BatchList({ group }) {
   const { data, isLoading, error } = useFetchBatchesQuery(group.id);
+  console.log(data)
 
   let content;
   if (isLoading) {
@@ -14,7 +15,7 @@ function BatchList({ group }) {
     content = <Typography>Error fetching groups</Typography>;
   } else if (!data?.length) {
     content = (
-      <Link>
+      <Link> 
         <ListItemButton
           sx={{
             color: "text.primary",

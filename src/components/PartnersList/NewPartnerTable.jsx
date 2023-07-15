@@ -23,9 +23,9 @@ const getMuiTheme = () =>
               width: "0px",
             },
           },
-          head: {
-            fontWeight: "bolder",
-          },
+          // head: {
+          //   fontWeight: "bolder",
+          // },
         },
       },
       MuiTableRow: {
@@ -139,21 +139,11 @@ function NewPartnerTable({ data }) {
                 size="small"
                 sx={{
                   color: "#BDBDBD",
-                  "&:hover": { color: "primary.main" },
+                  "&:hover": { color: "primary.main" }, 
                 }}
                 onClick={() => handleEditClick(partneredit)}
               >
                 <EditIcon />
-              </Button>
-              <Button
-                size="small"
-                sx={{
-                  color: "#BDBDBD",
-                  "&:hover": { color: "error.main" },
-                }}
-                onClick={() => handleDeleteClick(partneredit)}
-              >
-                <DeleteIcon />
               </Button>
             </div>
           );

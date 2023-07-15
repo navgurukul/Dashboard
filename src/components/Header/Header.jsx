@@ -8,8 +8,15 @@ const Header = () => {
 const headerStyle = {
     height:"80px",
     display:'flex',
-    padding:"10px 20px",
-    justifyContent: "space-between", 
+    padding:"16px 32px",
+    justifyContent: "space-between",
+    // border:"1px solid red",
+    position: "fixed",
+    top: "0",
+    zIndex:"9000",
+    width:"100%",
+    backGround:"white",
+    
 }
 
   return (
