@@ -1,4 +1,4 @@
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Drawer from "@mui/material/Drawer";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
@@ -6,12 +6,12 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Button } from "@mui/material";
 import SpaceList from "../Space/SpaceList";
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { useFetchSinglePartnerQuery } from "../../../store";
 import { Add } from "@mui/icons-material";
 import SidebarContext from "./sidebarContext";
 import infoIcon from "./assests/info.svg";
 import Box from "@mui/material/Box";
+import { useState } from "react";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -31,17 +31,12 @@ function Sidebar(value) {
 
   
   const { partnerId } = useParams();
-  const { data, isLoading, error } = useFetchSinglePartnerQuery(partnerId);
+  const {
+    data: partner,
+    isLoading,
+    error,
+  } = useFetchSinglePartnerQuery(partnerId);
   const { handleCreateSpaceToggle, handleCreateBatchToggle } = value.value;
-  const [partner, setPartner] = useState(null);
-  const theme = useTheme();
- console.log(data);
-  useEffect(() => {
-    if (data) {
-      let [partnerData] = data;
-      setPartner(partnerData);
-    }
-  }, [data]);
 
   return (
     <>

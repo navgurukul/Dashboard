@@ -11,7 +11,7 @@ function StudentFilter() {
   const { spaceId, groupId, partnerId, batchId } = useParams();
   const { data, isLoading, error } = useFetchBatchsQuery(batchId);
 
-  console.log(data);
+  // console.log(data);
 
   // if(data?.status){
   //   return null

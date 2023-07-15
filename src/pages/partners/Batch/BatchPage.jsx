@@ -1,9 +1,8 @@
 import React from "react";
-import Box from "@mui/material/Box";
-import { TextField, Button, Typography } from "@mui/material";
+import { Box, TextField, Button, Typography } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import spaceShipImage from "../../../components/Partner/assets/student_illustration.svg";
-import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import pythonlogo from "./assests/courseicon.png";
 import calenderIcon from "./assests/reshot-icon-calendar-FEQDJ2T9NL 1.png";
 import teacherImage from "./assests/reshot-icon-teacher-3ADUGQCW6P (1) 1.png";
@@ -12,7 +11,7 @@ import {
   useFetchSinglePartnerQuery,
   useFetchSingleGroupQuery,
   useFetchSingleSpaceQuery,
-  useFetchStudentsQuery,
+  useFetchBatchesQuery,
 } from "../../../store";
 
 const ImageSize = {
@@ -24,9 +23,11 @@ const ImageSizeCal = {
   width: "25px",
   height: "25px",
 };
+
 const BatchPage = () => {
-  const navigate = useNavigate();
-  const { spaceId, groupId, partnerId, batchId } = useParams();
+  const { partnerId, spaceId, groupId, batchId } = useParams();
+  // const { data, isLoading, error } = useFetchBatchesQuery();
+  // console.log(data);
 
   const {
     data: partnerData,
@@ -44,17 +45,28 @@ const BatchPage = () => {
     data: groupData,
     isLoading: groupIsLoading,
     error: groupError,
-  } = useFetchSingleGroupQuery(groupId); 
+  } = useFetchSingleGroupQuery(groupId);
 
-  const partner = partnerData?.[0]?.name;
-  const space = spaceData?.data?.[0];
-  const group = groupData?.[0];
+  const partner = partnerData?.name;
+  const groupg = groupData?.[0];
 
-  const {
-    data: studentsData,
-    isLoading: isStudentsLoading,
-    error: studentsError,
-  } = useFetchStudentsQuery(groupId);
+  let cc;
+  if (spaceIsLoading) {
+    cc = <Typography>Loading...</Typography>;
+  } else {
+    const spaces = spaceData?.data?.[0];
+    cc = (
+      <Typography pr={0.5} variant="body2">
+        {spaces?.space_name}
+      </Typography>
+    );
+    console.log(spaces);
+    console.log(spaceData);
+    // console.log(spaceData);
+    // console.log(cc);
+  }
+  // console.log(partnerData);
+  // console.log(groupData);
 
   const [activeElement, setActiveElement] = useState("students");
 
@@ -72,19 +84,17 @@ const BatchPage = () => {
         width: "100%",
         padding: "0px 20px",
         overflowY: "scroll",
-        height:"620px",
-        // border:"3px solid green", 
+        height: "620px",
+        // border:"3px solid green",
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", py: 2 }}>
-        <Typography pr={0.5} variant="body2">
-          {partner} /
-        </Typography>
-        <Typography pr={0.5} variant="body2">
-          {space?.space_name}
-        </Typography>
+        {cc}
         <Typography variant="body2" color="primary.main">
-          / {group?.group_name}
+          / {groupg?.group_name}
+        </Typography>
+        <Typography pr={0.5} variant="body2">
+          / {partner}
         </Typography>
       </Box>
       <Box
@@ -172,8 +182,6 @@ const BatchPage = () => {
       <Box
         style={{
           // border: "1px solid green",
-
-          // paddingLeft: "15px",
           marginTop: "15px",
           display: "flex",
           justifyContent: "flex-start",
