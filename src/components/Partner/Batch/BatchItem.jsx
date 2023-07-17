@@ -13,7 +13,7 @@ function BatchItem({ batch }) {
   // const { data, isLoading, error } = useFetchBatchsQuery(batch.recurringid);
   // const { data, isLoading, error } = useFetchBatchesQuery();
   // console.log(batchId)
-  console.log(batch);
+  // console.log(batch);
   const [open, setOpen] = useState(false);
 
   const activeStyles = {

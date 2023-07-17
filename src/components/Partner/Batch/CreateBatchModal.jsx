@@ -13,6 +13,9 @@ import {
   useMediaQuery,
   FormControlLabel,
   Autocomplete,
+  FormLabel,
+  FormGroup,
+  Checkbox,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
@@ -60,13 +63,19 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     title: "",
     facilitator_name: "",
     date: moment.utc(new Date()).format("YYYY-MM-DD"),
-    start_time: new Date(new Date().setSeconds(0)),
-    end_time: new Date(
-      new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)
-    ),
-    // on_days: [],
+    // start_time: new Date(new Date().setSeconds(0)),
+    // end_time: new Date(
+    //   new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)
+    // ),
+    on_days: [],
   });
+  const [timeChecked, setTimeChecked] = useState(true);
 
+  const handleTimeCheckedChange = (event) => {
+    setTimeChecked(!timeChecked);
+  };
+
+  console.log(timeChecked);
   const { data } = useFetchVolunteersQuery();
   const volunteer = data?.map((item) => ({
     label: item.name,
@@ -98,15 +107,20 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     border: "none",
   };
 
-  // const days = {
-  //   MO: "Mon",
-  //   TU: "Tue",
-  //   WE: "Wed",
-  //   TH: "Thu",
-  //   FR: "Fri",
-  //   SA: "Sat",
-  //   SU: "Sun",
-  // };
+  const days = {
+    MO: "Mon",
+    TU: "Tue",
+    WE: "Wed",
+    TH: "Thu",
+    FR: "Fri",
+    SA: "Sat",
+    SU: "Sun",
+  };
+
+  const commonElements = Object.keys(days).filter((element) =>
+    classFields.on_days.includes(element)
+  );
+  const filteredDayValues = commonElements.map((key) => days[key]);
 
   const handleSubmit = () => {
     let start_time =
@@ -131,20 +145,20 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     addBatch({ ...rest, start_time, end_time });
   };
 
-  // const handleDaySelection = (e) => {
-  //   const index = classFields.on_days.indexOf(e.target.value);
-  //   if (index === -1) {
-  //     setClassFields({
-  //       ...classFields,
-  //       ["on_days"]: [...classFields.on_days, e.target.value],
-  //     });
-  //   } else {
-  //     const dayDeleted = classFields.on_days.filter(
-  //       (selectedDay) => selectedDay !== e.target.value
-  //     );
-  //     setClassFields({ ...classFields, ["on_days"]: dayDeleted });
-  //   }
-  // };
+  const handleDaySelection = (e) => {
+    const index = classFields.on_days.indexOf(e.target.value);
+    if (index === -1) {
+      setClassFields({
+        ...classFields,
+        ["on_days"]: [...classFields.on_days, e.target.value],
+      });
+    } else {
+      const dayDeleted = classFields.on_days.filter(
+        (selectedDay) => selectedDay !== e.target.value
+      );
+      setClassFields({ ...classFields, ["on_days"]: dayDeleted });
+    }
+  };
 
   return (
     <Box>
@@ -217,7 +231,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               )}
             />
 
-            {/* <FormLabel component="legend">
+            <FormLabel component="legend">
               <Typography
                 variant="body2"
                 color="text.secondary"
@@ -231,9 +245,9 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                    value={item}
-                    checked={classFields.on_days.includes(item)}
-                    onChange={handleDaySelection}
+                      value={item}
+                      checked={classFields.on_days.includes(item)}
+                      onChange={handleDaySelection}
                     />
                   }
                   onClick={() => {
@@ -245,7 +259,8 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                   labelPlacement={item}
                 />
               ))}
-            </FormGroup> */}
+            </FormGroup>
+
             {/* {classFields.on_days?.length === 0 && onInput.days ? (
                   <FormHelperText sx={{ color: "red" }} id="my-helper-text">
                     Please select atleast one day
@@ -270,54 +285,95 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               Class Timings
             </Typography>
 
-            {/* <FormControlLabel
+            <FormControlLabel
               control={
                 <Checkbox
-                // value={item}
-                // checked={classFields.on_days.includes(item)}
-                // onChange={handleDaySelection}
+                defaultChecked
+                value={timeChecked}
+                checked={timeChecked}
+                onChange={handleTimeCheckedChange}
+                inputProps={{ 'aria-label': 'controlled' }}
                 />
               }
-              onClick={() => {
-                setOnInput((prev) => {
-                  return { ...prev, days: true };
-                });
-              }}
+              // onClick={() => {
+              //   setOnInput((prev) => {
+              //     return { ...prev, days: true };
+              //   });
+              // }}
               label="Keep the class timings same for all days"
-            /> */}
-
-            <Grid container spacing={2}>
-              {[
-                { label: "Start Time", prop: "start_time" },
-                { label: "End Time", prop: "end_time" },
-              ].map(({ label, prop }, index) => (
-                <Grid item xs={isActive ? 12 : 6} key={index}>
-                  <LocalizationProvider
-                    dateAdapter={AdapterDateFns}
-                    key={index}
-                  >
-                    <Stack spacing={3} key={index}>
-                      <DesktopTimePicker
+            />
+            {timeChecked ? <Grid container spacing={2}>
+                  {[
+                    { label: "Start Time", prop: "start_time" },
+                    { label: "End Time", prop: "end_time" },
+                  ].map(({ label, prop }, index) => (
+                    <Grid item xs={isActive ? 12 : 6} key={index}>
+                      <LocalizationProvider
+                        dateAdapter={AdapterDateFns}
                         key={index}
-                        label={label}
-                        value={classFields[prop]}
-                        onChange={(time) => {
-                          setClassFields({
-                            ...classFields,
-                            [prop]: time,
-                          });
-                        }}
-                        minTime={
-                          classFields.date === moment().format("YYYY-MM-DD")
-                            ? new Date(new Date().setSeconds(0))
-                            : null
-                        }
-                      />
-                    </Stack>
-                  </LocalizationProvider>
+                      >
+                        <Stack spacing={3} key={index}>
+                          <DesktopTimePicker
+                            key={index}
+                            label={label}
+                            value={classFields[prop]}
+                            onChange={(time) => {
+                              setClassFields({
+                                ...classFields,
+                                [prop]: time,
+                              });
+                            }}
+                            minTime={
+                              classFields.date === moment().format("YYYY-MM-DD")
+                                ? new Date(new Date().setSeconds(0))
+                                : null
+                            }
+                          />
+                        </Stack>
+                      </LocalizationProvider>
+                    </Grid>
+                  ))}
+                </Grid> : 
+            classFields.on_days.map((item, index) => (
+              <>
+                <Typography variant="body2" color="text.secondary">
+                  {filteredDayValues[index]} Time
+                </Typography>
+                <Grid container spacing={2}>
+                  {[
+                    { label: "Start Time", prop: "start_time" },
+                    { label: "End Time", prop: "end_time" },
+                  ].map(({ label, prop }, index) => (
+                    <Grid item xs={isActive ? 12 : 6} key={index}>
+                      <LocalizationProvider
+                        dateAdapter={AdapterDateFns}
+                        key={index}
+                      >
+                        <Stack spacing={3} key={index}>
+                          <DesktopTimePicker
+                            key={index}
+                            label={label}
+                            value={classFields[prop]}
+                            onChange={(time) => {
+                              setClassFields({
+                                ...classFields,
+                                [prop]: time,
+                              });
+                            }}
+                            minTime={
+                              classFields.date === moment().format("YYYY-MM-DD")
+                                ? new Date(new Date().setSeconds(0))
+                                : null
+                            }
+                          />
+                        </Stack>
+                      </LocalizationProvider>
+                    </Grid>
+                  ))}
                 </Grid>
-              ))}
-            </Grid>
+              </>
+            ))}
+
             <Typography variant="body2" color="text.secondary">
               Language
             </Typography>
