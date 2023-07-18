@@ -10,7 +10,7 @@ import { useFetchBatchsQuery } from "../../../store";
 
 function BatchItem({ batch }) {
   const { spaceId, groupId } = useParams();
-  // const { data, isLoading, error } = useFetchBatchsQuery(batch.recurringid);
+  // const { data, isLoading, error } = useFetchBatchsQuery();
   // const { data, isLoading, error } = useFetchBatchesQuery();
   // console.log(batchId)
   console.log(batch);

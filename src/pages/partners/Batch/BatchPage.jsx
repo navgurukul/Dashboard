@@ -26,8 +26,8 @@ const ImageSizeCal = {
 
 const BatchPage = () => {
   const { partnerId, spaceId, groupId, batchId } = useParams();
-  // const { data, isLoading, error } = useFetchBatchesQuery();
-  // console.log(data);
+
+  const { data, isLoading, error } = useFetchBatchesQuery(groupId);
 
   const {
     data: partnerData,
@@ -50,18 +50,24 @@ const BatchPage = () => {
   const partner = partnerData?.name;
   const groupg = groupData?.[0];
 
-  let cc;
-  if (spaceIsLoading) {
-    cc = <Typography>Loading...</Typography>;
+  let batchName;
+  let content;
+  if (isLoading) {
+    content = null
   } else {
-    const spaces = spaceData?.data?.[0];
-    cc = (
-      <Typography pr={0.5} variant="body2">
-        {spaces?.space_name}
+    let iteration = data.map((batch)=>{
+      if(batch.recurring_id == batchId){
+        batchName = batch.title 
+      }
+    })
+    // const spaces = spaceData?.data?.[0];
+    content = (
+      <Typography pl={0.5} variant="body2">
+          {batchName}
       </Typography>
     );
-    console.log(spaces);
-    console.log(spaceData);
+    // console.log(spaces);
+    // console.log(spaceData);
     // console.log(spaceData);
     // console.log(cc);
   }
@@ -89,17 +95,17 @@ const BatchPage = () => {
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", py: 2 }}>
-        {cc}
+       <Typography pr={0.5} variant="body2">
+          space name
+        </Typography>
         <Typography variant="body2" color="primary.main">
-          / {groupg?.group_name}
+          / {groupg?.group_name} / 
         </Typography>
-        <Typography pr={0.5} variant="body2">
-          / {partner}
-        </Typography>
+        
+         {content}
       </Box>
       <Box
         style={{
-          // border: "1px solid blue",
           display: "flex",
           justifyContent: "space-between",
         }}

@@ -21,19 +21,18 @@ function StudentFilter() {
     ({ studentFilter: { searchTerm, filterBy } }) => {
       const lowerCased = searchTerm?.toLowerCase();
       let filteredData;
-      if(!data?.status){
+      if (!data?.status) {
         filteredData = data?.filter((student) => {
-
           const firstName = student.name.toLowerCase();
           if (filterBy === "All Students") {
             return firstName.includes(lowerCased);
           }
           return firstName.includes(lowerCased) && student.status === filterBy;
         });
-      }else{
-        filteredData = []
+      } else {
+        filteredData = [];
       }
-      
+
       return {
         filteredData,
       };
