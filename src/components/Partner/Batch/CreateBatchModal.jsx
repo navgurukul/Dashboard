@@ -64,9 +64,12 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     facilitator_name: "",
     date: moment.utc(new Date()).format("YYYY-MM-DD"),
     on_days: [],
-    schedule: {}
+    schedule: {},
   });
   const [timeChecked, setTimeChecked] = useState(true);
+  useEffect(() => {
+    console.log(classFields);
+  }, [classFields]);
 
   const handleTimeCheckedChange = (event) => {
     setTimeChecked(!timeChecked);
@@ -194,10 +197,12 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               label="Batch Name"
             />
 
-            {(course.label=="Python") && <Typography variant="body2" color="text.secondary">
-              All 28 classes will be created automatically with titles and
-              descriptions
-            </Typography>}
+            {course.label == "Python" && (
+              <Typography variant="body2" color="text.secondary">
+                All 28 classes will be created automatically with titles and
+                descriptions
+              </Typography>
+            )}
             <Autocomplete
               value={{
                 label: classFields.facilitator_name || "",
@@ -285,11 +290,11 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                defaultChecked
-                value={timeChecked}
-                checked={timeChecked}
-                onChange={handleTimeCheckedChange}
-                inputProps={{ 'aria-label': 'controlled' }}
+                  defaultChecked
+                  value={timeChecked}
+                  checked={timeChecked}
+                  onChange={handleTimeCheckedChange}
+                  inputProps={{ "aria-label": "controlled" }}
                 />
               }
               // onClick={() => {
@@ -299,79 +304,92 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               // }}
               label="Keep the class timings same for all days"
             />
-            {timeChecked ? <Grid container spacing={2}>
-                  {[
-                    { label: "Start Time", prop: "start_time" },
-                    { label: "End Time", prop: "end_time" },
-                  ].map(({ label, prop }, index) => (
-                    <Grid item xs={isActive ? 12 : 6} key={index}>
-                      <LocalizationProvider
-                        dateAdapter={AdapterDateFns}
-                        key={index}
-                      >
-                        <Stack spacing={3} key={index}>
-                          <DesktopTimePicker
-                            ampm={false}
+            {/* Start and End time*/}
+            {timeChecked ? (
+              <Grid container spacing={2}>
+                {[
+                  { label: "Start Time", prop: "start_time" },
+                  { label: "End Time", prop: "end_time" },
+                ].map(({ label, prop }, index) => (
+                  <Grid item xs={isActive ? 12 : 6} key={index}>
+                    <LocalizationProvider
+                      dateAdapter={AdapterDateFns}
+                      key={index}
+                    >
+                      <Stack spacing={3} key={index}>
+                        <DesktopTimePicker
+                          ampm={false}
+                          key={index}
+                          label={label}
+                          value={classFields[prop]}
+                          onChange={(time) => {
+                            // setClassFields({
+                            //   ...classFields,
+                            //   [prop]: time,
+                            // });
+                          }}
+                          minTime={
+                            classFields.date === moment().format("YYYY-MM-DD")
+                              ? new Date(new Date().setSeconds(0))
+                              : null
+                          }
+                        />
+                      </Stack>
+                    </LocalizationProvider>
+                  </Grid>
+                ))}
+              </Grid>
+            ) : (
+              classFields.on_days.map((item, index) => (
+                <>
+                  <Typography variant="body2" color="text.secondary">
+                    {filteredDayValues[index]} Time
+                  </Typography>
+                  {
+                    <Grid container spacing={2}>
+                      {[
+                        { label: "Start Time", prop: "startTime" },
+                        { label: "End Time", prop: "endTime" },
+                      ].map(({ label, prop }, index) => (
+                        <Grid item xs={isActive ? 12 : 6} key={index}>
+                          <LocalizationProvider
+                            dateAdapter={AdapterDateFns}
                             key={index}
-                            label={label}
-                            value={classFields[prop]}
-                            onChange={(time) => {
-                              setClassFields({
-                                ...classFields,
-                                [prop]: time,
-                              });
-                            }}
-                            minTime={
-                              classFields.date === moment().format("YYYY-MM-DD")
-                                ? new Date(new Date().setSeconds(0))
-                                : null
-                            }
-                          />
-                        </Stack>
-                      </LocalizationProvider>
+                          >
+                            <Stack spacing={3} key={index}>
+                              <DesktopTimePicker
+                                key={index}
+                                label={label}
+                                ampm={false}
+                                value={
+                                  classFields.schedule[item]
+                                    ? new Date(classFields.schedule[item][prop])
+                                    : null
+                                }
+                                minTime={new Date(new Date().setSeconds(0))}
+                                onChange={(time) => {
+                                  console.log(time, prop, item, "time...");
+                                  setClassFields({
+                                    ...classFields,
+                                    schedule: {
+                                      ...classFields.schedule,
+                                      [item]: {
+                                        ...classFields.schedule[item],
+                                        [prop]: time.toISOString(),
+                                      },
+                                    },
+                                  });
+                                }}
+                              />
+                            </Stack>
+                          </LocalizationProvider>
+                        </Grid>
+                      ))}
                     </Grid>
-                  ))}
-                </Grid> : 
-            classFields.on_days.map((item, index) => (
-              <>
-                <Typography variant="body2" color="text.secondary">
-                  {filteredDayValues[index]} Time
-                </Typography>
-                {classFields.schedule[item] = 
-                <Grid container spacing={2}>
-                  {[
-                    { label: "Start Time", prop: "startTime" },
-                    { label: "End Time", prop: "endTime" },
-                  ].map(({ label, prop }, index) => (
-                    <Grid item xs={isActive ? 12 : 6} key={index}>
-                      <LocalizationProvider
-                        dateAdapter={AdapterDateFns}
-                        key={index}
-                      >
-                        <Stack spacing={3} key={index}>
-                          <DesktopTimePicker
-                            key={index}
-                            label={label}
-                            value={classFields.schedule[prop]}
-                            onChange={(time) => {
-                              setClassFields({
-                                ...classFields.schedule,
-                                [prop]: time,
-                              });
-                            }}
-                            minTime={
-                              classFields.date === moment().format("YYYY-MM-DD")
-                                ? new Date(new Date().setSeconds(0))
-                                : null
-                            }
-                          />
-                        </Stack>
-                      </LocalizationProvider>
-                    </Grid>
-                  ))}
-                </Grid>}
-              </>
-            ))}
+                  }
+                </>
+              ))
+            )}
 
             <Typography variant="body2" color="text.secondary">
               Language
