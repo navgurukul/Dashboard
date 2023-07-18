@@ -120,11 +120,9 @@ const options = {
   viewColumns: false,
 };
 
-
-
 const StudentList = ({ data }) => {
-  if(!data.length){
-    return <div>No students found</div>
+  if (!data.length) {
+    return <div>No students found</div>;
   }
   const columns = [
     {
@@ -184,7 +182,7 @@ const StudentList = ({ data }) => {
     },
   ];
 
-  const { spaceId, groupId, partnerId } = useParams();
+  const { spaceId, groupId, partnerId, batchId } = useParams();
 
   const dispatch = useDispatch();
   const { searchTerm, filterBy } = useSelector((state) => {
@@ -209,8 +207,7 @@ const StudentList = ({ data }) => {
   // };
 
   return (
-    <div
-      style={{border:"0px solid red", }}>
+    <div style={{ border: "0px solid red" }}>
       <Box style={{ margin: "0px 10px 0px 5px" }}>
         <TextField
           placeholder="Search Student..."
@@ -231,7 +228,7 @@ const StudentList = ({ data }) => {
         />
       </Box>
       <Link
-        to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/studentinfo`}
+        to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/${batchId}/studentinfo`}
         style={{ textDecoration: "none" }}
       >
         <ThemeProvider theme={getMuiTheme}>
