@@ -58,16 +58,13 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     description: "description",
     type: "batch",
     frequency: "DAILY",
-    lang: "",
+    lang: "en",
     max_enrolment: "",
     title: "",
     facilitator_name: "",
     date: moment.utc(new Date()).format("YYYY-MM-DD"),
-    // start_time: new Date(new Date().setSeconds(0)),
-    // end_time: new Date(
-    //   new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)
-    // ),
     on_days: [],
+    schedule: {}
   });
   const [timeChecked, setTimeChecked] = useState(true);
 
@@ -75,7 +72,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     setTimeChecked(!timeChecked);
   };
 
-  console.log(timeChecked);
+  console.log(classFields.schedule);
   const { data } = useFetchVolunteersQuery();
   const volunteer = data?.map((item) => ({
     label: item.name,
@@ -197,10 +194,10 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               label="Batch Name"
             />
 
-            <Typography variant="body2" color="text.secondary">
+            {(course.label=="Python") && <Typography variant="body2" color="text.secondary">
               All 28 classes will be created automatically with titles and
               descriptions
-            </Typography>
+            </Typography>}
             <Autocomplete
               value={{
                 label: classFields.facilitator_name || "",
@@ -314,6 +311,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                       >
                         <Stack spacing={3} key={index}>
                           <DesktopTimePicker
+                            ampm={false}
                             key={index}
                             label={label}
                             value={classFields[prop]}
@@ -339,10 +337,11 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                 <Typography variant="body2" color="text.secondary">
                   {filteredDayValues[index]} Time
                 </Typography>
+                {classFields.schedule[item] = 
                 <Grid container spacing={2}>
                   {[
-                    { label: "Start Time", prop: "start_time" },
-                    { label: "End Time", prop: "end_time" },
+                    { label: "Start Time", prop: "startTime" },
+                    { label: "End Time", prop: "endTime" },
                   ].map(({ label, prop }, index) => (
                     <Grid item xs={isActive ? 12 : 6} key={index}>
                       <LocalizationProvider
@@ -353,10 +352,10 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                           <DesktopTimePicker
                             key={index}
                             label={label}
-                            value={classFields[prop]}
+                            value={classFields.schedule[prop]}
                             onChange={(time) => {
                               setClassFields({
-                                ...classFields,
+                                ...classFields.schedule,
                                 [prop]: time,
                               });
                             }}
@@ -370,7 +369,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                       </LocalizationProvider>
                     </Grid>
                   ))}
-                </Grid>
+                </Grid>}
               </>
             ))}
 
@@ -389,6 +388,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               }}
               row
               mb={3}
+              // defaultValue="en"
             >
               <FormControlLabel
                 value="en"
