@@ -66,16 +66,18 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     on_days: [],
     schedule: {},
   });
+  const [sameTime, setSameTime] = useState({});
+  // console.log(sameTime);
   const [timeChecked, setTimeChecked] = useState(true);
   useEffect(() => {
-    console.log(classFields);
+    // console.log(classFields);
   }, [classFields]);
 
   const handleTimeCheckedChange = (event) => {
     setTimeChecked(!timeChecked);
   };
 
-  console.log(classFields.schedule);
+  // console.log(classFields.schedule);
   const { data } = useFetchVolunteersQuery();
   const volunteer = data?.map((item) => ({
     label: item.name,
@@ -122,25 +124,34 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   );
   const filteredDayValues = commonElements.map((key) => days[key]);
 
-  const handleSubmit = () => {
-    let start_time =
-      classFields.date +
-      "T" +
-      classFields.start_time.toLocaleTimeString("en-IN", {
-        hour12: false,
-        timeZone: "Asia/Kolkata",
-      }) +
-      "Z";
-    let end_time =
-      classFields.date +
-      "T" +
-      classFields.end_time.toLocaleTimeString("en-IN", {
-        hour12: false,
-        timeZone: "Asia/Kolkata",
-      }) +
-      "Z";
+  const addAll = (e) => {
+    timeChecked && commonElements.map((dayKey)=>{
+      return classFields.schedule[dayKey] = {sameTime}
+    })
+  };
 
-    const { date, ...rest } = classFields;
+  console.log(classFields);
+
+  const handleSubmit = () => {
+    // timeChecked &&
+    // let start_time =
+    //   classFields.date +
+    //   "T" +
+    //   classFields.start_time.toLocaleTimeString("en-IN", {
+    //     hour12: false,
+    //     timeZone: "Asia/Kolkata",
+    //   }) +
+    //   "Z";
+    // let end_time =
+    //   classFields.date +
+    //   "T" +
+    //   classFields.end_time.toLocaleTimeString("en-IN", {
+    //     hour12: false,
+    //     timeZone: "Asia/Kolkata",
+    //   }) +
+    //   "Z";
+
+    // const { date, ...rest } = classFields;
 
     addBatch({ ...rest, start_time, end_time });
   };
@@ -305,6 +316,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               label="Keep the class timings same for all days"
             />
             {/* Start and End time*/}
+            <Button onClick={addAll}>click me</Button>
             {timeChecked ? (
               <Grid container spacing={2}>
                 {[
@@ -321,12 +333,13 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                           ampm={false}
                           key={index}
                           label={label}
-                          value={classFields[prop]}
+                          value={sameTime.prop ? new Date(sameTime.prop) : null}
+                          // value={sameTime[prop]}
                           onChange={(time) => {
-                            // setClassFields({
-                            //   ...classFields,
-                            //   [prop]: time,
-                            // });
+                            setSameTime({
+                              ...sameTime,
+                              [prop]: time.toISOString(),
+                            });
                           }}
                           minTime={
                             classFields.date === moment().format("YYYY-MM-DD")
