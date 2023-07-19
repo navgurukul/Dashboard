@@ -46,7 +46,7 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: "space/:spaceId/group/:groupId/batch/:batchId/studentinfo",
+            path: "space/:spaceId/group/:groupId/batch/:batchId/studentinfo/:studentId",
             element: <StudentInfo />,
           },
         ],

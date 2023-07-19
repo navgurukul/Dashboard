@@ -4,10 +4,14 @@ import studentImage from "./assests/bg.png";
 import emailLogo from "./assests/Vector (1).png";
 import phoneIcon from "./assests/phoneIcon.png";
 import Accordion from "./Accordian/Accordion";
-
 import CircularProgress from "@mui/material/CircularProgress";
+import { useFetchStudentPerformanceQuery } from "../../store";
+import { useParams } from "react-router-dom";
 
 const StudentInfo = () => {
+  const { spaceId, groupId, partnerId, batchId, studentId } = useParams();
+  const { data, isLoading, error } = useFetchStudentPerformanceQuery(studentId);
+  console.log(data)
   return (
     <Box
       style={{
@@ -22,24 +26,20 @@ const StudentInfo = () => {
         </Typography>
       </Box>
       <Box
-        style={{
-          //border: "1px solid blue",
+        style={{ 
           margin: "20px auto",
           width: "584px",
         }}
       >
         <Box
           style={{
-            padding: "10px",
-            // border: "1px solid blue",
+            padding: "10px", 
           }}
         >
           <Box
             style={{
-              display: "flex",
-              // justifyContent: "center",
-              alignItems: "center",
-              //   border: "1px solid blue",
+              display: "flex", 
+              alignItems: "center", 
               marginBottom: "5px",
             }}
           >

@@ -11,6 +11,7 @@ import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { changeFilterBym, changeSearchTermm } from "../../store";
+import { useState } from "react";
 
 const getMuiTheme = () =>
   createTheme({
@@ -121,9 +122,13 @@ const options = {
 };
 
 const StudentList = ({ data }) => {
+  const [studentId, setStudentId] = useState("");
+  console.log(data[0].id);
+  console.log(data);
   if (!data.length) {
     return <div>No students found</div>;
   }
+
   const columns = [
     {
       name: "name",
@@ -131,6 +136,12 @@ const StudentList = ({ data }) => {
       options: {
         filter: false,
         sort: false,
+        // customCellClass: "custom-cell",
+        customBodyRender: (value, tableMeta, updateValue) => {
+          setStudentId(data[tableMeta.rowIndex].id);
+          // console.log(studentId);
+          return value;
+        },
       },
     },
     {
@@ -156,8 +167,8 @@ const StudentList = ({ data }) => {
         filter: false,
         sort: false,
         customBodyRender: (value, tableMeta, updateValue) => {
+          console.log(tableMeta);
           const progressValue = 68;
-
           return (
             <div style={{ display: "flex", alignItems: "center" }}>
               <CircularProgress
@@ -201,9 +212,11 @@ const StudentList = ({ data }) => {
     dispatch(changeSearchTermm(e.target.value));
   };
 
-  // const handleClickRow = (rowData) => {
+  // const handleClickRow = (data) => {
   //   const studentId = rowData[0];
-  //   window.location.href = `batch/studentinfo`;
+  //   console.log(studentId);
+  //   console.log(data);
+  //   console.log("l");
   // };
 
   return (
@@ -228,7 +241,7 @@ const StudentList = ({ data }) => {
         />
       </Box>
       <Link
-        to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/${batchId}/studentinfo`}
+        to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/${batchId}/studentinfo/${studentId}`}
         style={{ textDecoration: "none" }}
       >
         <ThemeProvider theme={getMuiTheme}>
