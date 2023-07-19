@@ -19,6 +19,8 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
+import moment_tz from 'moment-timezone';
+
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { breakpoints } from "../../../theme/constant";
@@ -29,6 +31,7 @@ import { useFetchVolunteersQuery } from "../../../store";
 import showToast from "../../showToast";
 
 const CreateBatchModal = ({ boolean, onToggle }) => {
+  const istTimeZone = 'Asia/Kolkata';
   const { partnerId } = useParams();
   const {
     id: { spaceId, groupId },
@@ -126,8 +129,9 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
 
   const addAll = (e) => {
     timeChecked && commonElements.map((dayKey)=>{
-      return classFields.schedule[dayKey] = {sameTime}
+      return classFields.schedule[dayKey] = {...sameTime}
     })
+    console.log(classFields);
   };
 
   console.log(classFields);
@@ -320,8 +324,8 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
             {timeChecked ? (
               <Grid container spacing={2}>
                 {[
-                  { label: "Start Time", prop: "start_time" },
-                  { label: "End Time", prop: "end_time" },
+                  { label: "Start Time", prop: "startTime" },
+                  { label: "End Time", prop: "endTime" },
                 ].map(({ label, prop }, index) => (
                   <Grid item xs={isActive ? 12 : 6} key={index}>
                     <LocalizationProvider
@@ -338,7 +342,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                           onChange={(time) => {
                             setSameTime({
                               ...sameTime,
-                              [prop]: time.toISOString(),
+                              [prop]: moment_tz(time).tz(istTimeZone).format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
                             });
                           }}
                           minTime={
@@ -381,14 +385,13 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                                 }
                                 minTime={new Date(new Date().setSeconds(0))}
                                 onChange={(time) => {
-                                  console.log(time, prop, item, "time...");
                                   setClassFields({
                                     ...classFields,
                                     schedule: {
                                       ...classFields.schedule,
                                       [item]: {
                                         ...classFields.schedule[item],
-                                        [prop]: time.toISOString(),
+                                        [prop]: moment_tz(time).tz(istTimeZone).format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
                                       },
                                     },
                                   });
