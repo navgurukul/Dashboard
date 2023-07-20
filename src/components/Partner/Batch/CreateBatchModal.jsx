@@ -107,7 +107,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
 
   const style = {
     position: "absolute",
-    top: !isActive ? "90%" : "90%",
+    top: !isActive ? classFields.on_days?.length > 2 ? "140%":"105%" : "90%",
     left: !isActive ? "50%" : "45%",
     // height:'920px',
     transform: "translate(-50%, -50%)",
@@ -135,7 +135,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   );
   const filteredDayValues = commonElements.map((key) => days[key]);
 
-
   const handleSubmit = () => {
     let payload = classFields;
     timeChecked &&
@@ -153,9 +152,9 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
       ...classFields,
       start_time: moment(startDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
       end_time: moment(endDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-    }
-    delete payload.date
-    if (timeChecked) delete payload.schedule
+    };
+    delete payload.date;
+    if (timeChecked) delete payload.schedule;
 
     addBatch(payload);
   };
@@ -252,7 +251,9 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               <Typography variant="body2" color="text.secondary">
                 {`The tutor has opted to teach ${VolunteerFormattedPathways} learning track.`}
               </Typography>
-            ):""}
+            ) : (
+              ""
+            )}
             {ListOfSelectedPathways?.length >= 2 && (
               <>
                 <Typography
