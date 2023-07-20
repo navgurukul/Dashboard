@@ -66,7 +66,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     date: moment.utc(new Date()).format("YYYY-MM-DD"),
     on_days: [],
     schedule: {},
-    selectedPathway: "",
+    // selectedPathway: "",
   });
 
   const [ListOfSelectedPathways, setListOfSelectedPathways] = useState([]); // it is used to store the selected pathways by the selected tutor/volunteer.
@@ -154,6 +154,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
       end_time: moment(endDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
     };
     delete payload.date;
+    // delete payload.selectedPathway;
     if (timeChecked) delete payload.schedule;
 
     addBatch(payload);
@@ -269,12 +270,12 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                   <RadioGroup
                     aria-label="radio-group"
                     name="radio-group"
-                    onChange={(e) => {
-                      setClassFields({
-                        ...classFields,
-                        selectedPathway: e.target.value,
-                      });
-                    }}
+                    // onChange={(e) => {
+                    //   setClassFields({
+                    //     ...classFields,
+                    //     selectedPathway: e.target.value,
+                    //   });
+                    // }}
                     sx={{ marginBottom: "16px" }}
                   >
                     {ListOfSelectedPathways.map((item, index) => (
