@@ -136,33 +136,26 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   const filteredDayValues = commonElements.map((key) => days[key]);
 
 
-  const handleSubmit = () => {
-    const test = () => {
-      const newClassFields = { ...classFields };
-      delete newClassFields.schedule;
-      setClassFields(newClassFields);
-    };
-    timeChecked && test ;
-
+  const handleSubmit = async () => {
+    let payload = classFields;
     timeChecked &&
       commonElements.map((dayKey) => {
-        return (classFields.schedule[dayKey] = { ...sameTime });
+        return (payload.schedule[dayKey] = { ...sameTime });
       });
-    const startend = classFields.schedule[Object.keys(classFields.schedule)[0]];
-    if (Object.keys(classFields.schedule).length > 0) {
-      const startDate = new Date();
-      const endDate = new Date();
-      startDate.setHours(startend.startTime.split(":")[0]);
-      startDate.setMinutes(startend.startTime.split(":")[1]);
-      endDate.setHours(startend.endTime.split(":")[0]);
-      endDate.setMinutes(startend.endTime.split(":")[1]);
-      setClassFields({
-        ...classFields,
-        start_time: moment(startDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-        end_time: moment(endDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-      });
+    const startend = payload.schedule[Object.keys(payload.schedule)[0]];
+    const startDate = new Date();
+    const endDate = new Date();
+    startDate.setHours(startend.startTime.split(":")[0]);
+    startDate.setMinutes(startend.startTime.split(":")[1]);
+    endDate.setHours(startend.endTime.split(":")[0]);
+    endDate.setMinutes(startend.endTime.split(":")[1]);
+    payload = {
+      ...classFields,
+      start_time: moment(startDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+      end_time: moment(endDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
     }
-    addBatch(classFields);
+    if (timeChecked) delete payload.schedule
+    addBatch(payload);
   };
 
   const handleDaySelection = (e) => {
