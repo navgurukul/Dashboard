@@ -1,14 +1,9 @@
 import { List, Typography } from "@mui/material";
-
 import { useFetchSpacesQuery } from "../../../store";
 import SpaceItem from "./SpaceItem";
-import { useState } from "react";
 
 function SpaceList({ partner }) {
   const { data, isLoading, error } = useFetchSpacesQuery(partner);
-  
-
-  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   let content;
   if (isLoading) {
