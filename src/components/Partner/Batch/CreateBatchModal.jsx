@@ -16,11 +16,10 @@ import {
   FormLabel,
   FormGroup,
   Checkbox,
+  FormControl,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
-import moment_tz from 'moment-timezone';
-
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { breakpoints } from "../../../theme/constant";
@@ -31,7 +30,6 @@ import { useFetchVolunteersQuery } from "../../../store";
 import showToast from "../../showToast";
 
 const CreateBatchModal = ({ boolean, onToggle }) => {
-  const istTimeZone = 'Asia/Kolkata';
   const { partnerId } = useParams();
   const {
     id: { spaceId, groupId },
@@ -68,10 +66,13 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     date: moment.utc(new Date()).format("YYYY-MM-DD"),
     on_days: [],
     schedule: {},
+    selectedPathway: "",
   });
-  const [sameTime, setSameTime] = useState({});
-  // console.log(sameTime);
-  const [timeChecked, setTimeChecked] = useState(true);
+
+  const [ListOfSelectedPathways, setListOfSelectedPathways] = useState([]); // it is used to store the selected pathways by the selected tutor/volunteer.
+  const [sameTime, setSameTime] = useState({}); // It is used to get same time for all the selected days.
+  const [timeChecked, setTimeChecked] = useState(true); //it is used to get that voluntter/tutor is taking defferend time or same time for the class.
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   useEffect(() => {
     // console.log(classFields);
   }, [classFields]);
@@ -80,20 +81,26 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     setTimeChecked(!timeChecked);
   };
 
-  // console.log(classFields.schedule);
   const { data } = useFetchVolunteersQuery();
   const volunteer = data?.map((item) => ({
     label: item.name,
     id: item.volunteer_id,
     pathway_id: item.pathway_id,
+    optedPathways: item.pathways,
   }));
 
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const VolunteerFormattedPathways =
+    ListOfSelectedPathways?.length &&
+    ListOfSelectedPathways.map((item) => item)
+      .join(", ")
+      .replace(/,([^,]*)$/, " and$1");
 
   const [onInput, setOnInput] = useState({
     title: false,
     facilitator_name: false,
   });
+
+  // this is used to update the date of the class
   const changeHandler = (e) => {
     setClassFields({ ...classFields, [e.target.name]: e.target.value });
   };
@@ -113,51 +120,49 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   };
 
   const days = {
-    MO: "Mon",
-    TU: "Tue",
-    WE: "Wed",
-    TH: "Thu",
-    FR: "Fri",
-    SA: "Sat",
-    SU: "Sun",
+    MO: "Monday",
+    TU: "Tuesday",
+    WE: "Wednesday",
+    TH: "Thusday",
+    FR: "Friday",
+    SA: "Saturday",
+    SU: "Sunday",
   };
 
+  //This is to get the day to make a key for the deffrent selected time.
   const commonElements = Object.keys(days).filter((element) =>
     classFields.on_days.includes(element)
   );
   const filteredDayValues = commonElements.map((key) => days[key]);
 
-  const addAll = (e) => {
-    timeChecked && commonElements.map((dayKey)=>{
-      return classFields.schedule[dayKey] = {...sameTime}
-    })
-    console.log(classFields);
-  };
-
-  console.log(classFields);
 
   const handleSubmit = () => {
-    // timeChecked &&
-    // let start_time =
-    //   classFields.date +
-    //   "T" +
-    //   classFields.start_time.toLocaleTimeString("en-IN", {
-    //     hour12: false,
-    //     timeZone: "Asia/Kolkata",
-    //   }) +
-    //   "Z";
-    // let end_time =
-    //   classFields.date +
-    //   "T" +
-    //   classFields.end_time.toLocaleTimeString("en-IN", {
-    //     hour12: false,
-    //     timeZone: "Asia/Kolkata",
-    //   }) +
-    //   "Z";
+    const test = () => {
+      const newClassFields = { ...classFields };
+      delete newClassFields.schedule;
+      setClassFields(newClassFields);
+    };
+    timeChecked && test ;
 
-    // const { date, ...rest } = classFields;
-
-    addBatch({ ...rest, start_time, end_time });
+    timeChecked &&
+      commonElements.map((dayKey) => {
+        return (classFields.schedule[dayKey] = { ...sameTime });
+      });
+    const startend = classFields.schedule[Object.keys(classFields.schedule)[0]];
+    if (Object.keys(classFields.schedule).length > 0) {
+      const startDate = new Date();
+      const endDate = new Date();
+      startDate.setHours(startend.startTime.split(":")[0]);
+      startDate.setMinutes(startend.startTime.split(":")[1]);
+      endDate.setHours(startend.endTime.split(":")[0]);
+      endDate.setMinutes(startend.endTime.split(":")[1]);
+      setClassFields({
+        ...classFields,
+        start_time: moment(startDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+        end_time: moment(endDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+      });
+    }
+    addBatch(classFields);
   };
 
   const handleDaySelection = (e) => {
@@ -229,6 +234,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                 return option.id === value.id;
               }}
               onChange={(e, newVal) => {
+                setListOfSelectedPathways(newVal?.optedPathways);
                 setClassFields((prev) => {
                   return {
                     ...prev,
@@ -247,13 +253,49 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                 />
               )}
             />
-
+            {classFields.volunteer_id && (
+              <Typography variant="body2" color="text.secondary">
+                {`The tutor has opted to teach ${VolunteerFormattedPathways} learning track.`}
+              </Typography>
+            )}
+            {ListOfSelectedPathways?.length >= 2 && (
+              <>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  pr={2}
+                  mt={2}
+                  mb={1}
+                >
+                  Learning Track
+                </Typography>
+                <FormControl component="fieldset">
+                  <RadioGroup
+                    aria-label="radio-group"
+                    name="radio-group"
+                    onChange={(e) => {
+                      setClassFields({
+                        ...classFields,
+                        selectedPathway: e.target.value,
+                      });
+                    }}
+                    sx={{ marginBottom: "16px" }}
+                  >
+                    {ListOfSelectedPathways.map((item, index) => (
+                      <FormControlLabel
+                        key={index}
+                        value={item}
+                        control={<Radio />}
+                        label={item}
+                        labelPlacement="end"
+                      />
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+              </>
+            )}
             <FormLabel component="legend">
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                // sx={{ mt: isActive ? 3 : 4, mb: isActive && 2 }}
-              >
+              <Typography variant="body2" color="text.secondary">
                 Schedule on days
               </Typography>
             </FormLabel>
@@ -277,12 +319,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                 />
               ))}
             </FormGroup>
-
-            {/* {classFields.on_days?.length === 0 && onInput.days ? (
-                  <FormHelperText sx={{ color: "red" }} id="my-helper-text">
-                    Please select atleast one day
-                  </FormHelperText>
-                ) : null} */}
             <TextField
               type="date"
               variant="outlined"
@@ -312,15 +348,10 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                   inputProps={{ "aria-label": "controlled" }}
                 />
               }
-              // onClick={() => {
-              //   setOnInput((prev) => {
-              //     return { ...prev, days: true };
-              //   });
-              // }}
               label="Keep the class timings same for all days"
             />
+
             {/* Start and End time*/}
-            <Button onClick={addAll}>click me</Button>
             {timeChecked ? (
               <Grid container spacing={2}>
                 {[
@@ -338,11 +369,10 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                           key={index}
                           label={label}
                           value={sameTime.prop ? new Date(sameTime.prop) : null}
-                          // value={sameTime[prop]}
                           onChange={(time) => {
                             setSameTime({
                               ...sameTime,
-                              [prop]: moment_tz(time).tz(istTimeZone).format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
+                              [prop]: time.toLocaleTimeString(),
                             });
                           }}
                           minTime={
@@ -391,7 +421,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                                       ...classFields.schedule,
                                       [item]: {
                                         ...classFields.schedule[item],
-                                        [prop]: moment_tz(time).tz(istTimeZone).format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
+                                        [prop]: time.toLocaleTimeString(),
                                       },
                                     },
                                   });
@@ -422,7 +452,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               }}
               row
               mb={3}
-              // defaultValue="en"
             >
               <FormControlLabel
                 value="en"
