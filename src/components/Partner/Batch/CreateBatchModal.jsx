@@ -50,7 +50,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     group_id: groupId,
     space_id: spaceId,
     partner_id: [partnerId],
-    volunteer_id: "",
+    volunteer_id: 0,
     pathway_id: course.pathway_id,
     // facilitator_id: 7108,
     // exercise_id: 530,
@@ -107,7 +107,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
 
   const style = {
     position: "absolute",
-    top: !isActive ? "80%" : "90%",
+    top: !isActive ? "90%" : "90%",
     left: !isActive ? "50%" : "45%",
     // height:'920px',
     transform: "translate(-50%, -50%)",
@@ -136,7 +136,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   const filteredDayValues = commonElements.map((key) => days[key]);
 
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     let payload = classFields;
     timeChecked &&
       commonElements.map((dayKey) => {
@@ -154,7 +154,9 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
       start_time: moment(startDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
       end_time: moment(endDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
     }
+    delete payload.date
     if (timeChecked) delete payload.schedule
+
     addBatch(payload);
   };
 
@@ -246,11 +248,11 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                 />
               )}
             />
-            {classFields.volunteer_id && (
+            {classFields.volunteer_id ? (
               <Typography variant="body2" color="text.secondary">
                 {`The tutor has opted to teach ${VolunteerFormattedPathways} learning track.`}
               </Typography>
-            )}
+            ):""}
             {ListOfSelectedPathways?.length >= 2 && (
               <>
                 <Typography
