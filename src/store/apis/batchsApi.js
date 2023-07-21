@@ -23,14 +23,6 @@ const batchsApi = createApi({
           };
         },
       }),
-      // fetchSingleBatch: builder.query({
-      //   query: (Id) => {
-      //     return {
-      //       url: ``,
-      //       method: `GET`,
-      //     };
-      //   },
-      // }),
     };
   },
 });

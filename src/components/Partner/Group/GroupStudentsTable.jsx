@@ -138,7 +138,7 @@ function GroupStudentsTable({ handleAddStudentsOpen, data, student }) {
             <div style={btnsContainerStyles}>
               <Button
                 size="small"
-                onClick={handleEditClick}
+                // onClick={handleEditClick}
                 sx={{
                   // height: "18px",
                   // width: "18px",

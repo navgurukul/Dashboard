@@ -26,8 +26,8 @@ const ImageSizeCal = {
 
 const BatchPage = () => {
   const { partnerId, spaceId, groupId, batchId } = useParams();
-  // const { data, isLoading, error } = useFetchBatchesQuery();
-  // console.log(data);
+
+  const { data, isLoading, error } = useFetchBatchesQuery(groupId);
 
   const {
     data: partnerData,
@@ -47,24 +47,27 @@ const BatchPage = () => {
     error: groupError,
   } = useFetchSingleGroupQuery(groupId);
 
+  const space = spaceData?.data?.[0];
   const partner = partnerData?.name;
   const groupg = groupData?.[0];
 
-  let cc;
-  if (spaceIsLoading) {
-    cc = <Typography>Loading...</Typography>;
-  } else {
-    const spaces = spaceData?.data?.[0];
-    cc = (
-      <Typography pr={0.5} variant="body2">
-        {spaces?.space_name}
-      </Typography>
-    );
-    console.log(spaces);
-    console.log(spaceData);
-    // console.log(spaceData);
-    // console.log(cc);
-  }
+  // let batchName;
+  // let content;
+  // if (isLoading) {
+  //   content = null
+  // } else {
+  //   let iteration = data.map((batch)=>{
+  //     if(batch.recurring_id == batchId){
+  //       batchName = batch.title
+  //     }
+  //   })
+  //    const spaces = spaceData?.data?.[0];
+  //   content = (
+  //     <Typography pl={0.5} variant="body2">
+  //         {batchName}
+  //     </Typography>
+  //   );
+  // }
   // console.log(partnerData);
   // console.log(groupData);
 
@@ -89,17 +92,16 @@ const BatchPage = () => {
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", py: 2 }}>
-        {cc}
-        <Typography variant="body2" color="primary.main">
-          / {groupg?.group_name}
-        </Typography>
         <Typography pr={0.5} variant="body2">
-          / {partner}
+          {space?.space_name} /
         </Typography>
+        <Typography variant="body2" color="primary.main">
+           {groupg?.group_name} / 
+        </Typography>
+        <Typography variant="body2">  batch_name</Typography>
       </Box>
       <Box
         style={{
-          // border: "1px solid blue",
           display: "flex",
           justifyContent: "space-between",
         }}

@@ -23,9 +23,6 @@ const getMuiTheme = () =>
               width: "0px",
             },
           },
-          // head: {
-          //   fontWeight: "bolder",
-          // },
         },
       },
       MuiTableRow: {
@@ -132,7 +129,6 @@ function NewPartnerTable({ data }) {
         customBodyRender: (_, tableMeta) => {
           const partnerId = data[tableMeta.rowIndex].id;
           const partneredit = data[tableMeta.rowIndex];
-
           return (
             <div style={btnsContainerStyles}>
               <Button

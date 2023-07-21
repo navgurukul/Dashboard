@@ -4,13 +4,14 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { SearchOutlined } from "@mui/icons-material";
-import { TextField, Button, Typography, InputAdornment } from "@mui/material";
+import { TextField, Button, Typography, InputAdornment,TableCell  } from "@mui/material";
 import Box from "@mui/material/Box";
 // import { useSelector } from "react-redux";
 // import { useFetchBatchsQuery } from "../../store";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { changeFilterBym, changeSearchTermm } from "../../store";
+import { useState } from "react";
 
 const getMuiTheme = () =>
   createTheme({
@@ -120,12 +121,12 @@ const options = {
   viewColumns: false,
 };
 
-
-
 const StudentList = ({ data }) => {
-  if(!data.length){
-    return <div>No students found</div>
+  // console.log(data);
+  if (!data.length) {
+    return <div>No students found</div>;
   }
+
   const columns = [
     {
       name: "name",
@@ -133,6 +134,15 @@ const StudentList = ({ data }) => {
       options: {
         filter: false,
         sort: false,
+        customCellClass: "custom-cell",
+        customBodyRender: (value, tableMeta) => ( 
+          <Link
+            to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/${batchId}/studentinfo/${data[tableMeta.rowIndex].id}`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            {value}
+          </Link>
+        ),
       },
     },
     {
@@ -158,8 +168,8 @@ const StudentList = ({ data }) => {
         filter: false,
         sort: false,
         customBodyRender: (value, tableMeta, updateValue) => {
+          // console.log(tableMeta);
           const progressValue = 68;
-
           return (
             <div style={{ display: "flex", alignItems: "center" }}>
               <CircularProgress
@@ -184,7 +194,7 @@ const StudentList = ({ data }) => {
     },
   ];
 
-  const { spaceId, groupId, partnerId } = useParams();
+  const { spaceId, groupId, partnerId, batchId } = useParams();
 
   const dispatch = useDispatch();
   const { searchTerm, filterBy } = useSelector((state) => {
@@ -203,14 +213,15 @@ const StudentList = ({ data }) => {
     dispatch(changeSearchTermm(e.target.value));
   };
 
-  // const handleClickRow = (rowData) => {
+  // const handleClickRow = (data) => {
   //   const studentId = rowData[0];
-  //   window.location.href = `batch/studentinfo`;
+  //   console.log(studentId);
+  //   console.log(data);
+  //   console.log("l");
   // };
 
   return (
-    <div
-      style={{border:"0px solid red", }}>
+    <div style={{ border: "0px solid red" }}>
       <Box style={{ margin: "0px 10px 0px 5px" }}>
         <TextField
           placeholder="Search Student..."
@@ -230,14 +241,10 @@ const StudentList = ({ data }) => {
           sx={{ width: "360px" }}
         />
       </Box>
-      <Link
-        to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/studentinfo`}
-        style={{ textDecoration: "none" }}
-      >
-        <ThemeProvider theme={getMuiTheme}>
-          <MUIDataTable data={data} columns={columns} options={options} />
-        </ThemeProvider>
-      </Link>
+
+      <ThemeProvider theme={getMuiTheme}>
+        <MUIDataTable data={data} columns={columns} options={options} />
+      </ThemeProvider>
     </div>
   );
 };

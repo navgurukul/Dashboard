@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const attendanceApi = createApi({
   reducerPath: "attendance",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://hub.dummyapis.com",
+    baseUrl: "https://merd-api.merakilearn.org/classes",
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) {
@@ -12,17 +12,14 @@ const attendanceApi = createApi({
       return headers;
     },
   }),
-  endpoints(builder){
+  endpoints(builder) {
     return {
       fetchAttendance: builder.query({
         providesTags: ["Attendance"],
-        query: (noofRecords = 20) => {
+        query: (Id) => {
           return {
-            url: `/employee`,
+            url: `/${Id}/students`,
             method: "GET",
-            params: {
-              noofRecords,
-            },
           };
         },
       }),
