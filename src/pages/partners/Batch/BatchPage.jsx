@@ -93,12 +93,12 @@ const BatchPage = () => {
     >
       <Box sx={{ display: "flex", alignItems: "center", py: 2 }}>
         <Typography pr={0.5} variant="body2">
-          {space?.space_name}
+          {space?.space_name} /
         </Typography>
         <Typography variant="body2" color="primary.main">
-          / {groupg?.group_name}
+           {groupg?.group_name} / 
         </Typography>
-        <Typography variant="body2">/ batch_name</Typography>
+        <Typography variant="body2">  batch_name</Typography>
       </Box>
       <Box
         style={{

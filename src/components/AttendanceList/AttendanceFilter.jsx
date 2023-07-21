@@ -1,20 +1,21 @@
 import { Container } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useFetchAttendanceQuery } from "../../store";
-
+import { useParams } from "react-router-dom";
 //components
 import AttendanceList from "./AttendanceList"
 
 function AttendanceFilter() {
-  const { data, isLoading, error } = useFetchAttendanceQuery();
+  const { spaceId, groupId, partnerId, batchId } = useParams();
+  const { data, isLoading, error } = useFetchAttendanceQuery(batchId);
 
   // console.log(data);
 
   const { filteredData } = useSelector(
     ({ attendanceFilter: { searchTerm, filterBy } }) => {
       const lowerCased = searchTerm?.toLowerCase();
-      const filteredData = data?.filter((employee) => {
-        const firstName = employee.firstName.toLowerCase();
+      const filteredData = data?.filter((student) => {
+        const firstName = student.name.toLowerCase();
         if (filterBy === "All Students") {
           return firstName.includes(lowerCased);
         }
