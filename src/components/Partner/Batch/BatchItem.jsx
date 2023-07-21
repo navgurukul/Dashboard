@@ -1,49 +1,31 @@
 import React from "react";
 import { ListItemButton, Typography } from "@mui/material";
-import { NavLink } from "react-router-dom";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { useState } from "react";
+import { NavLink, useParams } from "react-router-dom";
 import BatchMenu from "./BatchMenu";
-import { useParams } from "react-router-dom";
-import { useFetchBatchsQuery } from "../../../store";
 
-
-function BatchItem({ batch }) {
-  const { spaceId, groupId } = useParams();
-  // const { data, isLoading, error } = useFetchBatchsQuery(batch.recurringid);
-  // const { data, isLoading, error } = useFetchBatchesQuery();
-  // console.log(batchId)
-  console.log(batch);
-  const [open, setOpen] = useState(false);
-
-  const activeStyles = {
-    backgroundColor: "#E9F5E9",
-    fontWeight: 600,
-  };
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
-
-  const expandIcon = open ? (
-    <ExpandLess sx={{ color: "#6d6d6d" }} onClick={handleClick} />
-  ) : (
-    <ExpandMore sx={{ color: "#6d6d6d" }} onClick={handleClick} />
-  );
+function BatchItem({ batch, spaceId }) {
+  const { batchId } = useParams();
 
   return (
     <>
-      <NavLink to={`space/${batch.space_id}/group/${batch.group_id}/batch/${batch.recurring_id}`}>
-        <ListItemButton
-          sx={{
-            color: "text.primary",
-            display: "flex",
-            alignItems: "center",
-            gap: 1,
-            pl: 9.5,
-          }}
+      <ListItemButton
+        sx={{
+          color: "text.primary",
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          pl: 9.5,
+          bgcolor: batchId == batch.recurring_id ? "#E9F5E9" : "",
+          "&:hover": {
+            bgcolor: batchId == batch.recurring_id ? "#E9F5E9" : "",
+          },
+        }}
+      >
+        {/* {expandIcon} */}
+        <NavLink
+          to={`space/${spaceId}/group/${batch.group_id}/batch/${batch.recurring_id}`}
+          style={{ display: "flex", flexGrow: 1, color: "#2E2E2E" }}
         >
-          {/* {expandIcon} */}
           <Typography
             flex={1}
             sx={{
@@ -52,10 +34,11 @@ function BatchItem({ batch }) {
           >
             {batch.title}
           </Typography>
-          <BatchMenu />
-        </ListItemButton>
-      </NavLink>
+        </NavLink>
+        <BatchMenu />
+      </ListItemButton>
     </>
   );
 }
+
 export default BatchItem;

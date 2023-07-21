@@ -6,40 +6,37 @@ import { useFetchBatchesQuery } from "../../../store";
 
 function BatchList({ group }) {
   const { data, isLoading, error } = useFetchBatchesQuery(group.id);
-  console.log(data)
 
   let content;
   if (isLoading) {
     content = <Typography>Loading...</Typography>;
   } else if (error) {
     content = <Typography>Error fetching groups</Typography>;
-  } else if (!data?.length) {
+  } else if (!data) {
     content = (
-      <Link> 
-        <ListItemButton
+      <ListItemButton
+        sx={{
+          color: "text.primary",
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          pl: 5.5,
+        }}
+      >
+        <Add sx={{ color: "#6d6d6d", width: "20px", height: "20px" }} />
+        <Typography
+          flex={1}
           sx={{
-            color: "text.primary",
-            display: "flex",
-            alignItems: "center",
-            gap: 1,
-            pl: 5.5,
+            fontSize: "14px",
           }}
         >
-          <Add sx={{ color: "#6d6d6d", width: "20px", height: "20px" }} />
-          <Typography
-            flex={1}
-            sx={{
-              fontSize: "14px",
-            }}
-          >
-            Add a page
-          </Typography>
-        </ListItemButton>
-      </Link>
+          Add a page
+        </Typography>
+      </ListItemButton>
     );
   } else {
-    content = data.map((batch, index) => {
-      return <BatchItem batch={batch} key={index} />;
+    content = data?.batches_data.map((batch, index) => {
+      return <BatchItem batch={batch} key={index} spaceId={data.space_id} />;
     });
   }
 
