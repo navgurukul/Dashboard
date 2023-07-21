@@ -42,7 +42,6 @@ function GroupList({ space }) {
             flex={1}
             sx={{
               fontSize: "14px",
-              // fontWeight: index === selected ? 600 : 400,
             }}
           >
             Add Student Group

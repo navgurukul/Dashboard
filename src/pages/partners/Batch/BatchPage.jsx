@@ -47,30 +47,27 @@ const BatchPage = () => {
     error: groupError,
   } = useFetchSingleGroupQuery(groupId);
 
+  const space = spaceData?.data?.[0];
   const partner = partnerData?.name;
   const groupg = groupData?.[0];
 
-  let batchName;
-  let content;
-  if (isLoading) {
-    content = null
-  } else {
-    let iteration = data.map((batch)=>{
-      if(batch.recurring_id == batchId){
-        batchName = batch.title 
-      }
-    })
-    // const spaces = spaceData?.data?.[0];
-    content = (
-      <Typography pl={0.5} variant="body2">
-          {batchName}
-      </Typography>
-    );
-    // console.log(spaces);
-    // console.log(spaceData);
-    // console.log(spaceData);
-    // console.log(cc);
-  }
+  // let batchName;
+  // let content;
+  // if (isLoading) {
+  //   content = null
+  // } else {
+  //   let iteration = data.map((batch)=>{
+  //     if(batch.recurring_id == batchId){
+  //       batchName = batch.title
+  //     }
+  //   })
+  //    const spaces = spaceData?.data?.[0];
+  //   content = (
+  //     <Typography pl={0.5} variant="body2">
+  //         {batchName}
+  //     </Typography>
+  //   );
+  // }
   // console.log(partnerData);
   // console.log(groupData);
 
@@ -95,14 +92,13 @@ const BatchPage = () => {
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", py: 2 }}>
-       <Typography pr={0.5} variant="body2">
-          space name
+        <Typography pr={0.5} variant="body2">
+          {space?.space_name}
         </Typography>
         <Typography variant="body2" color="primary.main">
-          / {groupg?.group_name} / 
+          / {groupg?.group_name}
         </Typography>
-        
-         {content}
+        <Typography variant="body2">/ batch_name</Typography>
       </Box>
       <Box
         style={{

@@ -13,7 +13,7 @@ const studentPerformanceApi = createApi({
       return headers;
     },
   }),
-  endpoints(builder) {
+  endpoints(builder){
     return {
       fetchStudentPerformance: builder.query({
         providesTags: ["StudentPerformance"],
