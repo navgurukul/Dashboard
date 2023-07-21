@@ -20,7 +20,7 @@ const getMuiTheme = () =>
       MuiTypography: {
         styleOverrides: {
           root: {
-            fontFamily: "NatoSans !important", // Apply NatoSans font to the whole table
+            fontFamily: "NatoSans !important",  
           },
         },
       },
@@ -37,7 +37,7 @@ const getMuiTheme = () =>
           root: {
             display: "block !important ",
             fontSize: "14px !important",
-            fontFamily: "NatoSans !important", // Apply NatoSans font to the whole table
+            fontFamily: "NatoSans !important",  
           },
         },
       },
@@ -49,7 +49,7 @@ const getMuiTheme = () =>
             fontFamily: "Noto Sans !important",
             textAlign: "left",
             "&.custom-cell": {
-              width: "200px", // Set a fixed width for the cell using a custom CSS class
+              width: "200px",  
             },
           },
           head: {
@@ -192,8 +192,7 @@ const AttendanceList = ({ data }) => {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "center",
-          // border: "1px solid green",
+          alignItems: "center", 
           paddingRight: "30px",
         }}
       >
