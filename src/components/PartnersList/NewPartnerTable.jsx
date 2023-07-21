@@ -68,7 +68,7 @@ function NewPartnerTable({ data }) {
       options: {
         filter: false,
         sort: true,
-        customCellClass: "custom-cell",customCellClass: "custom-cell",
+        customCellClass: "custom-cell",
         customBodyRender: (value, tableMeta) => (
           <Link
             to={`/partner/${data[tableMeta.rowIndex].id}`}
