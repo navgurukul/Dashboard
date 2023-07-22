@@ -10,7 +10,7 @@ import NewPartnerTable from "../../../components/PartnersList/NewPartnerTable";
 
 function PartnersListPage() {
   const { data, isLoading, error } = useFetchPartnersQuery();
-
+//  console.log(data);
   const { filteredData } = useSelector(
     ({ partnerFilter: { searchTerm, filterBy } }) => {
       let lowerCased = searchTerm?.toLowerCase();

@@ -98,10 +98,10 @@ const options = {
 };
 
 const AttendanceList = ({ data }) => {
-  console.log(data);
-  if (!data.length) {
-    return <div>No students found</div>;
-  }
+  // console.log(data);
+  // if (!data.length) {
+  //   return <div>No students found</div>;
+  // }
   const columns = [
     {
       name: "name",
