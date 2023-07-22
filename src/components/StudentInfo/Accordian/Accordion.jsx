@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -7,6 +7,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import greenTick from "../assests/greenTick.png";
+import redCross from "../assests/redCross.png";
 
 const spanQuestionElement = {
   display: "inline-block",
@@ -23,7 +24,10 @@ const spanColors = {
   wrongAnswers: "red",
 };
 
-export default function SimpleAccordion() {
+const SimpleAccordion = ({ courseInfo }) => {
+  const { name, mcqs } = courseInfo;
+  const isAllQuestionsAttempted = mcqs.attemptedQuestions === mcqs.totalQuestions;
+
   return (
     <div
       style={{
@@ -34,27 +38,31 @@ export default function SimpleAccordion() {
       }}
     >
       <Accordion>
+
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
+          
         >
-          <Typography>Course 1: Introduction to Python</Typography>
+          <Typography>{name}</Typography>
           <div
             style={{
               display: "flex",
               alignItems: "center",
               position: "relative",
-              left: "180px",
+              left: "200px",
             }}
           >
             <CircularProgress
               variant="determinate"
               size={25}
-              value={74}
+              value={(mcqs.correctAnswers / mcqs.totalQuestions) * 100}
               style={{ color: "green", marginRight: "8px" }}
             />
-            <span style={{ fontSize: "14px" }}>{`${68}%`}</span>
+            <span style={{ fontSize: "14px" }}>
+              {`${((mcqs.correctAnswers / mcqs.totalQuestions) * 100).toFixed(2)}%`}
+            </span>
           </div>
         </AccordionSummary>
         <AccordionDetails>
@@ -63,17 +71,15 @@ export default function SimpleAccordion() {
               <Typography
                 style={{
                   fontSize: "14px",
-                  weight: "600",
-                  // border: "1px solid blue",
+                  fontWeight: "600",
                 }}
               >
-                Course 1: Introduction to Python
+                {name}
               </Typography>
             </Box>
           </Box>
           <Box
             style={{
-              // border: "1px solid red",
               margin: "20px 0px",
             }}
           >
@@ -89,18 +95,21 @@ export default function SimpleAccordion() {
               style={{
                 display: "flex",
                 alignItems: "center",
-                // border: "1px solid red",
               }}
             >
+             
+              <div style={{ display: "flex", alignItems: "center" }}>
+            {isAllQuestionsAttempted ? (
               <img src={greenTick} alt="greenTick" />
-              <Typography
-                style={{
-                  fontSize: "14px",
-                  marginLeft: "5px",
-                }}
-              >
-                Attended all 2 classes in the course
-              </Typography>
+            ) : (
+              <img style={{width: "12px", height: "12px"}} src={redCross} alt="redCross" />
+            )}
+            <Typography style={{ fontSize: "14px", marginLeft: "5px" }}>
+              {isAllQuestionsAttempted
+                ? `Attended all ${mcqs.totalQuestions} classes in the course`
+                : `Attended all ${mcqs.totalQuestions} classes in the course`}
+            </Typography>
+          </div>
             </Box>
           </Box>
           <Box>
@@ -126,7 +135,7 @@ export default function SimpleAccordion() {
                     backgroundColor: spanColors.totalQuestions,
                   }}
                 ></span>
-                20
+                {mcqs.totalQuestions}
               </Box>
               <Box style={{ marginRight: "20px" }}>
                 <Typography style={{ fontSize: "14px" }}>
@@ -138,7 +147,7 @@ export default function SimpleAccordion() {
                     backgroundColor: spanColors.attemptedQuestions,
                   }}
                 ></span>
-                20
+                {mcqs.attemptedQuestions}
               </Box>
               <Box style={{ marginRight: "20px" }}>
                 <Typography style={{ fontSize: "14px" }}>
@@ -150,7 +159,7 @@ export default function SimpleAccordion() {
                     backgroundColor: spanColors.correctAnswers,
                   }}
                 ></span>
-                20
+                {mcqs.correctAnswers}
               </Box>
               <Box style={{ marginRight: "20px" }}>
                 <Typography style={{ fontSize: "14px" }}>
@@ -162,7 +171,7 @@ export default function SimpleAccordion() {
                     backgroundColor: spanColors.wrongAnswers,
                   }}
                 ></span>
-                20
+                {mcqs.wrongAnswers}
               </Box>
             </Box>
           </Box>
@@ -170,4 +179,6 @@ export default function SimpleAccordion() {
       </Accordion>
     </div>
   );
-}
+};
+
+export default SimpleAccordion;

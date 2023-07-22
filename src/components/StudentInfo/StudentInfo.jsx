@@ -11,7 +11,8 @@ import { useParams } from "react-router-dom";
 const StudentInfo = () => {
   const { spaceId, groupId, partnerId, batchId, studentId } = useParams();
   const { data, isLoading, error } = useFetchStudentPerformanceQuery(studentId);
-  console.log(data)
+  console.log(data);
+
   return (
     <Box
       style={{
@@ -154,9 +155,9 @@ const StudentInfo = () => {
           Course Wise Performance
         </Typography>
       </Box>
-      <Accordion />
-      <Accordion />
-      <Accordion />
+      {data?.map((course) => (
+        <Accordion key={course.id} courseInfo={course} />
+      ))}
     </Box>
   );
 };
