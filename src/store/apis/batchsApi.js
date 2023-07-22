@@ -18,8 +18,8 @@ const batchsApi = createApi({
         providesTags: ["Batch"],
         query: (Id) => {
           return {
-            url: `/${Id}/students`,
-            method: "GET", 
+            url: `/${Id}/students?pathway_id=1`,
+            method: "GET",
           };
         },
       }),

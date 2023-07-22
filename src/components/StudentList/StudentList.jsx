@@ -4,14 +4,20 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { SearchOutlined } from "@mui/icons-material";
-import { TextField, Button, Typography, InputAdornment,TableCell  } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Typography,
+  InputAdornment,
+  TableCell,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 // import { useSelector } from "react-redux";
 // import { useFetchBatchsQuery } from "../../store";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { changeFilterBym, changeSearchTermm } from "../../store";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const getMuiTheme = () =>
   createTheme({
@@ -122,10 +128,9 @@ const options = {
 };
 
 const StudentList = ({ data }) => {
-  // console.log(data);
-  if (!data.length) {
-    return <div>No students found</div>;
-  }
+  // if (!data.length) {
+  //   return <div>No students found</div>;
+  // }
 
   const columns = [
     {
@@ -135,14 +140,9 @@ const StudentList = ({ data }) => {
         filter: false,
         sort: false,
         customCellClass: "custom-cell",
-        customBodyRender: (value, tableMeta) => ( 
-          <Link
-            to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/${batchId}/studentinfo/${data[tableMeta.rowIndex].id}`}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            {value}
-          </Link>
-        ),
+        customBodyRender: (value, tableMeta) => {
+          return value;
+        },
       },
     },
     {
@@ -169,7 +169,10 @@ const StudentList = ({ data }) => {
         sort: false,
         customBodyRender: (value, tableMeta, updateValue) => {
           // console.log(tableMeta);
-          const progressValue = 68;
+          // console.log(tableMeta.tableData[0].completed_percent);
+          const progressValue = Math.round(
+            tableMeta.tableData[0].completed_percent
+          );
           return (
             <div style={{ display: "flex", alignItems: "center" }}>
               <CircularProgress
@@ -212,13 +215,13 @@ const StudentList = ({ data }) => {
   const handleChange = (e) => {
     dispatch(changeSearchTermm(e.target.value));
   };
-
-  // const handleClickRow = (data) => {
-  //   const studentId = rowData[0];
-  //   console.log(studentId);
-  //   console.log(data);
-  //   console.log("l");
-  // };
+  const Navigate = useNavigate();
+  const handleRowClick = (rowData, rowMeta) => {
+    const studentId = data[rowMeta.rowIndex].id;
+    Navigate(
+      `/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/${batchId}/studentinfo/${studentId}`
+    );
+  };
 
   return (
     <div style={{ border: "0px solid red" }}>
@@ -243,7 +246,11 @@ const StudentList = ({ data }) => {
       </Box>
 
       <ThemeProvider theme={getMuiTheme}>
-        <MUIDataTable data={data} columns={columns} options={options} />
+        <MUIDataTable
+          data={data}
+          columns={columns}
+          options={{ ...options, onRowClick: handleRowClick }}
+        />
       </ThemeProvider>
     </div>
   );
