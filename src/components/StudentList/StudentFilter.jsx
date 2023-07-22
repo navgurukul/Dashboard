@@ -10,9 +10,7 @@ import StudentList from "./StudentList";
 function StudentFilter() {
   const { spaceId, groupId, partnerId, batchId } = useParams();
   const { data, isLoading, error } = useFetchBatchsQuery(batchId);
-
-  //  console.log(data.length);
-  //  console.log(data.length);
+ 
 // if (data.length<1) {
 //     return <div>No students found</div>;
 //   }
