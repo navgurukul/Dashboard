@@ -4,7 +4,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { SearchOutlined } from "@mui/icons-material";
-import { TextField, Button, Typography, InputAdornment } from "@mui/material";
+import { TextField, Button, Typography, InputAdornment,TableCell  } from "@mui/material";
 import Box from "@mui/material/Box";
 // import { useSelector } from "react-redux";
 // import { useFetchBatchsQuery } from "../../store";
@@ -122,9 +122,7 @@ const options = {
 };
 
 const StudentList = ({ data }) => {
-  const [studentId, setStudentId] = useState("");
-  console.log(data[0].id);
-  console.log(data);
+  // console.log(data);
   if (!data.length) {
     return <div>No students found</div>;
   }
@@ -136,12 +134,15 @@ const StudentList = ({ data }) => {
       options: {
         filter: false,
         sort: false,
-        // customCellClass: "custom-cell",
-        customBodyRender: (value, tableMeta, updateValue) => {
-          setStudentId(data[tableMeta.rowIndex].id);
-          // console.log(studentId);
-          return value;
-        },
+        customCellClass: "custom-cell",
+        customBodyRender: (value, tableMeta) => ( 
+          <Link
+            to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/${batchId}/studentinfo/${data[tableMeta.rowIndex].id}`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            {value}
+          </Link>
+        ),
       },
     },
     {
@@ -167,7 +168,7 @@ const StudentList = ({ data }) => {
         filter: false,
         sort: false,
         customBodyRender: (value, tableMeta, updateValue) => {
-          console.log(tableMeta);
+          // console.log(tableMeta);
           const progressValue = 68;
           return (
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -240,14 +241,10 @@ const StudentList = ({ data }) => {
           sx={{ width: "360px" }}
         />
       </Box>
-      <Link
-        to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/${batchId}/studentinfo/${studentId}`}
-        style={{ textDecoration: "none" }}
-      >
-        <ThemeProvider theme={getMuiTheme}>
-          <MUIDataTable data={data} columns={columns} options={options} />
-        </ThemeProvider>
-      </Link>
+
+      <ThemeProvider theme={getMuiTheme}>
+        <MUIDataTable data={data} columns={columns} options={options} />
+      </ThemeProvider>
     </div>
   );
 };

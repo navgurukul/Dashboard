@@ -1,17 +1,27 @@
 import { ListItemButton, Typography } from "@mui/material";
 import { NavLink, useParams } from "react-router-dom";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GroupMenu from "./GroupMenu";
 import BatchList from "../Batch/BatchList";
 
 function GroupItem({ group }) {
   const [open, setOpen] = useState(false);
-  const { groupId } = useParams();
+  const { groupId, batchId } = useParams();
+
+  const isActiveGroup = group.id == groupId;
+
+  const hasBatchId = Boolean(batchId);
 
   const handleClick = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    if (hasBatchId && groupId == group.id) {
+      setOpen(true);
+    }
+  }, [hasBatchId, groupId]);
 
   const expandIcon = open ? (
     <ExpandLess sx={{ color: "#6d6d6d" }} onClick={handleClick} />
@@ -29,11 +39,11 @@ function GroupItem({ group }) {
           alignItems: "center",
           gap: 1,
           pl: 5.5,
-          bgcolor: groupId == group.id ? "#E9F5E9" : "",
-          // backgroundColor: group.id === parseInt(groupId) ? "red" : "",
-          // "&:hover": {
-          //   backgroundColor: group.id === parseInt(groupId) ? "red" : "",
-          // },
+          bgcolor:
+            isActiveGroup && hasBatchId ? "" : isActiveGroup ? "#E9F5E9" : "",
+          "&:hover": {
+            bgcolor: isActiveGroup && !hasBatchId ? "#E9F5E9" : "",
+          },
         }}
       >
         {expandIcon}
@@ -45,7 +55,7 @@ function GroupItem({ group }) {
             flex={1}
             sx={{
               fontSize: "14px",
-              // fontWeight: index === selected ? 600 : 400,
+              fontWeight: isActiveGroup && hasBatchId ? "bold" : "normal",
             }}
           >
             {group.group_name}
