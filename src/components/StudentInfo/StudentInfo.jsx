@@ -152,9 +152,9 @@ const StudentInfo = () => {
           Course Wise Performance
         </Typography>
       </Box>
-      <Accordion />
-      <Accordion />
-      <Accordion />
+      {data?.map((course) => (
+        <Accordion key={course.id} courseInfo={course} />
+      ))}
     </Box>
   );
 };
