@@ -31,21 +31,24 @@ function GroupPage() {
   } = useFetchSingleSpaceQuery(spaceId);
 
   const {
-    data: groupData,
-    isLoading: groupIsLoading,
-    error: groupError,
-  } = useFetchSingleGroupQuery(groupId);
-  const space = spaceData?.data?.[0];
-  const group = groupData?.[0];
-
-  const {
     data: studentsData,
     isLoading: isStudentsLoading,
     error: studentsError,
   } = useFetchStudentsQuery(groupId);
 
+  const {
+    data: groupData,
+    isLoading: groupIsLoading,
+    error: groupError,
+    refetch: refetchGroup,
+  } = useFetchSingleGroupQuery(groupId);
+  const space = spaceData?.data?.[0];
+  const group = groupData?.[0];
+
   const [getLinks, results] = useGetLinksMutation();
+
   useEffect(() => {
+    refetchGroup({ forceRefetch: true });
     if (group && !group.web_link) {
       getLinks({ groupId, spaceId, partnerId });
     }
