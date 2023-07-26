@@ -1,15 +1,24 @@
 import { Add, SearchOutlined } from "@mui/icons-material";
 import { Box, Button, InputAdornment, TextField } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { changeSearchTerm } from "../../../store";
 
 function GroupStudentsFilter({ handleAddStudentsOpen }) {
+  const dispatch = useDispatch();
+  const { searchTerm } = useSelector((state) => {
+    return state.partnerFilter;
+  });
+
+  const handleChange = (e) => {
+    dispatch(changeSearchTerm(e.target.value));
+  };
+
   return (
     <Box display="flex" justifyContent="space-between" mb={2}>
       <TextField
-        // label="Student Name, Email..."
         placeholder="Student Name, Email..."
-        // size="medium"
-        // value={searchTerm}
-        // onChange={handleChange}
+        value={searchTerm}
+        onChange={handleChange}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

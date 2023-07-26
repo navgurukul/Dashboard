@@ -47,7 +47,7 @@ function PartnersListPage() {
           // border: "1px solid red",
           position: "fixed",
           // textAlign:"center",
-          overflowY: "scroll", 
+          overflowY: "scroll",
           top: "10%",
           left: "10%",
           // transform: "translate(-10%, -10%)",
