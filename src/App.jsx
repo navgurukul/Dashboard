@@ -3,20 +3,25 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // layouts
 import RootLayout from "./layouts/RootLayout";
-import SpaceLayout from "./layouts/SpaceLayout";
+import PartnerLayout from "./layouts/PartnerLayout";
 
 // pages
-import LoginPage from "./pages/login/LoginPage";
 import PartnersListPage from "./pages/partners/PartnersList/PartnersListPage";
-import { ThemeProvider } from "@mui/material";
+import LoginPage from "./pages/login/LoginPage";
+import PartnerPage from "./pages/partners/Partner/PartnerPage";
+import GroupPage from "./pages/partners/Group/GroupPage";
+
+//components
 import theme from "./theme/theme";
-// import BatchPage from "./pages/partners/Batch/BatchPage";
-import PartnerSpacePage from "./pages/partners/PartnerSpace/PartnerSpacePage";
-import CreateSpace from "./components/PartnerSpace/CreateSpace";
-import CreateBatch from "./components/PartnerSpace/CreateBatch";
+import CreateGroup from "./components/Partner/Group/CreateGroup";
+import CreateSpace from "./components/Partner/Space/CreateSpace";
 import BatchPage from "./pages/partners/Batch/BatchPage";
-import StudentList from "./components/StudentList/StudentList";
-import AttandanceList from "./components/AttandanceList/AttandanceList";
+import StudentInfo from "./components/StudentInfo/StudentInfo";
+
+// library
+import { ThemeProvider } from "@mui/material";
+import StudentFilter from "./components/StudentList/StudentFilter";
+import AttendanceFilter from "./components/AttendanceList/AttendanceFilter";
 
 const router = createBrowserRouter([
   {
@@ -25,15 +30,25 @@ const router = createBrowserRouter([
     children: [
       { path: "login", element: <LoginPage /> },
       { index: true, element: <PartnersListPage /> },
-      { path: "partnerspace/:partnerId", element: <PartnerSpacePage/>,
+      {
+        path: "partner/:partnerId",
+        element: <PartnerPage />,
         children: [
-          { index: true, element: <CreateSpace/>},
-          { path: "space/:spaceId", element: <CreateBatch /> },
-          { path: "batch", element: <BatchPage />,
-        children:[
-          { index: true, element: <StudentList/>},
-          { path: "attandance", element: <AttandanceList /> },
-        ]},
+          { index: true, element: <CreateSpace /> },
+          { path: "space/:spaceId", element: <CreateGroup /> },
+          { path: "space/:spaceId/group/:groupId", element: <GroupPage /> },
+          {
+            path: "space/:spaceId/group/:groupId/batch/:batchId",
+            element: <BatchPage />,
+            children: [
+              { index: true, element: <StudentFilter/> },
+              { path: "attendancelist", element: <AttendanceFilter /> },
+            ],
+          },
+          {
+            path: "space/:spaceId/group/:groupId/batch/:batchId/studentinfo/:studentId",
+            element: <StudentInfo />,
+          },
         ],
       },
     ],
@@ -43,7 +58,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <RouterProvider router={router}/>
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
 }

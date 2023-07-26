@@ -20,6 +20,7 @@ import { useRemovePartnerMutation } from "../../store";
 import PartnerUpdateModal from "./PartnerUpdateModal";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material";
+import showToast from "../showToast";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   // fontSize: 14,
@@ -28,14 +29,68 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   backgroundColor: "white",
-  "& : hover": {
+  "&:hover": {
     backgroundColor: "white",
   },
 }));
 
+// Define the colors for status
+const circleColors = {
+  Active: "#48A145",
+  Inactive: "#FFCC00",
+  "Newly Onboarded": "#2196F3",
+  Archived: "#F44336",
+};
+
+// Styled component for the color of status
+const Circle = styled("div")(({ color }) => ({
+  width: "8px",
+  height: "8px",
+  borderRadius: "50%",
+  backgroundColor: color,
+  display: "inline-block",
+  marginRight: "5px",
+}));
+
+const typographyStyles1 = {
+  color: "black",
+  textDecoration: "none",
+  width: "283.5px",
+  height: "21px",
+  fontSize: "14px",
+  fontWeight: "400",
+  lineHeight: "150%",
+};
+
+const typographyStyles2 = {
+  color: "rgba(109, 109, 109, 1)",
+  textDecoration: "none",
+  width: "283.5px",
+  height: "21px",
+  fontSize: "14px",
+  fontWeight: "400",
+  lineHeight: "150%",
+};
+
+const typographyStyles3 = {
+  color: "black",
+  textDecoration: "none",
+  width: "16px",
+  height: "21px",
+  fontSize: "14px",
+  fontWeight: "400",
+  lineHeight: "150%",
+};
+
+const typographyStyles4 = {
+  color: "black",
+  textDecoration: "none",
+  fontSize: "14px",
+};
+
 function PartnersTable({ data }) {
   const [removePartner, results] = useRemovePartnerMutation();
-  console.log(results);
+
   const [open, setOpen] = useState(false);
   const [updateData, setUpdateData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,7 +99,8 @@ function PartnersTable({ data }) {
   const indexOfLastPartner = currentPage * partnersPerPage;
   const indexOfFirstPartner = indexOfLastPartner - partnersPerPage;
   const currentPartners = data.slice(indexOfFirstPartner, indexOfLastPartner);
-  const pageNumbers = Math.ceil(data.length / partnersPerPage);
+  const [pageNumbers, setPageNumbers] = useState(Math.ceil(data.length));
+  // const pageNumbers = Math.ceil(data.length / partnersPerPage);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -65,15 +121,20 @@ function PartnersTable({ data }) {
 
   useEffect(() => {
     if (results.isSuccess) {
-      alert(results.data.status);
+      showToast("success", results.data.status);
     }
-  }, [results]);
+  }, [results.isSuccess]);
 
   const Actions = ({ rowData }) => (
     <StyledTableCell>
       <Button
         onClick={() => handleEditClick(rowData)}
-        sx={{ color: "#BDBDBD", "&:hover": { color: "info.main" } }}
+        sx={{
+          height: "18px",
+          width: "18px",
+          color: "#BDBDBD",
+          "&:hover": { color: "info.main" },
+        }}
       >
         <EditIcon>Edit</EditIcon>
       </Button>
@@ -81,11 +142,21 @@ function PartnersTable({ data }) {
         onClick={() => {
           handleEmailClick(rowData);
         }}
-        sx={{ color: "#BDBDBD", "&:hover": { color: "primary.main" } }}
+        sx={{
+          height: "18px",
+          width: "18px",
+          color: "#BDBDBD",
+          "&:hover": { color: "primary.main" },
+        }}
+      ></Button>
+      <Button
+        sx={{
+          height: "18px",
+          width: "18px",
+          color: "#BDBDBD",
+          "&:hover": { color: "error.main" },
+        }}
       >
-        <EmailIcon>Email</EmailIcon>
-      </Button>
-      <Button sx={{ color: "#BDBDBD", "&:hover": { color: "error.main" } }}>
         <DeleteIcon onClick={() => handleDeleteClick(rowData)}>
           Delete
         </DeleteIcon>
@@ -96,21 +167,32 @@ function PartnersTable({ data }) {
   const renderedData = currentPartners.map((row) => (
     <StyledTableRow key={row.id} sx={{ border: "none" }}>
       <StyledTableCell>
-        <Link to={`partnerspace/${row.id}`} style={{ textDecoration: "none" }}>
-          <Typography sx={{ color: "black", textDecoration: "none" }}>
-            {row.name}
-          </Typography>
+        <Link to={`partner/${row.id}`} style={{ textDecoration: "none" }}>
+          <Typography sx={typographyStyles1}>{row.name}</Typography>
         </Link>
       </StyledTableCell>
       <StyledTableCell>
-        <Typography>{row.point_of_contact_name || "---"}</Typography>
+        <Typography sx={{ fontSize: "14px" }}>
+          {row.point_of_contact_name || "---"}
+        </Typography>
       </StyledTableCell>
       <StyledTableCell>
-        <Typography>{row.user || "---"}</Typography>
+        <Typography sx={{ fontSize: "14px" }}>{row.email || "---"}</Typography>
       </StyledTableCell>
       <StyledTableCell>
-        <Typography>{row.status || "---"}</Typography>
+        <Typography sx={typographyStyles3}>{row.user || "---"}</Typography>
       </StyledTableCell>
+
+      <StyledTableCell sx={{ display: "flex", alignItems: "center" }}>
+        {row.status && (
+          <>
+            <Circle color={circleColors[row.status]} />
+            <Typography sx={typographyStyles4}>{row.status}</Typography>
+          </>
+        )}
+        {!row.status && <Typography sx={typographyStyles4}>---</Typography>}
+      </StyledTableCell>
+
       <Actions rowData={row} />
     </StyledTableRow>
   ));
@@ -125,7 +207,7 @@ function PartnersTable({ data }) {
         />
       )}
       <Box>
-        <TableContainer>
+        <TableContainer sx={{ overflow: "hidden" }}>
           <Table>
             <TableHead>
               <StyledTableRow sx={{ borderBottom: 2, borderColor: "#BDBDBD" }}>
@@ -134,6 +216,9 @@ function PartnersTable({ data }) {
                 </StyledTableCell>
                 <StyledTableCell>
                   <Typography variant="subtitle2">Point of Contact</Typography>
+                </StyledTableCell>
+                <StyledTableCell>
+                  <Typography variant="subtitle2">email</Typography>
                 </StyledTableCell>
                 <StyledTableCell>
                   <Typography variant="subtitle2">
@@ -148,27 +233,24 @@ function PartnersTable({ data }) {
             <TableBody>{renderedData}</TableBody>
           </Table>
         </TableContainer>
-        <Box mt={2} display="flex" justifyContent="center">
-          <Typography
-            sx={{
-              width: "700px",
-              height: "24px",
-              left: "165px",
-              top: "1080px",
-              position: "absolute",
-              fontFamily: "Noto Sans Anatolian Hieroglyphs, sans-serif",
-              color: "rgba(109, 109, 109, 1)",
-            }}
-          >
-            Showing {currentPage * 10 - 9} - {currentPage * 10} of {data.length}{" "}
-            partners{" "}
+        <Box
+          mt={2}
+          display="flex"
+          sx={{ p: 2, gap: 22, color: "rgba(109, 109, 109, 1)" }}
+        >
+          <Typography sx={typographyStyles2}>
+            Showing {currentPage * partnersPerPage - (partnersPerPage - 1)} -{" "}
+            {currentPage * partnersPerPage} of {data.length} partners{" "}
           </Typography>
 
           <Pagination
-            count={pageNumbers}
+            count={Math.ceil(data.length / 10)}
             color="primary"
             page={currentPage}
             onChange={handlePageChange}
+            defaultPage={1}
+            siblingCount={1}
+            boundaryCount={0}
           />
         </Box>
       </Box>

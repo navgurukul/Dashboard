@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const partnersApi = createApi({
   reducerPath: "partners",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://dev-api.navgurukul.org/apiDocs",
+    baseUrl: "https://merd-api.merakilearn.org",
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) {

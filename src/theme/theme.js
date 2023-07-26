@@ -176,7 +176,7 @@ theme = createTheme(theme, {
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.875rem",
       },
-      fontFamily: "Noto Sans ",
+      fontFamily: "Noto Sans",
       lineHeight: "170%",
       fontWeight: 400,
     },
