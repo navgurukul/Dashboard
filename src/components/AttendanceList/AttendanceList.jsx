@@ -2,6 +2,7 @@ import React from "react";
 import MUIDataTable from "mui-datatables";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
+import undrawTeacher from "./asset/undraw_teaching_re_g7e3 1.svg";
 import CircularProgress from "@mui/material/CircularProgress";
 import MultipleSelect from "../Batch/MultipleSelect";
 import Box from "@mui/material/Box";
@@ -100,7 +101,7 @@ const options = {
 const AttendanceList = ({ data }) => {
   // console.log(data);
   // if (!data.length) {
-  //   return <div>No students found</div>;
+  //   return <div> <img src={undrawTeacher} alt="undrawTeacher" /> </div>;
   // }
   const columns = [
     {
@@ -216,36 +217,44 @@ const AttendanceList = ({ data }) => {
           </Typography>
         </Box>
       </Box>
-      <Box>
-        <Box style={{ margin: "10px 10px 10px 5px" }}>
-          <TextField
-            placeholder="Search Student..."
-            size="small"
-            value={searchTerm}
-            onChange={handleChange}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchOutlined sx={{ color: "#2E2E2E" }} />
-                </InputAdornment>
-              ),
-              style: {
-                height: "48px",
-              },
-              inputProps: {
+      {!data.length ? (
+        <div style={{width:"360px", margin:"20px auto", textAlign:"center"}} >
+          <img src={undrawTeacher} alt="undrawTeacher" />
+          <Typography style={{
+              fontSize: "14px",marginTop:"32px"}} >Attendance data will appear once the class has been conducted</Typography>
+        </div>
+      ) : (
+        <Box>
+          <Box style={{ margin: "10px 10px 10px 5px" }}>
+            <TextField
+              placeholder="Search Student..."
+              size="small"
+              value={searchTerm}
+              onChange={handleChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchOutlined sx={{ color: "#2E2E2E" }} />
+                  </InputAdornment>
+                ),
                 style: {
-                  fontSize: "14px",
+                  height: "48px",
                 },
-              },
-            }}
-            sx={{ width: "360px" }}
-          />
+                inputProps: {
+                  style: {
+                    fontSize: "14px",
+                  },
+                },
+              }}
+              sx={{ width: "360px" }}
+            />
+          </Box>
+          {filterButtons}
+          <ThemeProvider theme={getMuiTheme}>
+            <MUIDataTable data={data} columns={columns} options={options} />
+          </ThemeProvider>
         </Box>
-      </Box>
-      {filterButtons}
-      <ThemeProvider theme={getMuiTheme}>
-        <MUIDataTable data={data} columns={columns} options={options} />
-      </ThemeProvider>
+      )}
     </div>
   );
 };
