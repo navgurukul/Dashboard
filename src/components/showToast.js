@@ -1,9 +1,9 @@
 import { toast } from "react-toastify";
 
-function showToast(type, message) {
+function showToast(type, message, time = 2000) {
   toast[type](message, {
     position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000,
+    autoClose: time,
   });
 }
 export default showToast;
