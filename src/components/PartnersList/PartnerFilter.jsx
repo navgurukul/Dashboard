@@ -5,26 +5,21 @@ import {
   Typography,
   InputAdornment,
   useMediaQuery,
-  styled,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { changeFilterBy, changeSearchTerm } from "../../store";
 import { useState } from "react";
 import PartnerAddModal from "./PartnerAddModal";
 import { SearchOutlined } from "@mui/icons-material";
-import { breakpoints } from "../../theme/constant";
 import { Add } from "@mui/icons-material";
 
 function PartnerFilter() {
   const [openModal, setOpenModal] = useState(false);
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const dispatch = useDispatch();
   const { searchTerm, filterBy } = useSelector((state) => {
     return state.partnerFilter;
   });
-
-  // console.log(filterBy);
 
   const filterTerms = [
     "All Partners",
