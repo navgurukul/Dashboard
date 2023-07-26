@@ -20,7 +20,7 @@ const getMuiTheme = () =>
       MuiTypography: {
         styleOverrides: {
           root: {
-            fontFamily: "NatoSans !important", // Apply NatoSans font to the whole table
+            fontFamily: "NatoSans !important",
           },
         },
       },
@@ -37,7 +37,7 @@ const getMuiTheme = () =>
           root: {
             display: "block !important ",
             fontSize: "14px !important",
-            fontFamily: "NatoSans !important", // Apply NatoSans font to the whole table
+            fontFamily: "NatoSans !important",
           },
         },
       },
@@ -49,11 +49,11 @@ const getMuiTheme = () =>
             fontFamily: "Noto Sans !important",
             textAlign: "left",
             "&.custom-cell": {
-              width: "200px", // Set a fixed width for the cell using a custom CSS class
+              width: "200px",
             },
           },
           head: {
-            fontWeight: "bolder", // Set font weight to 600 for table header cells
+            fontWeight: "bolder",
           },
         },
       },
@@ -98,9 +98,13 @@ const options = {
 };
 
 const AttendanceList = ({ data }) => {
+  // console.log(data);
+  // if (!data.length) {
+  //   return <div>No students found</div>;
+  // }
   const columns = [
     {
-      name: "firstName",
+      name: "name",
       label: "Name",
       options: {
         filter: false,
@@ -183,13 +187,14 @@ const AttendanceList = ({ data }) => {
   const { spaceId, groupId } = useParams();
 
   return (
-    <div style={{ paddingTop: "1px", overflowX: "auto", border:"0px solid red",  }}>
+    <div
+      style={{ paddingTop: "1px", overflowX: "auto", border: "0px solid red" }}
+    >
       <Box
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          // border: "1px solid green",
           paddingRight: "30px",
         }}
       >
@@ -215,7 +220,7 @@ const AttendanceList = ({ data }) => {
         <Box style={{ margin: "10px 10px 10px 5px" }}>
           <TextField
             placeholder="Search Student..."
-            size="medium"
+            size="small"
             value={searchTerm}
             onChange={handleChange}
             InputProps={{
@@ -226,6 +231,11 @@ const AttendanceList = ({ data }) => {
               ),
               style: {
                 height: "48px",
+              },
+              inputProps: {
+                style: {
+                  fontSize: "14px",
+                },
               },
             }}
             sx={{ width: "360px" }}

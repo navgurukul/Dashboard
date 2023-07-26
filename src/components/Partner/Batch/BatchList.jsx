@@ -1,18 +1,15 @@
 import { List, ListItemButton, Typography } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import { Link } from "react-router-dom";
 import BatchItem from "./BatchItem";
 import { useFetchBatchesQuery } from "../../../store";
 
 function BatchList({ group }) {
   const { data, isLoading, error } = useFetchBatchesQuery(group.id);
-
+// console.log(data);
   let content;
   if (isLoading) {
     content = <Typography>Loading...</Typography>;
   } else if (error) {
-    content = <Typography>Error fetching groups</Typography>;
-  } else if (!data) {
     content = (
       <ListItemButton
         sx={{

@@ -5,10 +5,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import React, { useState, useEffect } from "react";
 import showToast from "../showToast";
 import PartnerUpdateModal from "./PartnerUpdateModal";
-import { Link } from "react-router-dom";
 import { useRemovePartnerMutation } from "../../store";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
+
 
 const getMuiTheme = () =>
   createTheme({
@@ -23,9 +25,6 @@ const getMuiTheme = () =>
               width: "0px",
             },
           },
-          // head: {
-          //   fontWeight: "bolder",
-          // },
         },
       },
       MuiTableRow: {
@@ -67,19 +66,14 @@ function NewPartnerTable({ data }) {
   const columns = [
     {
       name: "name",
-      label: "Name",
+      label: "Student Name",
       options: {
         filter: false,
-        sort: true,
-        customCellClass: "custom-cell",
-        customBodyRender: (value, tableMeta) => (
-          <Link
-            to={`/partner/${data[tableMeta.rowIndex].id}`}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            {value}
-          </Link>
-        ),
+        sort: false,
+        // customCellClass: "custom-cell",
+        customBodyRender: (value, tableMeta) => {
+          return value;
+        },
       },
     },
     {
@@ -132,7 +126,6 @@ function NewPartnerTable({ data }) {
         customBodyRender: (_, tableMeta) => {
           const partnerId = data[tableMeta.rowIndex].id;
           const partneredit = data[tableMeta.rowIndex];
-
           return (
             <div style={btnsContainerStyles}>
               <Button
@@ -141,7 +134,8 @@ function NewPartnerTable({ data }) {
                   color: "#BDBDBD",
                   "&:hover": { color: "primary.main" }, 
                 }}
-                onClick={() => handleEditClick(partneredit)}
+                // onClick={() => handleEditClick(partneredit)}
+                onClick={(event) => handleEditButtonClick(partneredit, event)}
               >
                 <EditIcon />
               </Button>
@@ -152,6 +146,7 @@ function NewPartnerTable({ data }) {
     },
   ];
 
+  const Navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [updateData, setUpdateData] = useState(null);
 
@@ -170,6 +165,16 @@ function NewPartnerTable({ data }) {
   const handleEditClick = (partnerId) => {
     setOpen(!open);
     setUpdateData(partnerId);
+  };
+
+  const handleEditButtonClick = (partneredit, event) => {
+    event.stopPropagation(); // Stop the event propagation to prevent handleRowClick from being called
+    handleEditClick(partneredit);
+  };
+
+  const handleRowClick = (rowData, rowMeta) => {
+    const partnerId = data[rowMeta.rowIndex].id;
+    Navigate(`/partner/${partnerId}`);
   };
 
   return (
@@ -192,7 +197,7 @@ function NewPartnerTable({ data }) {
             }
             data={data}
             columns={columns}
-            options={options}
+            options={{...options, onRowClick: handleRowClick}}
           />
         </ThemeProvider>
       </div>

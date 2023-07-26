@@ -10,6 +10,7 @@ import { groupStudentsApi } from "./apis/groupStudentsApi";
 import { checkEmailApi } from "./apis/checkEmailApi";
 import { batchesApi } from "./apis/batchesApi";
 import { genereateLinksApi } from "./apis/generateLinksApi";
+import { studentPerformanceApi } from "./apis/studentPerformanceApi";
 
 import {
   changeSelectedCourse,
@@ -49,6 +50,7 @@ const store = configureStore({
     [spacesApi.reducerPath]: spacesApi.reducer,
     [groupsApi.reducerPath]: groupsApi.reducer,
     [batchsApi.reducerPath]: batchsApi.reducer,
+    [studentPerformanceApi.reducerPath]: studentPerformanceApi.reducer,
     [attendanceApi.reducerPath]: attendanceApi.reducer,
     [groupStudentsApi.reducerPath]: groupStudentsApi.reducer,
     [checkEmailApi.reducerPath]: checkEmailApi.reducer,
@@ -61,6 +63,7 @@ const store = configureStore({
       .concat(spacesApi.middleware)
       .concat(groupsApi.middleware)
       .concat(batchsApi.middleware)
+      .concat(studentPerformanceApi.middleware)
       .concat(attendanceApi.middleware)
       .concat(groupStudentsApi.middleware)
       .concat(checkEmailApi.middleware)
@@ -95,8 +98,13 @@ export {
   useDeleteGroupMutation,
 } from "./apis/groupsApi";
 
-export { useFetchBatchsQuery } from "./apis/batchsApi";
+export {
+  useFetchBatchsQuery,
+  useFetchSingleBatchQuery,
+} from "./apis/batchsApi";
+
 export { useFetchAttendanceQuery } from "./apis/attandanceApi";
+export { useFetchStudentPerformanceQuery } from "./apis/studentPerformanceApi";
 
 export {
   useFetchStudentsQuery,
