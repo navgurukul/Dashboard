@@ -32,13 +32,13 @@ export default function MultipleSelect() {
           <MenuItem value="">
             <p>None</p>
           </MenuItem>
-          <MenuItem value={1} style={{ fontSize: "16px" }}>
+          <MenuItem value={1} style={{ fontSize: "18px" }}>
             Class-1 Introduction to Python
           </MenuItem>
-          <MenuItem value={2} style={{ fontSize: "16px" }}>
+          <MenuItem value={2} style={{ fontSize: "18px" }}>
             Class-2 Introduction to Python
           </MenuItem>
-          <MenuItem value={3} style={{ fontSize: "16px" }}>
+          <MenuItem value={3} style={{ fontSize: "18px" }}>
             Class-3 Introduction to Python
           </MenuItem>
         </Select>
