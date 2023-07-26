@@ -217,44 +217,43 @@ const AttendanceList = ({ data }) => {
           </Typography>
         </Box>
       </Box>
-      {!data.length ? (
+      {/* {!data.length ? (
         <div style={{width:"360px", margin:"20px auto", textAlign:"center"}} >
           <img src={undrawTeacher} alt="undrawTeacher" />
           <Typography style={{
               fontSize: "14px",marginTop:"32px"}} >Attendance data will appear once the class has been conducted</Typography>
         </div>
-      ) : (
-        <Box>
-          <Box style={{ margin: "10px 10px 10px 5px" }}>
-            <TextField
-              placeholder="Search Student..."
-              size="small"
-              value={searchTerm}
-              onChange={handleChange}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchOutlined sx={{ color: "#2E2E2E" }} />
-                  </InputAdornment>
-                ),
+      ) : ( */}
+      <Box>
+        <Box style={{ margin: "10px 10px 10px 5px" }}>
+          <TextField
+            placeholder="Search Student..."
+            size="small"
+            value={searchTerm}
+            onChange={handleChange}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchOutlined sx={{ color: "#2E2E2E" }} />
+                </InputAdornment>
+              ),
+              style: {
+                height: "48px",
+              },
+              inputProps: {
                 style: {
-                  height: "48px",
+                  fontSize: "14px",
                 },
-                inputProps: {
-                  style: {
-                    fontSize: "14px",
-                  },
-                },
-              }}
-              sx={{ width: "360px" }}
-            />
-          </Box>
-          {filterButtons}
-          <ThemeProvider theme={getMuiTheme}>
-            <MUIDataTable data={data} columns={columns} options={options} />
-          </ThemeProvider>
+              },
+            }}
+            sx={{ width: "360px" }}
+          />
         </Box>
-      )}
+        {filterButtons}
+        <ThemeProvider theme={getMuiTheme}>
+          <MUIDataTable data={data} columns={columns} options={options} />
+        </ThemeProvider>
+      </Box>
     </div>
   );
 };

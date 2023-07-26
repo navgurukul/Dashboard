@@ -36,6 +36,8 @@ const BatchPage = () => {
     isLoading: batchIsLoading,
     error: batchError,
   } = useFetchSingleBatchQuery(batchId);
+
+  console.log(singleBatchData)
  
   const {
     data: partnerData,
@@ -237,7 +239,7 @@ const BatchPage = () => {
             }}
             onClick={() => handleClick("attendance")}
           >
-            Attendance Data
+            Class Attendance
           </Typography>
         </Link>
       </Box>
