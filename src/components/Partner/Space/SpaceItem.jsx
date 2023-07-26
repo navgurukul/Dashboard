@@ -1,24 +1,9 @@
-import {
-  Box,
-  Button,
-  Collapse,
-  IconButton,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from "@mui/material";
-import {
-  NavLink,
-  useNavigate,
-  useOutletContext,
-  useParams,
-} from "react-router-dom";
+import { ListItemButton, Typography } from "@mui/material";
+import { NavLink, useParams } from "react-router-dom";
 import SpaceMenu from "./SpaceMenu";
 import spaceItemSvg from "../assets/spaceitem.svg";
-import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
-import { useCallback, useEffect, useState } from "react";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { useEffect, useState } from "react";
 import GroupList from "../Group/GroupList";
 
 function SpaceItem({ space }) {

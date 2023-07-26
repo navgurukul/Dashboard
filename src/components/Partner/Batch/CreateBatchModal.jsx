@@ -16,7 +16,8 @@ import {
   FormLabel,
   FormGroup,
   Checkbox,
-  FormControl,
+  FormHelperText,
+  // error,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
@@ -34,6 +35,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   const {
     id: { spaceId, groupId },
   } = useSelector((state) => state.selectedCourse);
+
   const { course } = useSelector((state) => state.selectedCourse);
   const [addBatch, results] = useAddBatchMutation();
 
@@ -52,9 +54,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     partner_id: [partnerId],
     volunteer_id: 0,
     pathway_id: course.pathway_id,
-    // facilitator_id: 7108,
-    // exercise_id: 530,
-    // course_id: 21,
     category_id: 3,
     description: "description",
     type: "batch",
@@ -66,22 +65,27 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     date: moment.utc(new Date()).format("YYYY-MM-DD"),
     on_days: [],
     schedule: {},
-    // selectedPathway: "",
   });
 
-  const [ListOfSelectedPathways, setListOfSelectedPathways] = useState([]); // it is used to store the selected pathways by the selected tutor/volunteer.
   const [sameTime, setSameTime] = useState({}); // It is used to get same time for all the selected days.
   const [timeChecked, setTimeChecked] = useState(true); //it is used to get that voluntter/tutor is taking defferend time or same time for the class.
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
+  const modifiedString = classFields.date.replace(/-/g, "/");
+  const d = new Date(modifiedString);
+  const firstTwoCharacters = String(d).slice(0, 2);
+
+  const isValuePresent = classFields.on_days.includes(
+    firstTwoCharacters.toUpperCase()
+  );
+  console.log(isValuePresent);
+
   useEffect(() => {
     // console.log(classFields);
   }, [classFields]);
 
-  const handleTimeCheckedChange = (event) => {
-    setTimeChecked(!timeChecked);
-  };
-
   const { data } = useFetchVolunteersQuery();
+
   const volunteer = data?.map((item) => ({
     label: item.name,
     id: item.volunteer_id,
@@ -89,16 +93,14 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     optedPathways: item.pathways,
   }));
 
-  const VolunteerFormattedPathways =
-    ListOfSelectedPathways?.length &&
-    ListOfSelectedPathways.map((item) => item)
-      .join(", ")
-      .replace(/,([^,]*)$/, " and$1");
-
   const [onInput, setOnInput] = useState({
     title: false,
     facilitator_name: false,
   });
+
+  const handleTimeCheckedChange = (event) => {
+    setTimeChecked(!timeChecked);
+  };
 
   // this is used to update the date of the class
   const changeHandler = (e) => {
@@ -107,7 +109,11 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
 
   const style = {
     position: "absolute",
-    top: !isActive ? classFields.on_days?.length > 2 ? "140%":"105%" : "90%",
+    top: !isActive
+      ? classFields.on_days?.length > 2 && !timeChecked
+        ? "105%"
+        : "90%"
+      : "90%",
     left: !isActive ? "50%" : "45%",
     // height:'920px',
     transform: "translate(-50%, -50%)",
@@ -135,6 +141,21 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   );
   const filteredDayValues = commonElements.map((key) => days[key]);
 
+  const handleDaySelection = (e) => {
+    const index = classFields.on_days.indexOf(e.target.value);
+    if (index === -1) {
+      setClassFields({
+        ...classFields,
+        ["on_days"]: [...classFields.on_days, e.target.value],
+      });
+    } else {
+      const dayDeleted = classFields.on_days.filter(
+        (selectedDay) => selectedDay !== e.target.value
+      );
+      setClassFields({ ...classFields, ["on_days"]: dayDeleted });
+    }
+  };
+
   const handleSubmit = () => {
     let payload = classFields;
     timeChecked &&
@@ -153,26 +174,11 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
       start_time: moment(startDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
       end_time: moment(endDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
     };
+
     delete payload.date;
-    // delete payload.selectedPathway;
     if (timeChecked) delete payload.schedule;
 
     addBatch(payload);
-  };
-
-  const handleDaySelection = (e) => {
-    const index = classFields.on_days.indexOf(e.target.value);
-    if (index === -1) {
-      setClassFields({
-        ...classFields,
-        ["on_days"]: [...classFields.on_days, e.target.value],
-      });
-    } else {
-      const dayDeleted = classFields.on_days.filter(
-        (selectedDay) => selectedDay !== e.target.value
-      );
-      setClassFields({ ...classFields, ["on_days"]: dayDeleted });
-    }
   };
 
   return (
@@ -218,18 +224,17 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                 descriptions
               </Typography>
             )}
+
             <Autocomplete
               value={{
                 label: classFields.facilitator_name || "",
                 id: classFields.volunteer_id || "",
               }}
-              sx={{ mb: 3 }}
               options={volunteer || []}
               isOptionEqualToValue={(option, value) => {
                 return option.id === value.id;
               }}
               onChange={(e, newVal) => {
-                setListOfSelectedPathways(newVal?.optedPathways);
                 setClassFields((prev) => {
                   return {
                     ...prev,
@@ -248,57 +253,16 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                 />
               )}
             />
-            {classFields.volunteer_id ? (
-              <Typography variant="body2" color="text.secondary">
-                {`The tutor has opted to teach ${VolunteerFormattedPathways} learning track.`}
-              </Typography>
-            ) : (
-              ""
-            )}
-            {ListOfSelectedPathways?.length >= 2 && (
-              <>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  pr={2}
-                  mt={2}
-                  mb={1}
-                >
-                  Learning Track
-                </Typography>
-                <FormControl component="fieldset">
-                  <RadioGroup
-                    aria-label="radio-group"
-                    name="radio-group"
-                    // onChange={(e) => {
-                    //   setClassFields({
-                    //     ...classFields,
-                    //     selectedPathway: e.target.value,
-                    //   });
-                    // }}
-                    sx={{ marginBottom: "16px" }}
-                  >
-                    {ListOfSelectedPathways.map((item, index) => (
-                      <FormControlLabel
-                        key={index}
-                        value={item}
-                        control={<Radio />}
-                        label={item}
-                        labelPlacement="end"
-                      />
-                    ))}
-                  </RadioGroup>
-                </FormControl>
-              </>
-            )}
+
             <FormLabel component="legend">
               <Typography variant="body2" color="text.secondary">
                 Schedule on days
               </Typography>
             </FormLabel>
             <FormGroup aria-label="position" row>
-              {Object.keys(days).map((item) => (
+              {Object.keys(days).map((item, index) => (
                 <FormControlLabel
+                  key={index}
                   control={
                     <Checkbox
                       value={item}
@@ -312,11 +276,15 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                     });
                   }}
                   label={item}
-                  labelPlacement={item}
                 />
               ))}
             </FormGroup>
             <TextField
+              helperText={
+                classFields.on_days.length > 0 &&
+                !isValuePresent &&
+                "date is invalid for selected days please change the date or days"
+              }
               type="date"
               variant="outlined"
               inputProps={{
@@ -338,7 +306,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  defaultChecked
                   value={timeChecked}
                   checked={timeChecked}
                   onChange={handleTimeCheckedChange}
