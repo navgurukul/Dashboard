@@ -29,16 +29,7 @@ const getMuiTheme = () =>
           },
         },
       },
-      // MuiInputBase: {
-      //   styleOverrides: {
-      //     root: {
-      //       display: "block !important ",
-      //       backgroundColor: "white",
-      //       borderRadius: "8px",
-      //       padding: "8px",
-      //     },
-      //   },
-      // },
+
       MuiDataTableHeadCell: {
         styleOverrides: {
           root: {
@@ -56,20 +47,7 @@ const getMuiTheme = () =>
           },
         },
       },
-      // MuiDataTableSearchmain: {
-      //   styleOverrides: {
-      //     root: {
-      //       display: "block !important ", // Apply NatoSans font to the whole table
-      //     },
-      //   },
-      // },
-      // MuiTextField: {
-      //   styleOverrides: {
-      //     root: {
-      //       display: "block !important ", // Apply NatoSans font to the whole table
-      //     },
-      //   },
-      // },
+
       MuiTableCell: {
         styleOverrides: {
           root: {
@@ -119,7 +97,7 @@ const getMuiTheme = () =>
 const options = {
   filterType: "checkbox",
   search: false,
-  download: false,
+  download: true,
   print: false,
   rowsHover: true,
   searchTextVariant: "outlined",
@@ -168,8 +146,6 @@ const StudentList = ({ data }) => {
         filter: false,
         sort: false,
         customBodyRender: (value, tableMeta, updateValue) => {
-          // console.log(tableMeta);
-          // console.log(tableMeta.tableData[0].completed_percent);
           const progressValue = Math.round(
             tableMeta.tableData[0].completed_percent
           );
@@ -239,6 +215,11 @@ const StudentList = ({ data }) => {
             ),
             style: {
               height: "48px",
+            },
+            inputProps: {
+              style: {
+                fontSize: "14px",
+              },
             },
           }}
           sx={{ width: "360px" }}
