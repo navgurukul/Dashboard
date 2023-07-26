@@ -4,10 +4,12 @@ import MUIDataTable from "mui-datatables";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import EditStudentModal from "../EditStudentModal";
+import { useDeleteStudentMutation } from "../../../store";
+import showToast from "../../showToast";
 
 const getMuiTheme = () =>
   createTheme({
@@ -82,6 +84,14 @@ function GroupStudentsTable({ handleAddStudentsOpen, data, student }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const opena = Boolean(anchorEl);
 
+  const [deleteStudent, results] = useDeleteStudentMutation();
+
+  useEffect(() => {
+    if (results.isSuccess) {
+      showToast("success", results?.data.message);
+    }
+  }, [results.isSuccess]);
+
   const [openUpdateStudent, setOpenUpdateStudent] = useState(false);
   const handleOpenUpdateStudentToggle = () => {
     setOpenUpdateStudent(!openUpdateStudent);
@@ -131,8 +141,7 @@ function GroupStudentsTable({ handleAddStudentsOpen, data, student }) {
           color: "red",
         },
         customBodyRender: (_, tableMeta) => {
-          // const partnerId = data[tableMeta.rowIndex].id;
-          // const partneredit = data[tableMeta.rowIndex];
+          const studentId = data[tableMeta.rowIndex].id;
 
           return (
             <div style={btnsContainerStyles}>
@@ -156,6 +165,9 @@ function GroupStudentsTable({ handleAddStudentsOpen, data, student }) {
                   color: "#BDBDBD",
                   "&:hover": { color: "error.main" },
                 }}
+                onClick={() => {
+                  deleteStudent(studentId);
+                }}
               >
                 <DeleteIcon />
               </Button>
@@ -168,12 +180,6 @@ function GroupStudentsTable({ handleAddStudentsOpen, data, student }) {
 
   const [open, setOpen] = useState(false);
   const [updateData, setUpdateData] = useState(null);
-
-  // useEffect(() => {
-  //   if (results.isSuccess) {
-  //     showToast("success", results.data.status);
-  //   }
-  // }, [results.isSuccess]);
 
   // const handleDeleteClick = (partnerId) => {
   //   removePartner(partnerId);
