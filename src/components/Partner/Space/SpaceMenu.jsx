@@ -50,7 +50,7 @@ function SpaceMenu({ space, expand }) {
     }
     if (results.isSuccess && spaceId == space.id) {
       setTimeout(() => {
-        showToast("success", "Redirected to space");
+        showToast("success", "Redirected to partner");
         navigate(`/partner/${partnerId}`);
       }, 2000);
     }
