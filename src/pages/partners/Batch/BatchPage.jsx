@@ -7,11 +7,13 @@ import pythonlogo from "./assests/courseicon.png";
 import calenderIcon from "./assests/reshot-icon-calendar-FEQDJ2T9NL 1.png";
 import teacherImage from "./assests/reshot-icon-teacher-3ADUGQCW6P (1) 1.png";
 import { useState, useEffect } from "react";
+import BatchTime from "./BatchTime";
 import {
   useFetchSinglePartnerQuery,
   useFetchSingleGroupQuery,
   useFetchSingleSpaceQuery,
   useFetchBatchesQuery,
+  useFetchSingleBatchQuery,
 } from "../../../store";
 
 const ImageSize = {
@@ -22,13 +24,19 @@ const ImageSize = {
 const ImageSizeCal = {
   width: "25px",
   height: "25px",
+  marginRight: "8px",
 };
 
 const BatchPage = () => {
   const { partnerId, spaceId, groupId, batchId } = useParams();
-
   const { data, isLoading, error } = useFetchBatchesQuery(groupId);
 
+  const {
+    data: singleBatchData,
+    isLoading: batchIsLoading,
+    error: batchError,
+  } = useFetchSingleBatchQuery(batchId);
+ 
   const {
     data: partnerData,
     isLoading: partnerIsLoading,
@@ -47,6 +55,8 @@ const BatchPage = () => {
     error: groupError,
   } = useFetchSingleGroupQuery(groupId);
 
+  const teacherName = singleBatchData?.[0]?.name || "null";
+  const batchName = singleBatchData?.[0].title;
   const space = spaceData?.data?.[0];
   const partner = partnerData?.name;
   const groupg = groupData?.[0];
@@ -96,9 +106,11 @@ const BatchPage = () => {
           {space?.space_name} /
         </Typography>
         <Typography variant="body2" color="primary.main">
-           {groupg?.group_name} / 
+          {groupg?.group_name} /
         </Typography>
-        <Typography variant="body2">  batch_name</Typography>
+        <Typography variant="body2" pl={0.5}>
+          {batchName}
+        </Typography>
       </Box>
       <Box
         style={{
@@ -119,7 +131,7 @@ const BatchPage = () => {
             variant="subtitle2"
             style={{ fontSize: "18px", margin: "0px 10px", fontWeight: "bold" }}
           >
-            Python Batch 1
+            {batchName}
           </Typography>
           <Typography
             style={{
@@ -158,7 +170,7 @@ const BatchPage = () => {
                 fontWeight: "400",
               }}
             >
-              16 Oct 23 to 20 Nov 23
+              <BatchTime/>
             </Typography>
           </Box>
           <Box
@@ -176,7 +188,7 @@ const BatchPage = () => {
                 fontWeight: "400",
               }}
             >
-              Prajakta Kishori
+              {teacherName}
             </Typography>
           </Box>
         </Box>

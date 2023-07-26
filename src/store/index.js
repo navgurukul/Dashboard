@@ -98,7 +98,11 @@ export {
   useDeleteGroupMutation,
 } from "./apis/groupsApi";
 
-export { useFetchBatchsQuery } from "./apis/batchsApi";
+export {
+  useFetchBatchsQuery,
+  useFetchSingleBatchQuery,
+} from "./apis/batchsApi";
+
 export { useFetchAttendanceQuery } from "./apis/attandanceApi";
 export { useFetchStudentPerformanceQuery } from "./apis/studentPerformanceApi";
 
