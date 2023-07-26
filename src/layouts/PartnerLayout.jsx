@@ -21,6 +21,8 @@ function PartnerLayout() {
     handleCreateSpaceToggle,
     createBatchOpen,
     handleCreateBatchToggle,
+    createGroupOpen,
+    handleCreateGroupToggle,
   };
 
   return (
