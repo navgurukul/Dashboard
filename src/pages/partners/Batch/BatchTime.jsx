@@ -22,8 +22,8 @@ const BatchTime = () => {
     return `${day} ${getMonthName(dateString)} ${year}`;
   };
 
-  const startDateTime = data?.[0]?.start_time; // Use the start_time from the API data
-  const endDateTime = data?.[0]?.end_time; // Use the end_time from the API data
+  const startDateTime = data?.batch_start_date; // Use the start_time from the API data
+  const endDateTime = data?.batch_end_date; // Use the end_time from the API data
   const startFormattedDate = formatDate(startDateTime);
   const endFormattedDate = formatDate(endDateTime);
 
