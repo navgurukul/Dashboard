@@ -2,7 +2,15 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AddIcon from "@mui/icons-material/Add";
-import { Box } from "@mui/material";
+import {
+  Box,
+  Dialog,
+  DialogTitle,
+  Typography,
+  Stack,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import showToast from "../../showToast";
 import EditGroupModal from "./EditGroupModal";
@@ -26,8 +34,9 @@ function GroupMenu({ group, expand }) {
   const openPathwayList = Boolean(anchorCourse);
   const [pathways, setPathways] = useState([]);
   const { handleCreateBatchToggle } = useContext(SidebarContext);
-
+  const [showConsentModal, setShowConsentModal] = useState(false);
   const dispatch = useDispatch();
+
 
   useEffect(() => {
     showToast("success", results?.data?.message);
@@ -76,7 +85,26 @@ function GroupMenu({ group, expand }) {
   };
 
   const handleClickAdd = (event) => {
-    setAnchorCourse(event.currentTarget);
+    const currentTarget = event.currentTarget
+    axios({
+      method: "GET",
+      url: `https://merd-api.merakilearn.org/users/calendar/tokens`,
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
+        "version-code": 50,
+      },
+    }).then((res) => {
+      if (res.data.success) {
+        setAnchorCourse(currentTarget);
+        setShowConsentModal(false);
+        dispatch(changeId({ space_id: group.space_id, group_id: group.id }));
+        expand(true);
+      } else {
+        setShowConsentModal(true);
+      }
+    });
   };
 
   const handleCloseAdd = () => {
@@ -89,6 +117,20 @@ function GroupMenu({ group, expand }) {
     dispatch(changeSelectedCourse(option));
   };
 
+  const codeGenerate = async () => {
+    axios({
+      method: "GET",
+      url: `https://merd-api.merakilearn.org/users/calendar/generateAuthURL`,
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
+        "version-code": 50,
+      },
+    }).then((res) => {
+      window.location.href = res.data.url
+    });
+  };
   return (
     <Box sx={{ display: "flex", marginLeft: "auto" }}>
       {openUpdateGroup && (
@@ -120,10 +162,13 @@ function GroupMenu({ group, expand }) {
           <AddIcon
             onClick={(e) => {
               handleClickAdd(e);
-              dispatch(
-                changeId({ space_id: group.space_id, group_id: group.id })
-              );
-              expand(true);
+              // setAnchorCourse(e.currentTarget);
+
+              // dispatch(
+              // changeId({ space_id: group.space_id, group_id: group.id })
+              // );
+              // expand(true);
+                
             }}
             sx={{ color: "text.primary", fontSize: "16px" }}
           />
@@ -173,6 +218,46 @@ function GroupMenu({ group, expand }) {
         <MenuItem>Copy Link</MenuItem>
         <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
       </Menu>
+      {showConsentModal? <Dialog
+        open={true}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        PaperProps={{
+          style: {
+            minWidth: "45%",
+            borderRadius: 8,
+          },
+        }}
+      >
+        <DialogTitle>
+          <Typography variant="h6" align="center">
+            Meraki needs access to your calendar to create classes. <br />
+            Do you want to go ahead?
+          </Typography>
+        </DialogTitle>
+        <Stack alignItems="center">
+          <DialogActions>
+            <Box sx={{ display: "flex", mb: 2 }}>
+              <Button
+                onClick={codeGenerate}
+                color="error"
+                variant="contained"
+                sx={{ mr: "15px", width: "100px" }}
+              >
+                Yes
+              </Button>
+              <Button
+                onClick={()=>setShowConsentModal(false)}
+                color="grey"
+                variant="contained"
+                sx={{ width: "100px" }}
+              >
+                No
+              </Button>
+            </Box>
+          </DialogActions>
+        </Stack>
+      </Dialog>:<></>}
     </Box>
   );
 }
