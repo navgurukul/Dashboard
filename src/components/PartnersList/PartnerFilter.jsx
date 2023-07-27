@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   TextField,
   Box,
@@ -5,27 +7,20 @@ import {
   Typography,
   InputAdornment,
   useMediaQuery,
+  styled,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { SearchOutlined, Add } from "@mui/icons-material";
 import { changeFilterBy, changeSearchTerm } from "../../store";
-import { useState } from "react";
-import PartnerAddModal from "./PartnerAddModal";
-import { SearchOutlined } from "@mui/icons-material";
-import { Add } from "@mui/icons-material";
+import PartnerAddModal from "./PartnerAddModal"; 
+import { breakpoints } from "../../theme/constant";
 
 function PartnerFilter() {
   const [openModal, setOpenModal] = useState(false);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const AddPartnerButton = styled(Button)({
-    position: "absolute",
-    top: "1",
-    right: "0",
-    transform: "translate(-50%, -50%)",
-  });
+
   const dispatch = useDispatch();
-  const { searchTerm, filterBy } = useSelector((state) => {
-    return state.partnerFilter;
-  });
+
+  const { searchTerm, filterBy } = useSelector((state) => state.partnerFilter);
 
   const filterTerms = [
     "All Partners",
@@ -60,6 +55,7 @@ function PartnerFilter() {
       </Typography>
     </Button>
   ));
+
   return (
     <Box sx={{ mt: 8, mb: 2 }}>
       <Box display="flex" justifyContent={"space-between"} mb={3}>
@@ -82,20 +78,25 @@ function PartnerFilter() {
           }}
           sx={{ width: "360px" }}
         />
-         <AddPartnerButton
-          startIcon={<Add />}
-          onClick={handleModalToggle}
-          variant="contained"
-          sx={{}}
-        >
-          <Typography variant="subtitle2">Add Partner</Typography>
-        </AddPartnerButton>
-        {openModal && (
-          <PartnerAddModal onOpen={handleModalToggle} boolean={openModal} />
-        )}
+        <Box sx={{ position: "relative" }}>
+          <Button
+            startIcon={<Add />}
+            onClick={handleModalToggle}
+            variant="contained"
+            sx={{}}
+          >
+            <Typography variant="subtitle2">Add Partner</Typography>
+          </Button>
+          {openModal && (
+            <Box sx={{ position: "absolute", top: "100%", left: 0 }}>
+              <PartnerAddModal onOpen={handleModalToggle} boolean={openModal} />
+            </Box>
+          )}
+        </Box>
       </Box>
       {filterButtons}
     </Box>
   );
 }
+
 export default PartnerFilter;
