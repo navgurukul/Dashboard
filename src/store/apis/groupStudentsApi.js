@@ -43,6 +43,15 @@ const groupStudentsApi = createApi({
           };
         },
       }),
+      deleteStudent: builder.mutation({
+        invalidatesTags: ["GroupStudents"],
+        query: (studentId) => {
+          return {
+            url: `partner/${studentId}`,
+            method: "DELETE",
+          };
+        },
+      }),
       addBulkStudents: builder.mutation({
         invalidatesTags: ["GroupStudents"],
         query: (file) => {
@@ -63,4 +72,5 @@ export const {
   useFetchStudentsQuery,
   useUpdateStudentsMutation,
   useAddBulkStudentsMutation,
+  useDeleteStudentMutation,
 } = groupStudentsApi;

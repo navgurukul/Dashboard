@@ -3,6 +3,7 @@ import { Link } from "@mui/icons-material";
 import AddStudents from "../../../components/Partner/Group/AddStudents";
 import { useParams } from "react-router-dom";
 import {
+  clearSearchTerm,
   useFetchSingleGroupQuery,
   useFetchSingleSpaceQuery,
   useFetchStudentsQuery,
@@ -12,9 +13,16 @@ import AddStudentsModal from "../../../components/Partner/Group/AddStudentsModal
 import { useEffect, useState } from "react";
 import GroupStudentsTable from "../../../components/Partner/Group/GroupStudentsTable";
 import showToast from "../../../components/showToast";
+import { useSelector, useDispatch } from "react-redux";
 
 function GroupPage() {
   const { partnerId, spaceId, groupId } = useParams();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(clearSearchTerm());
+  }, [groupId]);
 
   const {
     data: spaceData,
@@ -23,29 +31,42 @@ function GroupPage() {
   } = useFetchSingleSpaceQuery(spaceId);
 
   const {
-    data: groupData,
-    isLoading: groupIsLoading,
-    error: groupError,
-  } = useFetchSingleGroupQuery(groupId);
-  const space = spaceData?.data?.[0];
-  const group = groupData?.[0];
-
-  const {
     data: studentsData,
     isLoading: isStudentsLoading,
     error: studentsError,
   } = useFetchStudentsQuery(groupId);
 
+  const {
+    data: groupData,
+    isLoading: groupIsLoading,
+    error: groupError,
+    refetch: refetchGroup,
+  } = useFetchSingleGroupQuery(groupId);
+  const space = spaceData?.data?.[0];
+  const group = groupData?.[0];
+
   const [getLinks, results] = useGetLinksMutation();
+
   useEffect(() => {
+    refetchGroup({ forceRefetch: true });
     if (group && !group.web_link) {
       getLinks({ groupId, spaceId, partnerId });
     }
-  }, [groupId]);
+  }, [groupId, group]);
   const linksData = results.data;
 
   const [addStudentsOpen, setAddStudentsOpen] = useState(false);
   const handleAddStudentsOpen = () => setAddStudentsOpen(!addStudentsOpen);
+
+  const { filteredData } = useSelector(({ partnerFilter: { searchTerm } }) => {
+    let lowerCased = searchTerm?.toLowerCase();
+    const filteredData = studentsData?.filter((student) => {
+      return student.name.toLowerCase().includes(lowerCased);
+    });
+    return {
+      filteredData,
+    };
+  });
 
   let content;
   if (isStudentsLoading) {
@@ -56,7 +77,7 @@ function GroupPage() {
     content = (
       <GroupStudentsTable
         handleAddStudentsOpen={handleAddStudentsOpen}
-        data={studentsData}
+        data={filteredData}
       />
     );
   }
