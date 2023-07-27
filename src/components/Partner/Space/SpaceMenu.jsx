@@ -8,10 +8,12 @@ import { useRemoveSpaceMutation } from "../../../store";
 import UpdateSpaceModal from "./UpdateSpaceModal";
 import showToast from "../../showToast";
 import CreateGroupModal from "../Group/CreateGroupModal";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ITEM_HEIGHT = 48;
 
 function SpaceMenu({ space, expand }) {
+  const { partnerId, spaceId } = useParams();
   const [removeSpace, results] = useRemoveSpaceMutation();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -41,9 +43,16 @@ function SpaceMenu({ space, expand }) {
     setAnchorEl(null);
   };
 
+  const navigate = useNavigate();
   useEffect(() => {
     if (results.isSuccess) {
-      showToast("success", results.data.status);
+      showToast("success", results.data.status, 1000);
+    }
+    if (results.isSuccess && spaceId == space.id) {
+      setTimeout(() => {
+        showToast("success", "Redirected to partner");
+        navigate(`/partner/${partnerId}`);
+      }, 2000);
     }
   }, [results.isSuccess]);
 

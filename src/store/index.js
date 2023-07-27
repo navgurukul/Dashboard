@@ -111,6 +111,7 @@ export {
   useAddSingleStudentsMutation,
   useUpdateStudentsMutation,
   useAddBulkStudentsMutation,
+  useDeleteStudentMutation,
 } from "./apis/groupStudentsApi";
 
 export {
