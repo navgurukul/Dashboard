@@ -22,6 +22,7 @@ import StudentInfo from "./components/StudentInfo/StudentInfo";
 import { ThemeProvider } from "@mui/material";
 import StudentFilter from "./components/StudentList/StudentFilter";
 import AttendanceFilter from "./components/AttendanceList/AttendanceFilter";
+import Profile from "./components/Header/Profile";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,9 @@ const router = createBrowserRouter([
             element: <StudentInfo />,
           },
         ],
+      }, {
+        path: "profile",
+        element: <Profile />,
       },
     ],
   },

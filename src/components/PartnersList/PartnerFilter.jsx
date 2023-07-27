@@ -18,7 +18,12 @@ import { Add } from "@mui/icons-material";
 function PartnerFilter() {
   const [openModal, setOpenModal] = useState(false);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
+  const AddPartnerButton = styled(Button)({
+    position: "absolute",
+    top: "1",
+    right: "0",
+    transform: "translate(-50%, -50%)",
+  });
   const dispatch = useDispatch();
   const { searchTerm, filterBy } = useSelector((state) => {
     return state.partnerFilter;
@@ -81,14 +86,14 @@ function PartnerFilter() {
           }}
           sx={{ width: "360px" }}
         />
-        <Button
+         <AddPartnerButton
           startIcon={<Add />}
           onClick={handleModalToggle}
           variant="contained"
           sx={{}}
         >
           <Typography variant="subtitle2">Add Partner</Typography>
-        </Button>
+        </AddPartnerButton>
         {openModal && (
           <PartnerAddModal onOpen={handleModalToggle} boolean={openModal} />
         )}

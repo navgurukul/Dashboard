@@ -23,13 +23,12 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 function Sidebar(value) {
-  const [showBox, setShowBox] = useState(true);
+  const [showBox, setShowBox] = useState(false);
 
   const InfoIcon = () => {
     setShowBox(!showBox);
   };
 
-  
   const { partnerId } = useParams();
   const {
     data: partner,
@@ -37,6 +36,14 @@ function Sidebar(value) {
     error,
   } = useFetchSinglePartnerQuery(partnerId);
   const { handleCreateSpaceToggle, handleCreateBatchToggle } = value.value;
+
+  const handleMouseEnter = () => {
+    setShowBox(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowBox(false);
+  };
 
   return (
     <>
@@ -102,29 +109,40 @@ function Sidebar(value) {
                     fontSize: "14px",
                     fontWeight: "600",
                     marginLeft: "16px",
+                    cursor: "pointer",
                   }}
                 >
                   Partner Spaces
                 </Typography>
-               
-                {showBox ?  <img
-                  src={infoIcon}
-                  alt={infoIcon}
+                <Box
                   style={{
                     marginLeft: "8px",
                     width: "24px",
-                    transition: "opacity 0.3s",
+                    height: "24px",
+                    cursor: "pointer",
                   }}
-                  onClick={InfoIcon}
-                /> : (
-                  <Box
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <img
+                    src={infoIcon}
+                    alt={infoIcon}
                     style={{
+                      width: "100%",
+                      height: "100%",
+                    }}
+                    onClick={InfoIcon}
+                  />
+                  {showBox && (
+                    <Box
+                     style={{
                       // border: "1px solid red",
-                      marginLeft: "162px",
+                      marginLeft: "80px",
                       borderRadius: "8px",
                       position: "fixed",
                       padding:"32px",
                       left:"-900",
+                      top:"100px",
                       zIndex: "1000",
                       background:"#FFF",
                       width:"540px",
@@ -132,20 +150,24 @@ function Sidebar(value) {
                       boxShadow:
                         "0px 8px 10px 0px rgba(0, 0, 0, 0.08), 0px 6px 30px 0px rgba(0, 0, 0, 0.04), 0px 16px 24px 0px rgba(0, 0, 0, 0.06)",
                     }}
-                    onClick={InfoIcon}
-                  >
-                    <Typography variant="body2" style={{fontSize: "18px", fontWeight: "600", marginBottom:"16px"}} >
-                      What are partner spaces?
-                    </Typography> 
-                    <Typography variant="body2" style={{fontSize: "14px", fontWeight: "400"}}  >
-                      Partner spaces are the individual branches of the partner
-                      which may be a school, NGO or any other organizational
-                      branch in the same location or different locations. For
-                      best practices, please give them an appropriate name like
-                      ‘Partnername-Location” or similar.
-                    </Typography>
-                  </Box>
-                )}
+                    >
+                      <Typography
+                        variant="body2"
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: "400",
+                          
+                        }}
+                      >
+                        Partner spaces are the individual branches of the partner
+                        which may be a school, NGO or any other organizational
+                        branch in the same location or different locations. For
+                        best practices, please give them an appropriate name like
+                        ‘PartnerName-Location” or similar.
+                      </Typography>
+                    </Box>
+                  )}
+                </Box>
               </Box>
               <Button
                 variant="contained"
