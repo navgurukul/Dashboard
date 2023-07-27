@@ -4,9 +4,7 @@ import BatchItem from "./BatchItem";
 import { useFetchBatchesQuery } from "../../../store";
 
 function BatchList({ group }) {
-  
   const { data, isLoading, error } = useFetchBatchesQuery(group.id);
-
 // console.log(data);
   let content;
   if (isLoading) {
