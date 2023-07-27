@@ -27,6 +27,7 @@ function GroupMenu({ group, expand }) {
   const open = Boolean(anchorEl);
   const openPathwayList = Boolean(anchorCourse);
   const [pathways, setPathways] = useState([]);
+
   const { handleCreateBatchToggle } = useContext(SidebarContext);
 
   const dispatch = useDispatch();
