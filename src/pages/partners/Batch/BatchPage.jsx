@@ -110,13 +110,12 @@ const BatchPage = () => {
         </Typography>
         <Typography
           variant="body2"
-          color="primary.main"
           onClick={handleGroupNavigation}
           style={{ cursor: "pointer" }}
         >
           {groupg?.group_name} /
         </Typography>
-        <Typography variant="body2" pl={0.5} style={{ cursor: "pointer" }}>
+        <Typography variant="body2" pl={0.5} color="primary.main">
           {batchName}
         </Typography>
       </Box>
