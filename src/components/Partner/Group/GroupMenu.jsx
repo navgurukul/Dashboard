@@ -179,7 +179,7 @@ function GroupMenu({ group, expand }) {
         }}
       >
         <MenuItem onClick={handleEditClick}>Edit Details</MenuItem>
-        <MenuItem>Copy Link</MenuItem>
+        {/* <MenuItem>Copy Link</MenuItem> */}
         <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
       </Menu>
     </Box>
