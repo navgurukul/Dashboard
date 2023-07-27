@@ -20,6 +20,7 @@ import {
 const ImageSize = {
   width: "32px",
   height: "32px",
+  marginRight: "8px",
 };
 
 const ImageSizeCal = {
@@ -58,8 +59,10 @@ const BatchPage = () => {
     error: groupError,
   } = useFetchSingleGroupQuery(groupId);
 
-  const teacherName = singleBatchData?.[0]?.name || "null";
-  const batchName = singleBatchData?.[0].title;
+  const teacherName = singleBatchData?.facilitator_name || "null";
+  const batchName = singleBatchData?.class_title;
+  const batchLogo = singleBatchData?.pathway_logo;
+  const batchStatus = singleBatchData?.status;
   const space = spaceData?.data?.[0];
   const partner = partnerData?.name;
   const groupg = groupData?.[0];
@@ -133,7 +136,7 @@ const BatchPage = () => {
             marginTop: "10px",
           }}
         >
-          <img src={pythonlogo} alt="pythonImage" style={ImageSize} />
+          <img src={batchLogo} alt="pythonImage" style={ImageSize} />
           <Typography
             variant="subtitle2"
             style={{ fontSize: "18px", margin: "0px 10px", fontWeight: "bold" }}
@@ -150,7 +153,7 @@ const BatchPage = () => {
               fontWeight: "400",
             }}
           >
-            Ongoing
+            {batchStatus}
           </Typography>
         </Box>
         <Box

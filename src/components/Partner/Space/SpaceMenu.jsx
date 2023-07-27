@@ -111,7 +111,7 @@ function SpaceMenu({ space, expand }) {
         }}
       >
         <MenuItem onClick={handleEditClick}>Edit Details</MenuItem>
-        <MenuItem onClick={handleClose}>Copy Link</MenuItem>
+        {/* <MenuItem onClick={handleClose}>Copy Link</MenuItem> */}
         <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
       </Menu>
     </div>
