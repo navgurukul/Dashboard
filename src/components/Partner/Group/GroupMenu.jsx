@@ -14,10 +14,12 @@ import {
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import SidebarContext from "../Sidebar/sidebarContext";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ITEM_HEIGHT = 48;
 
 function GroupMenu({ group, expand }) {
+  const { partnerId, groupId, spaceId } = useParams();
   const [deleteGroup, results] = useDeleteGroupMutation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorCourse, setAnchorCourse] = useState(null);
@@ -25,12 +27,20 @@ function GroupMenu({ group, expand }) {
   const open = Boolean(anchorEl);
   const openPathwayList = Boolean(anchorCourse);
   const [pathways, setPathways] = useState([]);
+
   const { handleCreateBatchToggle } = useContext(SidebarContext);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    showToast("success", results?.data?.message);
+    showToast("success", results?.data?.message, 1000);
+    if (results.isSuccess && groupId == group.id) {
+      setTimeout(() => {
+        showToast("success", "Redirected to space");
+        navigate(`space/${spaceId}`);
+      }, 2000);
+    }
   }, [results.isSuccess]);
 
   useEffect(() => {

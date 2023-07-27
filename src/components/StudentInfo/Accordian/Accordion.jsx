@@ -18,15 +18,16 @@ const spanQuestionElement = {
 };
 
 const spanColors = {
-  totalQuestions: "#2E2E2E", 
+  totalQuestions: "#2E2E2E",
   attemptedQuestions: "#2196F3",
   correctAnswers: "#48A145",
   wrongAnswers: "red",
 };
 
 const SimpleAccordion = ({ courseInfo }) => {
-  const { name, mcqs } = courseInfo;
-  const isAllQuestionsAttempted = mcqs.attemptedQuestions === mcqs.totalQuestions;
+  const { id, name, mcqs, courseProgressBar } = courseInfo;
+  const isAllQuestionsAttempted =
+    mcqs?.attemptedQuestions === mcqs?.totalQuestions;
 
   return (
     <div
@@ -37,13 +38,11 @@ const SimpleAccordion = ({ courseInfo }) => {
           "0px 1px 2px rgba(0, 0, 0, 0.06), 0px 2px 1px rgba(0, 0, 0, 0.04), 0px 1px 5px rgba(0, 0, 0, 0.08)",
       }}
     >
-      <Accordion>
-
+      <Accordion key={id}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
-          
         >
           <Typography>{name}</Typography>
           <div
@@ -57,16 +56,19 @@ const SimpleAccordion = ({ courseInfo }) => {
             <CircularProgress
               variant="determinate"
               size={25}
-              value={(mcqs.correctAnswers / mcqs.totalQuestions) * 100}
+              value={courseProgressBar}
               style={{ color: "green", marginRight: "8px" }}
             />
             <span style={{ fontSize: "14px" }}>
-              {`${((mcqs.correctAnswers / mcqs.totalQuestions) * 100).toFixed(2)}%`}
+              {courseProgressBar?.toFixed(2)}
             </span>
           </div>
         </AccordionSummary>
         <AccordionDetails>
-          <Box style={{ display: "flex", justifyContent: "space-between" }}>
+          <Box
+            style={{ display: "flex", justifyContent: "space-between" }}
+            key="box1"
+          >
             <Box>
               <Typography
                 style={{
@@ -82,6 +84,7 @@ const SimpleAccordion = ({ courseInfo }) => {
             style={{
               margin: "20px 0px",
             }}
+            key="box2"
           >
             <Typography
               style={{
@@ -97,22 +100,25 @@ const SimpleAccordion = ({ courseInfo }) => {
                 alignItems: "center",
               }}
             >
-             
               <div style={{ display: "flex", alignItems: "center" }}>
-            {isAllQuestionsAttempted ? (
-              <img src={greenTick} alt="greenTick" />
-            ) : (
-              <img style={{width: "12px", height: "12px"}} src={redCross} alt="redCross" />
-            )}
-            <Typography style={{ fontSize: "14px", marginLeft: "5px" }}>
-              {isAllQuestionsAttempted
-                ? `Attended all ${mcqs.totalQuestions} classes in the course`
-                : `Attended all ${mcqs.totalQuestions} classes in the course`}
-            </Typography>
-          </div>
+                {isAllQuestionsAttempted ? (
+                  <img src={greenTick} alt="greenTick" />
+                ) : (
+                  <img
+                    style={{ width: "12px", height: "12px" }}
+                    src={redCross}
+                    alt="redCross"
+                  />
+                )}
+                <Typography style={{ fontSize: "14px", marginLeft: "5px" }}>
+                  {isAllQuestionsAttempted
+                    ? `Attended all ${mcqs?.totalQuestions} classes in the course`
+                    : `Attended all ${mcqs?.totalQuestions} classes in the course`}
+                </Typography>
+              </div>
             </Box>
           </Box>
-          <Box>
+          <Box key="box3">
             <Box>
               <Typography
                 style={{
@@ -135,7 +141,7 @@ const SimpleAccordion = ({ courseInfo }) => {
                     backgroundColor: spanColors.totalQuestions,
                   }}
                 ></span>
-                {mcqs.totalQuestions}
+                {mcqs?.totalQuestions}
               </Box>
               <Box style={{ marginRight: "20px" }}>
                 <Typography style={{ fontSize: "14px" }}>
@@ -147,7 +153,7 @@ const SimpleAccordion = ({ courseInfo }) => {
                     backgroundColor: spanColors.attemptedQuestions,
                   }}
                 ></span>
-                {mcqs.attemptedQuestions}
+                {mcqs?.attemptedQuestions}
               </Box>
               <Box style={{ marginRight: "20px" }}>
                 <Typography style={{ fontSize: "14px" }}>
@@ -159,7 +165,7 @@ const SimpleAccordion = ({ courseInfo }) => {
                     backgroundColor: spanColors.correctAnswers,
                   }}
                 ></span>
-                {mcqs.correctAnswers}
+                {mcqs?.correctAnswers}
               </Box>
               <Box style={{ marginRight: "20px" }}>
                 <Typography style={{ fontSize: "14px" }}>
@@ -171,7 +177,7 @@ const SimpleAccordion = ({ courseInfo }) => {
                     backgroundColor: spanColors.wrongAnswers,
                   }}
                 ></span>
-                {mcqs.wrongAnswers}
+                {mcqs?.wrongAnswers}
               </Box>
             </Box>
           </Box>
