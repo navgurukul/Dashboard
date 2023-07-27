@@ -20,6 +20,7 @@ import {
 const ImageSize = {
   width: "32px",
   height: "32px",
+  marginRight: "8px",
 };
 
 const ImageSizeCal = {
