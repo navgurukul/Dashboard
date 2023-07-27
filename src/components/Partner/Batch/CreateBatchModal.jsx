@@ -54,6 +54,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     space_id: spaceId,
     partner_id: [partnerId],
     volunteer_id: 0,
+    facilitator_id:0,
     pathway_id: course.pathway_id,
     category_id: 3,
     description: "description",
@@ -181,12 +182,14 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     id: item.volunteer_id,
     pathway_id: item.pathway_id,
     optedPathways: item.pathways,
+    facilitator_id : item.id,
   }));
 
   const handleTimeCheckedChange = (event) => {
     setTimeChecked(!timeChecked);
   };
 
+  console.log(classFields);
   // this is used to update the date of the class
   const changeHandler = (e) => {
     setClassFields({ ...classFields, [e.target.name]: e.target.value });
@@ -254,14 +257,27 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     startDate.setMinutes(startend.startTime.split(":")[1]);
     endDate.setHours(startend.endTime.split(":")[0]);
     endDate.setMinutes(startend.endTime.split(":")[1]);
+
+    // -------------------
+  const originalStartString =(moment(startDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"))
+  const tStartIndex = originalStartString.toUpperCase().indexOf('T');
+  const modifiedStartDateString = tStartIndex !== -1 ? `${classFields.date}T${originalStartString.substring(tStartIndex + 1)}` : originalStartString;
+
+  const originalEndString =(moment(endDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"))
+  const tEndIndex = originalEndString.toUpperCase().indexOf('T');
+  const modifiedEndDateString = tEndIndex !== -1 ? `${classFields.date}T${originalEndString.substring(tEndIndex + 1)}` : originalEndString;
+
+    // ----------------
+      
+
     payload = {
       ...classFields,
-      start_time: moment(startDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-      end_time: moment(endDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+      start_time: modifiedStartDateString,
+      end_time: modifiedEndDateString,
     };
 
     delete payload.date;
-    if (timeChecked) delete payload.schedule;
+    timeChecked && delete payload.schedule;
 
     isValuePresent ? addBatch(payload) : "batch not created";
   };
@@ -316,6 +332,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               value={{
                 label: classFields.facilitator_name || "",
                 id: classFields.volunteer_id || "",
+
               }}
               options={volunteer || []}
               isOptionEqualToValue={(option, value) => {
@@ -323,8 +340,10 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               }}
               onChange={(e, newVal) => {
                 setClassFields((prev) => {
+                  console.log(newVal);
                   return {
                     ...prev,
+                    facilitator_id:newVal?.facilitator_id,
                     volunteer_id: newVal?.id,
                     facilitator_name: newVal?.label,
                   };
@@ -440,13 +459,13 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                           key={index}
                           label={label}
                           value={sameTime.prop ? new Date(sameTime.prop) : null}
+                          minTime={new Date(new Date().setSeconds(0))}
                           onChange={(time) => {
                             setSameTime({
                               ...sameTime,
                               [prop]: time.toLocaleTimeString(),
                             });
                           }}
-                          minTime={new Date(new Date().setSeconds(0))}
                           // minTime={
                           //   classFields.date === moment().format("YYYY-MM-DD")
                           //     ? new Date(new Date().setSeconds(0))
