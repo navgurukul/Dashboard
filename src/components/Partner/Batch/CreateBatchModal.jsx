@@ -37,6 +37,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   } = useSelector((state) => state.selectedCourse);
 
   const { course } = useSelector((state) => state.selectedCourse);
+
   const [addBatch, results] = useAddBatchMutation();
 
   useEffect(() => {
@@ -59,7 +60,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     type: "batch",
     frequency: "DAILY",
     lang: "en",
-    max_enrolment: "",
+    max_enrolment: "10",
     title: "",
     facilitator_name: "",
     date: moment.utc(new Date()).format("YYYY-MM-DD"),
@@ -71,6 +72,96 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   const [timeChecked, setTimeChecked] = useState(true); //it is used to get that voluntter/tutor is taking defferend time or same time for the class.
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [showError, setShowError] = useState({
+    title: false,
+    partner: false,
+    days: false,
+    date: false,
+    exercise: false,
+  });
+  const [helperText, setHelperText] = useState({
+    title: "",
+    partner: "",
+    days: "",
+    date: "",
+  });
+  const [onInput, setOnInput] = useState({
+    title: false,
+    partner: false,
+    days: false,
+    date: false,
+  });
+
+  //For title error field (batch and doubt class)
+  useEffect(() => {
+    if (onInput.title === true && classFields.title === "") {
+      setShowError((prev) => {
+        return { ...prev, title: true };
+      });
+      setHelperText((prev) => {
+        if (classFields.type === "batch") {
+          return { ...prev, title: "Please enter a batch name" };
+        } else {
+          return { ...prev, title: "This batch name is already taken" };
+        }
+      });
+    } else {
+      setShowError((prev) => {
+        return { ...prev, title: false };
+      });
+      setHelperText((prev) => {
+        return { ...prev, title: "" };
+      });
+    }
+  }, [classFields.title]);
+
+  //For partner error field
+
+  useEffect(() => {
+    if (
+      onInput?.partner === true &&
+      classFields?.facilitator_name === undefined
+    ) {
+      setShowError((prev) => {
+        return { ...prev, partner: true };
+      });
+      setHelperText((prev) => {
+        return { ...prev, partner: "Please choose a tutor for the batch" };
+      });
+    } else {
+      setShowError((prev) => {
+        return { ...prev, partner: false };
+      });
+      setHelperText((prev) => {
+        return { ...prev, partner: "" };
+      });
+    }
+  }, [classFields.facilitator_name]);
+
+  //For disabled button
+  useEffect(() => {
+    if (
+      classFields?.title?.length > 0 &&
+      classFields?.facilitator_name?.length > 0 &&
+      classFields?.on_days.length > 0 &&
+      classFields?.date &&
+      (Object.keys(sameTime).length > 1 ||
+        Object.keys(classFields.schedule).length > 1)
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [
+    classFields?.title,
+    classFields?.facilitator_name,
+    classFields?.on_days,
+    classFields.date,
+    sameTime,
+    classFields.schedule,
+  ]);
+
   const modifiedString = classFields.date.replace(/-/g, "/");
   const d = new Date(modifiedString);
   const firstTwoCharacters = String(d).slice(0, 2);
@@ -78,7 +169,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   const isValuePresent = classFields.on_days.includes(
     firstTwoCharacters.toUpperCase()
   );
-  console.log(isValuePresent);
 
   useEffect(() => {
     // console.log(classFields);
@@ -92,11 +182,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     pathway_id: item.pathway_id,
     optedPathways: item.pathways,
   }));
-
-  const [onInput, setOnInput] = useState({
-    title: false,
-    facilitator_name: false,
-  });
 
   const handleTimeCheckedChange = (event) => {
     setTimeChecked(!timeChecked);
@@ -178,7 +263,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     delete payload.date;
     if (timeChecked) delete payload.schedule;
 
-    addBatch(payload);
+    isValuePresent ? addBatch(payload) : "batch not created";
   };
 
   return (
@@ -216,6 +301,8 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               }}
               name="title"
               label="Batch Name"
+              error={showError.title}
+              helperText={helperText.title}
             />
 
             {course.label == "Python" && (
@@ -250,8 +337,42 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                   id="outlined-error-helper-text"
                   variant="outlined"
                   label="For Tutor"
+                  onClick={() => {
+                    setOnInput((prev) => {
+                      return { ...prev, partner: true };
+                    });
+                  }}
+                  error={showError.partner}
+                  helperText={helperText.partner}
                 />
               )}
+            />
+
+            <TextField
+              helperText={
+                !classFields.date
+                  ? "Please choose a start date "
+                  : classFields.on_days.length > 0 &&
+                    !isValuePresent &&
+                    "Please choose the valid date for the schaduled days"
+                // "Please choose valid date for the selected days. please change the date or days"
+              }
+              error={
+                !classFields.date ||
+                (classFields.on_days.length > 0 && !isValuePresent)
+              }
+              type="date"
+              variant="outlined"
+              inputProps={{
+                min: moment().format("YYYY-MM-DD"),
+              }}
+              value={classFields.date}
+              name="date"
+              // label="Start Date"
+              fullWidth
+              onChange={(e) => {
+                changeHandler(e);
+              }}
             />
 
             <FormLabel component="legend">
@@ -279,25 +400,11 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                 />
               ))}
             </FormGroup>
-            <TextField
-              helperText={
-                classFields.on_days.length > 0 &&
-                !isValuePresent &&
-                "date is invalid for selected days please change the date or days"
-              }
-              type="date"
-              variant="outlined"
-              inputProps={{
-                min: moment().format("YYYY-MM-DD"),
-              }}
-              value={classFields.date}
-              name="date"
-              label="Start Date"
-              fullWidth
-              onChange={(e) => {
-                changeHandler(e);
-              }}
-            />
+            {classFields.on_days?.length === 0 && onInput.days ? (
+              <FormHelperText sx={{ color: "red" }} id="my-helper-text">
+                Please select atleast one day
+              </FormHelperText>
+            ) : null}
 
             <Typography variant="body2" color="text.secondary">
               Class Timings
@@ -339,11 +446,12 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                               [prop]: time.toLocaleTimeString(),
                             });
                           }}
-                          minTime={
-                            classFields.date === moment().format("YYYY-MM-DD")
-                              ? new Date(new Date().setSeconds(0))
-                              : null
-                          }
+                          minTime={new Date(new Date().setSeconds(0))}
+                          // minTime={
+                          //   classFields.date === moment().format("YYYY-MM-DD")
+                          //     ? new Date(new Date().setSeconds(0))
+                          //     : null
+                          // }
                         />
                       </Stack>
                     </LocalizationProvider>
@@ -430,6 +538,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               Cap enrollments at
             </Typography>
             <RadioGroup
+              value={classFields.max_enrolment}
               onChange={(e) => {
                 setClassFields({
                   ...classFields,
@@ -449,7 +558,11 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               <FormControlLabel value="30" control={<Radio />} label="30" />
             </RadioGroup>
             <Button
-              disabled={results.isLoading}
+              disabled={
+                results.isLoading ||
+                buttonDisabled ||
+                (classFields.on_days.length > 0 && !isValuePresent)
+              }
               onClick={handleSubmit}
               variant="contained"
             >
