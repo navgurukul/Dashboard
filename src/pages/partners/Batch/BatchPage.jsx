@@ -232,7 +232,7 @@ const BatchPage = () => {
           to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/${batchId}/attendancelist`}
           style={{ textDecoration: "none" }}
         >
-          <Typography
+          {/* <Typography
             style={{
               borderBottom:
                 activeElement === "attendance" ? "2px solid green" : "none",
@@ -245,7 +245,7 @@ const BatchPage = () => {
             onClick={() => handleClick("attendance")}
           >
             Class Attendance
-          </Typography>
+          </Typography> */}
         </Link>
       </Box>
       <hr style={{ borderTop: "1px solid #BDBDBD", marginBottom: "10px" }} />
