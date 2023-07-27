@@ -36,10 +36,10 @@ export default function MultipleSelect() {
             Class-1 Introduction to Python
           </MenuItem>
           <MenuItem value={2} style={{ fontSize: "18px" }}>
-            Class-2 Introduction to Python
+            Class-2 Introduction to JS
           </MenuItem>
           <MenuItem value={3} style={{ fontSize: "18px" }}>
-            Class-3 Introduction to Python
+            Class-3 English
           </MenuItem>
         </Select>
       </FormControl>
