@@ -14,6 +14,7 @@ import {
   changeFilterBy_attendance,
   changeSearchTerm_attendance,
 } from "../../store";
+import BatchTime from "../../pages/partners/Batch/BatchTime";
 
 const getMuiTheme = () =>
   createTheme({
@@ -206,14 +207,14 @@ const AttendanceList = ({ data }) => {
             display: "flex",
           }}
         >
-          <img src={calenderIcon} alt="" style={{ height: "22px" }} />
+          <img src={calenderIcon} alt="" style={{ height: "24px", marginRight:"8px" }} />
           <Typography
             style={{
               fontSize: "14px",
               fontWeight: "400",
             }}
           >
-            16 Oct 23
+            Completed on 10 Dec 23
           </Typography>
         </Box>
       </Box>

@@ -8,6 +8,7 @@ import calenderIcon from "./assests/reshot-icon-calendar-FEQDJ2T9NL 1.png";
 import teacherImage from "./assests/reshot-icon-teacher-3ADUGQCW6P (1) 1.png";
 import { useState, useEffect } from "react";
 import BatchTime from "./BatchTime";
+import { useNavigate } from "react-router-dom";
 import {
   useFetchSinglePartnerQuery,
   useFetchSingleGroupQuery,
@@ -37,8 +38,8 @@ const BatchPage = () => {
     error: batchError,
   } = useFetchSingleBatchQuery(batchId);
 
-  console.log(singleBatchData)
- 
+  console.log(singleBatchData);
+
   const {
     data: partnerData,
     isLoading: partnerIsLoading,
@@ -63,25 +64,20 @@ const BatchPage = () => {
   const partner = partnerData?.name;
   const groupg = groupData?.[0];
 
-  // let batchName;
-  // let content;
-  // if (isLoading) {
-  //   content = null
-  // } else {
-  //   let iteration = data.map((batch)=>{
-  //     if(batch.recurring_id == batchId){
-  //       batchName = batch.title
-  //     }
-  //   })
-  //    const spaces = spaceData?.data?.[0];
-  //   content = (
-  //     <Typography pl={0.5} variant="body2">
-  //         {batchName}
-  //     </Typography>
+  const Navigate = useNavigate();
+  const handleSpaceNavigation = () => {
+    Navigate(`/partner/${partnerId}/space/${spaceId}`);
+  };
+
+  const handleGroupNavigation = () => {
+    Navigate(`/partner/${partnerId}/space/${spaceId}/group/${groupId}`);
+  };
+
+  // const handleBatchNavigation = () => {
+  //   Navigate(
+  //     `/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/${batchId}`
   //   );
-  // }
-  // console.log(partnerData);
-  // console.log(groupData);
+  // };
 
   const [activeElement, setActiveElement] = useState("students");
 
@@ -104,13 +100,23 @@ const BatchPage = () => {
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", py: 2 }}>
-        <Typography pr={0.5} variant="body2">
+        <Typography
+          pr={0.5}
+          variant="body2"
+          onClick={handleSpaceNavigation}
+          style={{ cursor: "pointer" }}
+        >
           {space?.space_name} /
         </Typography>
-        <Typography variant="body2" color="primary.main">
+        <Typography
+          variant="body2"
+          color="primary.main"
+          onClick={handleGroupNavigation}
+          style={{ cursor: "pointer" }}
+        >
           {groupg?.group_name} /
         </Typography>
-        <Typography variant="body2" pl={0.5}>
+        <Typography variant="body2" pl={0.5} style={{ cursor: "pointer" }}>
           {batchName}
         </Typography>
       </Box>
@@ -172,7 +178,7 @@ const BatchPage = () => {
                 fontWeight: "400",
               }}
             >
-              <BatchTime/>
+              <BatchTime />
             </Typography>
           </Box>
           <Box
