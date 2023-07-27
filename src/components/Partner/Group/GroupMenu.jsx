@@ -154,15 +154,23 @@ function GroupMenu({ group, expand }) {
           },
         }}
       >
-        {pathways?.map((course, index) => (
-          <MenuItem
-            key={index}
-            selected={index === selectedIndex}
-            onClick={(event) => handleMenuItemClick(event, course)}
-          >
-            {course?.label}
-          </MenuItem>
-        ))}
+        {pathways?.map((course, index) => {
+          if (
+            course.label === "Python" ||
+            course.label === "Spoken English" ||
+            course.label === "Amazon Coding Bootcamp"
+          ) {
+            return (
+              <MenuItem
+                key={index}
+                selected={index === selectedIndex}
+                onClick={(event) => handleMenuItemClick(event, course)}
+              >
+                {course?.label}
+              </MenuItem>
+            );
+          }
+        })}
       </Menu>
       <Menu
         id="long-menu"
