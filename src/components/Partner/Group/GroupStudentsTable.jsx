@@ -148,7 +148,7 @@ function GroupStudentsTable({ handleAddStudentsOpen, data, student }) {
                     fontSize: "14px !important",
                     padding: "3px 8px",
                     marginRight: "10px",
-                    lineHeight: "33px",
+                    lineHeight: "170%",
                     backgroundColor: "#E0E0E0",
                     borderRadius: "16px",
                   }}
