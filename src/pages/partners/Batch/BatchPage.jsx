@@ -99,7 +99,6 @@ const BatchPage = () => {
         padding: "0px 20px",
         overflowY: "scroll",
         height: "620px",
-        // border:"3px solid green",
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", py: 2 }}>
@@ -157,8 +156,7 @@ const BatchPage = () => {
           </Typography>
         </Box>
         <Box
-          style={{
-            // border: "1px solid green",
+          style={{ 
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
