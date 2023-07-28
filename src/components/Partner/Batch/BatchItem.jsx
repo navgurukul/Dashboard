@@ -35,7 +35,7 @@ function BatchItem({ batch, spaceId }) {
             {batch.title}
           </Typography>
         </NavLink>
-        <BatchMenu />
+        {/* <BatchMenu /> */}
       </ListItemButton>
     </>
   );

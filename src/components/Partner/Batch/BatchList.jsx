@@ -1,10 +1,69 @@
-import { List, ListItemButton, Typography } from "@mui/material";
+import {
+  List,
+  ListItemButton,
+  Typography,
+  Menu,
+  MenuItem,
+  Box,
+} from "@mui/material";
 import { Add } from "@mui/icons-material";
 import BatchItem from "./BatchItem";
 import { useFetchBatchesQuery } from "../../../store";
+import { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { changeId, changeSelectedCourse } from "../../../store";
+import axios from "axios";
+import SidebarContext from "../Sidebar/sidebarContext";
 
-function BatchList({ group }) {
+const ITEM_HEIGHT = 48;
+
+function BatchList({ group, expand }) {
   const { data, isLoading, error } = useFetchBatchesQuery(group.id);
+  const { handleCreateBatchToggle } = useContext(SidebarContext);
+  const dispatch = useDispatch();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [pathways, setPathways] = useState([]);
+  const open = Boolean(anchorEl);
+
+  // Fetch pathways when component mounts
+  useEffect(() => {
+    axios({
+      url: "https://merd-api.merakilearn.org/pathways/names",
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
+        "version-code": 50,
+      },
+    }).then((res) => {
+      const path = res?.data?.map((item, index) => {
+        return {
+          label: item.name,
+          pathway_id: item.id,
+        };
+      });
+      setPathways(path);
+    });
+  }, []);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    dispatch(changeId({ space_id: group.space_id, group_id: group.id }));
+    expand(true);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMenuItemClick = (event, option) => {
+    handleCreateBatchToggle();
+    setAnchorEl(null);
+    dispatch(changeSelectedCourse(option));
+  };
 
   let content;
   if (isLoading) {
@@ -12,6 +71,7 @@ function BatchList({ group }) {
   } else if (error) {
     content = (
       <ListItemButton
+        onClick={handleClick}
         sx={{
           color: "text.primary",
           display: "flex",
@@ -37,7 +97,53 @@ function BatchList({ group }) {
     });
   }
 
-  return <List>{content}</List>;
+  return (
+    <List>
+      <Menu
+        id="long-menu"
+        MenuListProps={{
+          "aria-labelledby": "long-button",
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            maxHeight: ITEM_HEIGHT * 4.5,
+            width: "330px",
+          },
+        }}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        getContentAnchorEl={null}
+      >
+        {pathways?.map((course, index) => {
+          if (
+            course.label === "Python" ||
+            course.label === "Spoken English" ||
+            course.label === "Amazon Coding Bootcamp"
+          ) {
+            return (
+              <MenuItem
+                key={index}
+                selected={index === selectedIndex}
+                onClick={(event) => handleMenuItemClick(event, course)}
+              >
+                {course?.label}
+              </MenuItem>
+            );
+          }
+        })}
+      </Menu>
+      {content}
+    </List>
+  );
 }
 
 export default BatchList;

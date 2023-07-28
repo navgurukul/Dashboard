@@ -11,6 +11,8 @@ import { checkEmailApi } from "./apis/checkEmailApi";
 import { batchesApi } from "./apis/batchesApi";
 import { genereateLinksApi } from "./apis/generateLinksApi";
 import { studentPerformanceApi } from "./apis/studentPerformanceApi";
+import { studentInfoApi } from "./apis/studentInfoApi";
+import { PartnerNameApi } from "./apis/PartnerNameApi";
 
 import {
   changeSelectedCourse,
@@ -51,6 +53,8 @@ const store = configureStore({
     [groupsApi.reducerPath]: groupsApi.reducer,
     [batchsApi.reducerPath]: batchsApi.reducer,
     [studentPerformanceApi.reducerPath]: studentPerformanceApi.reducer,
+    [studentInfoApi.reducerPath]: studentInfoApi.reducer, 
+    [PartnerNameApi.reducerPath]: PartnerNameApi.reducer, 
     [attendanceApi.reducerPath]: attendanceApi.reducer,
     [groupStudentsApi.reducerPath]: groupStudentsApi.reducer,
     [checkEmailApi.reducerPath]: checkEmailApi.reducer,
@@ -64,6 +68,8 @@ const store = configureStore({
       .concat(groupsApi.middleware)
       .concat(batchsApi.middleware)
       .concat(studentPerformanceApi.middleware)
+      .concat(studentInfoApi.middleware)
+      .concat(PartnerNameApi.middleware)
       .concat(attendanceApi.middleware)
       .concat(groupStudentsApi.middleware)
       .concat(checkEmailApi.middleware)
@@ -105,6 +111,8 @@ export {
 
 export { useFetchAttendanceQuery } from "./apis/attandanceApi";
 export { useFetchStudentPerformanceQuery } from "./apis/studentPerformanceApi";
+export { useFetchStudentInfoQuery } from "./apis/studentInfoApi";
+export { useFetchPartnerNameQuery } from "./apis/PartnerNameApi";
 
 export {
   useFetchStudentsQuery,
