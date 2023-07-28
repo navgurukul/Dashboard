@@ -144,9 +144,11 @@ function GroupStudentsTable({ handleAddStudentsOpen, data, student }) {
                 <span
                   key={index}
                   style={{
-                    fontSize: "22px !important",
+                    display: "inline-block",
+                    fontSize: "14px !important",
                     padding: "3px 8px",
                     marginRight: "10px",
+                    lineHeight: "33px",
                     backgroundColor: "#E0E0E0",
                     borderRadius: "16px",
                   }}
