@@ -157,8 +157,7 @@ const BatchPage = () => {
           </Typography>
         </Box>
         <Box
-          style={{
-            // border: "1px solid green",
+          style={{ 
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
