@@ -14,11 +14,18 @@ import showToast from "../../showToast";
 const getMuiTheme = () =>
   createTheme({
     components: {
+      MuiTypography: {
+        styleOverrides: {
+          root: {
+            fontFamily: "Noto Sans !important",
+          },
+        },
+      },
       MuiTableCell: {
         styleOverrides: {
           root: {
             backgroundColor: "none",
-            fontFamily: "NatoSans, sans-serif",
+            fontFamily: "Noto Sans !important",
             textAlign: "left",
             "&.custom-cell": {
               width: "0px",
@@ -40,6 +47,7 @@ const getMuiTheme = () =>
       MUIDataTableHeadCell: {
         styleOverrides: {
           root: {
+            fontFamily: "Noto Sans !important",
             backgroundColor: "#FAFAFA",
             fontWeight: 600,
           },
@@ -72,6 +80,7 @@ const options = {
   search: false,
   filter: false,
   rowFilter: false,
+  viewColumns: false,
   selectableRows: "none",
 };
 
@@ -121,12 +130,35 @@ function GroupStudentsTable({ handleAddStudentsOpen, data, student }) {
       },
     },
     {
-      name: "enrolled",
+      name: "enrolled_in",
       label: "Enrolled In",
       options: {
         filter: false,
         sort: true,
         customCellClass: "custom-cell",
+
+        customBodyRender: (value) => {
+          return (
+            <>
+              {value.map((item, index) => (
+                <span
+                  key={index}
+                  style={{
+                    display: "inline-block",
+                    fontSize: "14px !important",
+                    padding: "3px 8px",
+                    marginRight: "10px",
+                    lineHeight: "170%",
+                    backgroundColor: "#E0E0E0",
+                    borderRadius: "16px",
+                  }}
+                >
+                  {item}
+                </span>
+              ))}
+            </>
+          );
+        },
       },
     },
     {

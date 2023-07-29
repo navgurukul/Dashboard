@@ -207,7 +207,11 @@ const AttendanceList = ({ data }) => {
             display: "flex",
           }}
         >
-          <img src={calenderIcon} alt="" style={{ height: "24px", marginRight:"8px" }} />
+          <img
+            src={calenderIcon}
+            alt="calenderIcon"
+            style={{ height: "24px", marginRight: "8px" }}
+          />
           <Typography
             style={{
               fontSize: "14px",
