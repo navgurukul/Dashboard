@@ -14,12 +14,10 @@ import {
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import SidebarContext from "../Sidebar/sidebarContext";
-import { useNavigate, useParams } from "react-router-dom";
 
 const ITEM_HEIGHT = 48;
 
 function GroupMenu({ group, expand }) {
-  const { partnerId, groupId, spaceId } = useParams();
   const [deleteGroup, results] = useDeleteGroupMutation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorCourse, setAnchorCourse] = useState(null);
@@ -27,42 +25,37 @@ function GroupMenu({ group, expand }) {
   const open = Boolean(anchorEl);
   const openPathwayList = Boolean(anchorCourse);
   const [pathways, setPathways] = useState([]);
-
   const { handleCreateBatchToggle } = useContext(SidebarContext);
-
+  const [addButtonClicked, setAddButtonClicked] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    showToast("success", results?.data?.message, 1000);
-    if (results.isSuccess && groupId == group.id) {
-      setTimeout(() => {
-        showToast("success", "Redirected to space");
-        navigate(`space/${spaceId}`);
-      }, 2000);
-    }
+    showToast("success", results?.data?.message);
   }, [results.isSuccess]);
 
   useEffect(() => {
-    axios({
-      url: "https://merd-api.merakilearn.org/pathways/names",
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
-        "version-code": 50,
-      },
-    }).then((res) => {
-      const path = res?.data?.map((item, index) => {
-        return {
-          label: item.name,
-          pathway_id: item.id,
-        };
+    if (addButtonClicked) {
+      axios({
+        url: "https://merd-api.merakilearn.org/pathways/names",
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
+          "version-code": 50,
+        },
+      }).then((res) => {
+        const path = res?.data?.map((item, index) => {
+          return {
+            label: item.name,
+            pathway_id: item.id,
+          };
+        });
+        setPathways(path);
       });
-      setPathways(path);
-    });
-  }, []);
+      setAddButtonClicked(false);
+    }
+  }, [addButtonClicked]);
 
   const [openUpdateGroup, setOpenUpdateGroup] = useState(false);
   const handleOpenUpdateGroupToggle = () => {
@@ -86,6 +79,7 @@ function GroupMenu({ group, expand }) {
   };
 
   const handleClickAdd = (event) => {
+    setAddButtonClicked(true);
     setAnchorCourse(event.currentTarget);
   };
 
@@ -188,7 +182,7 @@ function GroupMenu({ group, expand }) {
         }}
       >
         <MenuItem onClick={handleEditClick}>Edit Details</MenuItem>
-        {/* <MenuItem>Copy Link</MenuItem> */}
+        <MenuItem>Copy Link</MenuItem>
         <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
       </Menu>
     </Box>
