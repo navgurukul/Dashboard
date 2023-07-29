@@ -23,16 +23,25 @@ import { ThemeProvider } from "@mui/material";
 import StudentFilter from "./components/StudentList/StudentFilter";
 import AttendanceFilter from "./components/AttendanceList/AttendanceFilter";
 import Profile from "./components/Header/Profile";
+import HomePage from "./pages/home/HomePage";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <HomePage />,
+  },
+  {
+    path: "profile",
+    element: <Profile />,
+  },
+  {
+    path: "/partner",
     element: <RootLayout />,
     children: [
       { path: "login", element: <LoginPage /> },
       { index: true, element: <PartnersListPage /> },
       {
-        path: "partner/:partnerId",
+        path: ":partnerId",
         element: <PartnerPage />,
         children: [
           { index: true, element: <CreateSpace /> },
@@ -42,7 +51,7 @@ const router = createBrowserRouter([
             path: "space/:spaceId/group/:groupId/batch/:batchId",
             element: <BatchPage />,
             children: [
-              { index: true, element: <StudentFilter/> },
+              { index: true, element: <StudentFilter /> },
               { path: "attendancelist", element: <AttendanceFilter /> },
             ],
           },
@@ -51,9 +60,6 @@ const router = createBrowserRouter([
             element: <StudentInfo />,
           },
         ],
-      }, {
-        path: "profile",
-        element: <Profile />,
       },
     ],
   },
