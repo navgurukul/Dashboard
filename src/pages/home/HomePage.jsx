@@ -31,9 +31,10 @@ function HomePage() {
   useEffect(() => {
     let userData = JSON.parse(localStorage.getItem("userData"));
     console.log(userData, "Is authenticated");
-    
+
     if (userData) {
       navigate('/new-route');
+      
     }
   }, []);
 
