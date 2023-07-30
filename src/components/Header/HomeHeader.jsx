@@ -22,13 +22,13 @@ const HomeHeader = () => {
     <Box sx={headerStyle}>
       <img src={headerLogo} alt="headerLogo" style={{ height: "50px" }} />
       <Box style={{display: "flex", gap: 20}}>
-        <Button
-          // startIcon={<Add />}
-          // onClick={handleModalToggle}
+        {/* <Button
+          startIcon={<Add />}
+          onClick={handleModalToggle}
           variant="outlined"
         >
           <Typography variant="subtitle2">Register as a Partner</Typography>
-        </Button>
+        </Button> */}
         <Button
           // startIcon={<Add />}
           // onClick={handleModalToggle}

@@ -67,14 +67,14 @@ function HomePage() {
           </Button>
           <br />
           <br />
-          <Box style={{ display: "flex", gap: 2 }}>
+          {/* <Box style={{ display: "flex", gap: 2 }}>
             <Typography variant="body2">New to Meraki?</Typography>
             <Typography variant="body2">
               <a href="#" style={{ color: "#48A145", fontWeight: "bold" }}>
                 Register as a Partner
               </a>
             </Typography>
-          </Box>
+          </Box> */}
         </Box>
 
         <Box style={{ marginLeft: "auto" }}>
