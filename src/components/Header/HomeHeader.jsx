@@ -3,7 +3,10 @@ import { Box, Button, Typography } from "@mui/material";
 import headerLogo from "../../assets/logo.png";
 import studentProfilePhoto from "./asset/Ellipse 52.png";
 
+
 const HomeHeader = () => {
+
+
   const headerStyle = {
     height: "80px",
     display: "flex",
