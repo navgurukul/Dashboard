@@ -23,8 +23,20 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Image from "./assets/dicto.jpg";
 import Infosys from "./assets/infosys.png";
 import Footer from "../../components/Footer/Footer";
-
+import { useNavigate } from 'react-router-dom';
 function HomePage() {
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    console.log(userData, "Is authenticated");
+    
+    if (userData) {
+      navigate('/new-route');
+    }
+  }, []);
+
   return (
     <Box
       sx={{
