@@ -29,13 +29,15 @@ const HomeHeader = () => {
         >
           <Typography variant="subtitle2">Register as a Partner</Typography>
         </Button>
+        <a href="https://accounts.navgurukul.org">
         <Button
           // startIcon={<Add />}
           // onClick={handleModalToggle}
           variant="contained"
         >
-          <Typography variant="subtitle2">Login</Typography>
+         <Typography variant="subtitle2">Login</Typography>
         </Button>
+        </a>
       </Box>
     </Box>
   );
