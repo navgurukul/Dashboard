@@ -14,6 +14,7 @@ const Header = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+    localStorage.clear()
   };
 
   // Close the menu when clicking outside
