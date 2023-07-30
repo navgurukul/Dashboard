@@ -8,6 +8,7 @@ import calenderIcon from "./assests/reshot-icon-calendar-FEQDJ2T9NL 1.png";
 import teacherImage from "./assests/reshot-icon-teacher-3ADUGQCW6P (1) 1.png";
 import { useState, useEffect } from "react";
 import BatchTime from "./BatchTime";
+import { useNavigate } from "react-router-dom";
 import {
   useFetchSinglePartnerQuery,
   useFetchSingleGroupQuery,
@@ -19,6 +20,7 @@ import {
 const ImageSize = {
   width: "32px",
   height: "32px",
+  marginRight: "8px",
 };
 
 const ImageSizeCal = {
@@ -36,7 +38,9 @@ const BatchPage = () => {
     isLoading: batchIsLoading,
     error: batchError,
   } = useFetchSingleBatchQuery(batchId);
- 
+
+  console.log(singleBatchData);
+
   const {
     data: partnerData,
     isLoading: partnerIsLoading,
@@ -55,31 +59,28 @@ const BatchPage = () => {
     error: groupError,
   } = useFetchSingleGroupQuery(groupId);
 
-  const teacherName = singleBatchData?.[0]?.name || "null";
-  const batchName = singleBatchData?.[0].title;
+  const teacherName = singleBatchData?.facilitator_name || "null";
+  const batchName = singleBatchData?.class_title;
+  const batchLogo = singleBatchData?.pathway_logo;
+  const batchStatus = singleBatchData?.status;
   const space = spaceData?.data?.[0];
   const partner = partnerData?.name;
   const groupg = groupData?.[0];
 
-  // let batchName;
-  // let content;
-  // if (isLoading) {
-  //   content = null
-  // } else {
-  //   let iteration = data.map((batch)=>{
-  //     if(batch.recurring_id == batchId){
-  //       batchName = batch.title
-  //     }
-  //   })
-  //    const spaces = spaceData?.data?.[0];
-  //   content = (
-  //     <Typography pl={0.5} variant="body2">
-  //         {batchName}
-  //     </Typography>
+  const Navigate = useNavigate();
+  const handleSpaceNavigation = () => {
+    Navigate(`/partner/${partnerId}/space/${spaceId}`);
+  };
+
+  const handleGroupNavigation = () => {
+    Navigate(`/partner/${partnerId}/space/${spaceId}/group/${groupId}`);
+  };
+
+  // const handleBatchNavigation = () => {
+  //   Navigate(
+  //     `/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/${batchId}`
   //   );
-  // }
-  // console.log(partnerData);
-  // console.log(groupData);
+  // };
 
   const [activeElement, setActiveElement] = useState("students");
 
@@ -98,17 +99,25 @@ const BatchPage = () => {
         padding: "0px 20px",
         overflowY: "scroll",
         height: "620px",
-        // border:"3px solid green",
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", py: 2 }}>
-        <Typography pr={0.5} variant="body2">
+        <Typography
+          pr={0.5}
+          variant="body2"
+          onClick={handleSpaceNavigation}
+          style={{ cursor: "pointer" }}
+        >
           {space?.space_name} /
         </Typography>
-        <Typography variant="body2" color="primary.main">
+        <Typography
+          variant="body2"
+          onClick={handleGroupNavigation}
+          style={{ cursor: "pointer" }}
+        >
           {groupg?.group_name} /
         </Typography>
-        <Typography variant="body2" pl={0.5}>
+        <Typography variant="body2" pl={0.5} color="primary.main">
           {batchName}
         </Typography>
       </Box>
@@ -126,7 +135,7 @@ const BatchPage = () => {
             marginTop: "10px",
           }}
         >
-          <img src={pythonlogo} alt="pythonImage" style={ImageSize} />
+          <img src={batchLogo} alt="pythonImage" style={ImageSize} />
           <Typography
             variant="subtitle2"
             style={{ fontSize: "18px", margin: "0px 10px", fontWeight: "bold" }}
@@ -143,12 +152,11 @@ const BatchPage = () => {
               fontWeight: "400",
             }}
           >
-            Ongoing
+            {batchStatus}
           </Typography>
         </Box>
         <Box
-          style={{
-            // border: "1px solid green",
+          style={{ 
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -170,7 +178,7 @@ const BatchPage = () => {
                 fontWeight: "400",
               }}
             >
-              <BatchTime/>
+              <BatchTime />
             </Typography>
           </Box>
           <Box
@@ -225,7 +233,7 @@ const BatchPage = () => {
           to={`/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/${batchId}/attendancelist`}
           style={{ textDecoration: "none" }}
         >
-          <Typography
+          {/* <Typography
             style={{
               borderBottom:
                 activeElement === "attendance" ? "2px solid green" : "none",
@@ -237,8 +245,8 @@ const BatchPage = () => {
             }}
             onClick={() => handleClick("attendance")}
           >
-            Attendance Data
-          </Typography>
+            Class Attendance
+          </Typography> */}
         </Link>
       </Box>
       <hr style={{ borderTop: "1px solid #BDBDBD", marginBottom: "10px" }} />

@@ -40,7 +40,7 @@ function BatchMenu() {
           "aria-labelledby": "long-button",
         }}
         anchorEl={anchorEl}
-        open={open}
+        // open={open}
         onClose={handleClose}
         PaperProps={{
           style: {

@@ -63,7 +63,7 @@ function GroupItem({ group }) {
         </NavLink>
         <GroupMenu group={group} expand={setOpen} />
       </ListItemButton>
-      {open && <BatchList group={group} />}
+      {open && <BatchList group={group} expand={setOpen} />}
     </>
   );
 }
