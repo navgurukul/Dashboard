@@ -16,10 +16,12 @@ const Header = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+  const handleLogOut = ()=>{
+    setAnchorEl(null);
     localStorage.clear()
     navigate("/")
-
-  };
+  }
 
   // Close the menu when clicking outside
   useEffect(() => {
@@ -28,6 +30,7 @@ const Header = () => {
         handleMenuClose();
       }
     };
+ 
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -78,7 +81,7 @@ const Header = () => {
           <MenuItem component={Link} to="/profile" onClick={handleMenuClose}>
             Profile
           </MenuItem>
-          <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+          <MenuItem onClick={handleLogOut}>Logout</MenuItem>
         </Menu>
       </div>
     </Box>
