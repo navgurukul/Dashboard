@@ -11,6 +11,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useState, useEffect } from "react";
 import HomeHeader from "../../components/Header/HomeHeader";
 import { ToastContainer } from "react-toastify";
 import { Outlet } from "react-router-dom";
@@ -33,8 +34,8 @@ function HomePage() {
     console.log(userData, "Is authenticated");
 
     if (userData) {
-      navigate('/new-route');
-      
+      navigate('/partner');
+
     }
   }, []);
 
