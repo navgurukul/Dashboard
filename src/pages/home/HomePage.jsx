@@ -68,27 +68,29 @@ function HomePage() {
             Track your students learning seamlessly all in one place
           </Typography>
           <br />
+          <a href="https://accounts.navgurukul.org">
           <Button
-          href="/partner"
             // startIcon={<Add />}
             // onClick={handleModalToggle}
             style={{ marginTop: 20 }}
             variant="contained"
           >
+           
             <Typography variant="subtitle2">
               Access Partner Dashboard
             </Typography>
           </Button>
+          </a>
           <br />
           <br />
-          <Box style={{ display: "flex", gap: 2 }}>
+          {/* <Box style={{ display: "flex", gap: 2 }}>
             <Typography variant="body2">New to Meraki?</Typography>
             <Typography variant="body2">
               <a href="#" style={{ color: "#48A145", fontWeight: "bold" }}>
                 Register as a Partner
               </a>
             </Typography>
-          </Box>
+          </Box> */}
         </Box>
 
         <Box style={{ marginLeft: "auto" }}>
