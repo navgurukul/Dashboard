@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 // rrd
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -66,6 +67,36 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  
+  
+  const [message, setMessage] = useState('');
+  
+  useEffect(() => {
+    const handleIncomingMessage = (event) => {
+      if (event.origin !== 'https://accounts.navgurukul.org') {
+        return;
+      }
+      const message = event.data;
+      if (message.type === 'USER_LOGIN') {
+        const data = message.payload;
+        console.log('Received data:', data);
+      }
+      setMessage(message.payload);
+      localStorage.setItem('token', JSON.stringify(message.payload?.token));
+      localStorage.setItem('userData', JSON.stringify(message.payload?.userDetails));
+
+      var response = "Message received at meraki";
+      event.source.postMessage(response, event.origin);
+    };
+
+    window.addEventListener('message', handleIncomingMessage);
+
+    return () => {
+      window.removeEventListener('message', handleIncomingMessage);
+    };
+  }, [message]);
+
+
   return (
     <ThemeProvider theme={theme}>
       <RouterProvider router={router} />

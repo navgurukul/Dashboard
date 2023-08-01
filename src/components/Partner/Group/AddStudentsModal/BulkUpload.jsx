@@ -39,7 +39,7 @@ const ButtonContainer = styled("div")({
 
 const BulkUpload = () => {
   const [addBulkStudents, results] = useAddBulkStudentsMutation();
-  const { groupId } = useParams();
+  const { groupId, partnerId } = useParams();
 
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(null);
@@ -77,6 +77,7 @@ const BulkUpload = () => {
 
   const handleAddStudents = () => {
     const formData = new FormData();
+    formData.append("partner_id", partnerId);
     formData.append("group_id", groupId);
     formData.append("file", file);
     addBulkStudents(formData);

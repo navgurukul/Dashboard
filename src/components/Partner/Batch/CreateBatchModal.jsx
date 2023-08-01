@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { useFetchBatchesQuery } from "../../../store";
 import {
   Typography,
   Grid,
@@ -17,7 +18,6 @@ import {
   FormGroup,
   Checkbox,
   FormHelperText,
-  // error,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
@@ -54,12 +54,12 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     space_id: spaceId,
     partner_id: [partnerId],
     volunteer_id: 0,
-    facilitator_id:0,
+    facilitator_id: 0,
     pathway_id: course.pathway_id,
     category_id: 3,
     description: "description",
     type: "batch",
-    frequency: "DAILY",
+    frequency: "",
     lang: "en",
     max_enrolment: "10",
     title: "",
@@ -69,6 +69,8 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     schedule: {},
   });
 
+  const { data: batchListData } = useFetchBatchesQuery(groupId);
+  const [existingTitles, setExistingTitles] = useState([]);
   const [sameTime, setSameTime] = useState({}); // It is used to get same time for all the selected days.
   const [timeChecked, setTimeChecked] = useState(true); //it is used to get that voluntter/tutor is taking defferend time or same time for the class.
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -94,26 +96,42 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     date: false,
   });
 
-  //For title error field (batch and doubt class)
+  if (classFields.on_days.length === 7) {
+    classFields.frequency = "DAILY";
+  } else {
+    classFields.frequency = "WEEKLY";
+  }
+
+  useEffect(() => {
+    const mappedTitles = batchListData.batches_data.map((item) => item.title);
+    setExistingTitles(mappedTitles);
+  }, []);
+
+  //For title error field
   useEffect(() => {
     if (onInput.title === true && classFields.title === "") {
       setShowError((prev) => {
         return { ...prev, title: true };
       });
       setHelperText((prev) => {
-        if (classFields.type === "batch") {
-          return { ...prev, title: "Please enter a batch name" };
-        } else {
-          return { ...prev, title: "This batch name is already taken" };
-        }
+        return { ...prev, title: "Please enter a batch name" };
       });
     } else {
-      setShowError((prev) => {
-        return { ...prev, title: false };
-      });
-      setHelperText((prev) => {
-        return { ...prev, title: "" };
-      });
+      if (existingTitles.includes(classFields.title)) {
+        setShowError((prev) => {
+          return { ...prev, title: true };
+        });
+        setHelperText((prev) => {
+          return { ...prev, title: "This batch name is already taken" };
+        });
+      } else {
+        setShowError((prev) => {
+          return { ...prev, title: false };
+        });
+        setHelperText((prev) => {
+          return { ...prev, title: "" };
+        });
+      }
     }
   }, [classFields.title]);
 
@@ -182,14 +200,13 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     id: item.volunteer_id,
     pathway_id: item.pathway_id,
     optedPathways: item.pathways,
-    facilitator_id : item.id,
+    facilitator_id: item.id,
   }));
 
   const handleTimeCheckedChange = (event) => {
     setTimeChecked(!timeChecked);
   };
 
-  console.log(classFields);
   // this is used to update the date of the class
   const changeHandler = (e) => {
     setClassFields({ ...classFields, [e.target.name]: e.target.value });
@@ -258,17 +275,25 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     endDate.setHours(startend.endTime.split(":")[0]);
     endDate.setMinutes(startend.endTime.split(":")[1]);
 
-    // -------------------
-  const originalStartString =(moment(startDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"))
-  const tStartIndex = originalStartString.toUpperCase().indexOf('T');
-  const modifiedStartDateString = tStartIndex !== -1 ? `${classFields.date}T${originalStartString.substring(tStartIndex + 1)}` : originalStartString;
+    const originalStartString = moment(startDate).format(
+      "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
+    );
+    const tStartIndex = originalStartString.toUpperCase().indexOf("T");
+    const modifiedStartDateString =
+      tStartIndex !== -1
+        ? `${classFields.date}T${originalStartString.substring(
+            tStartIndex + 1
+          )}`
+        : originalStartString;
 
-  const originalEndString =(moment(endDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"))
-  const tEndIndex = originalEndString.toUpperCase().indexOf('T');
-  const modifiedEndDateString = tEndIndex !== -1 ? `${classFields.date}T${originalEndString.substring(tEndIndex + 1)}` : originalEndString;
-
-    // ----------------
-      
+    const originalEndString = moment(endDate).format(
+      "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
+    );
+    const tEndIndex = originalEndString.toUpperCase().indexOf("T");
+    const modifiedEndDateString =
+      tEndIndex !== -1
+        ? `${classFields.date}T${originalEndString.substring(tEndIndex + 1)}`
+        : originalEndString;
 
     payload = {
       ...classFields,
@@ -332,7 +357,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               value={{
                 label: classFields.facilitator_name || "",
                 id: classFields.volunteer_id || "",
-
               }}
               options={volunteer || []}
               isOptionEqualToValue={(option, value) => {
@@ -340,10 +364,9 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
               }}
               onChange={(e, newVal) => {
                 setClassFields((prev) => {
-                  console.log(newVal);
                   return {
                     ...prev,
-                    facilitator_id:newVal?.facilitator_id,
+                    facilitator_id: newVal?.facilitator_id,
                     volunteer_id: newVal?.id,
                     facilitator_name: newVal?.label,
                   };
@@ -373,8 +396,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                   ? "Please choose a start date "
                   : classFields.on_days.length > 0 &&
                     !isValuePresent &&
-                    "Please choose the valid date for the schaduled days"
-                // "Please choose valid date for the selected days. please change the date or days"
+                    "Please choose the valid date for the scheduled days"
               }
               error={
                 !classFields.date ||
@@ -466,11 +488,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                               [prop]: time.toLocaleTimeString(),
                             });
                           }}
-                          // minTime={
-                          //   classFields.date === moment().format("YYYY-MM-DD")
-                          //     ? new Date(new Date().setSeconds(0))
-                          //     : null
-                          // }
                         />
                       </Stack>
                     </LocalizationProvider>

@@ -26,30 +26,35 @@ function BatchList({ group, expand }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [pathways, setPathways] = useState([]);
   const open = Boolean(anchorEl);
-
+  const [addButtonClicked, setAddButtonClicked] = useState(false);
+  
   // Fetch pathways when component mounts
   useEffect(() => {
-    axios({
-      url: "https://merd-api.merakilearn.org/pathways/names",
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
-        "version-code": 50,
-      },
-    }).then((res) => {
-      const path = res?.data?.map((item, index) => {
-        return {
-          label: item.name,
-          pathway_id: item.id,
-        };
+    if (addButtonClicked) {
+      axios({
+        url: "https://merd-api.merakilearn.org/pathways/names",
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
+          "version-code": 50,
+        },
+      }).then((res) => {
+        const path = res?.data?.map((item, index) => {
+          return {
+            label: item.name,
+            pathway_id: item.id,
+          };
+        });
+        setPathways(path);
       });
-      setPathways(path);
-    });
-  }, []);
+      setAddButtonClicked(false);
+    }
+  }, [addButtonClicked]);
 
   const handleClick = (event) => {
+    setAddButtonClicked(true);
     setAnchorEl(event.currentTarget);
     dispatch(changeId({ space_id: group.space_id, group_id: group.id }));
     expand(true);

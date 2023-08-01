@@ -11,6 +11,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useState, useEffect } from "react";
 import HomeHeader from "../../components/Header/HomeHeader";
 import { ToastContainer } from "react-toastify";
 import { Outlet } from "react-router-dom";
@@ -23,8 +24,21 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Image from "./assets/dicto.jpg";
 import Infosys from "./assets/infosys.png";
 import Footer from "../../components/Footer/Footer";
-
+import { useNavigate } from 'react-router-dom';
 function HomePage() {
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    console.log(userData, "Is authenticated");
+
+    if (userData) {
+      navigate('/partner');
+
+    }
+  }, []);
+
   return (
     <Box
       sx={{
@@ -54,27 +68,29 @@ function HomePage() {
             Track your students learning seamlessly all in one place
           </Typography>
           <br />
+          <a href="https://accounts.navgurukul.org">
           <Button
-          href="/partner"
             // startIcon={<Add />}
             // onClick={handleModalToggle}
             style={{ marginTop: 20 }}
             variant="contained"
           >
+           
             <Typography variant="subtitle2">
               Access Partner Dashboard
             </Typography>
           </Button>
+          </a>
           <br />
           <br />
-          <Box style={{ display: "flex", gap: 2 }}>
+          {/* <Box style={{ display: "flex", gap: 2 }}>
             <Typography variant="body2">New to Meraki?</Typography>
             <Typography variant="body2">
               <a href="#" style={{ color: "#48A145", fontWeight: "bold" }}>
                 Register as a Partner
               </a>
             </Typography>
-          </Box>
+          </Box> */}
         </Box>
 
         <Box style={{ marginLeft: "auto" }}>
