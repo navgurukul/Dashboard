@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
 import { Link } from "react-router-dom";
-import headerLogo from "../../assets/logo.png";
+import headerLogo from "./asset/logo.png";
 import studentProfilePhoto from "./asset/Ellipse 52.png";
 
 const Header = () => {

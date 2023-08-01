@@ -31,7 +31,9 @@ const StudentInfo = () => {
     isLoading: partnerLoading,
     error: partnerError,
   } = useFetchPartnerNameQuery(partnerId);
+
   console.log("partner Data for names", partnerData);
+  
   const partnerName = partnerData?.[0]?.name ?? "";
   const currentSpace = partnerData?.[0]?.spaces_data.find(
     (space) => space.id === parseInt(spaceId)
