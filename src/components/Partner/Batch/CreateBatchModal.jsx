@@ -70,6 +70,9 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   });
 
   const { data: batchListData } = useFetchBatchesQuery(groupId);
+  // The tutor has a class from another batch at the same day and time(this is for the error msg for time)
+
+
   const [existingTitles, setExistingTitles] = useState([]);
   const [sameTime, setSameTime] = useState({}); // It is used to get same time for all the selected days.
   const [timeChecked, setTimeChecked] = useState(true); //it is used to get that voluntter/tutor is taking defferend time or same time for the class.
@@ -103,7 +106,13 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   }
 
   useEffect(() => {
-    const mappedTitles = batchListData.batches_data.map((item) => item.title);
+    // const mappedData = batchListData?.batches_data?.map((item) => ({
+    //   ListStartTime: item.start_time,
+    //   t: item.title,
+    // }));
+    // console.log(mappedData);
+
+    const mappedTitles = batchListData?.batches_data?.map((item) => item.title);
     setExistingTitles(mappedTitles);
   }, []);
 
