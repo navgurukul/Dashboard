@@ -3,7 +3,10 @@ import { Box, Button, Typography } from "@mui/material";
 import headerLogo from "../../assets/logo.png";
 import studentProfilePhoto from "./asset/Ellipse 52.png";
 
+
 const HomeHeader = () => {
+
+
   const headerStyle = {
     height: "80px",
     display: "flex",
@@ -22,20 +25,22 @@ const HomeHeader = () => {
     <Box sx={headerStyle}>
       <img src={headerLogo} alt="headerLogo" style={{ height: "50px" }} />
       <Box style={{display: "flex", gap: 20}}>
-        <Button
-          // startIcon={<Add />}
-          // onClick={handleModalToggle}
+        {/* <Button
+          startIcon={<Add />}
+          onClick={handleModalToggle}
           variant="outlined"
         >
           <Typography variant="subtitle2">Register as a Partner</Typography>
-        </Button>
+        </Button> */}
+        <a href="https://accounts.navgurukul.org">
         <Button
           // startIcon={<Add />}
           // onClick={handleModalToggle}
           variant="contained"
         >
-          <Typography variant="subtitle2">Login</Typography>
+         <Typography variant="subtitle2">Login</Typography>
         </Button>
+        </a>
       </Box>
     </Box>
   );

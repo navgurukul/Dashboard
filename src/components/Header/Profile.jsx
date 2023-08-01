@@ -1,9 +1,65 @@
-import React from 'react'
+import React, { useState } from "react";
+import { Box, Typography, Button } from "@mui/material";
+import EditProfileModal from "./EditProfileModal";
+import studentProfilePhoto from "./asset/Ellipse 52.png";
+import Header from "./Header";
 
 const Profile = () => {
-  return (
-    <h1 style={{marginTop:"20%",marginLeft:"45%" }}>Work in Progress</h1>
-  )
-}
+  const [openModal, setOpenModal] = useState(false);
 
-export default Profile
+  const handleModalOpen = () => {
+    setOpenModal(true);
+  };
+
+  const handleModalClose = () => {
+    setOpenModal(false);
+  };
+
+  return (
+    <>
+    <Header/>
+    <Box
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        marginTop: "80px",
+      }}
+    >
+      <Box
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginTop: "20px",
+        }}
+      >
+        <img
+          src={studentProfilePhoto}
+          alt="StudentProfile"
+          style={{ height: "70px", width: "70px", marginBottom: "10px" }}
+        />
+        <Typography variant="h5" style={{ marginBottom: "10px" }}>
+          Anand NG
+        </Typography>
+        <Typography variant="subtitle1" style={{ marginBottom: "10px" }}>
+          anandNg@navgurukul.com
+        </Typography>
+        <Typography
+          variant="body1"
+          color="primary"
+          style={{ cursor: "pointer" }}
+          onClick={handleModalOpen}
+        >
+          Edit Profile
+        </Typography>
+      </Box>
+
+      {/* Edit Profile Modal */}
+      <EditProfileModal open={openModal} onClose={handleModalClose} />
+    </Box>
+    </>
+  );
+};
+
+export default Profile;

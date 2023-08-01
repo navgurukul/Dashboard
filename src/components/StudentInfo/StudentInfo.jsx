@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import studentImage from "./assests/bg.png";
+import noCourse from "./assests/noCourse.jpeg";
 import emailLogo from "./assests/Vector (1).png";
 import phoneIcon from "./assests/phoneIcon.png";
 import IconButton from "@mui/material/IconButton";
@@ -24,12 +25,15 @@ const StudentInfo = () => {
   const name_contact = currentData?.user.contact;
   const overallProgress = data?.overallProgress ?? 0;
 
-  // Fetch partner name using the hook
+  // Fetch partner name, group name, space name using the hook
   const {
     data: partnerData,
     isLoading: partnerLoading,
     error: partnerError,
   } = useFetchPartnerNameQuery(partnerId);
+
+  console.log("partner Data for names", partnerData);
+  
   const partnerName = partnerData?.[0]?.name ?? "";
   const currentSpace = partnerData?.[0]?.spaces_data.find(
     (space) => space.id === parseInt(spaceId)
@@ -220,7 +224,23 @@ const StudentInfo = () => {
             Course Wise Performance
           </Typography>
         </Box>
-        {data ? (
+        {overallProgress === 0 ? (
+
+          <Box>
+            <Typography
+             style={{ display: "flex", flexDirection: "column", alignItems: "center", margin: "20px 0" }}
+
+            >
+
+                <img src={noCourse}
+                alt="noCourseLogo"
+                style={{ height: "150px", width: "200px", margin: "50px 0"}}
+              />
+
+              {name_student} has not started any courses yet
+            </Typography>
+          </Box>
+        ) : data ? (
           data.Courses.map((course, index) => (
             <Accordion key={index} courseInfo={course} />
           ))

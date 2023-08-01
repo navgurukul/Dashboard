@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
 import { Link } from "react-router-dom";
-import headerLogo from "../../assets/logo.png";
+import headerLogo from "./asset/logo.png";
 import studentProfilePhoto from "./asset/Ellipse 52.png";
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const menuRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleProfileClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -15,6 +17,11 @@ const Header = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+  const handleLogOut = ()=>{
+    setAnchorEl(null);
+    localStorage.clear()
+    navigate("/")
+  }
 
   // Close the menu when clicking outside
   useEffect(() => {
@@ -23,6 +30,7 @@ const Header = () => {
         handleMenuClose();
       }
     };
+ 
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -73,7 +81,7 @@ const Header = () => {
           <MenuItem component={Link} to="/profile" onClick={handleMenuClose}>
             Profile
           </MenuItem>
-          <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+          <MenuItem onClick={handleLogOut}>Logout</MenuItem>
         </Menu>
       </div>
     </Box>
