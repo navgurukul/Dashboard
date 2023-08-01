@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import EditProfileModal from "./EditProfileModal";
 import studentProfilePhoto from "./asset/Ellipse 52.png";
+import Header from "./Header";
 
 const Profile = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -15,6 +16,8 @@ const Profile = () => {
   };
 
   return (
+    <>
+    <Header/>
     <Box
       style={{
         display: "flex",
@@ -55,6 +58,7 @@ const Profile = () => {
       {/* Edit Profile Modal */}
       <EditProfileModal open={openModal} onClose={handleModalClose} />
     </Box>
+    </>
   );
 };
 
