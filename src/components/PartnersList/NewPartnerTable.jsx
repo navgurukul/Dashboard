@@ -71,7 +71,7 @@ function NewPartnerTable({ data }) {
       options: {
         filter: false,
         sort: false,
-        // customCellClass: "custom-cell",
+
         customBodyRender: (value, tableMeta) => {
           return value;
         },
