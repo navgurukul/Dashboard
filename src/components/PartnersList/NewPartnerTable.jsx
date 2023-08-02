@@ -135,7 +135,7 @@ function NewPartnerTable({ data }) {
                   color: "#BDBDBD",
                   "&:hover": { color: "primary.main" },
                 }}
-                // onClick={() => handleEditClick(partneredit)}
+                
                 onClick={(event) => handleEditButtonClick(partneredit, event)}
               >
                 <EditIcon />
@@ -187,7 +187,7 @@ function NewPartnerTable({ data }) {
         />
       )}
 
-      <div style={{ overflowX: "auto" }}>
+      <div style={{ overflowX: "hidden" }}>
         <ThemeProvider theme={getMuiTheme}>
           <MUIDataTable
             title={
