@@ -30,7 +30,6 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
     const payload = {
       name: nameValue,
     };
-  console.log(userLocalData);
     axios({
       method:'PUT',
       url: `https://merd-api.merakilearn.org/users/me`,
@@ -81,7 +80,7 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
         <div style={{ display: "flex", justifyContent: "center" }}>
           {/* Image */}
           <img
-            src={userLocalData.imageUrl}
+            src={userLocalData?.imageUrl}
             alt="StudentProfile"
             style={{ height: "120px", width: "120px", marginTop: "10px",borderRadius:"60px" }}
           />

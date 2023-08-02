@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
 import { Link } from "react-router-dom";
 import headerLogo from "./asset/logo.png";
@@ -61,7 +61,7 @@ const Header = () => {
       {/* Profile picture with dropdown menu */}
       <div style={{ position: "relative" }}>
         <img
-          src={userLocalData.imageUrl}
+          src={userLocalData?.imageUrl}
           alt="StudentProfile"
           style={{ height: "50px", borderRadius:"60px", cursor: "pointer" }}
           onClick={handleProfileClick}
