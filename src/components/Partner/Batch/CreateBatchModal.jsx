@@ -70,9 +70,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   });
 
   const { data: batchListData } = useFetchBatchesQuery(groupId);
-  // The tutor has a class from another batch at the same day and time(this is for the error msg for time)
-
-
   const [existingTitles, setExistingTitles] = useState([]);
   const [sameTime, setSameTime] = useState({}); // It is used to get same time for all the selected days.
   const [timeChecked, setTimeChecked] = useState(true); //it is used to get that voluntter/tutor is taking defferend time or same time for the class.
@@ -106,12 +103,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   }
 
   useEffect(() => {
-    // const mappedData = batchListData?.batches_data?.map((item) => ({
-    //   ListStartTime: item.start_time,
-    //   t: item.title,
-    // }));
-    // console.log(mappedData);
-
     const mappedTitles = batchListData?.batches_data?.map((item) => item.title);
     setExistingTitles(mappedTitles);
   }, []);
@@ -126,7 +117,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
         return { ...prev, title: "Please enter a batch name" };
       });
     } else {
-      if (existingTitles.includes(classFields.title)) {
+      if (existingTitles?.includes(classFields?.title)) {
         setShowError((prev) => {
           return { ...prev, title: true };
         });
@@ -211,6 +202,22 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     optedPathways: item.pathways,
     facilitator_id: item.id,
   }));
+
+  const mappedBatchData = batchListData?.batches_data?.map((item) => ({
+    tName: item.title,
+    sTime: item.start_time,
+    fName: item.facilitator_name,
+  }));
+
+  // timeChecked && 
+  // (mappedBatchData?.map((item) => {
+  //   if (item?.facilitator_name === classFields?.facilitator_name){
+  //     console.log(item.facilitator_name, "item name");
+  //     console.log(item.sTime, "item time");
+  //     console.log(classFields.facilitator_name);
+  //     console.log(sameTime.startTime);
+  //   }
+  // }));
 
   const handleTimeCheckedChange = (event) => {
     setTimeChecked(!timeChecked);
