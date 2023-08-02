@@ -135,7 +135,7 @@ function NewPartnerTable({ data }) {
                   color: "#BDBDBD",
                   "&:hover": { color: "primary.main" },
                 }}
-                // onClick={() => handleEditClick(partneredit)}
+                
                 onClick={(event) => handleEditButtonClick(partneredit, event)}
               >
                 <EditIcon />
