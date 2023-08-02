@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
 import { Link } from "react-router-dom";
 import headerLogo from "./asset/logo.png";
-import studentProfilePhoto from "./asset/Ellipse 52.png";
+import studentProfilePhoto from "./asset/unnamed.png";
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
@@ -22,6 +22,21 @@ const Header = () => {
     localStorage.clear();
     navigate("/");
   };
+  
+  // Close the menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        handleMenuClose();
+      }
+    };
+ 
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <Box
@@ -47,7 +62,7 @@ const Header = () => {
         <img
           src={studentProfilePhoto}
           alt="StudentProfile"
-          style={{ height: "50px", cursor: "pointer" }}
+          style={{ height: "60px", borderRadius:"60px", cursor: "pointer" }}
           onClick={handleProfileClick}
         />
         <Menu
