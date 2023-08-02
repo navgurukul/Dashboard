@@ -11,7 +11,6 @@ import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 
-
 const getMuiTheme = () =>
   createTheme({
     components: {
@@ -63,6 +62,8 @@ let btnsContainerStyles = {
 };
 
 function NewPartnerTable({ data }) {
+  let partnerId = "";
+
   const columns = [
     {
       name: "name",
@@ -70,7 +71,7 @@ function NewPartnerTable({ data }) {
       options: {
         filter: false,
         sort: false,
-        // customCellClass: "custom-cell",
+
         customBodyRender: (value, tableMeta) => {
           return value;
         },
@@ -124,7 +125,7 @@ function NewPartnerTable({ data }) {
           color: "red",
         },
         customBodyRender: (_, tableMeta) => {
-          const partnerId = data[tableMeta.rowIndex].id;
+          partnerId = data[tableMeta.rowIndex].id;
           const partneredit = data[tableMeta.rowIndex];
           return (
             <div style={btnsContainerStyles}>
@@ -132,9 +133,9 @@ function NewPartnerTable({ data }) {
                 size="small"
                 sx={{
                   color: "#BDBDBD",
-                  "&:hover": { color: "primary.main" }, 
+                  "&:hover": { color: "primary.main" },
                 }}
-                // onClick={() => handleEditClick(partneredit)}
+                
                 onClick={(event) => handleEditButtonClick(partneredit, event)}
               >
                 <EditIcon />
@@ -172,11 +173,10 @@ function NewPartnerTable({ data }) {
     handleEditClick(partneredit);
   };
 
-  const handleRowClick = (rowData, rowMeta) => {
-    const partnerId = data[rowMeta.rowIndex].id;
+  const handleRowClick = (event, dataIndex) => {
+    partnerId = data[dataIndex.dataIndex].id;
     Navigate(`/partner/${partnerId}`);
   };
-
   return (
     <>
       {open && (
@@ -187,7 +187,7 @@ function NewPartnerTable({ data }) {
         />
       )}
 
-      <div style={{ overflowX: "auto" }}>
+      <div style={{ overflowX: "hidden" }}>
         <ThemeProvider theme={getMuiTheme}>
           <MUIDataTable
             title={
@@ -197,7 +197,7 @@ function NewPartnerTable({ data }) {
             }
             data={data}
             columns={columns}
-            options={{...options, onRowClick: handleRowClick}}
+            options={{ ...options, onRowClick: handleRowClick }}
           />
         </ThemeProvider>
       </div>

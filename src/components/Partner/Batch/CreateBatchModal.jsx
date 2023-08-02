@@ -103,7 +103,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   }
 
   useEffect(() => {
-    const mappedTitles = batchListData.batches_data.map((item) => item.title);
+    const mappedTitles = batchListData?.batches_data?.map((item) => item.title);
     setExistingTitles(mappedTitles);
   }, []);
 
@@ -117,7 +117,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
         return { ...prev, title: "Please enter a batch name" };
       });
     } else {
-      if (existingTitles.includes(classFields.title)) {
+      if (existingTitles?.includes(classFields?.title)) {
         setShowError((prev) => {
           return { ...prev, title: true };
         });
@@ -202,6 +202,22 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     optedPathways: item.pathways,
     facilitator_id: item.id,
   }));
+
+  const mappedBatchData = batchListData?.batches_data?.map((item) => ({
+    tName: item.title,
+    sTime: item.start_time,
+    fName: item.facilitator_name,
+  }));
+
+  // timeChecked && 
+  // (mappedBatchData?.map((item) => {
+  //   if (item?.facilitator_name === classFields?.facilitator_name){
+  //     console.log(item.facilitator_name, "item name");
+  //     console.log(item.sTime, "item time");
+  //     console.log(classFields.facilitator_name);
+  //     console.log(sameTime.startTime);
+  //   }
+  // }));
 
   const handleTimeCheckedChange = (event) => {
     setTimeChecked(!timeChecked);
