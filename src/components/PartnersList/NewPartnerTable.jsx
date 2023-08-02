@@ -187,7 +187,7 @@ function NewPartnerTable({ data }) {
         />
       )}
 
-      <div style={{ overflowX: "auto" }}>
+      <div style={{ overflowX: "hidden" }}>
         <ThemeProvider theme={getMuiTheme}>
           <MUIDataTable
             title={
