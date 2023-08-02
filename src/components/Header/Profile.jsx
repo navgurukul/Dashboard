@@ -17,7 +17,6 @@ const Profile = () => {
   };
 
   const userLocalData=JSON.parse(localStorage.getItem('userData'))
-  // console.log(userLocalData);
   
   return (
     <>
@@ -39,7 +38,7 @@ const Profile = () => {
         }}
       >
         <img
-          src={studentProfilePhoto}
+          src={userLocalData.imageUrl}
           alt="StudentProfile"
           style={{ height: "70px", width: "70px", marginBottom: "10px" }}
         />

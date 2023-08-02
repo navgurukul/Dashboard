@@ -81,7 +81,7 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
         <div style={{ display: "flex", justifyContent: "center" }}>
           {/* Image */}
           <img
-            src={studentProfilePhoto}
+            src={userLocalData.imageUrl}
             alt="StudentProfile"
             style={{ height: "100px", width: "100px", marginTop: "10px" }}
           />
