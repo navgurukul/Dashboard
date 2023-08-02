@@ -34,6 +34,7 @@ const Header = () => {
         top: "0",
         width: "100%",
         backgroundColor: "white",
+        zIndex: "9000"
       }}
     >
       {/* Link to homepage */}
