@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import EditProfileModal from "./EditProfileModal";
 import studentProfilePhoto from "./asset/Ellipse 52.png";
 import Header from "./Header";
+
 
 const Profile = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -15,6 +16,9 @@ const Profile = () => {
     setOpenModal(false);
   };
 
+  const userLocalData=JSON.parse(localStorage.getItem('userData'))
+  // console.log(userLocalData);
+  
   return (
     <>
     <Header/>
@@ -40,10 +44,10 @@ const Profile = () => {
           style={{ height: "70px", width: "70px", marginBottom: "10px" }}
         />
         <Typography variant="h5" style={{ marginBottom: "10px" }}>
-          Anand NG
+        {userLocalData.name}
         </Typography>
         <Typography variant="subtitle1" style={{ marginBottom: "10px" }}>
-          anandNg@navgurukul.com
+        {userLocalData.email}
         </Typography>
         <Typography
           variant="body1"
@@ -56,7 +60,8 @@ const Profile = () => {
       </Box>
 
       {/* Edit Profile Modal */}
-      <EditProfileModal open={openModal} onClose={handleModalClose} />
+      <EditProfileModal open={openModal} onClose={handleModalClose}  userLocalData={userLocalData}
+ />
     </Box>
     </>
   );
