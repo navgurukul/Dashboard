@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
 import { Link } from "react-router-dom";
 import headerLogo from "./asset/logo.png";
-import studentProfilePhoto from "./asset/unnamed.png";
+// import studentProfilePhoto from "./asset/unnamed.png";
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
@@ -12,6 +12,7 @@ const Header = () => {
   const handleProfileClick = () => {
     setIsMenuOpen(true);
   };
+  const userLocalData=JSON.parse(localStorage.getItem('userData'))
 
   const handleMenuClose = () => {
     setIsMenuOpen(false);
@@ -60,9 +61,9 @@ const Header = () => {
       {/* Profile picture with dropdown menu */}
       <div style={{ position: "relative" }}>
         <img
-          src={studentProfilePhoto}
+          src={userLocalData.imageUrl}
           alt="StudentProfile"
-          style={{ height: "60px", borderRadius:"60px", cursor: "pointer" }}
+          style={{ height: "50px", borderRadius:"60px", cursor: "pointer" }}
           onClick={handleProfileClick}
         />
         <Menu

@@ -11,7 +11,7 @@ import {
   Button,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import studentProfilePhoto from "./asset/Ellipse 52.png";
+// import studentProfilePhoto from "./asset/unnamed.png";
 import axios from "axios"
 
 const CloseButton = styled(IconButton)(({ theme }) => ({
@@ -83,7 +83,7 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
           <img
             src={userLocalData.imageUrl}
             alt="StudentProfile"
-            style={{ height: "100px", width: "100px", marginTop: "10px" }}
+            style={{ height: "120px", width: "120px", marginTop: "10px",borderRadius:"60px" }}
           />
         </div>
         <Box
