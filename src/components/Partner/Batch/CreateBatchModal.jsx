@@ -74,6 +74,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   const [sameTime, setSameTime] = useState({}); // It is used to get same time for all the selected days.
   const [timeChecked, setTimeChecked] = useState(true); //it is used to get that voluntter/tutor is taking defferend time or same time for the class.
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const [timeText, setTimeText] = useState("");
 
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [showError, setShowError] = useState({
@@ -209,15 +210,35 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     fName: item.facilitator_name,
   }));
 
-  // timeChecked && 
-  // (mappedBatchData?.map((item) => {
-  //   if (item?.facilitator_name === classFields?.facilitator_name){
-  //     console.log(item.facilitator_name, "item name");
-  //     console.log(item.sTime, "item time");
-  //     console.log(classFields.facilitator_name);
-  //     console.log(sameTime.startTime);
-  //   }
-  // }));
+  // const [error, setError] = useState(null);
+  // for the time validation
+
+  useEffect(() => {
+    const t = moment(sameTime?.startTime, "HH:mm:ss");
+    const tHour = t.hour();
+    for (let a in mappedBatchData) {
+      if (mappedBatchData[a].fName === classFields?.facilitator_name) {
+        let u = `${classFields.date}T${tHour}`;
+        let yt = mappedBatchData[a].sTime.substring(0, 13);
+        if (yt === u) {
+          setTimeText(
+            "The tutor has a class from another batch at the same day and time"
+          );
+          break;
+        } else {
+          // console.log(u);
+          // console.log(yt);
+          setTimeText("");
+          // break;
+        }
+      } else {
+        setTimeText("");
+      }
+    }
+    // const dateTimeString = mappedBatchData[a].sTime;
+        // const formattedDateTime = moment(dateTimeString).format('YYYY-MM-DDTHH');
+        // console.log(formattedDateTime);
+  }, [classFields?.facilitator_name, sameTime, classFields.date]);
 
   const handleTimeCheckedChange = (event) => {
     setTimeChecked(!timeChecked);
@@ -503,6 +524,12 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                               ...sameTime,
                               [prop]: time.toLocaleTimeString(),
                             });
+                          }}
+                          // onError={timeText.length > 1 && true}
+                          slotProps={{
+                            textField: {
+                              helperText: prop === "startTime" && timeText,
+                            },
                           }}
                         />
                       </Stack>
