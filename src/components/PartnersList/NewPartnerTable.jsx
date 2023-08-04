@@ -67,7 +67,7 @@ function NewPartnerTable({ data }) {
   const columns = [
     {
       name: "name",
-      label: "Student Name",
+      label: "Partner Name",
       options: {
         filter: false,
         sort: false,

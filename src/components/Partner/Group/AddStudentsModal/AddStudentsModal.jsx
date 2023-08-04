@@ -18,7 +18,7 @@ import BulkUpload from "./BulkUpload";
 import showToast from "../../../showToast";
 
 const AddStudentsModal = ({ boolean, onToggle }) => {
-  const { groupId } = useParams();
+  const { groupId, partnerId } = useParams();
   const [addSingleStudents, results] = useAddSingleStudentsMutation();
   const [students, setStudents] = useState([
     { name: "", email: "", id: crypto.randomUUID() },
@@ -59,7 +59,7 @@ const AddStudentsModal = ({ boolean, onToggle }) => {
 
   const handleSubmit = () => {
     const array = students.map((student) => {
-      return { name: student.name, email: student.email };
+      return { name: student.name, email: student.email, group_id: groupId, partner_id: partnerId };
     });
     addSingleStudents({ students: array, groupId });
   };

@@ -24,20 +24,6 @@ const Header = () => {
     navigate("/");
   };
   
-  // Close the menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        handleMenuClose();
-      }
-    };
- 
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   return (
     <Box
@@ -50,7 +36,6 @@ const Header = () => {
         top: "0",
         width: "100%",
         backgroundColor: "white",
-        zIndex: "9000"
       }}
     >
       {/* Link to homepage */}
