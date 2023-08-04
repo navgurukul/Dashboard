@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState ,useEffect,useRef} from "react";
 import {
   Dialog,
   DialogTitle,
@@ -11,7 +11,6 @@ import {
   Button,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-// import studentProfilePhoto from "./asset/unnamed.png";
 import axios from "axios"
 
 const CloseButton = styled(IconButton)(({ theme }) => ({
@@ -24,15 +23,55 @@ const CloseButton = styled(IconButton)(({ theme }) => ({
 const EditProfileModal = ({ open, onClose,userLocalData  }) => {
   const [nameValue, setNameValue] = useState(""); 
   const [emailValue, setEmailValue] = useState("");
+  const [profileImage, setProfileImage] = useState(
+    userLocalData ? userLocalData.profile_picture : userLocalData.imageUrl
+  )
+  const inputRef=useRef(null)
+  const handleImageClick=()=>{
+    inputRef.current.click()
+  }
+  const handleImageChange = (event) => {
+    const file = event.target.files[0]; 
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // After the reader has successfully loaded the image, set it in the state
+  
+        const payload = new FormData();
+        payload.append("image", file);
+        axios({
+          method: "POST",
+          url: "https://api.merakilearn.org/courseEditor/ImageUploadS3",
+          headers: {
+            accept:
+                  "application/json, text/plain, */*",
+                "accept-language":
+                  "en-GB,en-US;q=0.9,en;q=0.8",
+          },
+          data: payload,
+        })
+          .then((res) => {
+            setProfileImage(res.data.file.url);
+        })
+          .catch((error) => {
+            console.error("Error uploading image:", error);
+          });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSaveProfile = () => {
-    console.log("Save Profile:", nameValue,emailValue);
+    console.log("Save Profile:", nameValue,emailValue,profileImage);
   
     const payload = {
       name: nameValue,
+      profile_picture: profileImage, 
     };
+  console.log(userLocalData);
     axios({
       method:'PUT',
-      url: `https://merd-api.merakilearn.org/users/me`,
+      url: `https://api.merakilearn.org/users/105688704696812992084`,
       headers: {
         accept: 'application/json',
         Authorization: userLocalData.idToken, 
@@ -43,6 +82,8 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
         const updatedUserLocalData = {
           ...userLocalData,
           name: nameValue,
+          profile_picture: profileImage, 
+
         };
         localStorage.setItem("userData", JSON.stringify(updatedUserLocalData));
 
@@ -59,6 +100,8 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
     if (userLocalData) {
       setNameValue(userLocalData.name);
       setEmailValue(userLocalData.email);
+      setProfileImage(userLocalData.profile_picture);
+
     }
   }, [userLocalData]);
 
@@ -80,10 +123,14 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
         <div style={{ display: "flex", justifyContent: "center" }}>
           {/* Image */}
           <img
-            src={userLocalData?.imageUrl}
+            src={profileImage || userLocalData.imageUrl}
             alt="StudentProfile"
             style={{ height: "120px", width: "120px", marginTop: "10px",borderRadius:"60px" }}
+            onClick={handleImageClick}
+
           />
+          <input type="file" ref={inputRef} style={{display:"none"}} onChange={handleImageChange}></input>
+
         </div>
         <Box
           display="flex"
@@ -124,3 +171,13 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
 };
 
 export default EditProfileModal;
+
+
+
+
+
+
+
+
+
+
