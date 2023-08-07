@@ -204,16 +204,60 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     facilitator_id: item.id,
   }));
 
+  const days = {
+    MO: "Monday",
+    TU: "Tuesday",
+    WE: "Wednesday",
+    TH: "Thusday",
+    FR: "Friday",
+    SA: "Saturday",
+    SU: "Sunday",
+  };
+
   const mappedBatchData = batchListData?.batches_data?.map((item) => ({
     tName: item.title,
     sTime: item.start_time,
     fName: item.facilitator_name,
   }));
 
-  // const [error, setError] = useState(null);
+  //This is to get the day to make a key for the deffrent selected time.
+  const commonElements = Object.keys(days).filter((element) =>
+    classFields.on_days.includes(element)
+  );
+  const filteredDayValues = commonElements.map((key) => days[key]);
+
   // for the time validation
 
   useEffect(() => {
+    // for multiple time
+
+    // const t = moment(sameTime?.startTime, "HH:mm:ss");
+    // const tHour = t.hour();
+    // for (let a in mappedBatchData) {
+    //   if (mappedBatchData[a].fName === classFields?.facilitator_name) {
+    //     for (let b in classFields.schedule){
+    //       console.log(classFields.schedule[b].startTime, b);
+    //     }
+        // console.log(classFields.schedule[a]);
+        // let u = `${classFields.date}T${tHour}`;
+        // let yt = mappedBatchData[a].sTime.substring(0, 13);
+        //   if (yt === u) {
+        //     setTimeText(
+        //       "The tutor has a class from another batch at the same day and time"
+        //     );
+        //     break;
+        //   }
+        // else {
+        //     // console.log(u);
+        //     // console.log(yt);
+        //     setTimeText("");
+        //     // break;
+        //   }
+        // } else {
+        //   setTimeText("");
+    //   }
+    // }
+    // for same time
     const t = moment(sameTime?.startTime, "HH:mm:ss");
     const tHour = t.hour();
     for (let a in mappedBatchData) {
@@ -225,7 +269,8 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
             "The tutor has a class from another batch at the same day and time"
           );
           break;
-        } else {
+        }
+      else {
           // console.log(u);
           // console.log(yt);
           setTimeText("");
@@ -235,10 +280,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
         setTimeText("");
       }
     }
-    // const dateTimeString = mappedBatchData[a].sTime;
-        // const formattedDateTime = moment(dateTimeString).format('YYYY-MM-DDTHH');
-        // console.log(formattedDateTime);
-  }, [classFields?.facilitator_name, sameTime, classFields.date]);
+  }, [classFields, sameTime, classFields]);
 
   const handleTimeCheckedChange = (event) => {
     setTimeChecked(!timeChecked);
@@ -263,25 +305,13 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
-    borderRadius: "8px",
+    borderRadius: "8px",  
+    // style: {
+    //   color: 'red'
+    // }
     border: "none",
   };
 
-  const days = {
-    MO: "Monday",
-    TU: "Tuesday",
-    WE: "Wednesday",
-    TH: "Thusday",
-    FR: "Friday",
-    SA: "Saturday",
-    SU: "Sunday",
-  };
-
-  //This is to get the day to make a key for the deffrent selected time.
-  const commonElements = Object.keys(days).filter((element) =>
-    classFields.on_days.includes(element)
-  );
-  const filteredDayValues = commonElements.map((key) => days[key]);
 
   const handleDaySelection = (e) => {
     const index = classFields.on_days.indexOf(e.target.value);
@@ -529,6 +559,11 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                           slotProps={{
                             textField: {
                               helperText: prop === "startTime" && timeText,
+                              FormHelperTextProps:{
+                                style: {
+                                  color: 'red'
+                                }
+                              }
                             },
                           }}
                         />
