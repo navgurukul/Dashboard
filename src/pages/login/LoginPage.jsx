@@ -2,8 +2,22 @@ import styles from "./styles";
 import GoogleSvg from "./assets/Google.svg";
 import login from "./assets/login.svg";
 import { Container, Grid, Typography, Stack, Button } from "@mui/material";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
+//   const login = ()=> {
+//     localStorage.setItem("login", true)
+//     navigate("/")
+//   }
+//   const navigate = useNavigate();
+//   useEffect(()=> {
+//     let login = localStorage.getItem("login");
+//     if(login){
+//         navigate("/")
+//     }
+// });
+
   return (
     <Container
       // className={isActive ? classes.resMerakilogin : classes.merakiLogin}

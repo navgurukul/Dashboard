@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 // rrd
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, BrowserRouter, Routes, Route, Navigate, Link  } from "react-router-dom";
+// import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
+
 
 // layouts
 import RootLayout from "./layouts/RootLayout";
@@ -25,20 +27,28 @@ import StudentFilter from "./components/StudentList/StudentFilter";
 import AttendanceFilter from "./components/AttendanceList/AttendanceFilter";
 import Profile from "./components/Header/Profile";
 import HomePage from "./pages/home/HomePage";
+// import RouteProtector from "./components/RouteProtector";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    // element: <RouteProtector Component ={HomePage} />
     element: <HomePage />,
+    guard: requireAuth,
   },
   {
     path: "profile",
+    // element: <RouteProtector Component ={Profile} />
     element: <Profile />,
+    guard: requireAuth,
   },
   {
     path: "/partner",
+    // element: <RouteProtector Component ={RootLayout} />,
     element: <RootLayout />,
+    guard: requireAuth,
     children: [
+      // { path: "login", element:  <RouteProtector Component ={LoginPage} />},
       { path: "login", element: <LoginPage /> },
       { index: true, element: <PartnersListPage /> },
       {
@@ -66,9 +76,23 @@ const router = createBrowserRouter([
   },
 ]);
 
+function requireAuth(to, from, next) {
+  // Replace this with your actual authentication logic
+  const isAuthenticated = JSON.parse(localStorage.getItem("userData"));;
+
+  if (isAuthenticated) {
+    console.log("not home");
+    next(); // Allow access to the route
+  } else {
+    console.log("home");
+    next('/'); // Redirect to the home page
+  }
+}
+
 function App() {
   
-  
+  // let uD = JSON.parse(localStorage.getItem("userData"));
+
   const [message, setMessage] = useState('');
   
   useEffect(() => {
@@ -76,6 +100,7 @@ function App() {
       if (event.origin !== 'https://accounts.navgurukul.org') {
         return;
       }
+
       const message = event.data;
       if (message.type === 'USER_LOGIN') {
         const data = message.payload;
