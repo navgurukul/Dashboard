@@ -72,7 +72,7 @@ function HomePage() {
       })
       .catch((err) => {
         setLoginFailed(true);
-        // console.log("error in google data", err);
+        // console.log("error in google dat", err);
       });
   };
 
