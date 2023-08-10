@@ -10,7 +10,7 @@ import NewPartnerTable from "../../../components/PartnersList/NewPartnerTable";
 
 function PartnersListPage() {
   const { data, isLoading, error } = useFetchPartnersQuery();
-//  console.log(data);
+  //  console.log(data);
   const { filteredData } = useSelector(
     ({ partnerFilter: { searchTerm, filterBy } }) => {
       let lowerCased = searchTerm?.toLowerCase();
@@ -39,25 +39,17 @@ function PartnersListPage() {
   }
 
   return (
-    <>
-      <Box
-        style={{
-          width: "1215px",
-          maxHeight: "calc(100vh - 75px)",
-          // border: "1px solid red",
-          position: "fixed",
-          // textAlign:"center",
-          overflowY: "scroll",
-          top: "10%",
-          left: "10%",
-          // transform: "translate(-10%, -10%)",
-          padding: "0px 25px",
-        }}
-      >
-        <PartnerFilter />
-        {content}
-      </Box>
-    </>
+    <Box
+      style={{
+        overflowY: "scroll",
+        width: "100%",
+        height: "100%",
+        padding: "5% 10%",
+      }}
+    >
+      <PartnerFilter />
+      {content}
+    </Box>
   );
 }
 

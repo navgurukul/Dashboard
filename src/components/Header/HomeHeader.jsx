@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import headerLogo from "../../assets/logo.png";
-import studentProfilePhoto from "./asset/Ellipse 52.png";
+// import studentProfilePhoto from "./asset/Ellipse 52.png";
 
 
 const HomeHeader = () => {

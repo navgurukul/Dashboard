@@ -7,9 +7,7 @@ import AttendanceList from "./AttendanceList"
 
 function AttendanceFilter() {
   const { spaceId, groupId, partnerId, batchId } = useParams();
-  const { data, isLoading, error } = useFetchAttendanceQuery(batchId);
-//  console.log(data);
-//  attendanceFilter
+  const { data, isLoading, error } = useFetchAttendanceQuery(batchId); 
 
 const { filteredData } = useSelector(
   ({ attendanceFilter: { searchTerm, filterBy } }) => {

@@ -27,7 +27,7 @@ function BatchList({ group, expand }) {
   const [pathways, setPathways] = useState([]);
   const open = Boolean(anchorEl);
   const [addButtonClicked, setAddButtonClicked] = useState(false);
-  
+
   // Fetch pathways when component mounts
   useEffect(() => {
     if (addButtonClicked) {
@@ -73,7 +73,8 @@ function BatchList({ group, expand }) {
   let content;
   if (isLoading) {
     content = <Typography>Loading...</Typography>;
-  } else if (error) {
+    // error
+  } else if (data.length === 0 || error) {
     content = (
       <ListItemButton
         onClick={handleClick}
@@ -97,7 +98,7 @@ function BatchList({ group, expand }) {
       </ListItemButton>
     );
   } else {
-    content = data?.batches_data.map((batch, index) => {
+    content = data?.batches_data?.map((batch, index) => {
       return <BatchItem batch={batch} key={index} spaceId={data.space_id} />;
     });
   }
@@ -126,7 +127,7 @@ function BatchList({ group, expand }) {
           vertical: "top",
           horizontal: "right",
         }}
-        getContentAnchorEl={null}
+        // getContentAnchorEl={null}
       >
         {pathways?.map((course, index) => {
           if (

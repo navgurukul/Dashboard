@@ -127,7 +127,7 @@ function GroupMenu({ group, expand }) {
               dispatch(
                 changeId({ space_id: group.space_id, group_id: group.id })
               );
-              expand(true);
+              // expand(true);
             }}
             sx={{ color: "text.primary", fontSize: "16px" }}
           />

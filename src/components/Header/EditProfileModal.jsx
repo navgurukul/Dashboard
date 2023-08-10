@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import {
   Dialog,
   DialogTitle,
@@ -11,7 +11,8 @@ import {
   Button,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import studentProfilePhoto from "./asset/Ellipse 52.png";
+// import studentProfilePhoto from "./asset/unnamed.png";
+import axios from "axios"
 
 const CloseButton = styled(IconButton)(({ theme }) => ({
   position: "absolute",
@@ -20,14 +21,48 @@ const CloseButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.grey[500],
 }));
 
-const EditProfileModal = ({ open, onClose }) => {
-  const [nameValue, setNameValue] = useState("Anand NG"); // State to keep track of the name value
-
+const EditProfileModal = ({ open, onClose,userLocalData  }) => {
+  const [nameValue, setNameValue] = useState(""); 
+  const [emailValue, setEmailValue] = useState("");
   const handleSaveProfile = () => {
-    // Logic to save the changed name to the server
-    console.log("Save Profile:", nameValue);
-    onClose(); // Close the modal after saving the profile
+    console.log("Save Profile:", nameValue,emailValue);
+  
+    const payload = {
+      name: nameValue,
+    };
+    axios({
+      method:'PUT',
+      url: `https://merd-api.merakilearn.org/users/me`,
+      headers: {
+        accept: 'application/json',
+        Authorization: userLocalData.idToken, 
+      },
+      data: payload,
+    })
+      .then((res) => {
+        const updatedUserLocalData = {
+          ...userLocalData,
+          name: nameValue,
+        };
+        localStorage.setItem("userData", JSON.stringify(updatedUserLocalData));
+
+        onClose(); 
+      })
+      .catch((error) => {
+        console.error('Error saving profile:', error);
+      });
   };
+
+
+  useEffect(() => {
+    // Set initial values when the modal is opened
+    if (userLocalData) {
+      setNameValue(userLocalData.name);
+      setEmailValue(userLocalData.email);
+    }
+  }, [userLocalData]);
+
+  
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md">
@@ -45,9 +80,9 @@ const EditProfileModal = ({ open, onClose }) => {
         <div style={{ display: "flex", justifyContent: "center" }}>
           {/* Image */}
           <img
-            src={studentProfilePhoto}
+            src={userLocalData?.imageUrl}
             alt="StudentProfile"
-            style={{ height: "100px", width: "100px", marginTop: "10px" }}
+            style={{ height: "120px", width: "120px", marginTop: "10px",borderRadius:"60px" }}
           />
         </div>
         <Box
@@ -71,8 +106,8 @@ const EditProfileModal = ({ open, onClose }) => {
             label="Email"
             variant="outlined"
             fullWidth
-            defaultValue="anandNg@navgurukul.com"
             sx={{ marginTop: 3 }}
+            value={emailValue}
             disabled
           />
 
