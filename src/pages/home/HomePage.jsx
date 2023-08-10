@@ -24,18 +24,16 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Image from "./assets/dicto.jpg";
 import Infosys from "./assets/infosys.png";
 import Footer from "../../components/Footer/Footer";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 function HomePage() {
   const navigate = useNavigate();
 
-
   useEffect(() => {
     let userData = JSON.parse(localStorage.getItem("userData"));
-    console.log(userData, "Is authenticated");
+    // console.log(userData, "Is authenticated");
 
     if (userData) {
-      navigate('/partner');
-
+      navigate("/partner");
     }
   }, []);
 
@@ -69,17 +67,16 @@ function HomePage() {
           </Typography>
           <br />
           <a href="https://accounts.navgurukul.org">
-          <Button
-            // startIcon={<Add />}
-            // onClick={handleModalToggle}
-            style={{ marginTop: 20 }}
-            variant="contained"
-          >
-           
-            <Typography variant="subtitle2">
-              Access Partner Dashboard
-            </Typography>
-          </Button>
+            <Button
+              // startIcon={<Add />}
+              // onClick={handleModalToggle}
+              style={{ marginTop: 20 }}
+              variant="contained"
+            >
+              <Typography variant="subtitle2">
+                Access Partner Dashboard
+              </Typography>
+            </Button>
           </a>
           <br />
           <br />
