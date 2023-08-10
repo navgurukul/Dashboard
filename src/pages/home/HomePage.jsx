@@ -25,15 +25,23 @@ import Image from "./assets/dicto.jpg";
 import Infosys from "./assets/infosys.png";
 import Footer from "../../components/Footer/Footer";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 function HomePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
     let userData = JSON.parse(localStorage.getItem("userData"));
-    // console.log(userData, "Is authenticated");
-
+    let token = JSON.parse(localStorage.getItem("token"))
     if (userData) {
+      axios({
+        url: `https://merd-api.merakilearn.org/users/auth/GoogleIdentityServices`,
+        method: "post",
+        headers: { accept: "application/json", Authorization: token },
+        data: { "idToken": token, "mode": "web" },
+    }).then((res)=>{
+      localStorage.setItem("AUTH", JSON.stringify(res.data));
       navigate("/partner");
+    })
     }
   }, []);
 
