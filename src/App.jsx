@@ -25,40 +25,53 @@ import StudentFilter from "./components/StudentList/StudentFilter";
 import AttendanceFilter from "./components/AttendanceList/AttendanceFilter";
 import Profile from "./components/Header/Profile";
 import HomePage from "./pages/home/HomePage";
+import RouteProtector from "./components/RouteProtector";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: <RouteProtector Component={HomePage} />,
   },
   {
     path: "profile",
-    element: <Profile />,
+    element: <RouteProtector Component={Profile} />,
   },
   {
     path: "/partner",
-    element: <RootLayout />,
+    element: <RouteProtector Component={RootLayout} />,
     children: [
-      { path: "login", element: <LoginPage /> },
+      { path: "login", element: <RouteProtector Component={LoginPage} /> },
       { index: true, element: <PartnersListPage /> },
       {
         path: ":partnerId",
-        element: <PartnerPage />,
+        element: <RouteProtector Component={PartnerPage} />,
         children: [
-          { index: true, element: <CreateSpace /> },
-          { path: "space/:spaceId", element: <CreateGroup /> },
-          { path: "space/:spaceId/group/:groupId", element: <GroupPage /> },
+          { index: true, element: <RouteProtector Component={CreateSpace} /> },
+          {
+            path: "space/:spaceId",
+            element: <RouteProtector Component={CreateGroup} />,
+          },
+          {
+            path: "space/:spaceId/group/:groupId",
+            element: <RouteProtector Component={GroupPage} />,
+          },
           {
             path: "space/:spaceId/group/:groupId/batch/:batchId",
-            element: <BatchPage />,
+            element: <RouteProtector Component={BatchPage} />,
             children: [
-              { index: true, element: <StudentFilter /> },
-              { path: "attendancelist", element: <AttendanceFilter /> },
+              {
+                index: true,
+                element: <RouteProtector Component={StudentFilter} />,
+              },
+              {
+                path: "attendancelist",
+                element: <RouteProtector Component={AttendanceFilter} />,
+              },
             ],
           },
           {
             path: "space/:spaceId/group/:groupId/batch/:batchId/studentinfo/:studentId",
-            element: <StudentInfo />,
+            element: <RouteProtector Component={StudentInfo} />,
           },
         ],
       },
@@ -67,35 +80,37 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  
-  
-  const [message, setMessage] = useState('');
-  
+
+  const [message, setMessage] = useState("");
+
   useEffect(() => {
     const handleIncomingMessage = (event) => {
-      if (event.origin !== 'https://accounts.navgurukul.org') {
+      if (event.origin !== "https://accounts.navgurukul.org") {
         return;
       }
+
       const message = event.data;
-      if (message.type === 'USER_LOGIN') {
+      if (message.type === "USER_LOGIN") {
         const data = message.payload;
-        console.log('Received data:', data);
+        console.log("Received data:", data);
       }
       setMessage(message.payload);
-      localStorage.setItem('token', JSON.stringify(message.payload?.token));
-      localStorage.setItem('userData', JSON.stringify(message.payload?.userDetails));
+      localStorage.setItem("token", JSON.stringify(message.payload?.token));
+      localStorage.setItem(
+        "userData",
+        JSON.stringify(message.payload?.userDetails)
+      );
 
       var response = "Message received at meraki";
       event.source.postMessage(response, event.origin);
     };
 
-    window.addEventListener('message', handleIncomingMessage);
+    window.addEventListener("message", handleIncomingMessage);
 
     return () => {
-      window.removeEventListener('message', handleIncomingMessage);
+      window.removeEventListener("message", handleIncomingMessage);
     };
   }, [message]);
-
 
   return (
     <ThemeProvider theme={theme}>
