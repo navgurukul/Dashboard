@@ -17,8 +17,8 @@ const Header = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
   const handleLogOut = ()=>{
-    setAnchorEl(null);
     localStorage.clear()
     navigate("/")
   }
