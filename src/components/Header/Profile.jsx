@@ -16,7 +16,7 @@ const Profile = () => {
     setOpenModal(false);
   };
 
-  const userLocalData=JSON.parse(localStorage.getItem('userData'))
+  const userLocalData=JSON.parse(localStorage.getItem('AUTH'))
   
   return (
     <>
@@ -38,12 +38,12 @@ const Profile = () => {
         }}
       >
         <img
-          src={userLocalData?.imageUrl}
+          src={userLocalData?.user.profile_picture}
           alt="StudentProfile"
           style={{ height: "120px", width: "120px", marginBottom: "10px",borderRadius:"60px" }}
         />
         <Typography variant="h5" style={{ marginBottom: "10px" }}>
-        {userLocalData?.name}
+        {userLocalData?.user?.name}
         </Typography>
         <Typography variant="subtitle1" style={{ marginBottom: "10px" }}>
         {userLocalData?.email}

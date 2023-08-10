@@ -24,6 +24,7 @@ const CloseButton = styled(IconButton)(({ theme }) => ({
 const EditProfileModal = ({ open, onClose,userLocalData  }) => {
   const [nameValue, setNameValue] = useState(""); 
   const [emailValue, setEmailValue] = useState("");
+
   const handleSaveProfile = () => {
     console.log("Save Profile:", nameValue,emailValue);
   
@@ -80,7 +81,7 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
         <div style={{ display: "flex", justifyContent: "center" }}>
           {/* Image */}
           <img
-            src={userLocalData?.imageUrl}
+            src={userLocalData?.user?.profile_picture}
             alt="StudentProfile"
             style={{ height: "120px", width: "120px", marginTop: "10px",borderRadius:"60px" }}
           />
