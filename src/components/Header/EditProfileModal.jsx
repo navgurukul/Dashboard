@@ -101,7 +101,7 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
     if (userLocalData) {
       setNameValue(userLocalData.name||userLocalData?.user?.name);
       setEmailValue(userLocalData?.user?.email);
-      setProfileImage(userLocalData?.user.profile_picture)
+      setProfileImage(userLocalData?.user?.profile_picture)
     }
   }, [userLocalData]);
 
