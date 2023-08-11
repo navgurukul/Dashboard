@@ -60,7 +60,7 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
       reader.readAsDataURL(file);
     }
   };
-
+  
   const handleSaveProfile = () => {
     console.log("Save Profile:", nameValue,emailValue,profileImage);
   
@@ -78,7 +78,6 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
       data: payload,
     })
       .then((res) => {
-  
         const updatedUserLocalData = {
           ...userLocalData,
           name: nameValue,
@@ -95,6 +94,7 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
       });
   };
 
+       
 
   useEffect(() => {
     // Set initial values when the modal is opened
