@@ -233,7 +233,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   );
   const filteredDayValues = commonElements.map((key) => days[key]);
 
-  // for the time validation
+  //this is to the time validation 
 
   // useEffect(() => {
   // for multiple time
