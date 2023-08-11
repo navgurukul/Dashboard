@@ -24,18 +24,24 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Image from "./assets/dicto.jpg";
 import Infosys from "./assets/infosys.png";
 import Footer from "../../components/Footer/Footer";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 function HomePage() {
   const navigate = useNavigate();
 
-
   useEffect(() => {
     let userData = JSON.parse(localStorage.getItem("userData"));
-    console.log(userData, "Is authenticated");
-
+    let token = JSON.parse(localStorage.getItem("token"))
     if (userData) {
-      navigate('/partner');
-
+      axios({
+        url: `https://merd-api.merakilearn.org/users/auth/GoogleIdentityServices`,
+        method: "post",
+        headers: { accept: "application/json", Authorization: token },
+        data: { "idToken": token, "mode": "web" },
+    }).then((res)=>{
+      localStorage.setItem("AUTH", JSON.stringify(res.data));
+      navigate("/partner");
+    })
     }
   }, []);
 
@@ -52,15 +58,16 @@ function HomePage() {
       <HomeHeader />
       <Outlet />
       {/* First section with access dashboard button */}
-      <Box
-        style={{ display: "flex" }}
+      <Container>
+      <Grid container
+        style={{ display: "flex", justifyContent: "center" }}
         sx={{
           pt: 20,
           pb: 10,
-          px: 15,
+          // px: 15,
         }}
       >
-        <Box>
+        <Grid md={6} sm={12}>
           <Typography variant="h4">
             Give your students a step in <br /> the door with Meraki
           </Typography>
@@ -69,17 +76,16 @@ function HomePage() {
           </Typography>
           <br />
           <a href="https://accounts.navgurukul.org">
-          <Button
-            // startIcon={<Add />}
-            // onClick={handleModalToggle}
-            style={{ marginTop: 20 }}
-            variant="contained"
-          >
-           
-            <Typography variant="subtitle2">
-              Access Partner Dashboard
-            </Typography>
-          </Button>
+            <Button
+              // startIcon={<Add />}
+              // onClick={handleModalToggle}
+              style={{ marginTop: 20 }}
+              variant="contained"
+            >
+              <Typography variant="subtitle2">
+                Access Partner Dashboard
+              </Typography>
+            </Button>
           </a>
           <br />
           <br />
@@ -91,12 +97,13 @@ function HomePage() {
               </a>
             </Typography>
           </Box> */}
-        </Box>
+        </Grid>
 
-        <Box style={{ marginLeft: "auto" }}>
+        <Grid md={6} sm={12}>
           <img src={DashboardImage} height={370} width={550} />
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
+      </Container>
       {/* Solution section */}
       <Box>
         <Typography align="center" variant="h5">

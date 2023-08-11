@@ -1,28 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
 import { Link } from "react-router-dom";
 import headerLogo from "./asset/logo.png";
+// import studentProfilePhoto from "./asset/unnamed.png";
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const userLocalData = JSON.parse(localStorage.getItem('userData'));
 
-  const handleProfileClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleProfileClick = () => {
+    setIsMenuOpen(true);
   };
+  const userLocalData=JSON.parse(localStorage.getItem('AUTH'))
 
   const handleMenuClose = () => {
-    setAnchorEl(null);
+    setIsMenuOpen(false);
   };
 
   const handleLogOut = () => {
-    setAnchorEl(null);
+    setIsMenuOpen(false);
     localStorage.clear();
     navigate("/");
   };
   
+
   return (
     <Box
       sx={{
@@ -34,24 +36,26 @@ const Header = () => {
         top: "0",
         width: "100%",
         backgroundColor: "white",
+        zIndex: "10"
       }}
     >
       {/* Link to homepage */}
-      <Link to="/">
+      <Link to="/partner">
         <img src={headerLogo} alt="headerLogo" style={{ height: "50px" }} />
       </Link>
 
       {/* Profile picture with dropdown menu */}
       <div style={{ position: "relative" }}>
         <img
-          src={userLocalData?.imageUrl}
+          src={userLocalData.profile_picture||userLocalData?.user?.profile_picture}
           alt="StudentProfile"
           style={{ height: "50px", borderRadius:"60px", cursor: "pointer" }}
           onClick={handleProfileClick}
         />
         <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
+          anchorReference="anchorPosition"
+          anchorPosition={{ top: 70, left: 1500 }} // Adjust the position as needed
+          open={isMenuOpen}
           onClose={handleMenuClose}
         >
           {/* Link to profile page */}

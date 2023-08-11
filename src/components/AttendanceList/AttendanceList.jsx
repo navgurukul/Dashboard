@@ -218,7 +218,7 @@ const AttendanceList = ({ data }) => {
               fontWeight: "400",
             }}
           >
-            Completed on 10 Dec 23
+            Completed on 10 Dec 25
           </Typography>
         </Box>
       </Box>
