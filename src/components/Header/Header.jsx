@@ -46,7 +46,7 @@ const Header = () => {
       {/* Profile picture with dropdown menu */}
       <div style={{ position: "relative" }}>
         <img
-          src={userLocalData?.user?.profile_picture}
+          src={userLocalData.profile_picture||userLocalData?.user?.profile_picture}
           alt="StudentProfile"
           style={{ height: "50px", borderRadius:"60px", cursor: "pointer" }}
           onClick={handleProfileClick}

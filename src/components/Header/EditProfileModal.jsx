@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState ,useEffect,useRef} from "react";
 import {
   Dialog,
   DialogTitle,
@@ -25,18 +25,55 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
   const [nameValue, setNameValue] = useState(""); 
   const [emailValue, setEmailValue] = useState("");
 
+  const [profileImage, setProfileImage] = useState(userLocalData.profile_picture)
+  const inputRef=useRef(null)
+  const handleImageClick=()=>{
+    inputRef.current.click()
+  }
+  const handleImageChange = (event) => {
+    const file = event.target.files[0]; 
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // After the reader has successfully loaded the image, set it in the state
+
+        const payload = new FormData();
+        payload.append("image", file);
+        axios({
+          method: "POST",
+          url: "https://api.merakilearn.org/courseEditor/ImageUploadS3",
+          headers: {
+            accept:
+                  "application/json, text/plain, */*",
+                "accept-language":
+                  "en-GB,en-US;q=0.9,en;q=0.8",
+          },
+          data: payload,
+        })
+          .then((res) => {
+            setProfileImage(res.data.file.url);
+        })
+          .catch((error) => {
+            console.error("Error uploading image:", error);
+          });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  
   const handleSaveProfile = () => {
-    console.log("Save Profile:", nameValue,emailValue);
+    console.log("Save Profile:", nameValue,emailValue,profileImage);
   
     const payload = {
       name: nameValue,
+      profile_picture: profileImage, 
     };
     axios({
       method:'PUT',
-      url: `https://merd-api.merakilearn.org/users/me`,
+      url: `https://merd-api.merakilearn.org/users/${userLocalData.user.id}`,
       headers: {
         accept: 'application/json',
-        Authorization: userLocalData.idToken, 
+        Authorization: userLocalData.token, 
       },
       data: payload,
     })
@@ -44,8 +81,11 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
         const updatedUserLocalData = {
           ...userLocalData,
           name: nameValue,
+          profile_picture: profileImage,
         };
-        localStorage.setItem("userData", JSON.stringify(updatedUserLocalData));
+        console.log("updatedUserLocalData:", updatedUserLocalData);
+
+        localStorage.setItem("AUTH", JSON.stringify(updatedUserLocalData));
 
         onClose(); 
       })
@@ -54,12 +94,14 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
       });
   };
 
+       
 
   useEffect(() => {
     // Set initial values when the modal is opened
     if (userLocalData) {
-      setNameValue(userLocalData.name);
-      setEmailValue(userLocalData.email);
+      setNameValue(userLocalData.name||userLocalData?.user?.name);
+      setEmailValue(userLocalData?.user?.email);
+      setProfileImage(userLocalData?.user?.profile_picture)
     }
   }, [userLocalData]);
 
@@ -81,10 +123,13 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
         <div style={{ display: "flex", justifyContent: "center" }}>
           {/* Image */}
           <img
-            src={userLocalData?.user?.profile_picture}
+            src={userLocalData.profile_picture||userLocalData?.user?.profile_picture}
             alt="StudentProfile"
-            style={{ height: "120px", width: "120px", marginTop: "10px",borderRadius:"60px" }}
+            style={{ height: "120px", width: "120px", marginTop: "10px",borderRadius:"60px",position:"fixed" }}
           />
+          <Button style={{marginTop: "135px"}}  onClick={handleImageClick}>Upload profile</Button>
+          <input type="file" ref={inputRef} style={{display:"none"}} onChange={handleImageChange}></input>
+
         </div>
         <Box
           display="flex"
@@ -104,11 +149,12 @@ const EditProfileModal = ({ open, onClose,userLocalData  }) => {
 
           {/* Email Address */}
           <TextField
-            label="Email"
+            // label="Email"
             variant="outlined"
             fullWidth
             sx={{ marginTop: 3 }}
             value={emailValue}
+            onChange={(e) => setEmailValue(e.target.value)}
             disabled
           />
 

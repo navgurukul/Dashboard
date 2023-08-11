@@ -38,15 +38,15 @@ const Profile = () => {
         }}
       >
         <img
-          src={userLocalData?.user.profile_picture}
+          src={userLocalData.profile_picture||userLocalData?.user?.profile_picture}
           alt="StudentProfile"
           style={{ height: "120px", width: "120px", marginBottom: "10px",borderRadius:"60px" }}
         />
         <Typography variant="h5" style={{ marginBottom: "10px" }}>
-        {userLocalData?.user?.name}
+        {userLocalData.name||userLocalData?.user?.name}
         </Typography>
         <Typography variant="subtitle1" style={{ marginBottom: "10px" }}>
-        {userLocalData?.email}
+        {userLocalData?.user?.email}
         </Typography>
         <Typography
           variant="body1"
