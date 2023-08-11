@@ -49,15 +49,15 @@ const SimpleAccordion = ({ courseInfo }) => {
             style={{
               display: "flex",
               alignItems: "center",
-              position: "relative",
-              left: "200px",
+              marginLeft:"auto"
+
             }}
           >
             <CircularProgress
               variant="determinate"
               size={25}
               value={courseProgressBar}
-              style={{ color: "green", marginRight: "8px" }}
+              style={{ color: "green", marginRight: "5px" }}
             />
             <span style={{ fontSize: "14px" }}>
               {courseProgressBar?.toFixed(2)}
