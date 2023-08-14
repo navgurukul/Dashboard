@@ -72,6 +72,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   });
 
   const { data: batchListData } = useFetchBatchesQuery(groupId);
+  console.log(batchListData);
   const [existingTitles, setExistingTitles] = useState([]);
   const [sameTime, setSameTime] = useState({}); // It is used to get same time for all the selected days.
   const [timeChecked, setTimeChecked] = useState(true); //it is used to get that voluntter/tutor is taking defferend time or same time for the class.
@@ -233,7 +234,7 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   );
   const filteredDayValues = commonElements.map((key) => days[key]);
 
-  //this is to the time validation 
+  //this is to the time validation
 
   // useEffect(() => {
   // for multiple time
@@ -329,9 +330,6 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
       setClassFields({ ...classFields, ["on_days"]: dayDeleted });
     }
   };
-
-  // console.log(sameTime);
-  // console.log(classFields);
 
   const handleSubmit = () => {
     let payload = classFields;
