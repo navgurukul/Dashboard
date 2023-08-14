@@ -62,7 +62,7 @@ const StudentInfo = () => {
             <p>Error loading partner name</p>
           ) : (
             <Typography style={{ fontFamily: "Noto Sans", fontSize: "14px"}}>
-              {partnerName} / <span style={{ color: "green" }}>{spaceName}</span> /<span style={{ color: "green" }}>{groupName}</span> / {name_student}
+              {partnerName} / <span style={{ color: "#48A145" }}>{spaceName}</span> /<span style={{ color: "#48A145" }}>{groupName}</span> / {name_student}
             </Typography>
           )}
         </Box>
