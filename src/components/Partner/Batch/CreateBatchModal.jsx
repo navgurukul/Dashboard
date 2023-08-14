@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useFetchBatchesQuery } from "../../../store";
+import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
+
 import {
   Typography,
   Grid,
@@ -70,10 +72,12 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
   });
 
   const { data: batchListData } = useFetchBatchesQuery(groupId);
+  console.log(batchListData);
   const [existingTitles, setExistingTitles] = useState([]);
   const [sameTime, setSameTime] = useState({}); // It is used to get same time for all the selected days.
   const [timeChecked, setTimeChecked] = useState(true); //it is used to get that voluntter/tutor is taking defferend time or same time for the class.
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const [timeText, setTimeText] = useState(""); // It is ussed to store the validation error text, if the selected time is exist.
 
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [showError, setShowError] = useState({
@@ -96,11 +100,16 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     date: false,
   });
 
+  //To set the frequency
   if (classFields.on_days.length === 7) {
     classFields.frequency = "DAILY";
   } else {
     classFields.frequency = "WEEKLY";
   }
+
+  //To get the corrent date
+  const currentDate = new Date();
+  const formatedCurrentDate = moment(currentDate).format("YYYY-MM-DD");
 
   useEffect(() => {
     const mappedTitles = batchListData?.batches_data?.map((item) => item.title);
@@ -203,21 +212,79 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     facilitator_id: item.id,
   }));
 
+  const days = {
+    MO: "Monday",
+    TU: "Tuesday",
+    WE: "Wednesday",
+    TH: "Thusday",
+    FR: "Friday",
+    SA: "Saturday",
+    SU: "Sunday",
+  };
+
   const mappedBatchData = batchListData?.batches_data?.map((item) => ({
     tName: item.title,
     sTime: item.start_time,
     fName: item.facilitator_name,
   }));
 
-  // timeChecked && 
-  // (mappedBatchData?.map((item) => {
-  //   if (item?.facilitator_name === classFields?.facilitator_name){
-  //     console.log(item.facilitator_name, "item name");
-  //     console.log(item.sTime, "item time");
-  //     console.log(classFields.facilitator_name);
-  //     console.log(sameTime.startTime);
+  //This is to get the day to make a key for the deffrent selected time.
+  const commonElements = Object.keys(days).filter((element) =>
+    classFields.on_days.includes(element)
+  );
+  const filteredDayValues = commonElements.map((key) => days[key]);
+
+  //this is to the time validation
+
+  // useEffect(() => {
+  // for multiple time
+
+  // const t = moment(sameTime?.startTime, "HH:mm:ss");
+  // const tHour = t.hour();
+  // for (let a in mappedBatchData) {
+  //   if (mappedBatchData[a].fName === classFields?.facilitator_name) {
+  //     for (let b in classFields.schedule){
+  //       console.log(classFields.schedule[b].startTime, b);
+  //     }
+  // console.log(classFields.schedule[a]);
+  // let u = `${classFields.date}T${tHour}`;
+  // let yt = mappedBatchData[a].sTime.substring(0, 13);
+  //   if (yt === u) {
+  //     setTimeText(
+  //       "The tutor has a class from another batch at the same day and time"
+  //     );
+  //     break;
   //   }
-  // }));
+  // else {
+  //     // console.log(u);
+  //     // console.log(yt);
+  //     setTimeText("");
+  //     // break;
+  //   }
+  // } else {
+  //   setTimeText("");
+  //   }
+  // }
+  // for same time
+  //   const timeFromSameTime = moment(sameTime?.startTime, "HH:mm:ss");
+  //   const hourOfSameTime = timeFromSameTime.hour();
+  //   for (let batchIndex in mappedBatchData) {
+  //     if (mappedBatchData[batchIndex].fName === classFields?.facilitator_name) {
+  //       let currentFilldTime = `${classFields.date}T${hourOfSameTime}`;
+  //       let existingStartTime = mappedBatchData[batchIndex].sTime.substring(0, 13);
+  //       if (existingStartTime === currentFilldTime) {
+  //         setTimeText(
+  //           "The tutor has a class from another batch at the same day and time"
+  //         );
+  //         break;
+  //       } else {
+  //         setTimeText("");
+  //       }
+  //     } else {
+  //       setTimeText("");
+  //     }
+  //   }
+  // }, [classFields, sameTime, classFields]);
 
   const handleTimeCheckedChange = (event) => {
     setTimeChecked(!timeChecked);
@@ -243,24 +310,11 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
     boxShadow: 24,
     p: 4,
     borderRadius: "8px",
+    // style: {
+    //   color: 'red'
+    // }
     border: "none",
   };
-
-  const days = {
-    MO: "Monday",
-    TU: "Tuesday",
-    WE: "Wednesday",
-    TH: "Thusday",
-    FR: "Friday",
-    SA: "Saturday",
-    SU: "Sunday",
-  };
-
-  //This is to get the day to make a key for the deffrent selected time.
-  const commonElements = Object.keys(days).filter((element) =>
-    classFields.on_days.includes(element)
-  );
-  const filteredDayValues = commonElements.map((key) => days[key]);
 
   const handleDaySelection = (e) => {
     const index = classFields.on_days.indexOf(e.target.value);
@@ -493,16 +547,34 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                     >
                       <Stack spacing={3} key={index}>
                         <DesktopTimePicker
-                          ampm={false}
+                          viewRenderers={{
+                            hours: renderTimeViewClock,
+                            minutes: renderTimeViewClock,
+                          }}
+                          minutesStep={15}
+                          disablePast={
+                            classFields.date === formatedCurrentDate && true
+                          }
                           key={index}
                           label={label}
                           value={sameTime.prop ? new Date(sameTime.prop) : null}
-                          minTime={new Date(new Date().setSeconds(0))}
+                          // minTime={new Date(new Date().setSeconds(0))}
                           onChange={(time) => {
                             setSameTime({
                               ...sameTime,
                               [prop]: time.toLocaleTimeString(),
                             });
+                          }}
+                          // onError={timeText.length > 1 && true}
+                          slotProps={{
+                            textField: {
+                              helperText: prop === "startTime" && timeText,
+                              FormHelperTextProps: {
+                                style: {
+                                  color: "red",
+                                },
+                              },
+                            },
                           }}
                         />
                       </Stack>
@@ -529,15 +601,23 @@ const CreateBatchModal = ({ boolean, onToggle }) => {
                           >
                             <Stack spacing={3} key={index}>
                               <DesktopTimePicker
+                                viewRenderers={{
+                                  hours: renderTimeViewClock,
+                                  minutes: renderTimeViewClock,
+                                }}
+                                minutesStep={15}
+                                disablePast={
+                                  classFields.date === formatedCurrentDate &&
+                                  true
+                                }
                                 key={index}
                                 label={label}
-                                ampm={false}
                                 value={
                                   classFields.schedule[item]
                                     ? new Date(classFields.schedule[item][prop])
                                     : null
                                 }
-                                minTime={new Date(new Date().setSeconds(0))}
+                                // minTime={new Date(new Date().setSeconds(0))}
                                 onChange={(time) => {
                                   setClassFields({
                                     ...classFields,

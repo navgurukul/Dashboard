@@ -28,6 +28,9 @@ function BatchList({ group, expand }) {
   const open = Boolean(anchorEl);
   const [addButtonClicked, setAddButtonClicked] = useState(false);
 
+  // Taking the token from the Localstorage to use in API authorization
+  const token = localStorage.getItem("token");
+
   // Fetch pathways when component mounts
   useEffect(() => {
     if (addButtonClicked) {
@@ -36,8 +39,8 @@ function BatchList({ group, expand }) {
         method: "GET",
         headers: {
           accept: "application/json",
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
+          Authorization:token,
+            // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
           "version-code": 50,
         },
       }).then((res) => {

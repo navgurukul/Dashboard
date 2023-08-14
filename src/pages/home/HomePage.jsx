@@ -58,15 +58,16 @@ function HomePage() {
       <HomeHeader />
       <Outlet />
       {/* First section with access dashboard button */}
-      <Box
-        style={{ display: "flex" }}
+      <Container>
+      <Grid container
+        style={{ display: "flex", justifyContent: "center" }}
         sx={{
           pt: 20,
           pb: 10,
-          px: 15,
+          // px: 15,
         }}
       >
-        <Box>
+        <Grid md={6} sm={12}>
           <Typography variant="h4">
             Give your students a step in <br /> the door with Meraki
           </Typography>
@@ -96,12 +97,13 @@ function HomePage() {
               </a>
             </Typography>
           </Box> */}
-        </Box>
+        </Grid>
 
-        <Box style={{ marginLeft: "auto" }}>
+        <Grid md={6} sm={12}>
           <img src={DashboardImage} height={370} width={550} />
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
+      </Container>
       {/* Solution section */}
       <Box>
         <Typography align="center" variant="h5">

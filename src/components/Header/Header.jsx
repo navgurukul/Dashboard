@@ -36,10 +36,11 @@ const Header = () => {
         top: "0",
         width: "100%",
         backgroundColor: "white",
+        zIndex: "10"
       }}
     >
       {/* Link to homepage */}
-      <Link to="/">
+      <Link to="/partner">
         <img src={headerLogo} alt="headerLogo" style={{ height: "50px" }} />
       </Link>
 
