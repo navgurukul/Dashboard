@@ -30,58 +30,19 @@ function HomePage() {
   const [user, setUser] = useState({})
   const navigate = useNavigate();
 
-  function onSignIn(googleUser) {
-    // let profile = googleUser.getBasicProfile();
-    // let { id_token: idToken } = googleUser.getAuthResponse();
-    // console.log("profile.getId()", profile.getId());
-    // console.log("idToken", idToken);
-    sendGoogleUserData(
-      "eyJhbGciOiJSUzI1NiIsImtpZCI6IjkxMWUzOWUyNzkyOGFlOWYxZTlkMWUyMTY0NmRlOTJkMTkzNTFiNDQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMzQ5MTcyODMzNjYtYjgwNmtva3RpbW8ycG9kMWNqYXM4a24ybGNwbjdic2UuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIzNDkxNzI4MzM2Ni1iODA2a29rdGltbzJwb2QxY2phczhrbjJsY3BuN2JzZS5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjEwNzEzNzM2MTk2MDM0MDc0MDIwMCIsImVtYWlsIjoibmluamFpdGFjaGkxMjNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJnWklQbzZjMkRPX0pKYUl6cElsbmVnIiwibmJmIjoxNjkxNTU3MzgxLCJuYW1lIjoiTklOSkEgSVRBQ0hJIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FBY0hUdGQyTHFVVXRiSlduYUtmOFBOMndoZlBSaG5pWVlWME5RbUYxdzZhbU1ZdG1nPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6Ik5JTkpBIiwiZmFtaWx5X25hbWUiOiJJVEFDSEkiLCJsb2NhbGUiOiJlbi1HQiIsImlhdCI6MTY5MTU1NzY4MSwiZXhwIjoxNjkxNTYxMjgxLCJqdGkiOiJlMGM2ZjZlOTllZmFhNGE5MGEyMTEyNmFjYjIwMDk4MDMxYWY4Yzg1In0.weqK2G9fKcYAKlc2dbDX9PFPUzOG0mUQQbh8BnlbO3nsLRrDYjafXRAOTP-ffEcGaCSljRve0QWkcPqGojuLXCq21uWkt9rzLFidzcBrTDLlxPfsxi91M2n_g54c59XvdCj2Cad1IaUi_YgHKMHJelAMnhVW102Ch53Gdb8snmGE-ZNQL-VYrrwP1DAo7ukECdEzsDGiNHQ6bB8loOGyMlxDM_eU7-PSYvN-3V15IIT15ODY3ea09Fr4favMJkvYKgKJbR52QNBKTqvcQiLudy7Sd0kRMtFHXrNKyvFdY3t7DsW7L03cMlt4S68AHYfm61KYl_Jm7zlR6_ugAdArNQ"
-    );
-  }
-
-  let BASE_URL = "https://merd-api.merakilearn.org";
-  const sendGoogleUserData = async (token) => {
-    return axios({
-      url: `${BASE_URL}/users/auth/google`,
-      method: "post",
-      headers: { accept: "application/json", Authorization: token },
-      data: { idToken: token, mode: "web" },
-    })
-      .then((res) => {
-        console.log("k");
-        setUser(res.data)
-        localStorage.setItem("AUTH55", JSON.stringify(res.data));
-        axios({
-          method: "get",
-          url: `${BASE_URL}/users/me`,
-          headers: {
-            accept: "application/json",
-            Authorization: res.data.token,
-          },
-        });
-        // .then((res) => {
-        //     const projectId = sessionStorage.getItem("redirectToProject");
-        //     if(projectId){
-        //         sessionStorage.removeItem("redirectToProject");
-        //         navigate(`/partners`);
-        //     }else{
-        //         navigate("/");
-        //     }
-        // });
-      })
-      .catch((err) => {
-        setLoginFailed(true);
-        // console.log("error in google dat", err);
-      });
-  };
-
   useEffect(() => {
-    onSignIn();
-    let userData = JSON.parse(localStorage.getItem("AUTH55"));
-    console.log(userData, "Is authenticated");
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    let token = JSON.parse(localStorage.getItem("token"))
     if (userData) {
+      axios({
+        url: `https://merd-api.merakilearn.org/users/auth/GoogleIdentityServices`,
+        method: "post",
+        headers: { accept: "application/json", Authorization: token },
+        data: { "idToken": token, "mode": "web" },
+    }).then((res)=>{
+      localStorage.setItem("AUTH", JSON.stringify(res.data));
       navigate("/partner");
+    })
     }
   }, [user]);
 
@@ -98,15 +59,16 @@ function HomePage() {
       <HomeHeader />
       <Outlet />
       {/* First section with access dashboard button */}
-      <Box
-        style={{ display: "flex" }}
+      <Container>
+      <Grid container
+        style={{ display: "flex", justifyContent: "center" }}
         sx={{
           pt: 20,
           pb: 10,
-          px: 15,
+          // px: 15,
         }}
       >
-        <Box>
+        <Grid md={6} sm={12}>
           <Typography variant="h4">
             Give your students a step in <br /> the door with Meraki
           </Typography>
@@ -136,12 +98,13 @@ function HomePage() {
               </a>
             </Typography>
           </Box> */}
-        </Box>
+        </Grid>
 
-        <Box style={{ marginLeft: "auto" }}>
+        <Grid md={6} sm={12}>
           <img src={DashboardImage} height={370} width={550} />
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
+      </Container>
       {/* Solution section */}
       <Box>
         <Typography align="center" variant="h5">

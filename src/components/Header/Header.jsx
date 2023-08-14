@@ -12,7 +12,7 @@ const Header = () => {
   const handleProfileClick = () => {
     setIsMenuOpen(true);
   };
-  const userLocalData=JSON.parse(localStorage.getItem('userData'))
+  const userLocalData=JSON.parse(localStorage.getItem('AUTH'))
 
   const handleMenuClose = () => {
     setIsMenuOpen(false);
@@ -36,17 +36,18 @@ const Header = () => {
         top: "0",
         width: "100%",
         backgroundColor: "white",
+        zIndex: "10"
       }}
     >
       {/* Link to homepage */}
-      <Link to="/">
+      <Link to="/partner">
         <img src={headerLogo} alt="headerLogo" style={{ height: "50px" }} />
       </Link>
 
       {/* Profile picture with dropdown menu */}
       <div style={{ position: "relative" }}>
         <img
-          src={userLocalData?.imageUrl}
+          src={userLocalData.profile_picture||userLocalData?.user?.profile_picture}
           alt="StudentProfile"
           style={{ height: "50px", borderRadius:"60px", cursor: "pointer" }}
           onClick={handleProfileClick}

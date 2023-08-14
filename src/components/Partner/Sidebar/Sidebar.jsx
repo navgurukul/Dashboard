@@ -70,7 +70,7 @@ function Sidebar(value) {
         >
           <DrawerHeader>
             <Link
-              to="/"
+              to="/partner"
               style={{
                 display: "flex",
                 alignItems: "center",
