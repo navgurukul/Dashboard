@@ -1,4 +1,4 @@
-import { List, Typography } from "@mui/material";
+import { List, Typography, CircularProgress } from "@mui/material";
 import { useFetchSpacesQuery } from "../../../store";
 import SpaceItem from "./SpaceItem";
 
@@ -7,7 +7,7 @@ function SpaceList({ partner }) {
 
   let content;
   if (isLoading) {
-    content = <Typography>Loading...</Typography>;
+    content = <CircularProgress color="primary" />;
   } else if (error) {
     content = (
       <Typography sx={{ fontSize: "14px", ml: 2 }}>

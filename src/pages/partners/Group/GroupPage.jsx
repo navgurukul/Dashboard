@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography, CircularProgress } from "@mui/material";
 import { Link } from "@mui/icons-material";
 import AddStudents from "../../../components/Partner/Group/AddStudents";
 import { useParams } from "react-router-dom";
@@ -70,7 +70,7 @@ function GroupPage() {
 
   let content;
   if (isStudentsLoading) {
-    content = <Typography>Loading...</Typography>;
+    content = <CircularProgress color="primary" />;
   } else if (!studentsData?.length) {
     content = <AddStudents handleAddStudentsOpen={handleAddStudentsOpen} />;
   } else {

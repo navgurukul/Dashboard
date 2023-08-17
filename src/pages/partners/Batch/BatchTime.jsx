@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useFetchSingleBatchQuery } from "../../../store";
+import { CircularProgress } from "@mui/material";
 
 const BatchTime = () => {
   const { batchId } = useParams();
@@ -30,7 +31,7 @@ const BatchTime = () => {
   return (
     <>
       {isLoading ? (
-        <span>Loading...</span>
+        <span><CircularProgress color="primary" /></span>
       ) : error ? (
         <span>Error: {error.message}</span>
       ) : (
