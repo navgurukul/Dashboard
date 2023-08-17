@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { Container, CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useFetchAttendanceQuery } from "../../store";
 import { useParams } from "react-router-dom";
@@ -33,7 +33,7 @@ const { filteredData } = useSelector(
 
   let content;
   if (isLoading) {
-    content = <h1>Loading...</h1>;
+    content = <CircularProgress color="primary" />;
   } else if (error) {
     <h1>Error fetching partners...</h1>;
   } else {

@@ -1,4 +1,4 @@
-import { List, ListItemButton, Typography } from "@mui/material";
+import { List, ListItemButton, Typography, CircularProgress } from "@mui/material";
 import { useFetchGroupsQuery } from "../../../store";
 import GroupItem from "./GroupItem";
 import { Add } from "@mui/icons-material";
@@ -13,7 +13,7 @@ function GroupList({ space }) {
 
   let content;
   if (isLoading) {
-    content = <Typography>Loading...</Typography>;
+    content = <CircularProgress color="primary" />;
   } else if (error) {
     content = <Typography>Error fetching groups</Typography>;
   } else if (!data?.length) {

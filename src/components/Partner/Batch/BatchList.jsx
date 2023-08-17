@@ -5,6 +5,7 @@ import {
   Menu,
   MenuItem,
   Box,
+  CircularProgress
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import BatchItem from "./BatchItem";
@@ -75,7 +76,7 @@ function BatchList({ group, expand }) {
 
   let content;
   if (isLoading) {
-    content = <Typography>Loading...</Typography>;
+    content = <CircularProgress color="primary" />;
     // error
   } else if (data.length === 0 || error) {
     content = (
