@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
+// import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
 import { useAddPartnerMutation } from "../../store";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
   Grid,
-  DialogTitle,
-  TableContainer,
+  // DialogTitle,  
+  // TableContainer,
   DialogContent,
-  DialogContentText,
+  // DialogContentText,
   DialogActions,
 } from "@mui/material";
 import showToast from "../showToast";
