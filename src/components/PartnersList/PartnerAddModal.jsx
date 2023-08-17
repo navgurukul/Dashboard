@@ -34,7 +34,7 @@ function PartnerAddModal({ boolean, onOpen }) {
       showToast("success", results.data.status);
       onOpen();
     } else if (results.isError) {
-      showToast("error", results.error.data.Error);
+      showToast("error", results.error.data.message);
     }
   }, [results.isSuccess, results.isError]);
 
@@ -103,7 +103,7 @@ function PartnerAddModal({ boolean, onOpen }) {
             onChange={handleChange}
             fullWidth
           />
-          {!isValidEmail && (
+          {values.email === "" ? "" : !isValidEmail && (
             <Typography sx={{ fontSize: "14px", color: "red" }}>
               Please enter a valid email
             </Typography>
