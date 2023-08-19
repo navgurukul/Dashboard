@@ -288,9 +288,6 @@ function HomePage() {
       </Box> */}
 
       <Container sx={{ mt: 8, p: 0 }}>
-        <Typography variant="h5" align="center" mb={4}>
-          Partner List{" "}
-        </Typography>
         <Grid container spacing={6} pb={4}>
           {(showMore
             ? Object.keys(partner)
