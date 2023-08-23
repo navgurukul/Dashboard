@@ -3,10 +3,12 @@ import {
   Button,
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
   Chip,
   Container,
   Grid,
+  IconButton,
   List,
   Stack,
   Typography,
@@ -14,13 +16,14 @@ import {
 import { useState, useEffect } from "react";
 import HomeHeader from "../../components/Header/HomeHeader";
 import { ToastContainer } from "react-toastify";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import DashboardImage from "./assets/dashboard.png";
 import EasyIcon from "./assets/easy.svg";
 import AttendanceIcon from "./assets/attendence.svg";
 import StudentsIcon from "./assets/students.svg";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Image from "./assets/dicto.jpg";
 import Infosys from "./assets/infosys.png";
 import Footer from "../../components/Footer/Footer";
@@ -30,6 +33,8 @@ import { useDispatch } from "react-redux";
 import { setToken } from "../../store/slices/authSlice";
 function HomePage() {
   const [user, setUser] = useState({});
+  const [partner, setPartner] = useState([]);
+  const [showMore, setShowMore] = useState(false); // Define and initialize showMore state
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -257,7 +262,7 @@ function HomePage() {
         </Container>
       </Box>
       {/* Partner list section */}
-      <Box px={25} pt={10}>
+      {/* <Box px={25} pt={10}>
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
@@ -274,7 +279,109 @@ function HomePage() {
             Show More <KeyboardArrowDownIcon />
           </Button>
         </Stack>
-      </Box>
+      </Box> */}
+
+      <Container sx={{ mt: 8, p: 0 }}>
+        <Grid container spacing={6} pb={4}>
+          {(showMore
+            ? Object.keys(partner)
+            : Object.keys(partner).slice(0, 8)
+          ).map((item) => {
+            return (
+              <Grid item xs={12} sm={3} md={3}>
+                {partner[item].Name !== null &&
+                  partner[item].OrganisationType !== null &&
+                  !partner[item].State !== null &&
+                  !partner[item].City !== null && (
+                    <Card
+                      elevation={2}
+                      sx={{
+                        height: 210,
+                      }}
+                    >
+                      <CardContent sx={{ height: "140px" }}>
+                        <Typography variant="subtitle1" gutterBottom mb={1}>
+                          {partner[item].Name}
+                        </Typography>
+                        {partner[item].OrganisationType === "Non - Profit" ? (
+                          <Chip
+                            label={partner[item].OrganisationType}
+                            mt={2}
+                            variant="caption"
+                            sx={{
+                              background: "#FFF3CD",
+                              fontFamily: "Noto sans",
+                            }}
+                          />
+                        ) : partner[item].OrganisationType === "Government" ? (
+                          <Chip
+                            label={partner[item].OrganisationType}
+                            mt={2}
+                            variant="caption"
+                            sx={{
+                              background: "#DADAEC",
+                              fontFamily: "Noto sans",
+                            }}
+                          />
+                        ) : partner[item].OrganisationType ===
+                          "Educational Institution" ? (
+                          <Chip
+                            label={partner[item].OrganisationType}
+                            mt={2}
+                            variant="contained"
+                            sx={{
+                              background: "#D3EAFD",
+                              fontFamily: "Noto sans",
+                            }}
+                          />
+                        ) : partner[item].OrganisationType ===
+                          "Community based organisation" ? (
+                          <Chip
+                            label={partner[item].OrganisationType}
+                            mt={2}
+                            variant="contained"
+                            sx={{
+                              background: "#FFE6E8",
+                              fontFamily: "Noto sans",
+                            }}
+                          />
+                        ) : (
+                          ""
+                        )}
+                      </CardContent>
+                      <CardActions sx={{ height: "8px", marginTop: 3 }}>
+                        {partner[item].Url !== "NA" &&
+                          partner[item].Url !== null && (
+                            <IconButton>
+                              <Link href={partner[item].Url} target="_blank">
+                                <img
+                                  src={WorldImage}
+                                  style={{ margin: "auto" }}
+                                  alt="World Img"
+                                />
+                              </Link>
+                            </IconButton>
+                          )}
+                      </CardActions>
+                    </Card>
+                  )}
+              </Grid>
+            );
+          })}
+        </Grid>
+        <Stack pt={3} sx={{ alignItems: "center" }}>
+          {!showMore ? (
+            <Button onClick={() => setShowMore(true)} ml={6}>
+              Show More <KeyboardArrowDownIcon />
+            </Button>
+          ) : (
+            <Button onClick={() => setShowMore(false)} ml={6}>
+              Show Less <KeyboardArrowUpIcon />
+            </Button>
+          )}
+        </Stack>
+      </Container>
+
       {/* Footer with list of all partners. */}
       <Footer />
     </Box>

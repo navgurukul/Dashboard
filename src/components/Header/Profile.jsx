@@ -16,7 +16,7 @@ const Profile = () => {
     setOpenModal(false);
   };
 
-  const userLocalData=JSON.parse(localStorage.getItem('AUTH'))
+  const userLocalData=JSON.parse(localStorage.getItem('AUTH'));
   
   return (
     <>

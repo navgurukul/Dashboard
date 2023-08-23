@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { Container, CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useFetchPartnersQuery } from "../../../store";
 import { Box } from "@mui/material";
@@ -31,7 +31,7 @@ function PartnersListPage() {
 
   let content;
   if (isLoading) {
-    content = <h1>Loading....</h1>;
+    content = <CircularProgress color="primary" />;
   } else if (error) {
     <h1>Error fetching partners...</h1>;
   } else {

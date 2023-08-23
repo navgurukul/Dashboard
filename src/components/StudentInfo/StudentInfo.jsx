@@ -61,8 +61,8 @@ const StudentInfo = () => {
           ) : partnerError ? (
             <p>Error loading partner name</p>
           ) : (
-            <Typography style={{ fontFamily: "Noto Sans", fontSize: "14px" }}>
-              {partnerName} / {spaceName} / {groupName} / {name_student}
+            <Typography style={{ fontFamily: "Noto Sans", fontSize: "14px",position:"relative",left:"16px"}}>
+              {partnerName} / <span style={{ color: "#48A145" }}>{spaceName}</span> /<span style={{ color: "#48A145" }}>{groupName}</span> / {name_student}
             </Typography>
           )}
         </Box>
@@ -71,6 +71,9 @@ const StudentInfo = () => {
           style={{
             margin: "20px auto",
             width: "584px",
+            position:"relative",
+            right:"15px"
+
           }}
         >
           <Link
@@ -94,7 +97,15 @@ const StudentInfo = () => {
               Back
             </Typography>
           </Link>
+         </Box>
+        <Box  style={{
+               margin: "20px auto",
+               width: "584px",
+               position:"relative",
+               right:"40px",
+              bottom:"20px"
 
+            }}>
           <Box
             style={{
               padding: "10px",
@@ -112,7 +123,8 @@ const StudentInfo = () => {
               <img
                 src={profile_image}
                 alt="studentImage"
-                style={{ width: "100px", marginRight: "10px" }}
+                style={{ width: "100px",position:"relative",
+                left:"2.19px" }}
               />
               <Typography
                 style={{
@@ -173,18 +185,26 @@ const StudentInfo = () => {
               </Box>
             </Box>
           </Box>
-          <Box>
+          </Box>
+
+          <Box style={{
+            margin: "20px auto",
+            width: "584px",
+            position:"relative",
+            bottom: "30px",
+
+          }}>
             <Box
               style={{
                 display: "flex",
                 alignItems: "center",
-                marginBottom: "5px",
               }}
             >
               <img
                 src={emailLogo}
                 alt="emailLogo"
-                style={{ height: "16px", width: "20px", marginRight: "10px" }}
+                style={{ height: "16px", width: "20px",  marginRight: "10px",
+              }}
               />
               <Typography
                 style={{
@@ -199,7 +219,7 @@ const StudentInfo = () => {
               <img
                 src={phoneIcon}
                 alt="phoneIcon"
-                style={{ height: "16px", width: "20px", marginRight: "10px" }}
+                style={{ height: "16px", width: "20px",marginTop:"15px" }}
               />
               <Typography
                 style={{
@@ -211,14 +231,17 @@ const StudentInfo = () => {
               </Typography>
             </Box>
           </Box>
-        </Box>
-        <Box>
+        <Box style={{   
+          position:"relative",
+            bottom: "30px",}}
+            >
           <Typography
             style={{
               fontSize: "18px",
               fontWeight: "600",
               width: "584px",
               margin: "0px auto",
+            
             }}
           >
             Course Wise Performance
@@ -226,7 +249,7 @@ const StudentInfo = () => {
         </Box>
         {overallProgress === 0 ? (
 
-          <Box>
+          <Box >
             <Typography
              style={{ display: "flex", flexDirection: "column", alignItems: "center", margin: "20px 0" }}
 
