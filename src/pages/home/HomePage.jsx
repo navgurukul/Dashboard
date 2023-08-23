@@ -26,23 +26,27 @@ import Infosys from "./assets/infosys.png";
 import Footer from "../../components/Footer/Footer";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setToken } from "../../store/slices/authSlice";
 function HomePage() {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({});
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     let userData = JSON.parse(localStorage.getItem("userData"));
-    let token = JSON.parse(localStorage.getItem("token"))
+    let token = JSON.parse(localStorage.getItem("token"));
     if (userData) {
       axios({
         url: `https://merd-api.merakilearn.org/users/auth/GoogleIdentityServices`,
         method: "post",
         headers: { accept: "application/json", Authorization: token },
-        data: { "idToken": token, "mode": "web" },
-    }).then((res)=>{
-      localStorage.setItem("AUTH", JSON.stringify(res.data));
-      navigate("/partner");
-    })
+        data: { idToken: token, mode: "web" },
+      }).then((res) => {
+        localStorage.setItem("AUTH", JSON.stringify(res.data));
+        dispatch(setToken(res.data.token));
+        navigate("/partner");
+      });
     }
   }, [user]);
 
@@ -60,37 +64,38 @@ function HomePage() {
       <Outlet />
       {/* First section with access dashboard button */}
       <Container>
-      <Grid container
-        style={{ display: "flex", justifyContent: "center" }}
-        sx={{
-          pt: 20,
-          pb: 10,
-          // px: 15,
-        }}
-      >
-        <Grid md={6} sm={12}>
-          <Typography variant="h4">
-            Give your students a step in <br /> the door with Meraki
-          </Typography>
-          <Typography variant="body2">
-            Track your students learning seamlessly all in one place
-          </Typography>
-          <br />
-          <a href="https://accounts.navgurukul.org">
-            <Button
-              // startIcon={<Add />}
-              // onClick={handleModalToggle}
-              style={{ marginTop: 20 }}
-              variant="contained"
-            >
-              <Typography variant="subtitle2">
-                Access Partner Dashboard
-              </Typography>
-            </Button>
-          </a>
-          <br />
-          <br />
-          {/* <Box style={{ display: "flex", gap: 2 }}>
+        <Grid
+          container
+          style={{ display: "flex", justifyContent: "center" }}
+          sx={{
+            pt: 20,
+            pb: 10,
+            // px: 15,
+          }}
+        >
+          <Grid md={6} sm={12}>
+            <Typography variant="h4">
+              Give your students a step in <br /> the door with Meraki
+            </Typography>
+            <Typography variant="body2">
+              Track your students learning seamlessly all in one place
+            </Typography>
+            <br />
+            <a href="https://accounts.navgurukul.org">
+              <Button
+                // startIcon={<Add />}
+                // onClick={handleModalToggle}
+                style={{ marginTop: 20 }}
+                variant="contained"
+              >
+                <Typography variant="subtitle2">
+                  Access Partner Dashboard
+                </Typography>
+              </Button>
+            </a>
+            <br />
+            <br />
+            {/* <Box style={{ display: "flex", gap: 2 }}>
             <Typography variant="body2">New to Meraki?</Typography>
             <Typography variant="body2">
               <a href="#" style={{ color: "#48A145", fontWeight: "bold" }}>
@@ -98,12 +103,12 @@ function HomePage() {
               </a>
             </Typography>
           </Box> */}
-        </Grid>
+          </Grid>
 
-        <Grid md={6} sm={12}>
-          <img src={DashboardImage} height={370} width={550} />
+          <Grid md={6} sm={12}>
+            <img src={DashboardImage} height={370} width={550} />
+          </Grid>
         </Grid>
-      </Grid>
       </Container>
       {/* Solution section */}
       <Box>
