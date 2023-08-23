@@ -31,7 +31,7 @@ function PartnersListPage() {
 
   let content;
   if (isLoading) {
-    content = <h1>Loading...</h1>;
+    content = <h1>Loading....</h1>;
   } else if (error) {
     <h1>Error fetching partners...</h1>;
   } else {
