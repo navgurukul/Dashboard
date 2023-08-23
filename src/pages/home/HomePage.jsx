@@ -29,21 +29,14 @@ import Infosys from "./assets/infosys.png";
 import Footer from "../../components/Footer/Footer";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import WorldImage from "./assets/world_icon.svg";
+import { useDispatch } from "react-redux";
+import { setToken } from "../../store/slices/authSlice";
 function HomePage() {
-  const navigate = useNavigate();
+  const [user, setUser] = useState({});
   const [partner, setPartner] = useState([]);
-  const [showMore, setShowMore] = useState(false);
-
-  useEffect(() => {
-    axios
-      .get(
-        "https://navgurukul.github.io/tarabai-shinde/data/meraki_partners.json"
-      )
-      .then((response) => {
-        setPartner(response.data);
-      });
-  }, []);
+  const [showMore, setShowMore] = useState(false); // Define and initialize showMore state
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     let userData = JSON.parse(localStorage.getItem("userData"));
@@ -56,10 +49,11 @@ function HomePage() {
         data: { idToken: token, mode: "web" },
       }).then((res) => {
         localStorage.setItem("AUTH", JSON.stringify(res.data));
+        dispatch(setToken(res.data.token));
         navigate("/partner");
       });
     }
-  }, []);
+  }, [user]);
 
   return (
     <Box

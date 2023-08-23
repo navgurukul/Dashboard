@@ -43,6 +43,7 @@ const UpdateSpaceModal = ({ boolean, onToggle, space }) => {
 
   const handleSubmit = () => {
     let updatedSpace = { spaceId: space?.id };
+    console.log(updatedSpace)
     updatedSpace["space_name"] = "";
     if (values.name.trim()) {
       updatedSpace["space_name"] = values.name;

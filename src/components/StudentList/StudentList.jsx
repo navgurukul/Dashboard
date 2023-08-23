@@ -106,6 +106,7 @@ const options = {
 };
 
 const StudentList = ({ data }) => {
+  let studentId = "";
   // if (!data.length) {
   //   return <div>No students found</div>;
   // }
@@ -192,8 +193,8 @@ const StudentList = ({ data }) => {
     dispatch(changeSearchTermm(e.target.value));
   };
   const Navigate = useNavigate();
-  const handleRowClick = (rowData, rowMeta) => {
-    const studentId = data[rowMeta.rowIndex].id;
+  const handleRowClick = (event, dataIndex) => {
+      studentId = data[rowMeta.rowIndex].id;
     Navigate(
       `/partner/${partnerId}/space/${spaceId}/group/${groupId}/batch/${batchId}/studentinfo/${studentId}`
     );
