@@ -16,7 +16,7 @@ function GroupStudentsFilter({ handleAddStudentsOpen }) {
   return (
     <Box display="flex" justifyContent="space-between" mb={2}>
       <TextField
-        placeholder="Student Name, Email..."
+        placeholder="Student Name..."
         value={searchTerm}
         onChange={handleChange}
         InputProps={{

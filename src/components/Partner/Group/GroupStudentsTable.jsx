@@ -177,7 +177,7 @@ function GroupStudentsTable({ handleAddStudentsOpen, data, student }) {
 
           return (
             <div style={btnsContainerStyles}>
-              <Button
+              {/* <Button
                 size="small"
                 // onClick={handleEditClick}
                 sx={{
@@ -188,7 +188,7 @@ function GroupStudentsTable({ handleAddStudentsOpen, data, student }) {
                 }}
               >
                 <EditIcon />
-              </Button>
+              </Button> */}
               <Button
                 size="small"
                 sx={{
