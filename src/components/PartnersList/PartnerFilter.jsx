@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { SearchOutlined, Add } from "@mui/icons-material";
 import { changeFilterBy, changeSearchTerm } from "../../store";
-import PartnerAddModal from "./PartnerAddModal"; 
+import PartnerAddModal from "./PartnerAddModal";
 import { breakpoints } from "../../theme/constant";
 
 function PartnerFilter() {
@@ -60,7 +60,7 @@ function PartnerFilter() {
     <Box sx={{ mt: 8, mb: 2 }}>
       <Box display="flex" justifyContent={"space-between"} mb={3}>
         <TextField
-          placeholder="Search Partner, Point of Contact..."
+          placeholder="Search Partner..."
           size="medium"
           value={searchTerm}
           onChange={handleChange}

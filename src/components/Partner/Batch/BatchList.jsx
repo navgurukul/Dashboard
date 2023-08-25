@@ -78,7 +78,7 @@ function BatchList({ group, expand }) {
   if (isLoading) {
     content = <CircularProgress color="primary" />;
     // error
-  } else if (data.length === 0 || error) {
+  } else if (data?.length === 0 || error) {
     content = (
       <ListItemButton
         onClick={handleClick}
