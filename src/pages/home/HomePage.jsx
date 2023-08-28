@@ -31,12 +31,25 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setToken } from "../../store/slices/authSlice";
+import WorldImage from "./assets/world_icon.svg";
+
+
 function HomePage() {
   const [user, setUser] = useState({});
   const [partner, setPartner] = useState([]);
   const [showMore, setShowMore] = useState(false); // Define and initialize showMore state
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://navgurukul.github.io/tarabai-shinde/data/meraki_partners.json"
+      )
+      .then((response) => {
+        setPartner(response.data);
+      });
+  }, []);
 
   useEffect(() => {
     let userData = JSON.parse(localStorage.getItem("userData"));
@@ -78,7 +91,7 @@ function HomePage() {
             // px: 15,
           }}
         >
-          <Grid md={6} sm={12}>
+          <Grid item md={6} sm={12}>
             <Typography variant="h4">
               Give your students a step in <br /> the door with Meraki
             </Typography>
@@ -110,7 +123,7 @@ function HomePage() {
           </Box> */}
           </Grid>
 
-          <Grid md={6} sm={12}>
+          <Grid item md={6} sm={12}>
             <img src={DashboardImage} height={370} width={550} />
           </Grid>
         </Grid>
@@ -230,13 +243,12 @@ function HomePage() {
         <Container maxWidth={false}>
           <Grid
             style={{ backgroundColor: "#F5F5F5" }}
-            md={12}
             container
             columnSpacing={{ xs: 2, sm: 4 }}
             paddingY={8}
           >
             <img src={Image} style={{ marginLeft: 20 }} />
-            <Grid item xs={10} sm={6} md={6} spacing={6}>
+            <Grid item xs={10} sm={6} md={6}>
               <Chip
                 label="Featured"
                 color="warning"
@@ -262,33 +274,15 @@ function HomePage() {
         </Container>
       </Box>
       {/* Partner list section */}
-      {/* <Box px={25} pt={10}>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-        >
-          {Array.from(Array(12)).map((num, index) => (
-            <Grid xs={2} py={3} key={num}>
-              <img src={Infosys} width={125} />
-            </Grid>
-          ))}
-        </Grid>
-        <Stack pt={3} sx={{ alignItems: "center" }}>
-          <Button ml={6} href={"#"}>
-            Show More <KeyboardArrowDownIcon />
-          </Button>
-        </Stack>
-      </Box> */}
-
       <Container sx={{ mt: 8, p: 0 }}>
+        
         <Grid container spacing={6} pb={4}>
           {(showMore
             ? Object.keys(partner)
             : Object.keys(partner).slice(0, 8)
           ).map((item) => {
             return (
-              <Grid item xs={12} sm={3} md={3}>
+              <Grid key={partner[item].Name} item xs={12} sm={3} md={3}>
                 {partner[item].Name !== null &&
                   partner[item].OrganisationType !== null &&
                   !partner[item].State !== null &&
@@ -369,17 +363,20 @@ function HomePage() {
             );
           })}
         </Grid>
-        <Stack pt={3} sx={{ alignItems: "center" }}>
-          {!showMore ? (
-            <Button onClick={() => setShowMore(true)} ml={6}>
-              Show More <KeyboardArrowDownIcon />
-            </Button>
-          ) : (
-            <Button onClick={() => setShowMore(false)} ml={6}>
-              Show Less <KeyboardArrowUpIcon />
-            </Button>
-          )}
-        </Stack>
+        
+        {Object.keys(partner).length>0? (
+          <Stack pt={3} sx={{ alignItems: "center" }}>
+            {!showMore ? (
+              <Button onClick={() => setShowMore(true)} ml={6}>
+                Show More <KeyboardArrowDownIcon />
+              </Button>
+            ) : (
+              <Button onClick={() => setShowMore(false)} ml={6}>
+                Show Less <KeyboardArrowUpIcon />
+              </Button>
+            )}
+          </Stack>
+        ):<></>}
       </Container>
 
       {/* Footer with list of all partners. */}
