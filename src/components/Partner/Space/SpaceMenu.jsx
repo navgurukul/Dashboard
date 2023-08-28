@@ -9,6 +9,7 @@ import UpdateSpaceModal from "./UpdateSpaceModal";
 import showToast from "../../showToast";
 import CreateGroupModal from "../Group/CreateGroupModal";
 import { useNavigate, useParams } from "react-router-dom";
+import CustomDeleteAlert from "../../CustomDeleteAlert/CustomDeleteAlert";
 
 const ITEM_HEIGHT = 48;
 
@@ -17,8 +18,19 @@ function SpaceMenu({ space, expand }) {
   const [removeSpace, results] = useRemoveSpaceMutation();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
   const [openUpdateSpace, setOpenUpdateSpace] = useState(false);
+  //handle delete modal
+  const [openDelAlert, setDeleteAlert] = useState(false);
+
+  const handleDeleteClick = () => {
+    setDeleteAlert(!openDelAlert);
+    setAnchorEl(null);
+  };
+
+  const deleteSpace = () => {
+    removeSpace(space);
+  };
+
   const handleOpenUpdateSpaceToggle = () => {
     setOpenUpdateSpace(!openUpdateSpace);
   };
@@ -30,11 +42,6 @@ function SpaceMenu({ space, expand }) {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleDeleteClick = () => {
-    removeSpace(space);
     setAnchorEl(null);
   };
 
@@ -63,6 +70,14 @@ function SpaceMenu({ space, expand }) {
           space={space}
           boolean={openUpdateSpace}
           onToggle={handleOpenUpdateSpaceToggle}
+        />
+      )}
+      {openDelAlert && (
+        <CustomDeleteAlert
+          // space={space}
+          boolean={openDelAlert}
+          onToggle={handleDeleteClick}
+          deleteSpace={deleteSpace}
         />
       )}
 

@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import EditStudentModal from "../EditStudentModal";
 import { useDeleteStudentMutation } from "../../../store";
 import showToast from "../../showToast";
+import CustomDeleteAlert from "../../CustomDeleteAlert/CustomDeleteAlert";
 
 const getMuiTheme = () =>
   createTheme({
@@ -100,6 +101,32 @@ function GroupStudentsTable({ handleAddStudentsOpen, data, student }) {
       showToast("success", results?.data.message);
     }
   }, [results.isSuccess]);
+
+  //handle delete modal
+  const [openDelAlert, setDeleteAlert] = useState(false);
+
+  const [studentID, setStudentID] = useState();
+
+  const handleDeleteClick = (studentId) => {
+    console.log(studentId);
+    setStudentID(studentId);
+    setDeleteAlert(!openDelAlert);
+    setAnchorEl(null);
+  };
+  console.log(studentID);
+
+  // const deleteSpace = () => {
+  //   removeSpace(space);
+  // };
+
+  const handleStudentDelete = () => {
+    console.log(studentID);
+    if (studentID) {
+      console.log(studentID);
+      deleteStudent(studentID);
+    }
+    setDeleteAlert(false);
+  };
 
   const [openUpdateStudent, setOpenUpdateStudent] = useState(false);
   const handleOpenUpdateStudentToggle = () => {
@@ -197,9 +224,7 @@ function GroupStudentsTable({ handleAddStudentsOpen, data, student }) {
                   color: "#BDBDBD",
                   "&:hover": { color: "error.main" },
                 }}
-                onClick={() => {
-                  deleteStudent(studentId);
-                }}
+                onClick={() => handleDeleteClick(studentId)}
               >
                 <DeleteIcon />
               </Button>
@@ -229,6 +254,13 @@ function GroupStudentsTable({ handleAddStudentsOpen, data, student }) {
           student={student}
           boolean={openUpdateStudent}
           onToggle={handleOpenUpdateStudentToggle}
+        />
+      )}
+      {openDelAlert && (
+        <CustomDeleteAlert
+          boolean={openDelAlert}
+          onToggle={handleDeleteClick}
+          deleteSpace={handleStudentDelete}
         />
       )}
       <Box pr="20px" mt="15px">
