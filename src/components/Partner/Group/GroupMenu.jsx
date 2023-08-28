@@ -105,7 +105,7 @@ function GroupMenu({ group, expand }) {
   };
 
   // const handleDeleteClick = () => {
-  //   deleteGroup(group);
+  //   deleteGroup(group)
   // };
 
   return (
