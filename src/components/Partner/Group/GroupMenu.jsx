@@ -14,6 +14,7 @@ import {
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import SidebarContext from "../Sidebar/sidebarContext";
+import CustomDeleteAlert from "../../CustomDeleteAlert/CustomDeleteAlert";
 
 const ITEM_HEIGHT = 48;
 
@@ -43,8 +44,8 @@ function GroupMenu({ group, expand }) {
         method: "GET",
         headers: {
           accept: "application/json",
-          Authorization:token,
-            // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
+          Authorization: token,
+          // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
           "version-code": 50,
         },
       }).then((res) => {
@@ -77,10 +78,6 @@ function GroupMenu({ group, expand }) {
     setAnchorEl(null);
   };
 
-  const handleDeleteClick = () => {
-    deleteGroup(group);
-  };
-
   const handleClickAdd = (event) => {
     setAddButtonClicked(true);
     setAnchorCourse(event.currentTarget);
@@ -96,6 +93,21 @@ function GroupMenu({ group, expand }) {
     dispatch(changeSelectedCourse(option));
   };
 
+  const [openDelAlert, setDeleteAlert] = useState(false);
+
+  const handleDeleteClick = () => {
+    setDeleteAlert(!openDelAlert);
+    setAnchorEl(null);
+  };
+
+  const deleteSpace = () => {
+    deleteGroup(group);
+  };
+
+  // const handleDeleteClick = () => {
+  //   deleteGroup(group)
+  // };
+
   return (
     <Box sx={{ display: "flex", marginLeft: "auto" }}>
       {openUpdateGroup && (
@@ -103,6 +115,13 @@ function GroupMenu({ group, expand }) {
           group={group}
           boolean={openUpdateGroup}
           onToggle={handleOpenUpdateGroupToggle}
+        />
+      )}
+      {openDelAlert && (
+        <CustomDeleteAlert
+          boolean={openDelAlert}
+          onToggle={handleDeleteClick}
+          deleteSpace={deleteSpace}
         />
       )}
       <Box sx={{ display: "flex" }}>
