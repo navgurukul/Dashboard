@@ -2,7 +2,15 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AddIcon from "@mui/icons-material/Add";
-import { Box } from "@mui/material";
+import {
+  Box,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  Stack,
+  Typography,
+  Button,
+} from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import showToast from "../../showToast";
 import EditGroupModal from "./EditGroupModal";
@@ -17,7 +25,7 @@ import SidebarContext from "../Sidebar/sidebarContext";
 import CustomDeleteAlert from "../../CustomDeleteAlert/CustomDeleteAlert";
 
 const ITEM_HEIGHT = 48;
-
+const baseUrl = "https://merd-api.merakilearn.org"
 function GroupMenu({ group, expand }) {
   const [deleteGroup, results] = useDeleteGroupMutation();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -28,10 +36,11 @@ function GroupMenu({ group, expand }) {
   const [pathways, setPathways] = useState([]);
   const { handleCreateBatchToggle } = useContext(SidebarContext);
   const [addButtonClicked, setAddButtonClicked] = useState(false);
+  const [showConsentModal, setShowConsentModal] = useState(false);
   const dispatch = useDispatch();
 
   // Taking the token from the Localstorage to use in API authorization
-  const token = localStorage.getItem("token");
+  const userLocalData = JSON.parse(localStorage.getItem("AUTH"));
 
   useEffect(() => {
     showToast("success", results?.data?.message);
@@ -40,12 +49,11 @@ function GroupMenu({ group, expand }) {
   useEffect(() => {
     if (addButtonClicked) {
       axios({
-        url: "https://merd-api.merakilearn.org/pathways/names",
+        url: `${baseUrl}/pathways/names`,
         method: "GET",
         headers: {
           accept: "application/json",
-          Authorization: token,
-          // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5Nzg4IiwiZW1haWwiOiJkYXlhQG5hdmd1cnVrdWwub3JnIiwiaWF0IjoxNjgxOTcwNDQzLCJleHAiOjE3MTM1MjgwNDN9.JBQD1zcEwpWHi743fxh-dQpVJ5vODAZvwTjihZZdm7A",
+          Authorization: userLocalData?.token,
           "version-code": 50,
         },
       }).then((res) => {
@@ -79,8 +87,12 @@ function GroupMenu({ group, expand }) {
   };
 
   const handleClickAdd = (event) => {
+    const currentTarget = event.currentTarget;
+    setAnchorCourse(currentTarget);
     setAddButtonClicked(true);
-    setAnchorCourse(event.currentTarget);
+    setShowConsentModal(false);
+    dispatch(changeId({ space_id: group.space_id, group_id: group.id }));
+    expand(true);
   };
 
   const handleCloseAdd = () => {
@@ -88,9 +100,37 @@ function GroupMenu({ group, expand }) {
   };
 
   const handleMenuItemClick = (event, option) => {
-    handleCreateBatchToggle();
-    setAnchorCourse(null);
-    dispatch(changeSelectedCourse(option));
+    axios({
+      method: "GET",
+      url: `${baseUrl}/users/calendar/tokens`,
+      headers: {
+        accept: "application/json",
+        Authorization: userLocalData?.token,
+        "version-code": 50,
+      },
+    }).then((res) => {
+      if (res.data.success) {
+        handleCreateBatchToggle();
+        setAnchorCourse(null);
+        dispatch(changeSelectedCourse(option));
+      } else {
+        setShowConsentModal(true);
+      }
+    });
+  };
+
+  const codeGenerate = async () => {
+    axios({
+      method: "GET",
+      url: `${baseUrl}/users/calendar/generateAuthURL?choose=partnerdashboard`,
+      headers: {
+        accept: "application/json",
+        Authorization: userLocalData?.token,
+        "version-code": 50,
+      },
+    }).then((res) => {
+      window.location.href = res.data.url;
+    });
   };
 
   const [openDelAlert, setDeleteAlert] = useState(false);
@@ -146,9 +186,6 @@ function GroupMenu({ group, expand }) {
           <AddIcon
             onClick={(e) => {
               handleClickAdd(e);
-              dispatch(
-                changeId({ space_id: group.space_id, group_id: group.id })
-              );
               // expand(true);
             }}
             sx={{ color: "text.primary", fontSize: "16px" }}
@@ -207,6 +244,50 @@ function GroupMenu({ group, expand }) {
         <MenuItem>Copy Link</MenuItem>
         <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
       </Menu>
+      {showConsentModal ? (
+        <Dialog
+          open={true}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          PaperProps={{
+            style: {
+              minWidth: "45%",
+              borderRadius: 8,
+            },
+          }}
+        >
+          <DialogTitle>
+            <Typography variant="h6" align="center">
+              Meraki needs access to your calendar to create classes. <br />
+              Do you want to go ahead?
+            </Typography>
+          </DialogTitle>
+          <Stack alignItems="center">
+            <DialogActions>
+              <Box sx={{ display: "flex", mb: 2 }}>
+                <Button
+                  onClick={codeGenerate}
+                  color="error"
+                  variant="contained"
+                  sx={{ mr: "15px", width: "100px" }}
+                >
+                  Yes
+                </Button>
+                <Button
+                  onClick={() => setShowConsentModal(false)}
+                  color="grey"
+                  variant="contained"
+                  sx={{ width: "100px" }}
+                >
+                  No
+                </Button>
+              </Box>
+            </DialogActions>
+          </Stack>
+        </Dialog>
+      ) : (
+        <></>
+      )}
     </Box>
   );
 }
