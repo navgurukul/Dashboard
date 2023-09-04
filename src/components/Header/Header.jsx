@@ -24,7 +24,7 @@ const Header = () => {
     navigate("/");
   };
    if (!userLocalData) {
-    // User is not authenticated, redirect to a new page
+    // User is not authenticated, redirect to a new pag
     navigate("/login"); // Replace "/login" with the desired login page route
     return null; // Return null to prevent rendering the header in this case
   }
