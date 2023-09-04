@@ -3,7 +3,7 @@ import { Box, Menu, MenuItem } from "@mui/material";
 import { Link } from "react-router-dom";
 import headerLogo from "./asset/logo.png";
 // import studentProfilePhoto from "./asset/unnamed.png";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,7 +12,7 @@ const Header = () => {
   const handleProfileClick = () => {
     setIsMenuOpen(true);
   };
-  const userLocalData=JSON.parse(localStorage.getItem('AUTH'))
+  const userLocalData = JSON.parse(localStorage.getItem("AUTH"))
 
   const handleMenuClose = () => {
     setIsMenuOpen(false);
@@ -23,7 +23,11 @@ const Header = () => {
     localStorage.clear();
     navigate("/");
   };
-  
+   if (!userLocalData) {
+    // User is not authenticated, redirect to a new pag
+    navigate("/login"); // Replace "/login" with the desired login page route
+    return null; // Return null to prevent rendering the header in this case
+  }
 
   return (
     <Box
@@ -47,9 +51,12 @@ const Header = () => {
       {/* Profile picture with dropdown menu */}
       <div style={{ position: "relative" }}>
         <img
-          src={userLocalData.profile_picture||userLocalData?.user?.profile_picture}
+          src={
+            userLocalData.profile_picture ||
+            userLocalData?.user?.profile_picture
+          }
           alt="StudentProfile"
-          style={{ height: "50px", borderRadius:"60px", cursor: "pointer" }}
+          style={{ height: "50px", borderRadius: "60px", cursor: "pointer" }}
           onClick={handleProfileClick}
         />
         <Menu
