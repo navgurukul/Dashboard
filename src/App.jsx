@@ -26,11 +26,14 @@ import AttendanceFilter from "./components/AttendanceList/AttendanceFilter";
 import Profile from "./components/Header/Profile";
 import HomePage from "./pages/home/HomePage";
 import RouteProtector from "./components/RouteProtector";
+import ErrorPage from "./pages/errorPage/ErrorPage";
+import UnauthorizedUser from "./pages/unauthorizedUser.jsx/UnauthorizedUser";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RouteProtector Component={HomePage} />,
+    errorElement: <RouteProtector Component={ErrorPage} />,
   },
   {
     path: "profile",
@@ -80,7 +83,6 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-
   const [message, setMessage] = useState("");
 
   useEffect(() => {
