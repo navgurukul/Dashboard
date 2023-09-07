@@ -35,7 +35,7 @@ function PartnerUpdateModal({ boolean, onOpen, partner }) {
       showToast("success", results.data.status);
       onOpen();
     } else if (results.isError) {
-      showToast("error", results.error.data.status);
+      showToast("error", results.error.data.message);
     }
   }, [results.isSuccess, results.isError]);
 
