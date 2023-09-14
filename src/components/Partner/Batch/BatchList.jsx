@@ -135,7 +135,7 @@ function BatchList({ group, expand }) {
       >
         {pathways?.map((course, index) => {
           if (
-            course.label === "Python" ||
+            course.label === "Introduction to Python" ||
             course.label === "Spoken English" ||
             course.label === "Amazon Coding Bootcamp"
           ) {
