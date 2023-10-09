@@ -99,10 +99,11 @@ function HomePage() {
               Track your students learning seamlessly all in one place
             </Typography>
             <br />
-            <a href="https://accounts.navgurukul.org">
               <Button
                 // startIcon={<Add />}
-                // onClick={handleModalToggle}
+                onClick={()=>{
+                  navigate("/login")
+                }}
                 style={{ marginTop: 20 }}
                 variant="contained"
               >
@@ -110,7 +111,7 @@ function HomePage() {
                   Access Partner Dashboard
                 </Typography>
               </Button>
-            </a>
+          
             <br />
             <br />
             {/* <Box style={{ display: "flex", gap: 2 }}>

@@ -5,7 +5,7 @@ function RouteProtector(props) {
   const { Component } = props;
   const navigate = useNavigate();
   useEffect(() => {
-    let userData = JSON.parse(localStorage.getItem("userData"));
+    let userData = JSON.parse(localStorage.getItem("AUTH"));
     if (!userData) {
       navigate("/");
     }

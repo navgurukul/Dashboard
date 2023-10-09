@@ -1,12 +1,13 @@
 import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import headerLogo from "../../assets/logo.png";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 // import studentProfilePhoto from "./asset/Ellipse 52.png";
 
 
 const HomeHeader = () => {
 
-
+const navigate =  useNavigate()
   const headerStyle = {
     height: "80px",
     display: "flex",
@@ -21,6 +22,9 @@ const HomeHeader = () => {
     backgroundColor: "white"
   };
 
+  const handleLogin = ()=>{
+  navigate("/login")
+  }
   return (
     <Box sx={headerStyle}>
       <img src={headerLogo} alt="headerLogo" style={{ height: "50px" }} />
@@ -32,15 +36,14 @@ const HomeHeader = () => {
         >
           <Typography variant="subtitle2">Register as a Partner</Typography>
         </Button> */}
-        <a href="https://accounts.navgurukul.org">
-        <Button
-          // startIcon={<Add />}
-          // onClick={handleModalToggle}
-          variant="contained"
+       <Link to="/login">
+       <Button
+          variant="contained" 
+          onClick={handleLogin}
         >
          <Typography variant="subtitle2">Login</Typography>
         </Button>
-        </a>
+      </Link>
       </Box>
     </Box>
   );

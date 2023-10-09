@@ -1,9 +1,58 @@
+/* global google */
+
 import styles from "./styles";
+import { useEffect, useState } from "react";
 import GoogleSvg from "./assets/Google.svg";
+
+import jwt_decode from 'jwt-decode';
 import login from "./assets/login.svg";
+import axios from "axios";
 import { Container, Grid, Typography, Stack, Button } from "@mui/material";
 
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { setToken } from "../../store/slices/authSlice";
 function LoginPage() {
+
+const dispatch = useDispatch()
+const navigate =  useNavigate()
+  const handleCallbackResponse = (response) => {
+    console.log("encoded data JWT: " + response.credential);
+    const decodedToken = response.credential;
+    console.log(decodedToken)
+
+    axios({
+      url: `https://merd-api.merakilearn.org/users/auth/GoogleIdentityServices`,
+      method: "post",
+      headers: { accept: "application/json", Authorization: decodedToken },
+      data: { idToken: decodedToken, mode: "web" }
+    }).then((res) => {
+      localStorage.setItem("AUTH", JSON.stringify(res.data));
+      dispatch(setToken(res.data.token));
+      navigate("/partner");
+    });
+  };
+
+
+  useEffect(() => {
+
+
+    google?.accounts.id.initialize({
+      client_id: "734424141181-508773k06uc88bdc9h4jrbpsgfpdv1ph.apps.googleusercontent.com",
+      callback: handleCallbackResponse,
+    });
+
+    google?.accounts.id.renderButton(document.getElementById("signInDiv"), {
+      theme: "outline",
+      width: 200, size: "large"
+    });
+
+
+  }, []);
+
+
+
   return (
     <Container
       // className={isActive ? classes.resMerakilogin : classes.merakiLogin}
@@ -24,36 +73,9 @@ function LoginPage() {
             >
               Embark on your learning journey with Meraki
             </Typography>
-
-            {/* {loading ? (
-              <Box
-                className={
-                  isActive || isActiveIpad
-                    ? classes.responsiveLoder
-                    : classes.Loder
-                }
-              >
-                <Loader />
-              </Box>
-            ) : ( */}
-            {/* <Stack alignItems={isActive || isActiveIpad ? "center" : "left"}> */}
             <Stack alignItems="left">
               <>
-                <Button
-                  variant="contained"
-                  // startIcon={<GoogleIcon />}
-                  startIcon={<img src={GoogleSvg} />}
-                  style={{
-                    backgroundColor: "white",
-                    color: "black",
-                    // width: isActive ? "100%" : "max-content",
-                    width: "max-content",
-                    margin: "10px 0",
-                    fontSize: "18px",
-                  }}
-                >
-                  Log In with Google
-                </Button>
+              <div id="signInDiv" className="custom-google-button" >Login with Google</div>
               </>
             </Stack>
           </Container>
