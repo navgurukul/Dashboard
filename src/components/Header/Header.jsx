@@ -14,6 +14,8 @@ const Header = () => {
   };
   const userLocalData = JSON.parse(localStorage.getItem("AUTH"))
 
+  console.log("userLocalData", userLocalData);
+  
   const handleMenuClose = () => {
     setIsMenuOpen(false);
   };
