@@ -70,8 +70,6 @@ function HomePage() {
     const urlParams = new URLSearchParams(window.location.search);
 
     let tokenVal = urlParams?.get("token");
-    console.log("tokenVal", tokenVal);
-    console.log("reverseLastFiveChars(tokenVal)", reverseLastFiveChars(tokenVal));
     localStorage.setItem("token", reverseLastFiveChars(tokenVal));
 
     if (tokenVal) {
