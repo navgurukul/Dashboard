@@ -45,21 +45,14 @@ function HomePage() {
   const [loggedOut, setLoggedOut] = useState(localStorage.getItem("loggedOut"))
   const [isFirstLogin, setIsFirstLogin] = useState(localStorage.getItem("isFirstLogin"))
 
-  function reverseLastFiveChars(inputString) {
-    if (inputString?.length < 5) {
-        // If the string has less than 5 characters, return it as it is
-        return inputString;
-    }
-
-    // Split the string into an array of characters
-    const charArray = inputString?.split('');
-
-    // Reverse the last five characters
-    const reversedChars = charArray?.slice(-5).reverse();
-
-    // Join the reversed characters with the rest of the string
-    return charArray?.slice(0, -5).concat(reversedChars).join('');
-}
+  function reverseLastFiveChars (str){
+    if (str?.length < 5) {
+      return inputString;
+  }else{ 
+    const charArray = str?.slice(-5);
+    return str?.slice(0, str?.length-5).concat(charArray?.split("").reverse().join(""))
+  }
+  }
 
   useEffect(() => {
     axios
@@ -77,23 +70,16 @@ function HomePage() {
     const urlParams = new URLSearchParams(window.location.search);
 
     let tokenVal = urlParams?.get("token");
+    console.log("tokenVal", tokenVal);
+    console.log("reverseLastFiveChars(tokenVal)", reverseLastFiveChars(tokenVal));
+    localStorage.setItem("token", reverseLastFiveChars(tokenVal));
 
-
-    localStorage.setItem("token", reverseLastFiveChars(tokenVal))
-
-
-  }, []);
-
-  useEffect(() => {
-
-    let token = localStorage.getItem("token");
-    console.log("token", token)
-    if (token && token!=="undefined") {
+    if (tokenVal) {
       axios({
-        url: `https://merd-api.merakilearn.org/users/auth/GoogleIdentityServices`,
+        url: `https://merd-api.merakilearn.org/users/auth/google`,
         method: "post",
-        headers: { accept: "application/json", Authorization: token },
-        data: { idToken: token, mode: "web" },
+        headers: { accept: "application/json", Authorization: reverseLastFiveChars(tokenVal) },
+        data: { idToken: reverseLastFiveChars(tokenVal), mode: "web" },
       }).then((res) => {
         localStorage.setItem("AUTH", JSON.stringify(res.data));
         dispatch(setToken(res.data.token));
@@ -101,7 +87,7 @@ function HomePage() {
         localStorage.setItem("loggedOut", false)
       });
     }
-  }, [user]);
+  }, []);
 
   return (
     <Box
@@ -134,7 +120,7 @@ function HomePage() {
               Track your students learning seamlessly all in one place
             </Typography>
             <br />
-            <a href={`https://accounts.navgurukul.org/?loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}`}>
+            <a href={`http://localhost:3001/?loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}`}>
               <Button
                 style={{ marginTop: 20 }}
                 variant="contained"
