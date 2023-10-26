@@ -37,7 +37,7 @@ const router = createBrowserRouter([
     element: <RouteProtector Component={Profile} />,
   },
   
-    { path: "login", element: <RouteProtector Component={LoginPage} /> }
+    // { path: "login", element: <RouteProtector Component={LoginPage} /> }
   ,
   {
     path: "/partner",
@@ -84,36 +84,13 @@ const router = createBrowserRouter([
 
 function App() {
 
-  const [message, setMessage] = useState("");
-
   useEffect(() => {
-    const handleIncomingMessage = (event) => {
-      if (event.origin !== "https://accounts.navgurukul.org") {
-        return;
-      }
+    !localStorage.getItem("token") && localStorage.setItem("token", null);
+    !localStorage.getItem("loggedOut") && localStorage.setItem("loggedOut", null);
+    !localStorage.getItem("isFirstLogin") && localStorage.setItem("isFirstLogin", true);
+  },[])
 
-      const message = event.data;
-      if (message.type === "USER_LOGIN") {
-        const data = message.payload;
-        console.log("Received data:", data);
-      }
-      setMessage(message.payload);
-      localStorage.setItem("token", JSON.stringify(message.payload?.token));
-      localStorage.setItem(
-        "userData",
-        JSON.stringify(message.payload?.userDetails)
-      );
 
-      var response = "Message received at meraki";
-      event.source.postMessage(response, event.origin);
-    };
-
-    window.addEventListener("message", handleIncomingMessage);
-
-    return () => {
-      window.removeEventListener("message", handleIncomingMessage);
-    };
-  }, [message]);
 
   return (
     <ThemeProvider theme={theme}>

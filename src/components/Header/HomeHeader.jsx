@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import headerLogo from "../../assets/logo.png";
-import {Link, Navigate, useNavigate} from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 // import studentProfilePhoto from "./asset/Ellipse 52.png";
 
 
 const HomeHeader = () => {
 
-const navigate =  useNavigate()
+  const navigate = useNavigate()
   const headerStyle = {
     height: "80px",
     display: "flex",
@@ -21,14 +21,13 @@ const navigate =  useNavigate()
     backGround: "white",
     backgroundColor: "white"
   };
+  const [loggedOut, setLoggedOut] = useState(localStorage.getItem("loggedOut"))
+  const [isFirstLogin, setIsFirstLogin] = useState(localStorage.getItem("isFirstLogin"))
 
-  const handleLogin = ()=>{
-  navigate("/login")
-  }
   return (
     <Box sx={headerStyle}>
       <img src={headerLogo} alt="headerLogo" style={{ height: "50px" }} />
-      <Box style={{display: "flex", gap: 20}}>
+      <Box style={{ display: "flex", gap: 20 }}>
         {/* <Button
           startIcon={<Add />}
           onClick={handleModalToggle}
@@ -36,14 +35,15 @@ const navigate =  useNavigate()
         >
           <Typography variant="subtitle2">Register as a Partner</Typography>
         </Button> */}
-       <Link to="/login">
-       <Button
-          variant="contained" 
-          onClick={handleLogin}
-        >
-         <Typography variant="subtitle2">Login</Typography>
-        </Button>
-      </Link>
+        {/* <Link to="/login"> */}
+        <a href={`https://accounts.navgurukul.org/?loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}`}>
+          <Button
+            variant="contained"
+          >
+            <Typography variant="subtitle2">Login</Typography>
+          </Button>
+        </a>
+        {/* </Link> */}
       </Box>
     </Box>
   );

@@ -41,6 +41,19 @@ function HomePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
+  const [loggedOut, setLoggedOut] = useState(localStorage.getItem("loggedOut"))
+  const [isFirstLogin, setIsFirstLogin] = useState(localStorage.getItem("isFirstLogin"))
+
+  function reverseLastFiveChars (str){
+    if (str?.length < 5) {
+      return str;
+  }else{ 
+    const charArray = str?.slice(-5);
+    return str?.slice(0, str?.length-5).concat(charArray?.split("").reverse().join(""))
+  }
+  }
+
   useEffect(() => {
     axios
       .get(
@@ -49,24 +62,30 @@ function HomePage() {
       .then((response) => {
         setPartner(response.data);
       });
-  }, []);
 
-  useEffect(() => {
-    let userData = JSON.parse(localStorage.getItem("userData"));
-    let token = JSON.parse(localStorage.getItem("token"));
-    if (userData) {
+    if (localStorage.getItem("AUTH")) {
+      navigate("/partner");
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    let tokenVal = urlParams?.get("token");
+    localStorage.setItem("token", reverseLastFiveChars(tokenVal));
+
+    if (tokenVal) {
       axios({
-        url: `https://merd-api.merakilearn.org/users/auth/GoogleIdentityServices`,
+        url: `https://merd-api.merakilearn.org/users/auth/google`,
         method: "post",
-        headers: { accept: "application/json", Authorization: token },
-        data: { idToken: token, mode: "web" },
+        headers: { accept: "application/json", Authorization: reverseLastFiveChars(tokenVal) },
+        data: { idToken: reverseLastFiveChars(tokenVal), mode: "web" },
       }).then((res) => {
         localStorage.setItem("AUTH", JSON.stringify(res.data));
         dispatch(setToken(res.data.token));
         navigate("/partner");
+        localStorage.setItem("loggedOut", false)
       });
     }
-  }, [user]);
+  }, []);
 
   return (
     <Box
@@ -99,11 +118,8 @@ function HomePage() {
               Track your students learning seamlessly all in one place
             </Typography>
             <br />
+            <a href={`https://accounts.navgurukul.org/?loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}`}>
               <Button
-                // startIcon={<Add />}
-                onClick={()=>{
-                  navigate("/login")
-                }}
                 style={{ marginTop: 20 }}
                 variant="contained"
               >
@@ -111,7 +127,7 @@ function HomePage() {
                   Access Partner Dashboard
                 </Typography>
               </Button>
-          
+            </a>
             <br />
             <br />
             {/* <Box style={{ display: "flex", gap: 2 }}>
@@ -276,7 +292,7 @@ function HomePage() {
       </Box>
       {/* Partner list section */}
       <Container sx={{ mt: 8, p: 0 }}>
-        
+
         <Grid container spacing={6} pb={4}>
           {(showMore
             ? Object.keys(partner)
@@ -364,8 +380,8 @@ function HomePage() {
             );
           })}
         </Grid>
-        
-        {Object.keys(partner).length>0? (
+
+        {Object.keys(partner).length > 0 ? (
           <Stack pt={3} sx={{ alignItems: "center" }}>
             {!showMore ? (
               <Button onClick={() => setShowMore(true)} ml={6}>
@@ -377,7 +393,7 @@ function HomePage() {
               </Button>
             )}
           </Stack>
-        ):<></>}
+        ) : <></>}
       </Container>
 
       {/* Footer with list of all partners. */}
