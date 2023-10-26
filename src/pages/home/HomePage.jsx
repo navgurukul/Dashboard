@@ -47,7 +47,7 @@ function HomePage() {
 
   function reverseLastFiveChars (str){
     if (str?.length < 5) {
-      return inputString;
+      return str;
   }else{ 
     const charArray = str?.slice(-5);
     return str?.slice(0, str?.length-5).concat(charArray?.split("").reverse().join(""))
@@ -118,7 +118,7 @@ function HomePage() {
               Track your students learning seamlessly all in one place
             </Typography>
             <br />
-            <a href={`http://localhost:3001/?loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}`}>
+            <a href={`https://accounts.navgurukul.org/?loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}`}>
               <Button
                 style={{ marginTop: 20 }}
                 variant="contained"
