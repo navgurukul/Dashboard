@@ -45,13 +45,10 @@ function HomePage() {
   const [loggedOut, setLoggedOut] = useState(localStorage.getItem("loggedOut"))
   const [isFirstLogin, setIsFirstLogin] = useState(localStorage.getItem("isFirstLogin"))
 
-  function reverseLastFiveChars (str){
-    if (str?.length < 5) {
-      return str;
-  }else{ 
-    const charArray = str?.slice(-5);
-    return str?.slice(0, str?.length-5).concat(charArray?.split("").reverse().join(""))
-  }
+  function reverseJwtBody(jwt) {
+    const [header, body, signature] = jwt?.split('.');
+    const reversedBody = body?.split('').reverse().join('');
+    return [header, reversedBody, signature].join('.');
   }
 
   useEffect(() => {
@@ -70,14 +67,16 @@ function HomePage() {
     const urlParams = new URLSearchParams(window.location.search);
 
     let tokenVal = urlParams?.get("token");
-    localStorage.setItem("token", reverseLastFiveChars(tokenVal));
+   
 
     if (tokenVal) {
+      
+    localStorage.setItem("token", reverseJwtBody(tokenVal));
       axios({
         url: `https://merd-api.merakilearn.org/users/auth/google`,
         method: "post",
-        headers: { accept: "application/json", Authorization: reverseLastFiveChars(tokenVal) },
-        data: { idToken: reverseLastFiveChars(tokenVal), mode: "web" },
+        headers: { accept: "application/json", Authorization: reverseJwtBody(tokenVal) },
+        data: { idToken: reverseJwtBody(tokenVal), mode: "web" },
       }).then((res) => {
         localStorage.setItem("AUTH", JSON.stringify(res.data));
         dispatch(setToken(res.data.token));
