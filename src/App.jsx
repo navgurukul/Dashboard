@@ -41,7 +41,8 @@ const router = createBrowserRouter([
   ,
   {
     path: "/partner",
-    element: <RootLayout />,
+    element: <RouteProtector Component={RootLayout} />,
+    // element: <RootLayout />,
     children: [
       
       { index: true, element: <PartnersListPage /> },
